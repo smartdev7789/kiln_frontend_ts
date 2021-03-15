@@ -4,3 +4,5 @@
 
 @contentPadding: 1em;
 @width: 14em;
+@headerFontWeight: normal;
+@boxShadow: 0 0.2em 0.6em 0em #79797924;
