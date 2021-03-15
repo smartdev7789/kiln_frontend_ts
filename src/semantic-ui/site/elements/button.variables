@@ -1,0 +1,12 @@
+/*******************************
+    User Variable Overrides
+*******************************/
+
+@background: #ffffff;
+@textColor: #abacad;
+
+@horizontalMargin: 2em;
+@verticalMargin: 0.5em;
+
+@verticalPadding: 0.5em;
+@horizontalPadding: 0.5em;

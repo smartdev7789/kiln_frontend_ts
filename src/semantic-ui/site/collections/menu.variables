@@ -1,0 +1,8 @@
+/*******************************
+    User Variable Overrides
+*******************************/
+
+@background: @pageBackground;
+@activeItemBackground: @pageBackground;
+
+@itemHorizontalPadding: 1.25em;

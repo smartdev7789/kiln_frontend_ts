@@ -1,0 +1,35 @@
+{
+  "teams": [
+    {
+      "id": 1,
+      "name": "Gamebake"
+    }
+  ],
+  "users": [
+    {
+      "id": 1,
+      "email": "sam@gamebake.io",
+      "displayName": "Sam",
+      "teamId": 1
+    }
+  ],
+  "platforms": [
+    {
+      "id": 1,
+      "name": "Huawei"
+    },
+    {
+      "id": 2,
+      "name": "OneStore"
+    }
+  ],
+  "projects": [
+    {
+      "id": 1,
+      "userId": 1,
+      "name": "Mr Bean Special Delivery",
+      "platformIds": [1, 2],
+      "teamId": 1
+    }
+  ]
+}

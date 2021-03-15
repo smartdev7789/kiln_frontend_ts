@@ -1,26 +1,52 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Suspense, useEffect, useReducer } from "react";
+import "./App.css";
+import { Container, Placeholder } from "semantic-ui-react";
+import { Paths, RenderRoutes, ROUTES } from "./routes";
+import { Action, ActionType, initialState, State } from "./state/types";
+import { reducer } from "./state/reducer";
+import { Menu } from "./components/Menu/Menu";
+import { Authentication } from "./authentication/Authentication";
+import { RouteComponentProps } from "react-router-dom";
 
-function App() {
+// @ts-ignore
+export const DispatchContext: React.Context<{
+  state: State;
+  dispatch: React.Dispatch<Action>;
+}> = React.createContext(null);
+
+export const App = (props: RouteComponentProps) => {
+  const { history, location } = props;
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  useEffect(() => {
+    Authentication.validateToken()
+      .then((user) => {
+        dispatch({
+          type: ActionType.SET_USER,
+          payload: {
+            user,
+          },
+        });
+
+        if (
+          location.pathname === Paths.LogIn ||
+          location.pathname === Paths.Root
+        )
+          history.push(Paths.Analytics);
+      })
+      .catch(() => {});
+  }, [history, location]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Suspense fallback={<Placeholder></Placeholder>}>
+      <DispatchContext.Provider value={{ state, dispatch }}>
+        {state.user && <Menu {...props} routes={ROUTES} />}
+        <Container>
+          <RenderRoutes routes={ROUTES} />
+        </Container>
+      </DispatchContext.Provider>
+    </Suspense>
   );
-}
+};
 
 export default App;

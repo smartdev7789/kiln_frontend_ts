@@ -1,0 +1,22 @@
+{
+  "login": {
+    "title": "Log in",
+    "header": "Log In",
+    "email": "E-mail",
+    "password": "Password",
+    "login": "Login",
+    "forgotPassword": "Forgot Password?"
+  },
+  "analytics": {
+    "title": "Analytics"
+  },
+  "account": {
+    "title": "Account"
+  },
+  "accountSettings": {
+    "title": "Account Settings"
+  },
+  "logout": {
+    "title": "Log out"
+  }
+}

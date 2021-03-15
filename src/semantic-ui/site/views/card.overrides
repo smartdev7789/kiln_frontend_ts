@@ -1,0 +1,13 @@
+/*******************************
+    User Variable Overrides
+*******************************/
+
+.ui.card.stats > .content > .header.label {
+    color: #626262;
+}
+
+.ui.card.stats > .content > .header.value {
+    font-size: 2em;
+    color: #8D8D8D;
+    padding-top: 0.25em;
+}

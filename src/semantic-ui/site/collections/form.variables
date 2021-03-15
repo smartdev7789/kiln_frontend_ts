@@ -1,0 +1,9 @@
+/*******************************
+    User Variable Overrides
+*******************************/
+
+@inputBoxShadow: @boxShadow;
+@fieldMargin: 2em 0;
+@inputPlaceholderColor: #abacad;
+@inputBorder: none;
+@inputPadding: 0.5em;
