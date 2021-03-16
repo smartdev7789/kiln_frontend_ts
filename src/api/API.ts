@@ -1,4 +1,4 @@
-import { Analytics, TopStats, User } from "./DataTypes";
+import { Analytics, TopStats, User, Platform } from "./DataTypes";
 
 const API_ENDPOINT = "http://localhost:3333";
 
@@ -22,9 +22,15 @@ const topStats = async () => {
   return (await res.json()) as TopStats;
 };
 
+const platforms = async () => {
+  const res = await fetch(`${API_ENDPOINT}/platforms`);
+  return (await res.json()) as Platform[];
+};
+
 export const API = {
   login,
   validate,
   analytics,
   topStats,
+  platforms,
 };

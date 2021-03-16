@@ -16,10 +16,12 @@
   "platforms": [
     {
       "id": 1,
+      "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Huawei_AppGallery.svg/1200px-Huawei_AppGallery.svg.png",
       "name": "Huawei"
     },
     {
       "id": 2,
+      "icon": "https://t1.daumcdn.net/cfile/tistory/2405F2445797118E07",
       "name": "OneStore"
     }
   ],

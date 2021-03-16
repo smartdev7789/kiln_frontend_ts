@@ -1,11 +1,15 @@
-import { User } from "../api/DataTypes";
+import { Platform, User } from "../api/DataTypes";
 
-export type State = { user?: User };
+export type State = { user?: User; platforms?: Platform[] };
 
 export enum ActionType {
-  SET_USER = "SET_USER",
+  SetUser = "SET_USER",
+  SetPlatforms = "SET_PLATFORMS",
 }
 
-export type Action = { type: ActionType.SET_USER; payload: { user: User } };
+export type Action = {
+  type: ActionType;
+  payload: { user?: User; platforms?: Platform[] };
+};
 
 export const initialState: State = {};

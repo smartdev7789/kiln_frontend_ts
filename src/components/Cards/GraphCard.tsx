@@ -1,6 +1,13 @@
 import React, { useState } from "react";
 import { Menu, Segment } from "semantic-ui-react";
-import { XAxis, YAxis, BarChart, Bar, CartesianGrid } from "recharts";
+import {
+  XAxis,
+  YAxis,
+  BarChart,
+  Bar,
+  CartesianGrid,
+  ResponsiveContainer,
+} from "recharts";
 import { GraphData } from "../../api/DataTypes";
 
 export type GraphCardProps = {
@@ -47,7 +54,7 @@ export const GraphCard = ({ data }: GraphCardProps) => {
   });
 
   return (
-    <Segment className="graph borderless">
+    <Segment className="graph borderless" style={{ height: "35em" }}>
       <Menu
         className="transparent no-shadow square bottom-border"
         size="massive"
@@ -64,19 +71,21 @@ export const GraphCard = ({ data }: GraphCardProps) => {
         ))}
       </Menu>
 
-      <BarChart width={800} height={400} data={graphDataForLibrary}>
-        {/* <Line type="monotone" dataKey="value" stroke="#8884d8" /> */}
-        <defs>
-          <linearGradient id="barGradient" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="5%" stopColor="#B5B5B5" stopOpacity={1} />
-            <stop offset="95%" stopColor="#D6D6D6" stopOpacity={1} />
-          </linearGradient>
-        </defs>
-        <CartesianGrid vertical={false} />
-        <Bar dataKey="value" fill="url(#barGradient)" shape={RoundedRect} />
-        <XAxis dataKey="x_axis" />
-        <YAxis />
-      </BarChart>
+      <ResponsiveContainer width="100%" height="87%">
+        <BarChart width={800} height={400} data={graphDataForLibrary}>
+          {/* <Line type="monotone" dataKey="value" stroke="#8884d8" /> */}
+          <defs>
+            <linearGradient id="barGradient" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="5%" stopColor="#B5B5B5" stopOpacity={1} />
+              <stop offset="95%" stopColor="#D6D6D6" stopOpacity={1} />
+            </linearGradient>
+          </defs>
+          <CartesianGrid vertical={false} />
+          <Bar dataKey="value" fill="url(#barGradient)" shape={RoundedRect} />
+          <XAxis dataKey="x_axis" />
+          <YAxis />
+        </BarChart>
+      </ResponsiveContainer>
     </Segment>
   );
 };

@@ -22,7 +22,7 @@ export const LogIn = ({ history }: RouteComponentProps) => {
     const user = await API.login(formData.email, formData.password);
 
     dispatch({
-      type: ActionType.SET_USER,
+      type: ActionType.SetUser,
       payload: {
         user,
       },

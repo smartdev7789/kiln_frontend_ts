@@ -1,3 +1,9 @@
+export interface Platform {
+  id: number;
+  name: string;
+  icon: string;
+}
+
 export interface User {
   id: number;
   email: string;

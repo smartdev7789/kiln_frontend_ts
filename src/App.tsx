@@ -8,6 +8,7 @@ import { Menu } from "./components/Menu/Menu";
 import { Authentication } from "./authentication/Authentication";
 import { RouteComponentProps } from "react-router-dom";
 import { Footer } from "./components/Footer/Footer";
+import { API } from "./api/API";
 
 // @ts-ignore
 export const DispatchContext: React.Context<{
@@ -23,10 +24,21 @@ export const App = (props: RouteComponentProps) => {
   );
 
   useEffect(() => {
+    API.platforms().then((platforms) => {
+      dispatch({
+        type: ActionType.SetPlatforms,
+        payload: {
+          platforms,
+        },
+      });
+    });
+  }, []);
+
+  useEffect(() => {
     Authentication.validateToken()
       .then((user) => {
         dispatch({
-          type: ActionType.SET_USER,
+          type: ActionType.SetUser,
           payload: {
             user,
           },
@@ -38,7 +50,9 @@ export const App = (props: RouteComponentProps) => {
         )
           history.push(Paths.Analytics);
       })
-      .catch(() => {});
+      .catch(() => {
+        history.push(Paths.LogIn);
+      });
   }, [history, location]);
 
   return (

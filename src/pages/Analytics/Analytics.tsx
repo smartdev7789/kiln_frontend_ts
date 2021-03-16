@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { RouteComponentProps } from "react-router-dom";
 import { Card, Grid, Header, Placeholder } from "semantic-ui-react";
@@ -7,9 +7,11 @@ import {
   Analytics as AnalyticsData,
   TopStats as TopStatsData,
 } from "../../api/DataTypes";
+import { DispatchContext } from "../../App";
 import { GraphCard } from "../../components/Cards/GraphCard";
 import { StatsCard } from "../../components/Cards/StatsCard";
 import { TopStatsCard } from "../../components/Cards/TopStatsCard";
+import { Filters } from "../../components/Filters/Filters";
 import "./Analytics.less";
 
 export const Analytics = (props: RouteComponentProps) => {
@@ -22,6 +24,7 @@ export const Analytics = (props: RouteComponentProps) => {
     top_games: [],
     top_platforms: [],
   });
+  const { state } = useContext(DispatchContext);
 
   useEffect(() => {
     API.analytics(1, 1, 1).then((data) => {
@@ -42,8 +45,8 @@ export const Analytics = (props: RouteComponentProps) => {
       <Grid.Row style={{ borderBottom: "2px solid #C4C4C4" }}>
         <Header size="huge">{t("analytics.title")}</Header>
       </Grid.Row>
-      <Grid.Row>
-        <Header>Filters</Header>
+      <Grid.Row style={{ paddingBottom: 0 }}>
+        <Filters platforms={state.platforms || []} />
       </Grid.Row>
       <Grid.Row>
         <Card.Group>

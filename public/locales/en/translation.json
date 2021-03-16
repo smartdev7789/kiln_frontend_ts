@@ -24,5 +24,9 @@
   },
   "logout": {
     "title": "Log out"
+  },
+  "filters": {
+    "filters": "Filters",
+    "platforms": "Platforms"
   }
 }

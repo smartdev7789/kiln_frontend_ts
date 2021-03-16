@@ -1,3 +1,6 @@
 /*******************************
          Site Overrides
 *******************************/
+.ui.form .inline.fields.compact {
+  margin: 0;
+}
