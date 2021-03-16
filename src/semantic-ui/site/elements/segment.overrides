@@ -1,6 +1,11 @@
 /*******************************
          Site Overrides
 *******************************/
+
 .ui.segment.graph {
-    width: 100%;
+  width: 100%;
+}
+
+.ui.segment.borderless {
+  border: none;
 }

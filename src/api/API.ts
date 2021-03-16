@@ -1,4 +1,4 @@
-import { User } from "./DataTypes";
+import { Analytics, User } from "./DataTypes";
 
 const API_ENDPOINT = "http://localhost:3333";
 
@@ -12,7 +12,13 @@ const validate = async (token: string) => {
   return (await res.json()) as User;
 };
 
+const stats = async (platform: number, app_id: number, data: number) => {
+  const res = await fetch(`${API_ENDPOINT}/stats/1`);
+  return (await res.json()) as Analytics;
+};
+
 export const API = {
   login,
   validate,
+  stats,
 };

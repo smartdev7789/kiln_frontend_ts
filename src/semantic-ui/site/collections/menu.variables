@@ -6,3 +6,4 @@
 @activeItemBackground: @pageBackground;
 
 @itemHorizontalPadding: 1.25em;
+@borderSize: 0.15em;

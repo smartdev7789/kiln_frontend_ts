@@ -1,21 +1,7 @@
 import React, { useState } from "react";
 import { Menu, Segment } from "semantic-ui-react";
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  BarChart,
-  Bar,
-  CartesianGrid,
-} from "recharts";
-
-export interface GraphData {
-  title: string;
-  x_axis: string[];
-  y_axis: string[];
-  values: number[];
-}
+import { XAxis, YAxis, BarChart, Bar, CartesianGrid } from "recharts";
+import { GraphData } from "../../api/DataTypes";
 
 export type GraphCardProps = {
   data: GraphData[];
@@ -31,13 +17,14 @@ type RoundedRectProps = {
 
 const RoundedRect = ({ fill, x, y, width, height }: RoundedRectProps) => {
   const radius = 5;
+
   return (
     <svg>
       <rect
         x={x}
         y={y + radius}
         width={width}
-        height={height - radius}
+        height={height < radius ? 0 : height - radius}
         fill={fill}
       />
       <rect x={x} y={y} width={width} height={height} rx={radius} fill={fill} />
@@ -46,10 +33,10 @@ const RoundedRect = ({ fill, x, y, width, height }: RoundedRectProps) => {
 };
 
 export const GraphCard = ({ data }: GraphCardProps) => {
-  const [currentTab, setCurrentTab] = useState(data[0].title);
+  const [currentTab, setCurrentTab] = useState(data[0].graph_title);
 
   const currentGraphData = data.find(
-    (graphData) => graphData.title === currentTab
+    (graphData) => graphData.graph_title === currentTab
   )!;
 
   const graphDataForLibrary = currentGraphData.values.map((value, i) => {
@@ -60,16 +47,19 @@ export const GraphCard = ({ data }: GraphCardProps) => {
   });
 
   return (
-    <Segment className="graph">
-      <Menu>
+    <Segment className="graph borderless">
+      <Menu
+        className="transparent no-shadow square bottom-border"
+        size="massive"
+      >
         {data.map((graphData, i) => (
           <Menu.Item
-            key={graphData.title}
-            onClick={() => setCurrentTab(graphData.title)}
+            key={graphData.graph_title}
+            onClick={() => setCurrentTab(graphData.graph_title)}
             className="label"
-            active={currentTab === graphData.title}
+            active={currentTab === graphData.graph_title}
           >
-            {graphData.title}
+            {graphData.graph_title}
           </Menu.Item>
         ))}
       </Menu>

@@ -3,19 +3,48 @@
 *******************************/
 
 .ui.menu {
-    border-radius: 0;
-    border: none;
-    box-shadow: 0px 0.1em 0.25em 0 rgba(34, 36, 38, 0.15);
+  border-radius: 0;
+  border: none;
+  box-shadow: 0px 0.1em 0.25em 0 rgba(34, 36, 38, 0.15);
+  box-sizing: content-box;
 }
 
 .ui.menu .item {
-    color: rgba(0, 0, 0, 0.50);
-}
-
-.ui.menu .active.item {
-    border-bottom: 0.15em grey solid;
+  color: rgba(0, 0, 0, 0.5);
 }
 
 .ui.menu .item:before {
-    background: none;
+  background: none;
+}
+
+.ui.transparent.menu,
+.ui.transparent.menu .item {
+  background: none;
+}
+
+.ui.menu.no-shadow {
+  box-shadow: none;
+}
+
+.ui.menu.square > .item:first-child {
+  border-radius: 0;
+}
+
+.ui.menu.bottom-border {
+  border-bottom: @borderSize #d3d3d3 solid;
+}
+
+.ui.menu.bottom-border .active.item::after {
+  bottom: -@borderSize;
+}
+
+.ui.menu .active.item::after {
+  content: " ";
+  width: 100%;
+  height: @borderSize;
+  background: grey;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  visibility: visible;
 }
