@@ -32,6 +32,20 @@ const apps = async () => {
   return (await res.json()) as App[];
 };
 
+const createApp = async (name: string) => {
+  const res = await fetch(`${API_ENDPOINT}/games`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify({
+      name,
+    }),
+  });
+  return (await res.json()) as App;
+};
+
 export const API = {
   login,
   validate,
@@ -40,4 +54,5 @@ export const API = {
   platforms,
   apps,
   games: apps,
+  createApp,
 };

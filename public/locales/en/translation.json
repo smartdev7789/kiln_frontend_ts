@@ -35,6 +35,11 @@
       "edit": "Edit"
     }
   },
+  "newGame": {
+    "title": "New Game",
+    "nextStep": "Next Step",
+    "gameName": "Game Name"
+  },
   "account": {
     "title": "Account"
   },

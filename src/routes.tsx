@@ -4,6 +4,7 @@ import { Placeholder } from "semantic-ui-react";
 import { Analytics } from "./pages/Analytics/Analytics";
 import { Games } from "./pages/Games/Games";
 import { LogIn } from "./pages/LogIn/LogIn";
+import { NewGame } from "./pages/NewGame/NewGame";
 
 export interface RouteConfig {
   path: string;
@@ -74,6 +75,14 @@ export const ROUTES: RouteConfig[] = [
     exact: true,
     component: Games,
     text: "games.title",
+  },
+  {
+    path: Paths.NewGame,
+    key: "NEW_GAME",
+    exact: true,
+    hideInMenu: true,
+    component: NewGame,
+    text: "newGame.title",
   },
   {
     path: Paths.Account,
