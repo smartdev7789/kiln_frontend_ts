@@ -10,3 +10,5 @@
 
 @verticalPadding: 0.5em;
 @horizontalPadding: 0.5em;
+
+@fontWeight: normal;

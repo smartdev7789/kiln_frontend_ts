@@ -54,7 +54,7 @@ export const GraphCard = ({ data }: GraphCardProps) => {
   });
 
   return (
-    <Segment className="graph borderless" style={{ height: "35em" }}>
+    <Segment className="full-width borderless" style={{ height: "35em" }}>
       <Menu
         className="transparent no-shadow square bottom-border"
         size="massive"

@@ -1,3 +1,10 @@
+export interface App {
+  id: number;
+  icon: string;
+  name: string;
+  platforms: string[];
+}
+
 export interface Platform {
   id: number;
   name: string;

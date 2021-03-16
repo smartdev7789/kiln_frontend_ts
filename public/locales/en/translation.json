@@ -16,6 +16,25 @@
       "header": "Top platforms"
     }
   },
+  "games": {
+    "title": "Games",
+    "addGame": "Add Game",
+    "status": {
+      "deactivated": "Deactivated",
+      "active": "Active",
+      "inReview": "In review",
+      "draft": "Draft"
+    },
+    "table": {
+      "headers": {
+        "game": "Game",
+        "id": "ID",
+        "platforms": "Platforms",
+        "status": "Status"
+      },
+      "edit": "Edit"
+    }
+  },
   "account": {
     "title": "Account"
   },

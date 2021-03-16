@@ -2,6 +2,7 @@ import React, { Suspense } from "react";
 import { Route, Switch } from "react-router-dom";
 import { Placeholder } from "semantic-ui-react";
 import { Analytics } from "./pages/Analytics/Analytics";
+import { Games } from "./pages/Games/Games";
 import { LogIn } from "./pages/LogIn/LogIn";
 
 export interface RouteConfig {
@@ -39,6 +40,8 @@ export enum Paths {
   LogIn = "/login",
   Analytics = "/analytics",
   Account = "/account",
+  Games = "/games",
+  NewGame = "/games/new",
 }
 
 export const ROUTES: RouteConfig[] = [
@@ -64,6 +67,13 @@ export const ROUTES: RouteConfig[] = [
     exact: true,
     component: Analytics,
     text: "analytics.title",
+  },
+  {
+    path: Paths.Games,
+    key: "GAMES",
+    exact: true,
+    component: Games,
+    text: "games.title",
   },
   {
     path: Paths.Account,

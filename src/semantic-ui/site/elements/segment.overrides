@@ -2,10 +2,14 @@
          Site Overrides
 *******************************/
 
-.ui.segment.graph {
+.ui.segment.full-width {
   width: 100%;
 }
 
 .ui.segment.borderless {
   border: none;
+}
+
+.ui.segment.no-padding {
+  padding: 0;
 }
