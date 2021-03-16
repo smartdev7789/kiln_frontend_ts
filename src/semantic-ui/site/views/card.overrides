@@ -1,13 +1,48 @@
 /*******************************
     User Variable Overrides
 *******************************/
+.ui.cards {
+  width: 100%;
+  margin: 0;
+}
+
+.ui.cards > .ui.card {
+  margin-left: auto;
+  margin-right: auto;
+  color: @textColor;
+}
+
+.ui.cards > .ui.card:first-child {
+  margin-left: 0;
+}
+.ui.cards > .ui.card:last-child {
+  margin-right: 0;
+}
 
 .ui.card.stats > .content > .header.label {
-    color: #626262;
+  color: @headerColor;
 }
 
 .ui.card.stats > .content > .header.value {
-    font-size: 2em;
-    color: #8D8D8D;
-    padding-top: 0.25em;
+  font-size: 2em;
+  padding-top: 0.25em;
+  color: @textColor;
+}
+
+.ui.card.top-stats {
+  min-width: 47%;
+  border-radius: 1em;
+}
+
+.top-stats .ui.list .list > .item > img.image + .content,
+.top-stats .ui.list > .item > img.image + .content {
+  padding-left: 1em;
+}
+
+.ui.cards > .ui.card.top-stats > .content {
+  padding: 2em;
+}
+
+.ui.list > .item {
+  margin-bottom: 1em;
 }

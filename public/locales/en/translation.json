@@ -8,7 +8,13 @@
     "forgotPassword": "Forgot Password?"
   },
   "analytics": {
-    "title": "Analytics"
+    "title": "Analytics",
+    "top_games": {
+      "header": "Top games"
+    },
+    "top_platforms": {
+      "header": "Top platforms"
+    }
   },
   "account": {
     "title": "Account"

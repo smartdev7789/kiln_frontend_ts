@@ -7,6 +7,7 @@ import { reducer } from "./state/reducer";
 import { Menu } from "./components/Menu/Menu";
 import { Authentication } from "./authentication/Authentication";
 import { RouteComponentProps } from "react-router-dom";
+import { Footer } from "./components/Footer/Footer";
 
 // @ts-ignore
 export const DispatchContext: React.Context<{
@@ -16,7 +17,10 @@ export const DispatchContext: React.Context<{
 
 export const App = (props: RouteComponentProps) => {
   const { history, location } = props;
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [state, dispatch]: [State, React.Dispatch<Action>] = useReducer(
+    reducer,
+    initialState
+  );
 
   useEffect(() => {
     Authentication.validateToken()
@@ -44,6 +48,7 @@ export const App = (props: RouteComponentProps) => {
         <Container>
           <RenderRoutes routes={ROUTES} />
         </Container>
+        {state.user && <Footer />}
       </DispatchContext.Provider>
     </Suspense>
   );

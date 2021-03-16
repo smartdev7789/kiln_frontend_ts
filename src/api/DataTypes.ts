@@ -20,3 +20,13 @@ export interface Analytics {
   graphs: GraphData[];
   stats: StatData[];
 }
+
+export interface PlatformStat {
+  icon: string;
+  name: string;
+  earnings: number;
+}
+export interface TopStats {
+  top_games: PlatformStat[];
+  top_platforms: PlatformStat[];
+}

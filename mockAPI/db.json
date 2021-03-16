@@ -71,6 +71,63 @@
           "values": [300, 350, 400, 410, 470, 500, 440]
         }
       ]
+    },
+    {
+      "id": "top",
+      "top_games": [
+        {
+          "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Huawei_AppGallery.svg/1200px-Huawei_AppGallery.svg.png",
+          "name": "Mr Bean Special Delivery",
+          "earnings": 123456.7
+        },
+        {
+          "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Huawei_AppGallery.svg/1200px-Huawei_AppGallery.svg.png",
+          "name": "Mr Bean Special Delivery",
+          "earnings": 123456.7
+        },
+        {
+          "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Huawei_AppGallery.svg/1200px-Huawei_AppGallery.svg.png",
+          "name": "Mr Bean Special Delivery",
+          "earnings": 123456.7
+        },
+        {
+          "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Huawei_AppGallery.svg/1200px-Huawei_AppGallery.svg.png",
+          "name": "Mr Bean Special Delivery",
+          "earnings": 123456.7
+        },
+        {
+          "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Huawei_AppGallery.svg/1200px-Huawei_AppGallery.svg.png",
+          "name": "Mr Bean Special Delivery",
+          "earnings": 123456.7
+        }
+      ],
+      "top_platforms": [
+        {
+          "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Huawei_AppGallery.svg/1200px-Huawei_AppGallery.svg.png",
+          "name": "Huawei App Gallery",
+          "earnings": 123456.7
+        },
+        {
+          "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Huawei_AppGallery.svg/1200px-Huawei_AppGallery.svg.png",
+          "name": "Huawei App Gallery",
+          "earnings": 123456.7
+        },
+        {
+          "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Huawei_AppGallery.svg/1200px-Huawei_AppGallery.svg.png",
+          "name": "Huawei App Gallery",
+          "earnings": 123456.7
+        },
+        {
+          "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Huawei_AppGallery.svg/1200px-Huawei_AppGallery.svg.png",
+          "name": "Huawei App Gallery",
+          "earnings": 123456.7
+        },
+        {
+          "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Huawei_AppGallery.svg/1200px-Huawei_AppGallery.svg.png",
+          "name": "Huawei App Gallery",
+          "earnings": 123456.7
+        }
+      ]
     }
   ]
 }

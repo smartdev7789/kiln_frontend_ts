@@ -3,9 +3,13 @@ import { useTranslation } from "react-i18next";
 import { RouteComponentProps } from "react-router-dom";
 import { Card, Grid, Header, Placeholder } from "semantic-ui-react";
 import { API } from "../../api/API";
-import { Analytics as AnalyticsData } from "../../api/DataTypes";
+import {
+  Analytics as AnalyticsData,
+  TopStats as TopStatsData,
+} from "../../api/DataTypes";
 import { GraphCard } from "../../components/Cards/GraphCard";
 import { StatsCard } from "../../components/Cards/StatsCard";
+import { TopStatsCard } from "../../components/Cards/TopStatsCard";
 import "./Analytics.less";
 
 export const Analytics = (props: RouteComponentProps) => {
@@ -14,16 +18,24 @@ export const Analytics = (props: RouteComponentProps) => {
   const [analyticsData, setAnalyticsData] = useState<AnalyticsData | null>(
     null
   );
+  const [topStatsData, setTopStatsData] = useState<TopStatsData>({
+    top_games: [],
+    top_platforms: [],
+  });
 
   useEffect(() => {
-    API.stats(1, 1, 1).then((data) => {
+    API.analytics(1, 1, 1).then((data) => {
       setAnalyticsData(data);
+    });
+    API.topStats().then((data) => {
+      setTopStatsData(data);
     });
   }, []);
 
   if (!analyticsData) return <Placeholder></Placeholder>;
 
   const { stats, graphs } = analyticsData;
+  const { top_games, top_platforms } = topStatsData;
 
   return (
     <Grid style={{ marginTop: "1em" }}>
@@ -42,6 +54,18 @@ export const Analytics = (props: RouteComponentProps) => {
       </Grid.Row>
       <Grid.Row>
         <GraphCard data={graphs} />
+      </Grid.Row>
+      <Grid.Row>
+        <Card.Group>
+          <TopStatsCard
+            header={t("analytics.top_games.header")}
+            data={top_games}
+          />
+          <TopStatsCard
+            header={t("analytics.top_platforms.header")}
+            data={top_platforms}
+          />
+        </Card.Group>
       </Grid.Row>
     </Grid>
   );
