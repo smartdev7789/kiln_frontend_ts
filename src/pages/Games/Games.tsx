@@ -1,10 +1,9 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, RouteComponentProps } from "react-router-dom";
 import { Button, Grid, Header, Icon, Image } from "semantic-ui-react";
 import { API } from "../../api/API";
 import { App } from "../../api/DataTypes";
-import { DispatchContext } from "../../App";
 import { Row, TableCard } from "../../components/Cards/TableCard";
 import { StatusIndicator } from "../../components/StatusIndicator";
 import { Paths } from "../../routes";
@@ -35,7 +34,6 @@ export const Games = (props: RouteComponentProps) => {
   const { t } = useTranslation();
 
   const [games, setGames] = useState<App[]>([]);
-  const { state } = useContext(DispatchContext);
 
   useEffect(() => {
     API.games().then((data) => {
