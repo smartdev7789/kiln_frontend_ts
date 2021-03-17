@@ -26,7 +26,12 @@ export const validateToken = () => {
   else return Promise.reject();
 };
 
+export const logOut = () => {
+  clearToken();
+};
+
 export const Authentication = {
   handleSuccessfulLogin,
   validateToken,
+  logOut,
 };

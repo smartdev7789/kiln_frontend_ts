@@ -1,6 +1,7 @@
 import React, { Suspense } from "react";
 import { Route, Switch } from "react-router-dom";
 import { Placeholder } from "semantic-ui-react";
+import { LogOut } from "./components/LogOut";
 import { Analytics } from "./pages/Analytics/Analytics";
 import { Games } from "./pages/Games/Games";
 import { LogIn } from "./pages/LogIn/LogIn";
@@ -83,17 +84,17 @@ export const ROUTES: RouteConfig[] = [
     floatRight: true,
     routes: [
       {
-        path: "/account",
+        path: `${Paths.Account}/settings`,
         key: "APP_ROOT",
         exact: true,
-        component: () => <h1>App Index</h1>,
+        component: () => <h1>Account Settings</h1>,
         text: "accountSettings.title",
       },
       {
-        path: "/logout",
+        path: `${Paths.Account}/logout`,
         key: "LOGOUT",
         exact: true,
-        component: () => <h1>App Page</h1>,
+        component: LogOut,
         text: "logout.title",
       },
     ],

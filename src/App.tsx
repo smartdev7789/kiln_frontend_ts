@@ -51,7 +51,7 @@ export const App = (props: RouteComponentProps) => {
           history.push(Paths.Analytics);
       })
       .catch(() => {
-        history.push(Paths.LogIn);
+        if (location.pathname !== Paths.LogIn) history.push(Paths.LogIn);
       });
   }, [history, location]);
 

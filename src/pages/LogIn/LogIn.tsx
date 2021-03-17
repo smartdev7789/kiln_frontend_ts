@@ -35,11 +35,12 @@ export const LogIn = ({ history }: RouteComponentProps) => {
     history.push(Paths.Analytics);
   };
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) =>
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
       ...formData,
       [event.target.name]: event.target.value,
     });
+  };
 
   return (
     <Grid textAlign="center" style={{ height: "100vh" }} verticalAlign="middle">
@@ -48,20 +49,22 @@ export const LogIn = ({ history }: RouteComponentProps) => {
           <Image src={Logo} />
           <Form.Field>
             <input
-              onChange={handleInputChange}
               name="email"
               value={formData.email}
               type="email"
+              autoComplete="email"
               placeholder={t("login.email")}
+              onChange={handleInputChange}
             />
           </Form.Field>
           <Form.Field>
             <input
-              onChange={handleInputChange}
               name="password"
               value={formData.password}
               type="password"
+              autoComplete="current-password"
               placeholder={t("login.password")}
+              onChange={handleInputChange}
             />
           </Form.Field>
           <Button.Group widths="2">
