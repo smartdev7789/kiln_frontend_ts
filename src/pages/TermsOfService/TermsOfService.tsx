@@ -11,7 +11,7 @@ import React, { useEffect, useState } from "react";
 import "./TermsOfService.less";
 import Logo from "../../images/logos/full-grey.png";
 import { API } from "../../api/API";
-import { Link, RouteComponentProps } from "react-router-dom";
+import { RouteComponentProps } from "react-router-dom";
 import { Paths } from "../../routes";
 
 export const TermsOfService = ({ history }: RouteComponentProps) => {
