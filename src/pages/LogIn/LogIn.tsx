@@ -6,7 +6,7 @@ import Logo from "../../images/logos/full-grey.png";
 import { API } from "../../api/API";
 import { DispatchContext } from "../../App";
 import { ActionType } from "../../state/types";
-import { RouteComponentProps } from "react-router-dom";
+import { Link, RouteComponentProps } from "react-router-dom";
 import { Paths } from "../../routes";
 import { Authentication } from "../../authentication/Authentication";
 
@@ -69,7 +69,9 @@ export const LogIn = ({ history }: RouteComponentProps) => {
           </Form.Field>
           <Button.Group widths="2">
             <Button type="submit">{t("login.login")}</Button>
-            <Button>{t("login.forgotPassword")}</Button>
+            <Button as={Link} to={Paths.ForgotPassword}>
+              {t("login.forgotPassword")}
+            </Button>
           </Button.Group>
         </Form>
       </Grid.Column>

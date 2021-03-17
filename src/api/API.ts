@@ -32,6 +32,18 @@ const apps = async () => {
   return (await res.json()) as App[];
 };
 
+const resetPassword = async (email: string) => {
+  const res = await fetch(`${API_ENDPOINT}/password`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify({ email }),
+  });
+  return await res.json();
+};
+
 export const API = {
   login,
   validate,
@@ -40,4 +52,5 @@ export const API = {
   platforms,
   apps,
   games: apps,
+  resetPassword,
 };

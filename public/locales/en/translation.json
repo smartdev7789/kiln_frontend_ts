@@ -5,7 +5,7 @@
     "email": "E-mail",
     "password": "Password",
     "login": "Login",
-    "forgotPassword": "Forgot Password?"
+    "forgotPassword": "Forgot password?"
   },
   "analytics": {
     "title": "Analytics",
@@ -40,6 +40,13 @@
   },
   "accountSettings": {
     "title": "Account Settings"
+  },
+  "forgotPassword": {
+    "backToLogin": "Back to log in",
+    "getNewPassword": "Get new password",
+    "passwordRequested": {
+      "message": "A new password is on the way"
+    }
   },
   "logout": {
     "title": "Log out"
