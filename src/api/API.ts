@@ -44,6 +44,16 @@ const resetPassword = async (email: string) => {
   return await res.json();
 };
 
+const getTermsOfService = async (lang = "en") => {
+  const res = await fetch(`${API_ENDPOINT}/tos/${lang}`);
+  return (await res.json()) as { tos: string };
+};
+
+const acceptTermsOfService = async (lang = "en") => {
+  const res = await fetch(`${API_ENDPOINT}/tos/${lang}`, { method: "POST" });
+  return await res.json();
+};
+
 export const API = {
   login,
   validate,
@@ -53,4 +63,6 @@ export const API = {
   apps,
   games: apps,
   resetPassword,
+  getTermsOfService,
+  acceptTermsOfService,
 };

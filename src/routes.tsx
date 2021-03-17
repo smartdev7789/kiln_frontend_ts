@@ -6,6 +6,7 @@ import { Analytics } from "./pages/Analytics/Analytics";
 import { ForgotPassword } from "./pages/ForgotPassword/ForgotPassword";
 import { Games } from "./pages/Games/Games";
 import { LogIn } from "./pages/LogIn/LogIn";
+import { TermsOfService } from "./pages/TermsOfService/TermsOfService";
 
 export interface RouteConfig {
   path: string;
@@ -46,6 +47,7 @@ export enum Paths {
   Games = "/games",
   NewGame = "/games/new",
   ForgotPassword = `/account/forgot-password`,
+  TermsOfService = `/account/terms`,
   AccountSettings = `/account/settings`,
   LogOut = `/account/logout`,
 }
@@ -111,6 +113,14 @@ export const ROUTES: RouteConfig[] = [
         hideInMenu: true,
         component: ForgotPassword,
         text: "forgotPassword.title",
+      },
+      {
+        path: Paths.TermsOfService,
+        key: "TERMS_OF_SERVICE",
+        exact: true,
+        hideInMenu: true,
+        component: TermsOfService,
+        text: "termsOfService.title",
       },
     ],
   },

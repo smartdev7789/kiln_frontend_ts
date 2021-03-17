@@ -41,6 +41,11 @@
   "accountSettings": {
     "title": "Account Settings"
   },
+  "termsOfService": {
+    "title": "Terms of Service",
+    "iAccept": "I accept these terms",
+    "submit": "Submit"
+  },
   "forgotPassword": {
     "backToLogin": "Back to log in",
     "getNewPassword": "Get new password",

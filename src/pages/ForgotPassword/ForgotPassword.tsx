@@ -1,14 +1,11 @@
 import { Button, Form, Grid, Image } from "semantic-ui-react";
 import { useTranslation } from "react-i18next";
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import "./ForgotPassword.less";
 import Logo from "../../images/logos/full-grey.png";
 import { API } from "../../api/API";
-import { DispatchContext } from "../../App";
-import { ActionType } from "../../state/types";
 import { Link, RouteComponentProps } from "react-router-dom";
 import { Paths } from "../../routes";
-import { Authentication } from "../../authentication/Authentication";
 import { PasswordRequested } from "./PasswordRequested";
 
 export const ForgotPassword = ({ history }: RouteComponentProps) => {
