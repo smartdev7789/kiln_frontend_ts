@@ -35,15 +35,34 @@ const apps = async () => {
 const createApp = async (name: string) => {
   const res = await fetch(`${API_ENDPOINT}/games`, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    },
     body: JSON.stringify({
       name,
     }),
   });
   return (await res.json()) as App;
+};
+
+const resetPassword = async (email: string) => {
+  const res = await fetch(`${API_ENDPOINT}/password`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+
+    body: JSON.stringify({ email }),
+  });
+  return await res.json();
+};
+
+const getTermsOfService = async (lang = "en") => {
+  const res = await fetch(`${API_ENDPOINT}/tos/${lang}`);
+  return (await res.json()) as { tos: string };
+};
+
+const acceptTermsOfService = async (lang = "en") => {
+  const res = await fetch(`${API_ENDPOINT}/tos/${lang}`, { method: "POST" });
+  return await res.json();
 };
 
 export const API = {
@@ -55,4 +74,7 @@ export const API = {
   apps,
   games: apps,
   createApp,
+  resetPassword,
+  getTermsOfService,
+  acceptTermsOfService,
 };

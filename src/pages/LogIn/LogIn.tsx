@@ -6,7 +6,7 @@ import Logo from "../../images/logos/full-grey.png";
 import { API } from "../../api/API";
 import { DispatchContext } from "../../App";
 import { ActionType } from "../../state/types";
-import { RouteComponentProps } from "react-router-dom";
+import { Link, RouteComponentProps } from "react-router-dom";
 import { Paths } from "../../routes";
 import { Authentication } from "../../authentication/Authentication";
 
@@ -35,11 +35,12 @@ export const LogIn = ({ history }: RouteComponentProps) => {
     history.push(Paths.Analytics);
   };
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) =>
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
       ...formData,
       [event.target.name]: event.target.value,
     });
+  };
 
   return (
     <Grid textAlign="center" style={{ height: "100vh" }} verticalAlign="middle">
@@ -48,25 +49,29 @@ export const LogIn = ({ history }: RouteComponentProps) => {
           <Image src={Logo} />
           <Form.Field>
             <input
-              onChange={handleInputChange}
               name="email"
               value={formData.email}
               type="email"
+              autoComplete="email"
               placeholder={t("login.email")}
+              onChange={handleInputChange}
             />
           </Form.Field>
           <Form.Field>
             <input
-              onChange={handleInputChange}
               name="password"
               value={formData.password}
               type="password"
+              autoComplete="current-password"
               placeholder={t("login.password")}
+              onChange={handleInputChange}
             />
           </Form.Field>
           <Button.Group widths="2">
             <Button type="submit">{t("login.login")}</Button>
-            <Button>{t("login.forgotPassword")}</Button>
+            <Button as={Link} to={Paths.ForgotPassword}>
+              {t("login.forgotPassword")}
+            </Button>
           </Button.Group>
         </Form>
       </Grid.Column>

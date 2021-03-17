@@ -37,18 +37,20 @@ export const Menu = ({ routes, location }: MenuProps) => {
                   }
                 >
                   <Dropdown.Menu>
-                    {route.routes.map((subroute) => {
-                      return (
-                        <Dropdown.Item
-                          as={Link}
-                          key={subroute.key}
-                          to={subroute.path}
-                          active={location.pathname === subroute.path}
-                        >
-                          {t(subroute.text)}
-                        </Dropdown.Item>
-                      );
-                    })}
+                    {route.routes
+                      .filter((route) => !route.hideInMenu)
+                      .map((subroute) => {
+                        return (
+                          <Dropdown.Item
+                            as={Link}
+                            key={subroute.key}
+                            to={subroute.path}
+                            active={location.pathname === subroute.path}
+                          >
+                            {t(subroute.text)}
+                          </Dropdown.Item>
+                        );
+                      })}
                   </Dropdown.Menu>
                 </Dropdown>
               </SemanticMenu.Menu>

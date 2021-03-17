@@ -1,7 +1,7 @@
 import React, { Suspense, useEffect, useReducer } from "react";
 import "./App.css";
 import { Container, Placeholder } from "semantic-ui-react";
-import { Paths, RenderRoutes, ROUTES } from "./routes";
+import { Paths, PublicPaths, RenderRoutes, ROUTES } from "./routes";
 import { Action, ActionType, initialState, State } from "./state/types";
 import { reducer } from "./state/reducer";
 import { Menu } from "./components/Menu/Menu";
@@ -35,24 +35,27 @@ export const App = (props: RouteComponentProps) => {
   }, []);
 
   useEffect(() => {
-    Authentication.validateToken()
-      .then((user) => {
-        dispatch({
-          type: ActionType.SetUser,
-          payload: {
-            user,
-          },
-        });
+    console.log(PublicPaths, location.pathname);
+    if (!PublicPaths.includes(location.pathname)) {
+      Authentication.validateToken()
+        .then((user) => {
+          dispatch({
+            type: ActionType.SetUser,
+            payload: {
+              user,
+            },
+          });
 
-        if (
-          location.pathname === Paths.LogIn ||
-          location.pathname === Paths.Root
-        )
-          history.push(Paths.Analytics);
-      })
-      .catch(() => {
-        history.push(Paths.LogIn);
-      });
+          if (
+            location.pathname === Paths.LogIn ||
+            location.pathname === Paths.Root
+          )
+            history.push(Paths.Analytics);
+        })
+        .catch(() => {
+          if (location.pathname !== Paths.LogIn) history.push(Paths.LogIn);
+        });
+    }
   }, [history, location]);
 
   return (

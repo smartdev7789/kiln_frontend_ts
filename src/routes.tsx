@@ -1,16 +1,20 @@
 import React, { Suspense } from "react";
 import { Route, Switch } from "react-router-dom";
 import { Placeholder } from "semantic-ui-react";
+import { LogOut } from "./components/LogOut";
 import { Analytics } from "./pages/Analytics/Analytics";
+import { ForgotPassword } from "./pages/ForgotPassword/ForgotPassword";
 import { Games } from "./pages/Games/Games";
 import { LogIn } from "./pages/LogIn/LogIn";
 import { NewGame } from "./pages/NewGame/NewGame";
+import { TermsOfService } from "./pages/TermsOfService/TermsOfService";
 
 export interface RouteConfig {
   path: string;
   key: string;
   text: string;
   exact?: boolean;
+  public?: boolean;
   component: React.ComponentType<{ routes?: RouteConfig[] } | any>;
   routes?: RouteConfig[];
   hideInMenu?: boolean;
@@ -43,6 +47,10 @@ export enum Paths {
   Account = "/account",
   Games = "/games",
   NewGame = "/games/new",
+  ForgotPassword = `/account/forgot-password`,
+  TermsOfService = `/account/terms`,
+  AccountSettings = `/account/settings`,
+  LogOut = `/account/logout`,
 }
 
 export const ROUTES: RouteConfig[] = [
@@ -58,6 +66,7 @@ export const ROUTES: RouteConfig[] = [
     path: Paths.LogIn,
     key: "LOG_IN",
     hideInMenu: true,
+    public: true,
     exact: true,
     component: LogIn,
     text: "login.title",
@@ -92,19 +101,46 @@ export const ROUTES: RouteConfig[] = [
     floatRight: true,
     routes: [
       {
-        path: "/account",
+        path: Paths.AccountSettings,
         key: "APP_ROOT",
         exact: true,
-        component: () => <h1>App Index</h1>,
+        component: () => <h1>Account Settings</h1>,
         text: "accountSettings.title",
       },
       {
-        path: "/logout",
+        path: Paths.LogOut,
         key: "LOGOUT",
         exact: true,
-        component: () => <h1>App Page</h1>,
+        component: LogOut,
         text: "logout.title",
+      },
+      {
+        path: Paths.ForgotPassword,
+        key: "FORGOT_PASSWORD",
+        exact: true,
+        public: true,
+        hideInMenu: true,
+        component: ForgotPassword,
+        text: "forgotPassword.title",
+      },
+      {
+        path: Paths.TermsOfService,
+        key: "TERMS_OF_SERVICE",
+        exact: true,
+        hideInMenu: true,
+        component: TermsOfService,
+        text: "termsOfService.title",
       },
     ],
   },
 ];
+
+const FlatRoutes = [...ROUTES].concat(
+  ...ROUTES.filter((route) => route.routes)
+    .map((route) => route.routes!)
+    .flat()
+);
+
+export const PublicPaths = FlatRoutes.filter((route) => route.public).map(
+  (route) => route.path
+);
