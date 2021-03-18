@@ -76,6 +76,7 @@ export const ValidatedForm = (props: ValidatedFormProps) => {
               <Dropdown
                 onChange={handleDropdownChange}
                 placeholder={t(field.label || "")}
+                value={formData[field.key]}
                 search
                 selection
                 name={field.key}
@@ -116,7 +117,9 @@ export const ValidatedForm = (props: ValidatedFormProps) => {
           return (
             <Button
               key={buttonData.text}
-              disabled={buttonData.disabled}
+              disabled={
+                buttonData.disabled || buttonData.submit ? !isValid : undefined
+              }
               floated="right"
               positive={buttonData.positive}
               type={buttonData.submit ? "submit" : undefined}

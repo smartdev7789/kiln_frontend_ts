@@ -68,6 +68,9 @@
         },
         "edit": "Edit info"
       }
+    },
+    "info": {
+      "title": "Game info"
     }
   },
   "account": {

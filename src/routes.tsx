@@ -10,6 +10,7 @@ import { LogIn } from "./pages/LogIn/LogIn";
 import { NewGame } from "./pages/NewGame/NewGame";
 import { TermsOfService } from "./pages/TermsOfService/TermsOfService";
 import { EditGamePlatforms } from "./pages/EditGamePlatforms/EditGamePlatforms";
+import { EditGameInfo } from "./pages/EditGameInfo/EditGameInfo";
 
 export interface RouteConfig {
   path: string;
@@ -110,6 +111,12 @@ export const ROUTES: RouteConfig[] = [
     exact: true,
     hideInMenu: true,
     component: EditGamePlatforms,
+  },
+  {
+    path: Paths.EditGameInfo,
+    exact: true,
+    hideInMenu: true,
+    component: EditGameInfo,
   },
   {
     path: Paths.Account,
