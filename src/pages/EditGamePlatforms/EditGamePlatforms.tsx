@@ -52,7 +52,7 @@ const platformDataToRow = (
 export const EditGamePlatforms = (props: RouteComponentProps) => {
   const { t } = useTranslation();
 
-  const { state, dispatch } = useContext(DispatchContext);
+  const { state } = useContext(DispatchContext);
 
   const [gameData, setGameData] = useState<AppInfo | null>(
     props.location.state ? ((props.location.state as any).app as AppInfo) : null
