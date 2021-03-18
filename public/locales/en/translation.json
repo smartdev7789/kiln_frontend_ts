@@ -23,7 +23,8 @@
       "deactivated": "Deactivated",
       "active": "Active",
       "inReview": "In review",
-      "draft": "Draft"
+      "draft": "Draft",
+      "disabled": "Disabled"
     },
     "table": {
       "headers": {
@@ -46,6 +47,27 @@
       "label": "Game type",
       "free": "Free",
       "paid": "Paid"
+    }
+  },
+  "gameCreationSteps": {
+    "platforms": "Platforms",
+    "gameInfo": "Game info",
+    "monetisation": "Monetisation",
+    "analytics": "Analytics"
+  },
+  "editGame": {
+    "nextStep": "Next step",
+    "platforms": {
+      "title": "Platforms",
+      "table": {
+        "headers": {
+          "platform": "Platform",
+          "enabled": "Enabled",
+          "markets": "Markets",
+          "status": "Status"
+        },
+        "edit": "Edit info"
+      }
     }
   },
   "account": {

@@ -25,15 +25,15 @@ export const Menu = ({ routes, location }: MenuProps) => {
           if (route.routes) {
             return (
               <SemanticMenu.Menu
-                key={route.key}
+                key={route.path}
                 position={route.floatRight ? "right" : undefined}
               >
                 <Dropdown
                   item
                   text={
-                    route.key === "ACCOUNT"
+                    route.path === Paths.Account
                       ? state.user?.displayName
-                      : t(route.text)
+                      : t(route.text || "")
                   }
                 >
                   <Dropdown.Menu>
@@ -43,11 +43,11 @@ export const Menu = ({ routes, location }: MenuProps) => {
                         return (
                           <Dropdown.Item
                             as={Link}
-                            key={subroute.key}
+                            key={subroute.path}
                             to={subroute.path}
                             active={location.pathname === subroute.path}
                           >
-                            {t(subroute.text)}
+                            {t(subroute.text || "")}
                           </Dropdown.Item>
                         );
                       })}
@@ -59,13 +59,13 @@ export const Menu = ({ routes, location }: MenuProps) => {
             return (
               <SemanticMenu.Item
                 as={Link}
-                key={route.key}
-                name={route.key}
+                key={route.path}
+                name={route.path}
                 to={route.path}
                 active={location.pathname === route.path}
                 position={route.floatRight ? "right" : undefined}
               >
-                {t(route.text)}
+                {t(route.text || "")}
               </SemanticMenu.Item>
             );
           }

@@ -21,12 +21,17 @@ export interface BasicAppInfo {
   summary: string;
 }
 
+export interface AppPlatform {
+  id: number;
+  status: number;
+}
+
 export interface AppInfo extends BasicAppInfo {
-  platforms: number[];
-  assets_1: Asset[];
-  assets_2: Asset[];
-  categories_1: string;
-  categories_2: string;
+  platforms: AppPlatform[];
+  assets_1?: Asset[];
+  assets_2?: Asset[];
+  categories_1?: string;
+  categories_2?: string;
   leaderboards: any[];
   iap: any[];
   events: any[];
@@ -37,6 +42,7 @@ export interface Platform {
   id: number;
   name: string;
   icon: string;
+  markets: string;
 }
 
 export interface User {

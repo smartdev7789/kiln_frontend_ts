@@ -11,11 +11,11 @@ import {
   Segment,
 } from "semantic-ui-react";
 import { useTranslation } from "react-i18next";
-import React, { FormEvent, SyntheticEvent, useState } from "react";
+import React, { FormEvent, SyntheticEvent, useEffect, useState } from "react";
 import "./NewGame.less";
 import { API } from "../../api/API";
 import { RouteComponentProps } from "react-router-dom";
-import { Paths } from "../../routes";
+import { PathHelpers } from "../../routes";
 import { BasicAppInfo } from "../../api/DataTypes";
 
 type LangCode = {
@@ -24,6 +24,37 @@ type LangCode = {
   iso639_1: string;
   iso639_2T: string;
   iso639_2B: string;
+};
+
+const validateData = (formData: BasicAppInfo) => {
+  const errors: { [key: string]: string } = {};
+
+  if (formData.name === "") {
+    errors["name"] = `name is invalid`;
+  }
+
+  if (formData.default_language === "") {
+    errors["default_language"] = `default_language is invalid`;
+  }
+
+  if (formData.description === "" || formData.description.length > 1300) {
+    errors["description"] = `description is invalid`;
+  }
+
+  if (formData.summary === "" || formData.summary.length > 80) {
+    errors["summary"] = `summary is invalid`;
+  }
+
+  if (formData.type !== 0 && formData.type !== 1) {
+    errors["type"] = `type is invalid`;
+  }
+
+  if (Object.keys(errors).length > 0) {
+    console.warn(errors);
+    return false;
+  }
+
+  return true;
 };
 
 export const NewGame = ({ history }: RouteComponentProps) => {
@@ -36,15 +67,22 @@ export const NewGame = ({ history }: RouteComponentProps) => {
     summary: "",
     type: 0,
   });
+  const [formIsValid, setFormIsValid] = useState<boolean>(false);
+
+  useEffect(() => {
+    const valid = validateData(formData);
+
+    setFormIsValid(valid);
+  }, [formData]);
 
   const handleSubmit = async () => {
     setWaitingForResponse(true);
 
-    await API.createApp(formData.name);
+    const app = await API.createApp(formData);
 
     setWaitingForResponse(false);
 
-    history.push(Paths.Analytics);
+    history.push(PathHelpers.EditGamePlatforms({ id: app.id }), { app });
   };
 
   const handleInputChange = (
@@ -69,6 +107,7 @@ export const NewGame = ({ history }: RouteComponentProps) => {
     e: SyntheticEvent<HTMLElement, Event>,
     data: DropdownProps
   ) => {
+    console.log(data.name, data.value, data);
     setFormData({
       ...formData,
       [data.name!]: data.value,
@@ -85,6 +124,7 @@ export const NewGame = ({ history }: RouteComponentProps) => {
       <Grid.Row>
         <Segment className="full-width">
           <Form
+            error={!formIsValid}
             loading={waitingForResponse}
             onSubmit={handleSubmit}
             className="bordered no-shadow"
@@ -106,6 +146,7 @@ export const NewGame = ({ history }: RouteComponentProps) => {
                 placeholder={t("newGame.default_language")}
                 search
                 selection
+                name={"default_language"}
                 options={codes
                   .sort((a: LangCode, b: LangCode) =>
                     a.name.localeCompare(b.name)
@@ -156,7 +197,12 @@ export const NewGame = ({ history }: RouteComponentProps) => {
                 checked={formData.type === 1}
               />
             </Form.Field>
-            <Button floated="right" positive type="submit">
+            <Button
+              disabled={!formIsValid}
+              floated="right"
+              positive
+              type="submit"
+            >
               {t("newGame.nextStep")}
             </Button>
           </Form>

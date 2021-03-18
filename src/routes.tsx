@@ -1,5 +1,6 @@
 import React, { Suspense } from "react";
 import { Route, Switch } from "react-router-dom";
+import { Path } from "path-parser";
 import { Placeholder } from "semantic-ui-react";
 import { LogOut } from "./components/LogOut";
 import { Analytics } from "./pages/Analytics/Analytics";
@@ -8,11 +9,11 @@ import { Games } from "./pages/Games/Games";
 import { LogIn } from "./pages/LogIn/LogIn";
 import { NewGame } from "./pages/NewGame/NewGame";
 import { TermsOfService } from "./pages/TermsOfService/TermsOfService";
+import { EditGamePlatforms } from "./pages/EditGamePlatforms/EditGamePlatforms";
 
 export interface RouteConfig {
   path: string;
-  key: string;
-  text: string;
+  text?: string;
   exact?: boolean;
   public?: boolean;
   component: React.ComponentType<{ routes?: RouteConfig[] } | any>;
@@ -34,7 +35,7 @@ export const RouteWithSubRoutes = (route: RouteConfig) => (
 export const RenderRoutes = ({ routes }: { routes: RouteConfig[] }) => (
   <Switch>
     {routes.map((route, i) => {
-      return <RouteWithSubRoutes {...route} />;
+      return <RouteWithSubRoutes key={route.path} {...route} />;
     })}
     <Route component={() => <h1>404</h1>} />
   </Switch>
@@ -47,89 +48,99 @@ export enum Paths {
   Account = "/account",
   Games = "/games",
   NewGame = "/games/new",
+  EditGamePlatforms = "/games/:id/edit/platforms",
+  EditGameInfo = "/games/:id/edit/info",
+  EditGameMonetisation = "/games/:id/edit/monetisation",
+  EditGameAnalytics = "/games/:id/edit/analytics",
   ForgotPassword = `/account/forgot-password`,
   TermsOfService = `/account/terms`,
   AccountSettings = `/account/settings`,
   LogOut = `/account/logout`,
 }
 
+const createPathHelper = (path: string) => {
+  const pathInstance = new Path(path);
+
+  return (object: object) => {
+    return pathInstance.build(object);
+  };
+};
+
+export const PathHelpers = {
+  EditGamePlatforms: createPathHelper(Paths.EditGamePlatforms),
+  EditGameInfo: createPathHelper(Paths.EditGameInfo),
+  EditGameMonetisation: createPathHelper(Paths.EditGameMonetisation),
+  EditGameAnalytics: createPathHelper(Paths.EditGameAnalytics),
+};
+
 export const ROUTES: RouteConfig[] = [
   {
     path: Paths.Root,
-    key: "ROOT",
     hideInMenu: true,
-    text: "root.title",
     exact: true,
     component: () => <h1>Log in</h1>,
   },
   {
     path: Paths.LogIn,
-    key: "LOG_IN",
     hideInMenu: true,
     public: true,
     exact: true,
     component: LogIn,
-    text: "login.title",
   },
   {
     path: Paths.Analytics,
-    key: "ANALYTICS",
     exact: true,
     component: Analytics,
     text: "analytics.title",
   },
   {
     path: Paths.Games,
-    key: "GAMES",
     exact: true,
     component: Games,
     text: "games.title",
   },
   {
     path: Paths.NewGame,
-    key: "NEW_GAME",
     exact: true,
     hideInMenu: true,
     component: NewGame,
-    text: "newGame.title",
+  },
+  {
+    path: Paths.EditGamePlatforms,
+    exact: true,
+    hideInMenu: true,
+    component: EditGamePlatforms,
   },
   {
     path: Paths.Account,
-    key: "ACCOUNT",
     component: RenderRoutes,
     text: "account.title",
     floatRight: true,
     routes: [
       {
         path: Paths.AccountSettings,
-        key: "APP_ROOT",
         exact: true,
         component: () => <h1>Account Settings</h1>,
         text: "accountSettings.title",
       },
       {
         path: Paths.LogOut,
-        key: "LOGOUT",
         exact: true,
         component: LogOut,
         text: "logout.title",
       },
       {
         path: Paths.ForgotPassword,
-        key: "FORGOT_PASSWORD",
         exact: true,
         public: true,
         hideInMenu: true,
         component: ForgotPassword,
-        text: "forgotPassword.title",
       },
       {
         path: Paths.TermsOfService,
-        key: "TERMS_OF_SERVICE",
         exact: true,
         hideInMenu: true,
         component: TermsOfService,
-        text: "termsOfService.title",
       },
     ],
   },

@@ -35,7 +35,6 @@ export const App = (props: RouteComponentProps) => {
   }, []);
 
   useEffect(() => {
-    console.log(PublicPaths, location.pathname);
     if (!PublicPaths.includes(location.pathname)) {
       Authentication.validateToken()
         .then((user) => {

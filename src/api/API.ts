@@ -1,4 +1,12 @@
-import { Analytics, TopStats, User, Platform, AppSummary } from "./DataTypes";
+import {
+  Analytics,
+  TopStats,
+  User,
+  Platform,
+  AppSummary,
+  AppInfo,
+  BasicAppInfo,
+} from "./DataTypes";
 
 const API_ENDPOINT = "http://localhost:3333";
 
@@ -32,14 +40,29 @@ const apps = async () => {
   return (await res.json()) as AppSummary[];
 };
 
-const createApp = async (name: string) => {
+const app = async (id: string) => {
+  const res = await fetch(`${API_ENDPOINT}/apps/${id}`);
+  return (await res.json()) as AppInfo;
+};
+
+const additionalAppInfo = {
+  platforms: [],
+  leaderboards: [],
+  iap: [],
+  events: [],
+  ads: [],
+};
+
+const createApp = async (appData: BasicAppInfo) => {
   const res = await fetch(`${API_ENDPOINT}/apps`, {
     method: "POST",
-    body: JSON.stringify({
-      name,
-    }),
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify({ ...additionalAppInfo, ...appData }),
   });
-  return (await res.json()) as AppSummary;
+  return (await res.json()) as AppInfo;
 };
 
 const resetPassword = async (email: string) => {
@@ -49,7 +72,6 @@ const resetPassword = async (email: string) => {
       "Content-Type": "application/json",
       Accept: "application/json",
     },
-
     body: JSON.stringify({ email }),
   });
   return await res.json();
@@ -72,6 +94,7 @@ export const API = {
   topStats,
   platforms,
   apps,
+  app,
   games: apps,
   createApp,
   resetPassword,

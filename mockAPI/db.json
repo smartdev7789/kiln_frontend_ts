@@ -17,12 +17,14 @@
     {
       "id": 1,
       "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Huawei_AppGallery.svg/1200px-Huawei_AppGallery.svg.png",
-      "name": "Huawei"
+      "name": "Huawei",
+      "markets": "Global"
     },
     {
       "id": 2,
       "icon": "https://t1.daumcdn.net/cfile/tistory/2405F2445797118E07",
-      "name": "OneStore"
+      "name": "OneStore",
+      "markets": "SEA"
     }
   ],
   "appSummaries": [
@@ -57,7 +59,16 @@
       "type": 0,
       "description": "🚙🐻No delivery job is too far for Bean and his trusty sidekick, Teddy! So buckle up and start your engines, in this awesome official Mr Bean game.🐻🚙\n\n      Mr Bean Driving Games\n      🛑Play the OFFICIAL Mr Bean driving game for FREE now and deliver to all his friends & foes.\n      🛑Test your driving skills – get to the finish line as fast as possible WITHOUT dropping any of the precious packages.\n      \n      Customize Mr Bean's famous green Mini\n      🚗 Upgrade his old Green Car with Paints, Wheels, Toppers & Trails. Collect them ALL for special bonuses!\n      ⬆️ Level up your Experience to unlock more upgrades.\n      🚀 Craft power-ups in Mr Bean's Boost-a-matic to give you an edge on each run.\n      \n      Deliver to 4 exciting original AREAS!\n      🏙️ Drive through the steep streets of the CITY.\n      🌳 Climb the high hills of the COUNTRYSIDE.\n      🏔️ Ride the rollercoaster in the MOUNTAINS.\n      🏜️ Melt your tyres in the DESERT\n      \n      Follow us for the latest news\n      Follow us: http://fb.me/mrbeangames\n      \n      ⭐⭐⭐⭐⭐ If you like this app, please give us 5* ✋\n      \n      Free to download and play, but contains 3rd party advertising and some in app items can also be purchased for real money.\n      ",
       "summary": "No delivery job is too far for Bean and his trusty sidekick, Teddy! So buckle up and start your engines, in this awesome official Mr Bean game.",
-      "platforms": [1, 2],
+      "platforms": [
+        {
+          "id": 1,
+          "status": 0
+        },
+        {
+          "id": 2,
+          "status": 1
+        }
+      ],
       "assets_1": [
         {
           "type": 0,
@@ -104,6 +115,19 @@
       "iap": [],
       "events": [],
       "ads": []
+    },
+    {
+      "platforms": [],
+      "leaderboards": [],
+      "iap": [],
+      "events": [],
+      "ads": [],
+      "name": "mr beans",
+      "default_language": "aa",
+      "description": "mr beans\nmr beansmr beans\n\nmr beans",
+      "summary": "mr beansmr beansmr beansmr beans",
+      "type": 0,
+      "id": 2
     }
   ],
   "stats": [
