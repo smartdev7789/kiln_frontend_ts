@@ -1,4 +1,4 @@
-import { Analytics, TopStats, User, Platform, App } from "./DataTypes";
+import { Analytics, TopStats, User, Platform, AppSummary } from "./DataTypes";
 
 const API_ENDPOINT = "http://localhost:3333";
 
@@ -28,18 +28,18 @@ const platforms = async () => {
 };
 
 const apps = async () => {
-  const res = await fetch(`${API_ENDPOINT}/apps`);
-  return (await res.json()) as App[];
+  const res = await fetch(`${API_ENDPOINT}/appSummaries`);
+  return (await res.json()) as AppSummary[];
 };
 
 const createApp = async (name: string) => {
-  const res = await fetch(`${API_ENDPOINT}/games`, {
+  const res = await fetch(`${API_ENDPOINT}/apps`, {
     method: "POST",
     body: JSON.stringify({
       name,
     }),
   });
-  return (await res.json()) as App;
+  return (await res.json()) as AppSummary;
 };
 
 const resetPassword = async (email: string) => {

@@ -3,14 +3,14 @@ import { useTranslation } from "react-i18next";
 import { Link, RouteComponentProps } from "react-router-dom";
 import { Button, Grid, Header, Icon, Image } from "semantic-ui-react";
 import { API } from "../../api/API";
-import { App } from "../../api/DataTypes";
+import { AppSummary } from "../../api/DataTypes";
 import { Row, TableCard } from "../../components/Cards/TableCard";
 import { StatusIndicator } from "../../components/StatusIndicator";
 import { Paths } from "../../routes";
 import "./Games.less";
 
-const appDataToRow: (appData: App, edit: string) => Row = (
-  appData: App,
+const appDataToRow: (appData: AppSummary, edit: string) => Row = (
+  appData: AppSummary,
   edit: string
 ) => {
   return {
@@ -33,7 +33,7 @@ const appDataToRow: (appData: App, edit: string) => Row = (
 export const Games = (props: RouteComponentProps) => {
   const { t } = useTranslation();
 
-  const [games, setGames] = useState<App[]>([]);
+  const [games, setGames] = useState<AppSummary[]>([]);
 
   useEffect(() => {
     API.games().then((data) => {

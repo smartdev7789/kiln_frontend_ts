@@ -1,3 +1,7 @@
 /*******************************
          Site Overrides
 *******************************/
+.field > .ui.radio.checkbox {
+  display: block;
+  margin: 0.75em 0;
+}

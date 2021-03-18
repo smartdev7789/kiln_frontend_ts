@@ -38,7 +38,15 @@
   "newGame": {
     "title": "New Game",
     "nextStep": "Next Step",
-    "gameName": "Game Name"
+    "name": "Game name",
+    "default_language": "Default language",
+    "summary": "Summary",
+    "description": "Description",
+    "type": {
+      "label": "Game type",
+      "free": "Free",
+      "paid": "Paid"
+    }
   },
   "account": {
     "title": "Account"

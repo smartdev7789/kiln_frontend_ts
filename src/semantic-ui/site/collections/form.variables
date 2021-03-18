@@ -7,3 +7,4 @@
 @inputPlaceholderColor: #abacad;
 @inputBorder: none;
 @inputPadding: 0.5em;
+@labelFontWeight: normal;
