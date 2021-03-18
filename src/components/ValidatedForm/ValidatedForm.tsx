@@ -2,12 +2,14 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { Button, Dropdown, Form, Label, Radio } from "semantic-ui-react";
 import { useForm, Validation } from "../../hooks/useForm";
+import { MultipleImageField } from "./MultipleImageField";
 
 export enum FieldType {
   Text = "text",
   SearchDropdown = "search dropdown",
   Textarea = "textarea",
   Radio = "radio",
+  MultipleImages = "MultipleImages",
 }
 
 export interface FormField extends Validation {
@@ -106,6 +108,18 @@ export const ValidatedForm = (props: ValidatedFormProps) => {
                   />
                 );
               })}
+            {field.type === FieldType.MultipleImages && (
+              <MultipleImageField
+                images={[
+                  {
+                    type: 1,
+                    width: 500,
+                    height: 500,
+                    url: "https://i.imgur.com/no53exE.jpg",
+                  },
+                ]}
+              />
+            )}
             {formErrors[field.key] && touchedFields.includes(field.key) && (
               <Label content={formErrors[field.key]} pointing="above" prompt />
             )}

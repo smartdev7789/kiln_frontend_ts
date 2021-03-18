@@ -21,3 +21,13 @@
 .ui.button.compact {
   height: 1em;
 }
+
+.ui.cards .ui.card .ui.button.card-close {
+  width: fit-content;
+  height: fit-content;
+  position: absolute;
+  right: -1em;
+  top: -1em;
+  border-radius: @borderRadius !important;
+  background-color: #f3d9d9 !important;
+}

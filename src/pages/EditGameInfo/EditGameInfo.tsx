@@ -77,7 +77,21 @@ const formFields: FormField[] = [
     ],
     required: true,
   },
+
+  {
+    key: "assets_1",
+    type: FieldType.MultipleImages,
+    label: "editGame.info.screenshots",
+  },
 ];
+
+// const fieldsForHuawei = [
+//   {
+//     key: "assets_1",
+//     type: FieldType.MultipleImages,
+//     label: "editGame.info.screenshots",
+//   },
+// ];
 
 export const EditGameInfo = ({
   history,
