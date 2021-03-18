@@ -38,7 +38,7 @@
   },
   "newGame": {
     "title": "New Game",
-    "nextStep": "Next Step",
+    "submit": "Create game",
     "name": "Game name",
     "default_language": "Default language",
     "summary": "Summary",

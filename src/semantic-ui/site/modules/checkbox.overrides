@@ -4,4 +4,10 @@
 .field > .ui.radio.checkbox {
   display: block;
   margin: 0.75em 0;
+  width: fit-content;
+}
+
+.ui.form .required.fields:not(.grouped) > .field > .checkbox:after,
+.ui.form .required.field > .checkbox:after {
+  display: none;
 }
