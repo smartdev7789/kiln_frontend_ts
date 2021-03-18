@@ -6,12 +6,11 @@ import {
   Checkbox,
   Grid,
   Header,
-  Icon,
   Image,
   Placeholder,
 } from "semantic-ui-react";
 import { API } from "../../api/API";
-import { AppInfo, AppPlatform, Platform } from "../../api/DataTypes";
+import { AppInfo, Platform } from "../../api/DataTypes";
 import { DispatchContext } from "../../App";
 import { Row, TableCard } from "../../components/Cards/TableCard";
 import {
@@ -22,8 +21,7 @@ import {
   StatusIndicator,
   StatusDisabled,
 } from "../../components/StatusIndicator";
-import { PathHelpers, Paths } from "../../routes";
-import "./EditGamePlatforms.less";
+import { PathHelpers } from "../../routes";
 
 const platformDataToRow = (
   platformData: Platform,

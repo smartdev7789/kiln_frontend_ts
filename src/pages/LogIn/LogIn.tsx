@@ -1,7 +1,6 @@
 import { Button, Form, Grid, Image } from "semantic-ui-react";
 import { useTranslation } from "react-i18next";
 import React, { useContext, useState } from "react";
-import "./LogIn.less";
 import Logo from "../../images/logos/full-grey.png";
 import { API } from "../../api/API";
 import { DispatchContext } from "../../App";

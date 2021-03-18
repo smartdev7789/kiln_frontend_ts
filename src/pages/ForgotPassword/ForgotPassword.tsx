@@ -1,7 +1,6 @@
 import { Button, Form, Grid, Image } from "semantic-ui-react";
 import { useTranslation } from "react-i18next";
 import React, { useState } from "react";
-import "./ForgotPassword.less";
 import Logo from "../../images/logos/full-grey.png";
 import { API } from "../../api/API";
 import { Link, RouteComponentProps } from "react-router-dom";

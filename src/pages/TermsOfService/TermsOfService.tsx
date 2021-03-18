@@ -8,7 +8,6 @@ import {
 } from "semantic-ui-react";
 import { useTranslation } from "react-i18next";
 import React, { useEffect, useState } from "react";
-import "./TermsOfService.less";
 import Logo from "../../images/logos/full-grey.png";
 import { API } from "../../api/API";
 import { RouteComponentProps } from "react-router-dom";

@@ -7,7 +7,6 @@ import { AppSummary } from "../../api/DataTypes";
 import { Row, TableCard } from "../../components/Cards/TableCard";
 import { StatusIndicator } from "../../components/StatusIndicator";
 import { Paths } from "../../routes";
-import "./Games.less";
 
 const appDataToRow: (appData: AppSummary, edit: string) => Row = (
   appData: AppSummary,
