@@ -7,7 +7,6 @@ import {
   Form,
   Grid,
   Header,
-  Icon,
   Radio,
   Segment,
 } from "semantic-ui-react";
@@ -15,7 +14,7 @@ import { useTranslation } from "react-i18next";
 import React, { FormEvent, SyntheticEvent, useState } from "react";
 import "./NewGame.less";
 import { API } from "../../api/API";
-import { Link, RouteComponentProps } from "react-router-dom";
+import { RouteComponentProps } from "react-router-dom";
 import { Paths } from "../../routes";
 import { BasicAppInfo } from "../../api/DataTypes";
 
