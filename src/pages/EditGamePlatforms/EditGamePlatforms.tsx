@@ -113,7 +113,7 @@ export const EditGamePlatforms = (props: RouteComponentProps) => {
           headers={["platform", "markets", "status", "enabled"].map((string) =>
             t(`editGame.platforms.table.headers.${string}`)
           )}
-          rows={platforms.map((platformData) =>
+          rowContents={platforms.map((platformData) =>
             platformDataToRow(platformData, {
               enabled: gamePlatformIds.includes(platformData.id),
               onChange: handlePlatformEnabledChange,

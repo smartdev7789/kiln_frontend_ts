@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import { API } from "../../api/API";
 import { RouteComponentProps } from "react-router-dom";
 import { PathHelpers } from "../../routes";
-import { AppInfo, BasicAppInfo } from "../../api/DataTypes";
+import { AppInfo } from "../../api/DataTypes";
 import {
   FormField,
   FieldType,
@@ -108,11 +108,11 @@ export const EditGameInfo = ({
   const handleSubmit = async (formData: object) => {
     setWaitingForResponse(true);
 
-    const app = await API.createApp(formData as BasicAppInfo);
+    const app = await API.updateApp(gameData!.id!, formData as AppInfo);
 
     setWaitingForResponse(false);
 
-    history.push(PathHelpers.EditGamePlatforms({ id: app.id }), { app });
+    history.push(PathHelpers.EditGameMonetisation({ id: app.id }), { app });
   };
 
   useEffect(() => {

@@ -67,7 +67,7 @@ export const Games = (props: RouteComponentProps) => {
           headers={["game", "id", "platforms", "status"]
             .map((string) => t(`games.table.headers.${string}`))
             .concat("")}
-          rows={games.map((appData) =>
+          rowContents={games.map((appData) =>
             appDataToRow(appData, t("games.table.edit"))
           )}
         />

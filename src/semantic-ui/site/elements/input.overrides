@@ -1,7 +1,3 @@
 /*******************************
          Site Overrides
 *******************************/
-
-.ui.input {
-    box-shadow: 1em 1em 1em 1em blue;
-}

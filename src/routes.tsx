@@ -11,6 +11,7 @@ import { NewGame } from "./pages/NewGame/NewGame";
 import { TermsOfService } from "./pages/TermsOfService/TermsOfService";
 import { EditGamePlatforms } from "./pages/EditGamePlatforms/EditGamePlatforms";
 import { EditGameInfo } from "./pages/EditGameInfo/EditGameInfo";
+import { EditGameMonetisation } from "./pages/EditGameMonetisation/EditGameMonetisation";
 
 export interface RouteConfig {
   path: string;
@@ -117,6 +118,12 @@ export const ROUTES: RouteConfig[] = [
     exact: true,
     hideInMenu: true,
     component: EditGameInfo,
+  },
+  {
+    path: Paths.EditGameMonetisation,
+    exact: true,
+    hideInMenu: true,
+    component: EditGameMonetisation,
   },
   {
     path: Paths.Account,

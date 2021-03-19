@@ -2,20 +2,25 @@ import React from "react";
 import { Segment, Table } from "semantic-ui-react";
 
 export type Row = {
-  id: number;
+  id: number | string;
   cellContents: (string | JSX.Element | JSX.Element[])[];
 };
 
 export type TableCardProps = {
+  children?: React.ReactNode;
   headers: string[];
-  rows: Row[];
+  rowContents?: Row[];
 };
 
-export const TableCard = ({ headers, rows }: TableCardProps) => {
+export const TableCard = ({
+  children,
+  headers,
+  rowContents = [],
+}: TableCardProps) => {
   return (
     <Segment
       className="full-width no-padding borderless"
-      style={{ height: "35em" }}
+      style={{ minHeight: "5em" }}
     >
       <Table>
         <Table.Header>
@@ -26,7 +31,7 @@ export const TableCard = ({ headers, rows }: TableCardProps) => {
           </Table.Row>
         </Table.Header>
         <Table.Body>
-          {rows.map((row) => {
+          {rowContents.map((row) => {
             return (
               <Table.Row key={row.id}>
                 {row.cellContents.map((contents, i) => (
@@ -35,6 +40,7 @@ export const TableCard = ({ headers, rows }: TableCardProps) => {
               </Table.Row>
             );
           })}
+          {children}
         </Table.Body>
       </Table>
     </Segment>

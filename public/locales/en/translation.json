@@ -69,6 +69,35 @@
         "edit": "Edit info"
       }
     },
+    "monetisation": {
+      "title": "Monetisation",
+      "adTable": {
+        "headers": {
+          "type": "Type",
+          "id": "ID",
+          "actions": "Actions",
+          "status": "Status"
+        },
+        "new": "New ad",
+        "delete": "Delete",
+        "edit": "Edit ad",
+        "save": "Save ad"
+      },
+      "iapTable": {
+        "headers": {
+          "itemName": "Item name",
+          "type": "Type",
+          "price": "Price",
+          "id": "ID",
+          "actions": "Actions",
+          "status": "Status"
+        },
+        "new": "New IAP",
+        "delete": "Delete",
+        "edit": "Edit IAP",
+        "save": "Save IAP"
+      }
+    },
     "info": {
       "title": "Game info"
     }
@@ -97,5 +126,14 @@
   "filters": {
     "filters": "Filters",
     "platforms": "Platforms"
+  },
+  "adType": {
+    "interstitial": "Interstitial",
+    "rewardedVideo": "Rewarded Video",
+    "banner": "Banner"
+  },
+  "iapType": {
+    "consumable": "Consumable",
+    "nonconsumable": "Non-consumable"
   }
 }

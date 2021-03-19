@@ -3,3 +3,5 @@
 *******************************/
 @headerFontWeight: normal;
 @borderRadius: 1em;
+@color: #8d8d8d;
+@headerColor: @color;

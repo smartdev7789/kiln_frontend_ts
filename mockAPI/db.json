@@ -119,13 +119,25 @@
     {
       "platforms": [],
       "leaderboards": [],
-      "iap": [],
+      "iap": [
+        {
+          "type": 0,
+          "kiln_id": "10_GEMS",
+          "price": 1,
+          "name": "10 Gems"
+        }
+      ],
       "events": [],
-      "ads": [],
+      "ads": [
+        {
+          "type": 0,
+          "kiln_id": "GAME_AD"
+        }
+      ],
       "name": "mr beans",
       "default_language": "aa",
-      "description": "mr beans\nmr beansmr beans\n\nmr beans",
       "summary": "mr beansmr beansmr beansmr beans",
+      "description": "mr beans\nmr beansmr beans\n\nmr beans",
       "type": 0,
       "id": 2
     },

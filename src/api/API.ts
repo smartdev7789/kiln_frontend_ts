@@ -65,6 +65,18 @@ const createApp = async (appData: BasicAppInfo) => {
   return (await res.json()) as AppInfo;
 };
 
+const updateApp = async (id: number, appData: AppInfo) => {
+  const res = await fetch(`${API_ENDPOINT}/apps/${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify({ ...appData }),
+  });
+  return (await res.json()) as AppInfo;
+};
+
 const resetPassword = async (email: string) => {
   const res = await fetch(`${API_ENDPOINT}/password`, {
     method: "PATCH",
@@ -97,6 +109,7 @@ export const API = {
   app,
   games: apps,
   createApp,
+  updateApp,
   resetPassword,
   getTermsOfService,
   acceptTermsOfService,
