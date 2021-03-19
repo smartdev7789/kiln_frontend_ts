@@ -15,6 +15,7 @@ import { EditGameMonetisation } from "./pages/EditGameMonetisation/EditGameMonet
 import { EditGameAnalytics } from "./pages/EditGameAnalytics/EditGameAnalytics";
 import { Platforms } from "./pages/Platforms/Platforms";
 import { EditAccountInfo } from "./pages/EditAccountInfo/EditAccountInfo";
+import { Documentation } from "./pages/Documentation/Documentation";
 
 export interface RouteConfig {
   path: string;
@@ -63,6 +64,7 @@ export enum Paths {
   AccountSettings = `/account/settings`,
   EditAccountInfo = `/account/edit`,
   LogOut = `/account/logout`,
+  Documentation = `/documentation`,
 }
 
 const createPathHelper = (path: string) => {
@@ -111,6 +113,11 @@ export const ROUTES: RouteConfig[] = [
     exact: true,
     component: Platforms,
     text: "platforms.title",
+  },
+  {
+    path: Paths.Documentation,
+    component: Documentation,
+    text: "documentation.title",
   },
   {
     path: Paths.NewGame,

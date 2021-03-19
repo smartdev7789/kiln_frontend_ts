@@ -18,3 +18,5 @@
 @horizontalPadding: 0.5em;
 
 @positiveColor: #88dd8e;
+
+@textColor: #7a7a7a;

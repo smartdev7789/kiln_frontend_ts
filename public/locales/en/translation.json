@@ -42,6 +42,12 @@
       "moreInfo": "More info"
     }
   },
+  "documentation": {
+    "title": "Documentation",
+    "gettingStarted": "Getting started",
+    "introduction": "Introduction",
+    "unitySDK": "Unity SDK"
+  },
   "games": {
     "title": "Games",
     "addGame": "Add Game",

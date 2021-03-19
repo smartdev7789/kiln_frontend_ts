@@ -2,5 +2,4 @@
     User Variable Overrides
 *******************************/
 
-@textColor: #7A7A7A;
 @fontWeight: normal;

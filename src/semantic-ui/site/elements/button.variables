@@ -3,7 +3,6 @@
 *******************************/
 
 @background: #ffffff;
-@textColor: #abacad;
 
 @horizontalMargin: 2em;
 @verticalMargin: 0.5em;

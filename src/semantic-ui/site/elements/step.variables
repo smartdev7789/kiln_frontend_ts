@@ -4,5 +4,4 @@
 @titleFontWeight: normal;
 @iconSize: 1.5em;
 @orderedFontWeight: normal;
-@textColor: #8d8d8d;
 @activeBackground: #ffffff;
