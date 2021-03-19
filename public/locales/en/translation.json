@@ -16,6 +16,32 @@
       "header": "Top platforms"
     }
   },
+  "editAccountInfo": {
+    "title": "Edit account info",
+    "name": "Name",
+    "email": "E-mail",
+    "contact_number": "Contact number",
+    "company_name": "Company name",
+    "contact_email": "Contact e-mail",
+    "business_license": "Business license",
+    "submit": "Submit"
+  },
+  "platforms": {
+    "title": "Platforms",
+    "connected": "connected",
+    "editInfo": "Edit account info",
+    "table": {
+      "headers": {
+        "actions": "Actions",
+        "status": "Connection status",
+        "market": "Market",
+        "name": "Name"
+      },
+      "edit": "Edit",
+      "connect": "Connect",
+      "moreInfo": "More info"
+    }
+  },
   "games": {
     "title": "Games",
     "addGame": "Add Game",
@@ -63,7 +89,7 @@
         "headers": {
           "platform": "Platform",
           "enabled": "Enabled",
-          "markets": "Markets",
+          "market": "Markets",
           "status": "Status"
         },
         "edit": "Edit info"
@@ -158,5 +184,10 @@
   "iapType": {
     "consumable": "Consumable",
     "nonconsumable": "Non-consumable"
+  },
+  "platformConnectionStatus": {
+    "notConnected": "Not connected",
+    "processing": "Processing",
+    "connected": "Connected"
   }
 }

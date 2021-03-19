@@ -99,6 +99,11 @@ const acceptTermsOfService = async (lang = "en") => {
   return await res.json();
 };
 
+const updateAccountInfo = async (accountData: User) => {
+  const res = await fetch(`${API_ENDPOINT}/users/${accountData.id}`);
+  return await res.json();
+};
+
 export const API = {
   login,
   validate,
@@ -113,4 +118,5 @@ export const API = {
   resetPassword,
   getTermsOfService,
   acceptTermsOfService,
+  updateAccountInfo,
 };

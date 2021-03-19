@@ -8,9 +8,12 @@
   "users": [
     {
       "id": 1,
+      "name": "Sam Barker",
       "email": "sam@gamebake.io",
-      "displayName": "Sam",
-      "teamId": 1
+      "contact_number": "07403135264",
+      "company_name": "Gamebake Ltd",
+      "contact_email": "sam@gamebake.io",
+      "business_license": "https://en.wikipedia.org/wiki/PDF"
     }
   ],
   "platforms": [
@@ -18,13 +21,19 @@
       "id": 1,
       "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Huawei_AppGallery.svg/1200px-Huawei_AppGallery.svg.png",
       "name": "Huawei",
-      "markets": "Global"
+      "market": "Global",
+      "description": "All over the world on Huawei devices",
+      "more_info": "https://appgallery.huawei.com",
+      "connection_status": 0
     },
     {
       "id": 2,
       "icon": "https://t1.daumcdn.net/cfile/tistory/2405F2445797118E07",
       "name": "OneStore",
-      "markets": "SEA"
+      "market": "SEA",
+      "description": "Mostly in Korea",
+      "more_info": "https://appgallery.huawei.com",
+      "connection_status": 0
     }
   ],
   "appSummaries": [
@@ -187,61 +196,15 @@
       "graphs": [
         {
           "graph_title": "Active Users",
-          "x_axis": [
-            "2/2",
-            "3/2",
-            "4/2",
-            "5/2",
-            "6/2",
-            "7/2",
-            "8/2"
-          ],
-          "y_axis": [
-            "1,000",
-            "2,000",
-            "3,000",
-            "4,000",
-            "5,000",
-            "6,000"
-          ],
-          "values": [
-            4000,
-            3050,
-            4000,
-            4010,
-            4070,
-            5000,
-            4040
-          ]
+          "x_axis": ["2/2", "3/2", "4/2", "5/2", "6/2", "7/2", "8/2"],
+          "y_axis": ["1,000", "2,000", "3,000", "4,000", "5,000", "6,000"],
+          "values": [4000, 3050, 4000, 4010, 4070, 5000, 4040]
         },
         {
           "graph_title": "Revenue",
-          "x_axis": [
-            "2/2",
-            "3/2",
-            "4/2",
-            "5/2",
-            "6/2",
-            "7/2",
-            "8/2"
-          ],
-          "y_axis": [
-            "$100",
-            "$200",
-            "$300",
-            "$400",
-            "$500",
-            "$600"
-          ],
-          "values": [
-            300,
-            350,
-            400,
-            410,
-            470,
-            500,
-            440
-          ]
+          "x_axis": ["2/2", "3/2", "4/2", "5/2", "6/2", "7/2", "8/2"],
+          "y_axis": ["$100", "$200", "$300", "$400", "$500", "$600"],
+          "values": [300, 350, 400, 410, 470, 500, 440]
         }
       ]
     },

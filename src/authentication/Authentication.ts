@@ -16,7 +16,7 @@ export const clearToken = () => {
 };
 
 export const handleSuccessfulLogin = (response: User) => {
-  storeToken(response.id.toString());
+  storeToken(response.email.toString());
 };
 
 export const validateToken = () => {

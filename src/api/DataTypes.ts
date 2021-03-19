@@ -38,17 +38,29 @@ export interface AppInfo extends BasicAppInfo {
   ads: Ad[];
 }
 
+export enum PlatformConnectionStatus {
+  NotConnected = 0,
+  Processing = 1,
+  Connected = 2,
+}
 export interface Platform {
   id: number;
   name: string;
   icon: string;
-  markets: string;
+  market: string;
+  description: string;
+  more_info: string;
+  connection_status: PlatformConnectionStatus;
 }
 
 export interface User {
-  id: number;
+  id: string | number;
+  name: string;
   email: string;
-  displayName: string;
+  contact_number: string;
+  company_name: string;
+  contact_email: string;
+  business_license: string;
 }
 
 export interface GraphData {

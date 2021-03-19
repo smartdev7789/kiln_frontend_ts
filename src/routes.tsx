@@ -13,6 +13,8 @@ import { EditGamePlatforms } from "./pages/EditGamePlatforms/EditGamePlatforms";
 import { EditGameInfo } from "./pages/EditGameInfo/EditGameInfo";
 import { EditGameMonetisation } from "./pages/EditGameMonetisation/EditGameMonetisation";
 import { EditGameAnalytics } from "./pages/EditGameAnalytics/EditGameAnalytics";
+import { Platforms } from "./pages/Platforms/Platforms";
+import { EditAccountInfo } from "./pages/EditAccountInfo/EditAccountInfo";
 
 export interface RouteConfig {
   path: string;
@@ -50,6 +52,7 @@ export enum Paths {
   Analytics = "/analytics",
   Account = "/account",
   Games = "/games",
+  Platforms = "/platforms",
   NewGame = "/games/new",
   EditGamePlatforms = "/games/:id/edit/platforms",
   EditGameInfo = "/games/:id/edit/info",
@@ -58,6 +61,7 @@ export enum Paths {
   ForgotPassword = `/account/forgot-password`,
   TermsOfService = `/account/terms`,
   AccountSettings = `/account/settings`,
+  EditAccountInfo = `/account/edit`,
   LogOut = `/account/logout`,
 }
 
@@ -103,10 +107,22 @@ export const ROUTES: RouteConfig[] = [
     text: "games.title",
   },
   {
+    path: Paths.Platforms,
+    exact: true,
+    component: Platforms,
+    text: "platforms.title",
+  },
+  {
     path: Paths.NewGame,
     exact: true,
     hideInMenu: true,
     component: NewGame,
+  },
+  {
+    path: Paths.EditAccountInfo,
+    exact: true,
+    hideInMenu: true,
+    component: EditAccountInfo,
   },
   {
     path: Paths.EditGamePlatforms,

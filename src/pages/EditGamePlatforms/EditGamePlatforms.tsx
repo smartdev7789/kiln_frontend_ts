@@ -42,7 +42,7 @@ const platformDataToRow = (
         <Image avatar src={platformData.icon} />
         {platformData.name}
       </Header>,
-      platformData.markets,
+      platformData.market,
       <StatusIndicator status={status} />,
       <Checkbox onChange={() => onChange(platformData.id)} checked={enabled} />,
     ],
@@ -110,7 +110,7 @@ export const EditGamePlatforms = (props: RouteComponentProps) => {
       </Grid.Row>
       <Grid.Row>
         <TableCard
-          headers={["platform", "markets", "status", "enabled"].map((string) =>
+          headers={["platform", "market", "status", "enabled"].map((string) =>
             t(`editGame.platforms.table.headers.${string}`)
           )}
           rowContents={platforms.map((platformData) =>

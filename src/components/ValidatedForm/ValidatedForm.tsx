@@ -10,6 +10,9 @@ export enum FieldType {
   Textarea = "textarea",
   Radio = "radio",
   MultipleImages = "MultipleImages",
+  Email = "email",
+  PhoneNumber = "phone",
+  FileUpload = "file upload",
 }
 
 export interface FormField extends Validation {
@@ -72,6 +75,36 @@ export const ValidatedForm = (props: ValidatedFormProps) => {
                 value={formData[field.key]}
                 type="text"
                 placeholder={t(field.label || "")}
+                required={field.required}
+              />
+            )}
+            {field.type === FieldType.Email && (
+              <input
+                onChange={handleInputChange}
+                name={field.key}
+                value={formData[field.key]}
+                type="email"
+                placeholder={t(field.label || "")}
+                required={field.required}
+              />
+            )}
+            {field.type === FieldType.PhoneNumber && (
+              <input
+                onChange={handleInputChange}
+                name={field.key}
+                value={formData[field.key]}
+                type="tel"
+                placeholder={t(field.label || "")}
+                required={field.required}
+              />
+            )}
+            {field.type === FieldType.FileUpload && (
+              <input
+                onChange={handleInputChange}
+                name={field.key}
+                type="file"
+                placeholder={t(field.label || "")}
+                required={field.required}
               />
             )}
             {field.type === FieldType.SearchDropdown && (
@@ -83,6 +116,7 @@ export const ValidatedForm = (props: ValidatedFormProps) => {
                 selection
                 name={field.key}
                 options={field.options}
+                required={field.required}
               />
             )}
             {field.type === FieldType.Textarea && (
@@ -93,6 +127,7 @@ export const ValidatedForm = (props: ValidatedFormProps) => {
                 placeholder={t(field.label || "")}
                 maxLength={field.maxLength}
                 rows={Math.min(10, (field.maxLength || 240) / 30)}
+                required={field.required}
               />
             )}
             {field.type === FieldType.Radio &&
