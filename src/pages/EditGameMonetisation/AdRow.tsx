@@ -71,7 +71,7 @@ export const AdRow = ({
         )}
       </Table.Cell>
       <Table.Cell>
-        <StatusIndicator status={0} />
+        <StatusIndicator status={ad.status} />
       </Table.Cell>
       <Table.Cell>
         {!editing && (

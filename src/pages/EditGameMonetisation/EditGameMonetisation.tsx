@@ -3,7 +3,14 @@ import { useTranslation } from "react-i18next";
 import { Link, RouteComponentProps } from "react-router-dom";
 import { Button, Grid, Header, Placeholder, Table } from "semantic-ui-react";
 import { API } from "../../api/API";
-import { Ad, AdType, AppInfo, IAP, IAPType } from "../../api/DataTypes";
+import {
+  Ad,
+  AdStatus,
+  AdType,
+  AppInfo,
+  IAP,
+  IAPType,
+} from "../../api/DataTypes";
 import { TableCard } from "../../components/Cards/TableCard";
 import {
   EditGameMonetisationSteps,
@@ -62,7 +69,10 @@ export const EditGameMonetisation = (props: RouteComponentProps) => {
 
     setGameData({
       ...gameData,
-      ads: [...gameData.ads, { type: 0, kiln_id: "NEW_AD" }],
+      ads: [
+        ...gameData.ads,
+        { type: AdType.Banner, kiln_id: "NEW_AD", status: AdStatus.Draft },
+      ],
     });
 
     enablAdEditing(gameData.ads.length);

@@ -96,9 +96,17 @@ export enum AdType {
   Banner = 2,
 }
 
+export enum AdStatus {
+  Draft = 0,
+  InReview = 1,
+  Active = 2,
+  Deactivated = 3,
+}
+
 export interface Ad {
   kiln_id: string;
   type: AdType;
+  status: AdStatus;
 }
 
 export enum IAPType {

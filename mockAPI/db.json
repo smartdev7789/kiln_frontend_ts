@@ -144,7 +144,8 @@
       "ads": [
         {
           "type": 0,
-          "kiln_id": "GAME_AD"
+          "kiln_id": "GAME_AD",
+          "status": 0
         }
       ],
       "name": "mr beans",
