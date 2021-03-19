@@ -18,7 +18,12 @@ export const MultipleImageField = (props: MultipleImageFieldProps) => {
   const [newFiles, setNewFiles] = useState<File[]>([]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setNewFiles([...newFiles, event.target.files![0]]);
+    const files = [];
+    for (let index = 0; index < event.target.files!.length; index++) {
+      const file = event.target.files![index];
+      files.push(file);
+    }
+    setNewFiles([...newFiles, ...files]);
   };
 
   const handleCloseClick = (file: File) => (event: any) => {
@@ -75,6 +80,7 @@ export const MultipleImageField = (props: MultipleImageFieldProps) => {
             onChange={handleChange}
             type="file"
             accept="image/png, image/jpeg"
+            multiple
             hidden
           />
           <Button
