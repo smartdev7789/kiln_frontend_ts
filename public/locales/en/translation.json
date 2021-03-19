@@ -96,6 +96,29 @@
         "delete": "Delete",
         "edit": "Edit IAP",
         "save": "Save IAP"
+      },
+      "analytics": {
+        "headers": {
+          "id": "ID",
+          "actions": "Actions"
+        },
+        "new": "New event",
+        "delete": "Delete",
+        "edit": "Edit event",
+        "save": "Save event"
+      }
+    },
+    "analytics": {
+      "title": "Analytics events",
+      "eventTable": {
+        "headers": {
+          "id": "ID",
+          "actions": "Actions"
+        },
+        "new": "New event",
+        "delete": "Delete",
+        "edit": "Edit event",
+        "save": "Save event"
       }
     },
     "info": {

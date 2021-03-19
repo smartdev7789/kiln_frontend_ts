@@ -34,7 +34,7 @@ export interface AppInfo extends BasicAppInfo {
   categories_2?: string;
   leaderboards: any[];
   iap: IAP[];
-  events: any[];
+  events: Event[];
   ads: Ad[];
 }
 
@@ -98,6 +98,10 @@ export interface IAP {
   type: IAPType;
   price: number;
   name: string;
+}
+
+export interface Event {
+  kiln_id: string;
 }
 
 // options for dropdowns

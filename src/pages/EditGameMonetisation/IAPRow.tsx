@@ -7,12 +7,7 @@ import {
   InputOnChangeData,
   Table,
 } from "semantic-ui-react";
-import {
-  AdTypeOptions,
-  IAP,
-  IAPPriceTierOptions,
-  IAPTypeOptions,
-} from "../../api/DataTypes";
+import { IAP, IAPPriceTierOptions, IAPTypeOptions } from "../../api/DataTypes";
 import { StatusIndicator } from "../../components/StatusIndicator";
 import { IAPTypeText } from "./EditGameMonetisation";
 

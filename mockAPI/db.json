@@ -127,7 +127,11 @@
           "name": "10 Gems"
         }
       ],
-      "events": [],
+      "events": [
+        {
+          "kiln_id": "START_GAMEttrtyrty"
+        }
+      ],
       "ads": [
         {
           "type": 0,
