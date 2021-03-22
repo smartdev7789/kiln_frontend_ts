@@ -15,6 +15,11 @@ import {
   EditGameInfoSteps,
   GameCreationSteps,
 } from "../../components/GameCreationSteps";
+import {
+  additionalFormFieldsForHuawei,
+  huaweiCategoryDropdownData,
+  huaweiID,
+} from "../../platformData/Huawei";
 
 export type LangCode = {
   name: string;
@@ -77,21 +82,7 @@ const formFields: FormField[] = [
     ],
     required: true,
   },
-
-  {
-    key: "assets_1",
-    type: FieldType.MultipleImages,
-    label: "editGame.info.screenshots",
-  },
 ];
-
-// const fieldsForHuawei = [
-//   {
-//     key: "assets_1",
-//     type: FieldType.MultipleImages,
-//     label: "editGame.info.screenshots",
-//   },
-// ];
 
 export const EditGameInfo = ({
   history,
@@ -125,7 +116,15 @@ export const EditGameInfo = ({
 
   if (gameData === null) return <Placeholder />;
 
-  const initialFormData = formFields.reduce(
+  const allFields = formFields;
+
+  if (gameData.platforms.find((plat) => plat.id === huaweiID)) {
+    additionalFormFieldsForHuawei.forEach((field) => {
+      allFields.push({ ...field });
+    });
+  }
+
+  const initialFormData = allFields.reduce(
     (data: { [key: string]: any }, field) => {
       data[field.key] = (gameData as any)[field.key];
 
@@ -133,6 +132,8 @@ export const EditGameInfo = ({
     },
     {}
   );
+
+  const categories_1 = huaweiCategoryDropdownData;
 
   return (
     <Grid>
@@ -158,8 +159,11 @@ export const EditGameInfo = ({
           <ValidatedForm
             loading={waitingForResponse}
             onSubmit={handleSubmit}
-            fields={formFields}
+            fields={allFields}
             initialFormData={initialFormData}
+            additionalFieldData={{
+              categories_1,
+            }}
             buttons={[
               {
                 text: "editGame.info.submit",

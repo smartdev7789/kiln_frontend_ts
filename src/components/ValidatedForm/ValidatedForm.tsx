@@ -1,7 +1,11 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Button, Dropdown, Form, Label, Radio } from "semantic-ui-react";
-import { useForm, Validation } from "../../hooks/useForm";
+import { FieldValue, useForm, Validation } from "../../hooks/useForm";
+import {
+  DropdownData,
+  MultipleDropdownsToString,
+} from "./MultipleDropdownsToString";
 import { MultipleImageField } from "./MultipleImageField";
 
 export enum FieldType {
@@ -13,12 +17,14 @@ export enum FieldType {
   Email = "email",
   PhoneNumber = "phone",
   FileUpload = "file upload",
+  MultipleDropdowns = "multiple dropdowns",
 }
 
 export interface FormField extends Validation {
   key: string;
   type: FieldType;
   label?: string;
+  delimiter?: string;
   options?: { key: string; text: string; value: string | number }[];
 }
 
@@ -31,9 +37,10 @@ type ButtonData = {
 
 type ValidatedFormProps = {
   fields: FormField[];
-  initialFormData: { [key: string]: string | number };
+  initialFormData: { [key: string]: FieldValue };
+  additionalFieldData?: { [key: string]: any };
   loading?: boolean;
-  onSubmit?: (formData: { [key: string]: string | number }) => any;
+  onSubmit?: (formData: { [key: string]: FieldValue }) => any;
   buttons: ButtonData[];
 };
 
@@ -45,6 +52,7 @@ export const ValidatedForm = (props: ValidatedFormProps) => {
     handleCheckBoxChange,
     handleDropdownChange,
     handleInputChange,
+    handleMultipleDropdownChange,
     touchedFields,
     addTouchedField,
   } = useForm(props.initialFormData, props.fields);
@@ -72,7 +80,7 @@ export const ValidatedForm = (props: ValidatedFormProps) => {
               <input
                 onChange={handleInputChange}
                 name={field.key}
-                value={formData[field.key]}
+                value={formData[field.key] as string}
                 type="text"
                 placeholder={t(field.label || "")}
                 required={field.required}
@@ -82,7 +90,7 @@ export const ValidatedForm = (props: ValidatedFormProps) => {
               <input
                 onChange={handleInputChange}
                 name={field.key}
-                value={formData[field.key]}
+                value={formData[field.key] as string}
                 type="email"
                 placeholder={t(field.label || "")}
                 required={field.required}
@@ -92,7 +100,7 @@ export const ValidatedForm = (props: ValidatedFormProps) => {
               <input
                 onChange={handleInputChange}
                 name={field.key}
-                value={formData[field.key]}
+                value={formData[field.key] as string}
                 type="tel"
                 placeholder={t(field.label || "")}
                 required={field.required}
@@ -111,7 +119,7 @@ export const ValidatedForm = (props: ValidatedFormProps) => {
               <Dropdown
                 onChange={handleDropdownChange}
                 placeholder={t(field.label || "")}
-                value={formData[field.key]}
+                value={formData[field.key] as string | number}
                 search
                 selection
                 name={field.key}
@@ -119,11 +127,23 @@ export const ValidatedForm = (props: ValidatedFormProps) => {
                 required={field.required}
               />
             )}
+            {field.type === FieldType.MultipleDropdowns &&
+              field.key === "categories_1" && (
+                <MultipleDropdownsToString
+                  name={field.key}
+                  delimiter={field.delimiter!}
+                  value={formData[field.key] as string}
+                  onChange={handleMultipleDropdownChange}
+                  dropdowns={
+                    props.additionalFieldData![field.key] as DropdownData[]
+                  }
+                />
+              )}
             {field.type === FieldType.Textarea && (
               <textarea
                 onChange={handleInputChange}
                 name={field.key}
-                value={formData[field.key]}
+                value={formData[field.key] as string}
                 placeholder={t(field.label || "")}
                 maxLength={field.maxLength}
                 rows={Math.min(10, (field.maxLength || 240) / 30)}

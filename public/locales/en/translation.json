@@ -63,6 +63,7 @@
         "game": "Game",
         "id": "ID",
         "platforms": "Platforms",
+        "actions": "Actions",
         "status": "Status"
       },
       "edit": "Edit"
@@ -154,7 +155,13 @@
       }
     },
     "info": {
-      "title": "Game info"
+      "title": "Game info",
+      "screenshots": "Screenshots",
+      "categories": {
+        "label": "Categories",
+        "game": "Game",
+        "app": "App"
+      }
     }
   },
   "account": {

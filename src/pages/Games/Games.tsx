@@ -68,9 +68,13 @@ export const Games = (props: RouteComponentProps) => {
       </Grid.Row>
       <Grid.Row>
         <TableCard
-          headers={["game", "id", "platforms", "status"]
-            .map((string) => t(`games.table.headers.${string}`))
-            .concat("")}
+          headers={[
+            "game",
+            "id",
+            "platforms",
+            "status",
+            "actions",
+          ].map((string) => t(`games.table.headers.${string}`))}
           rowContents={games.map((appData) =>
             appDataToRow(appData, t("games.table.edit"))
           )}

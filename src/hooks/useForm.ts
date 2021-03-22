@@ -1,5 +1,8 @@
 import { FormEvent, SyntheticEvent, useEffect, useState } from "react";
 import { CheckboxProps, DropdownProps } from "semantic-ui-react";
+import { DropdownData } from "../components/ValidatedForm/MultipleDropdownsToString";
+
+export type FieldValue = string | number | DropdownData[];
 
 export type Validation = {
   key: string;
@@ -19,7 +22,7 @@ export const addError = (
 };
 
 export const validateData = (
-  formData: { [key: string]: string | number },
+  formData: { [key: string]: FieldValue },
   validations: Validation[]
 ) => {
   const errors: { [key: string]: string[] } = {};
@@ -56,10 +59,10 @@ export const validateData = (
 };
 
 export const useForm = (
-  initialFormData: { [key: string]: string | number },
+  initialFormData: { [key: string]: FieldValue },
   validations: Validation[]
 ) => {
-  const [formData, setFormData] = useState<{ [key: string]: string | number }>(
+  const [formData, setFormData] = useState<{ [key: string]: FieldValue }>(
     initialFormData
   );
   const [formErrors, setFormErrors] = useState<{ [key: string]: string[] }>({});
@@ -108,6 +111,13 @@ export const useForm = (
     });
   };
 
+  const handleMultipleDropdownChange = (key: string, value: any) => {
+    setFormData({
+      ...formData,
+      [key]: value,
+    });
+  };
+
   return {
     formData,
     isValid,
@@ -115,6 +125,7 @@ export const useForm = (
     handleCheckBoxChange,
     handleDropdownChange,
     handleInputChange,
+    handleMultipleDropdownChange,
     touchedFields,
     addTouchedField,
   };

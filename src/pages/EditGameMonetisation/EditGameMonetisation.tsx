@@ -136,8 +136,10 @@ export const EditGameMonetisation = (props: RouteComponentProps) => {
 
   if (gameData === null) return <Placeholder />;
 
-  const gameAds = gameData.ads;
-  const gameIAPs = gameData.iap;
+  const gameAds = gameData.ads || [];
+  const gameIAPs = gameData.iap || [];
+
+  console.log(gameData);
 
   return (
     <Grid style={{ marginTop: "1em" }}>
