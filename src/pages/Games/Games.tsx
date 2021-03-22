@@ -17,7 +17,9 @@ const appDataToRow: (appData: AppSummary, edit: string) => Row = (
     cellContents: [
       <Header size="small">
         <Image avatar src={appData.icon} />
-        {appData.name}
+        <Link to={PathHelpers.Analytics(appData.id.toString())}>
+          {appData.name}
+        </Link>
       </Header>,
       appData.id.toString(),
       appData.platforms.map((platformIconUrl, i) => (

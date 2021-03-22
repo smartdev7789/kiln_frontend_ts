@@ -81,6 +81,7 @@ export const PathHelpers = {
   EditGameInfo: createPathHelper(Paths.EditGameInfo),
   EditGameMonetisation: createPathHelper(Paths.EditGameMonetisation),
   EditGameAnalytics: createPathHelper(Paths.EditGameAnalytics),
+  Analytics: (app_id: string) => `${Paths.Analytics}?app_id=${app_id}`,
 };
 
 export const ROUTES: RouteConfig[] = [

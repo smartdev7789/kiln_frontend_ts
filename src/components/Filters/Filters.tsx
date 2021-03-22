@@ -52,8 +52,6 @@ export const Filters = ({
     );
   };
 
-  console.log(filters);
-
   return (
     <Form>
       <Form.Group inline className="compact">
