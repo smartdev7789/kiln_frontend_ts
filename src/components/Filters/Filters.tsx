@@ -80,7 +80,12 @@ export const Filters = (props: FiltersProps) => {
             name="date"
             placeholder={t("filters.date")}
             clearable
-            options={DateOptions}
+            options={DateOptions.map((option) => {
+              return {
+                ...option,
+                text: t(`filters.dateOptions.${option.text}`),
+              };
+            })}
           />
         </Form.Field>
       </Form.Group>
