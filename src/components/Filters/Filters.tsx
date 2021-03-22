@@ -7,40 +7,52 @@ type FiltersProps = {
   platforms: Platform[];
   apps: AppSummary[];
   onChange: (key: "platform" | "date" | "app_id", value: number | null) => void;
+  filters: {
+    platform: string | null;
+    app_id: string | null;
+    date: string | null;
+  };
 };
 
 const DateOptions = [
   {
     text: "yesterday",
-    value: 0,
+    value: "0",
   },
   {
     text: "last7Days",
-    value: 1,
+    value: "1",
   },
   {
     text: "last14Days",
-    value: 2,
+    value: "2",
   },
   {
     text: "last30Days",
-    value: 3,
+    value: "3",
   },
   {
     text: "allTime",
-    value: 4,
+    value: "4",
   },
 ];
 
-export const Filters = (props: FiltersProps) => {
+export const Filters = ({
+  filters,
+  onChange,
+  platforms,
+  apps,
+}: FiltersProps) => {
   const { t } = useTranslation();
 
   const handleChange = (event: any, elementProps: DropdownProps) => {
-    props.onChange(
+    onChange(
       elementProps.name,
       elementProps.value === "" ? null : (elementProps.value as number)
     );
   };
+
+  console.log(filters);
 
   return (
     <Form>
@@ -54,7 +66,8 @@ export const Filters = (props: FiltersProps) => {
             name="platform"
             placeholder={t("filters.platforms")}
             clearable
-            options={props.platforms.map((platform) => ({
+            value={filters.platform || undefined}
+            options={platforms.map((platform) => ({
               key: platform.id,
               text: platform.name,
               value: platform.id,
@@ -67,7 +80,8 @@ export const Filters = (props: FiltersProps) => {
             name="app_id"
             placeholder={t("filters.app_id")}
             clearable
-            options={props.apps.map((app) => ({
+            value={filters.app_id || undefined}
+            options={apps.map((app) => ({
               key: app.id,
               text: app.name,
               value: app.id,
@@ -80,6 +94,7 @@ export const Filters = (props: FiltersProps) => {
             name="date"
             placeholder={t("filters.date")}
             clearable
+            value={filters.date || undefined}
             options={DateOptions.map((option) => {
               return {
                 ...option,

@@ -1,13 +1,13 @@
 {
   "teams": [
     {
-      "id": 1,
+      "id": "1",
       "name": "Gamebake"
     }
   ],
   "users": [
     {
-      "id": 1,
+      "id": "1",
       "name": "Sam Barker",
       "email": "sam@gamebake.io",
       "contact_number": "07403135264",
@@ -18,7 +18,7 @@
   ],
   "platforms": [
     {
-      "id": 1,
+      "id": "1",
       "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Huawei_AppGallery.svg/1200px-Huawei_AppGallery.svg.png",
       "name": "Huawei",
       "market": "Global",
@@ -27,7 +27,7 @@
       "connection_status": 0
     },
     {
-      "id": 2,
+      "id": "2",
       "icon": "https://t1.daumcdn.net/cfile/tistory/2405F2445797118E07",
       "name": "OneStore",
       "market": "SEA",
@@ -38,7 +38,7 @@
   ],
   "appSummaries": [
     {
-      "id": 1,
+      "id": "1",
       "name": "Mr Bean Special Delivery",
       "icon": "https://pbs.twimg.com/profile_images/1068084882788806656/Pyk22lxo.jpg",
       "platforms": [
@@ -47,7 +47,7 @@
       ]
     },
     {
-      "id": 2,
+      "id": "2",
       "name": "Mr Bean Solitaire",
       "icon": "https://img4.apk.tools/img/NSTTjGZhG17_Ik6qt5GZY_-xUhzQVyWd6gYZt8ATxGHD76qZezIcFFX3g5tDWJpybr8=s300",
       "platforms": [
@@ -62,7 +62,7 @@
   ],
   "apps": [
     {
-      "id": 1,
+      "id": "1",
       "name": "Mr Bean Special Delivery",
       "default_language": "en",
       "type": 0,
@@ -153,7 +153,7 @@
       "summary": "mr beansmr beansmr beansmr beans",
       "description": "mr beans\nmr beansmr beans\n\nmr beans",
       "type": 0,
-      "id": 2
+      "id": "2"
     },
     {
       "platforms": [],
@@ -166,12 +166,12 @@
       "summary": "mr beansmr beansmr beansmr beans",
       "description": "mr beans\nmr beansmr beans\n\nmr beans",
       "type": 0,
-      "id": 3
+      "id": "3"
     }
   ],
   "stats": [
     {
-      "id": 1,
+      "id": "1",
       "stats": [
         {
           "label": "DAU",
@@ -197,61 +197,15 @@
       "graphs": [
         {
           "graph_title": "Active Users",
-          "x_axis": [
-            "2/2",
-            "3/2",
-            "4/2",
-            "5/2",
-            "6/2",
-            "7/2",
-            "8/2"
-          ],
-          "y_axis": [
-            "1,000",
-            "2,000",
-            "3,000",
-            "4,000",
-            "5,000",
-            "6,000"
-          ],
-          "values": [
-            4000,
-            3050,
-            4000,
-            4010,
-            4070,
-            5000,
-            4040
-          ]
+          "x_axis": ["2/2", "3/2", "4/2", "5/2", "6/2", "7/2", "8/2"],
+          "y_axis": ["1,000", "2,000", "3,000", "4,000", "5,000", "6,000"],
+          "values": [4000, 3050, 4000, 4010, 4070, 5000, 4040]
         },
         {
           "graph_title": "Revenue",
-          "x_axis": [
-            "2/2",
-            "3/2",
-            "4/2",
-            "5/2",
-            "6/2",
-            "7/2",
-            "8/2"
-          ],
-          "y_axis": [
-            "$100",
-            "$200",
-            "$300",
-            "$400",
-            "$500",
-            "$600"
-          ],
-          "values": [
-            300,
-            350,
-            400,
-            410,
-            470,
-            500,
-            440
-          ]
+          "x_axis": ["2/2", "3/2", "4/2", "5/2", "6/2", "7/2", "8/2"],
+          "y_axis": ["$100", "$200", "$300", "$400", "$500", "$600"],
+          "values": [300, 350, 400, 410, 470, 500, 440]
         }
       ]
     },

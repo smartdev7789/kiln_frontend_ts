@@ -12,6 +12,7 @@ import { GraphCard } from "../../components/Cards/GraphCard";
 import { StatsCard } from "../../components/Cards/StatsCard";
 import { TopStatsCard } from "../../components/Cards/TopStatsCard";
 import { Filters } from "../../components/Filters/Filters";
+import { useQueryParams } from "../../hooks/useQueryParams";
 import "./Analytics.less";
 
 export const Analytics = (props: RouteComponentProps) => {
@@ -26,10 +27,12 @@ export const Analytics = (props: RouteComponentProps) => {
   });
   const { state } = useContext(DispatchContext);
 
+  const { getQueryParam, setQueryParams } = useQueryParams();
+
   const [filters, setFilters] = useState({
-    platform: null,
-    date: null,
-    app_id: null,
+    platform: getQueryParam("platform"),
+    date: getQueryParam("date"),
+    app_id: getQueryParam("app_id"),
   });
 
   const updateFilters = (
@@ -48,6 +51,9 @@ export const Analytics = (props: RouteComponentProps) => {
         setAnalyticsData(data);
       }
     );
+    setQueryParams(filters);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filters]);
 
   useEffect(() => {
@@ -68,6 +74,7 @@ export const Analytics = (props: RouteComponentProps) => {
       </Grid.Row>
       <Grid.Row style={{ paddingBottom: 0 }}>
         <Filters
+          filters={filters}
           onChange={updateFilters}
           platforms={state.platforms || []}
           apps={state.apps || []}
