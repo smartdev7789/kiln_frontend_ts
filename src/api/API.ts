@@ -20,7 +20,11 @@ const validate = async (token: string) => {
   return (await res.json()) as User;
 };
 
-const analytics = async (platform: number, app_id: number, data: number) => {
+const analytics = async (
+  platform: number | null,
+  app_id: number | null,
+  date: number | null
+) => {
   const res = await fetch(`${API_ENDPOINT}/stats/1`);
   return (await res.json()) as Analytics;
 };

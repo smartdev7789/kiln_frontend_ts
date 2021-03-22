@@ -20,5 +20,12 @@ export const reducer: (state: State, action: Action) => State = (
     };
   }
 
+  if (type === ActionType.SetApps) {
+    return {
+      ...state,
+      apps: payload.apps,
+    };
+  }
+
   return { ...state };
 };

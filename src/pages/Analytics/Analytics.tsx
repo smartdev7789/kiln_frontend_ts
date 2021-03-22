@@ -26,10 +26,31 @@ export const Analytics = (props: RouteComponentProps) => {
   });
   const { state } = useContext(DispatchContext);
 
-  useEffect(() => {
-    API.analytics(1, 1, 1).then((data) => {
-      setAnalyticsData(data);
+  const [filters, setFilters] = useState({
+    platform: null,
+    date: null,
+    app_id: null,
+  });
+
+  const updateFilters = (
+    key: "platform" | "date" | "app_id",
+    value: number | null
+  ) => {
+    setFilters({
+      ...filters,
+      [key]: value,
     });
+  };
+
+  useEffect(() => {
+    API.analytics(filters.platform, filters.app_id, filters.date).then(
+      (data) => {
+        setAnalyticsData(data);
+      }
+    );
+  }, [filters]);
+
+  useEffect(() => {
     API.topStats().then((data) => {
       setTopStatsData(data);
     });
@@ -46,7 +67,11 @@ export const Analytics = (props: RouteComponentProps) => {
         <Header size="huge">{t("analytics.title")}</Header>
       </Grid.Row>
       <Grid.Row style={{ paddingBottom: 0 }}>
-        <Filters platforms={state.platforms || []} />
+        <Filters
+          onChange={updateFilters}
+          platforms={state.platforms || []}
+          apps={state.apps || []}
+        />
       </Grid.Row>
       <Grid.Row>
         <Card.Group>

@@ -32,6 +32,14 @@ export const App = (props: RouteComponentProps) => {
         },
       });
     });
+    API.apps().then((apps) => {
+      dispatch({
+        type: ActionType.SetApps,
+        payload: {
+          apps,
+        },
+      });
+    });
   }, []);
 
   useEffect(() => {
