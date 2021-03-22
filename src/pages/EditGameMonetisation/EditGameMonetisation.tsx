@@ -156,7 +156,10 @@ export const EditGameMonetisation = (props: RouteComponentProps) => {
         </Button>
       </Grid.Row>
       <Grid.Row>
-        <GameCreationSteps steps={EditGameMonetisationSteps} />
+        <GameCreationSteps
+          steps={EditGameMonetisationSteps}
+          gameId={gameData.id!}
+        />
       </Grid.Row>
       <Grid.Row>
         <TableCard

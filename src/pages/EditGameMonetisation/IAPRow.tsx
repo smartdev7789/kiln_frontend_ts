@@ -7,9 +7,10 @@ import {
   InputOnChangeData,
   Table,
 } from "semantic-ui-react";
-import { IAP, IAPPriceTierOptions, IAPTypeOptions } from "../../api/DataTypes";
+import { IAP, IAPTypeOptions } from "../../api/DataTypes";
 import { StatusIndicator } from "../../components/StatusIndicator";
 import { IAPTypeText } from "./EditGameMonetisation";
+import { useCurrency } from "../../hooks/useCurrency";
 
 type IAPRowProps = {
   iap: IAP;
@@ -31,6 +32,7 @@ export const IAPRow = ({
   onSave,
 }: IAPRowProps) => {
   const { t } = useTranslation();
+  const currency = useCurrency({ currency: "GBP" });
 
   const deleteIAP = () => {
     onDelete(index);
@@ -79,14 +81,16 @@ export const IAPRow = ({
       </Table.Cell>
       <Table.Cell>
         {editing ? (
-          <Dropdown
+          <Input
             onChange={handleChange}
-            name="type"
+            name="price"
+            type="number"
             value={iap.price}
-            options={IAPPriceTierOptions}
+            min="0"
+            step="0.01"
           />
         ) : (
-          IAPPriceTierOptions.find((option) => option.value === iap.price)!.text
+          currency.format(iap.price)
         )}
       </Table.Cell>
       <Table.Cell>

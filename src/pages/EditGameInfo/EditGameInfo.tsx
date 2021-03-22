@@ -1,9 +1,9 @@
 import codes from "iso-language-codes";
-import { Grid, Header, Placeholder, Segment } from "semantic-ui-react";
+import { Button, Grid, Header, Placeholder, Segment } from "semantic-ui-react";
 import { useTranslation } from "react-i18next";
 import React, { useEffect, useState } from "react";
 import { API } from "../../api/API";
-import { RouteComponentProps } from "react-router-dom";
+import { Link, RouteComponentProps } from "react-router-dom";
 import { PathHelpers } from "../../routes";
 import { AppInfo } from "../../api/DataTypes";
 import {
@@ -139,10 +139,19 @@ export const EditGameInfo = ({
       <Grid.Row style={{ borderBottom: "2px solid #C4C4C4" }}>
         <Header size="huge" style={{ marginBottom: 0 }}>
           {gameData.name} - {t("editGame.info.title")}
-        </Header>
+        </Header>{" "}
+        <Button
+          compact
+          positive
+          style={{ marginBottom: 0, marginLeft: "auto", padding: "0.5em" }}
+          as={Link}
+          to={PathHelpers.EditGameMonetisation({ id: gameData.id })}
+        >
+          {t("editGame.nextStep")}
+        </Button>
       </Grid.Row>
       <Grid.Row>
-        <GameCreationSteps steps={EditGameInfoSteps} />
+        <GameCreationSteps steps={EditGameInfoSteps} gameId={gameData.id!} />
       </Grid.Row>
       <Grid.Row>
         <Segment className="full-width">

@@ -6,7 +6,7 @@ import { API } from "../../api/API";
 import { AppSummary } from "../../api/DataTypes";
 import { Row, TableCard } from "../../components/Cards/TableCard";
 import { StatusIndicator } from "../../components/StatusIndicator";
-import { Paths } from "../../routes";
+import { PathHelpers, Paths } from "../../routes";
 
 const appDataToRow: (appData: AppSummary, edit: string) => Row = (
   appData: AppSummary,
@@ -24,7 +24,9 @@ const appDataToRow: (appData: AppSummary, edit: string) => Row = (
         <Image key={i} avatar src={platformIconUrl} />
       )),
       <StatusIndicator status={1} />,
-      <Button>{edit}</Button>,
+      <Button as={Link} to={PathHelpers.EditGameInfo({ id: appData.id })}>
+        {edit}
+      </Button>,
     ],
   };
 };

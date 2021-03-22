@@ -106,7 +106,10 @@ export const EditGamePlatforms = (props: RouteComponentProps) => {
         </Button>
       </Grid.Row>
       <Grid.Row>
-        <GameCreationSteps steps={EditGamePlatformsSteps} />
+        <GameCreationSteps
+          steps={EditGamePlatformsSteps}
+          gameId={gameData.id!}
+        />
       </Grid.Row>
       <Grid.Row>
         <TableCard

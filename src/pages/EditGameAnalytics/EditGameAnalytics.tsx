@@ -107,7 +107,10 @@ export const EditGameAnalytics = (props: RouteComponentProps) => {
         </Button>
       </Grid.Row>
       <Grid.Row>
-        <GameCreationSteps steps={EditGameAnalyticsSteps} />
+        <GameCreationSteps
+          steps={EditGameAnalyticsSteps}
+          gameId={gameData.id!}
+        />
       </Grid.Row>
       <Grid.Row>
         <TableCard
