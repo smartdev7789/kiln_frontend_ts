@@ -26,6 +26,7 @@ export interface RouteConfig {
   routes?: RouteConfig[];
   hideInMenu?: boolean;
   floatRight?: boolean;
+  external?: boolean;
 }
 
 export const RouteWithSubRoutes = (route: RouteConfig) => (
@@ -115,7 +116,8 @@ export const ROUTES: RouteConfig[] = [
     text: "platforms.title",
   },
   {
-    path: Paths.Documentation,
+    path: "https://gamebake.github.io/kiln-unity/",
+    external: true,
     component: Documentation,
     text: "documentation.title",
   },

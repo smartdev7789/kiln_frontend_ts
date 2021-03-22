@@ -44,7 +44,12 @@ export const Menu = ({ routes, location }: MenuProps) => {
                           <Dropdown.Item
                             as={Link}
                             key={subroute.path}
-                            to={subroute.path}
+                            to={
+                              subroute.external
+                                ? { pathname: subroute.path }
+                                : subroute.path
+                            }
+                            target={subroute.external ? "_blank" : undefined}
                             active={location.pathname === subroute.path}
                           >
                             {t(subroute.text || "")}
@@ -61,7 +66,8 @@ export const Menu = ({ routes, location }: MenuProps) => {
                 as={Link}
                 key={route.path}
                 name={route.path}
-                to={route.path}
+                to={route.external ? { pathname: route.path } : route.path}
+                target={route.external ? "_blank" : undefined}
                 active={location.pathname === route.path}
                 position={route.floatRight ? "right" : undefined}
               >
