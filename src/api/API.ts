@@ -8,7 +8,7 @@ import {
   BasicAppInfo,
 } from "./DataTypes";
 
-const API_ENDPOINT = "http://localhost:3333";
+const API_ENDPOINT = process.env.REACT_APP_API_URI;
 
 const login = async (email: string, password: string) => {
   const res = await fetch(`${API_ENDPOINT}/users/1`);
