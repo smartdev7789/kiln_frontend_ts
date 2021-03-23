@@ -30,7 +30,7 @@
     "web-vitals": "^1.1.1"
   },
   "scripts": {
-    "start": "craco start",
+    "start": "concurrently \"craco start\" \"cd mockAPI && json-server --watch db.json --port=3333\"",
     "build": "craco build",
     "test": "craco test",
     "eject": "craco eject"
@@ -52,5 +52,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "concurrently": "^6.0.0",
+    "json-server": "^0.16.3"
   }
 }
