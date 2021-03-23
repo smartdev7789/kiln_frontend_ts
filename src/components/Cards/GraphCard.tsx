@@ -9,7 +9,6 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { GraphData } from "../../api/DataTypes";
-import { PagePlaceholder } from "../Placeholders/PagePlaceholder";
 
 export type GraphCardProps = {
   data: GraphData[];
