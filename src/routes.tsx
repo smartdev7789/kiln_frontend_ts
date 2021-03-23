@@ -165,9 +165,9 @@ export const ROUTES: RouteConfig[] = [
     floatRight: true,
     routes: [
       {
-        path: Paths.AccountSettings,
+        path: Paths.EditAccountInfo,
         exact: true,
-        component: () => <h1>Account Settings</h1>,
+        component: EditAccountInfo,
         text: "accountSettings.title",
       },
       {
