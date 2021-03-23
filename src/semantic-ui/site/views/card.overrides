@@ -12,6 +12,11 @@
   color: @textColor;
 }
 
+.ui.cards.fixed-margin > .ui.card {
+  margin-left: 1em;
+  margin-right: 1em;
+}
+
 .ui.cards > .ui.card:first-child {
   margin-left: 0;
 }

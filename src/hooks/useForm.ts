@@ -1,8 +1,9 @@
 import { FormEvent, SyntheticEvent, useEffect, useState } from "react";
 import { CheckboxProps, DropdownProps } from "semantic-ui-react";
+import { Asset } from "../api/DataTypes";
 import { DropdownData } from "../components/ValidatedForm/MultipleDropdownsToString";
 
-export type FieldValue = string | number | DropdownData[];
+export type FieldValue = string | number | DropdownData[] | Asset[];
 
 export type Validation = {
   key: string;

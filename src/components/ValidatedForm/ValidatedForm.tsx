@@ -2,12 +2,14 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { Button, Dropdown, Form, Label, Radio } from "semantic-ui-react";
+import { Asset } from "../../api/DataTypes";
 import { FieldValue, useForm, Validation } from "../../hooks/useForm";
+import { MultipleAssetField } from "./MultipleAssetField";
 import {
   DropdownData,
   MultipleDropdownsToString,
 } from "./MultipleDropdownsToString";
-import { MultipleImageField } from "./MultipleImageField";
+import { MultipleFileField } from "./MultipleFileField";
 
 export enum FieldType {
   Text = "text",
@@ -17,6 +19,7 @@ export enum FieldType {
   Textarea = "textarea",
   Radio = "radio",
   MultipleImages = "MultipleImages",
+  MultipleAssets = "MultipleAssets",
   Email = "email",
   PhoneNumber = "phone",
   FileUpload = "file upload",
@@ -190,17 +193,9 @@ export const ValidatedForm = (props: ValidatedFormProps) => {
                   />
                 );
               })}
-            {field.type === FieldType.MultipleImages && (
-              <MultipleImageField
-                images={[
-                  {
-                    type: 1,
-                    width: 500,
-                    height: 500,
-                    url: "https://i.imgur.com/no53exE.jpg",
-                  },
-                ]}
-              />
+            {field.type === FieldType.MultipleImages && "404"}
+            {field.type === FieldType.MultipleAssets && (
+              <MultipleAssetField assets={formData[field.key] as Asset[]} />
             )}
             {formErrors[field.key] && touchedFields.includes(field.key) && (
               <Label content={formErrors[field.key]} pointing="above" prompt />

@@ -9,7 +9,7 @@ export const PagePlaceholder = () => {
       </Dimmer>
       {[0, 1, 2, 3].map((i) => {
         return (
-          <Segment>
+          <Segment key={i}>
             <Placeholder>
               <Placeholder.Header image>
                 <Placeholder.Line />

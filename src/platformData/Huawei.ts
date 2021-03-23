@@ -92,8 +92,8 @@ export const huaweiID = 1;
 export const additionalFormFieldsForHuawei = [
   {
     key: `assets_${huaweiID}`,
-    type: FieldType.MultipleImages,
-    label: "editGame.info.screenshots",
+    type: FieldType.MultipleAssets,
+    label: "editGame.info.assets.label",
   },
   {
     key: `categories_${huaweiID}`,

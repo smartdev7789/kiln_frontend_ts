@@ -159,6 +159,12 @@
       "title": "Game info",
       "screenshots": "Screenshots",
       "age_rating": "Age rating",
+      "assets": {
+        "label": "Assets",
+        "icons": "Icons",
+        "screenshots": "Screenshots",
+        "videos": "Videos"
+      },
       "categories": {
         "label": "Categories",
         "game": "Game",

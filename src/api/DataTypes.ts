@@ -5,8 +5,14 @@ export interface AppSummary {
   platforms: string[];
 }
 
+export enum AssetType {
+  Icon = 0,
+  Screenshot = 1,
+  Video = 2,
+}
+
 export interface Asset {
-  type: number;
+  type: AssetType;
   width: number;
   height: number;
   url: string;
