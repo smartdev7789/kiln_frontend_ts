@@ -74,6 +74,7 @@
     "submit": "Create game",
     "name": "Game name",
     "default_language": "Default language",
+    "privacy_policy": "Privacy policy URL",
     "summary": "Summary",
     "description": "Description",
     "type": {
@@ -157,6 +158,7 @@
     "info": {
       "title": "Game info",
       "screenshots": "Screenshots",
+      "age_rating": "Age rating",
       "categories": {
         "label": "Categories",
         "game": "Game",
@@ -164,6 +166,7 @@
       }
     }
   },
+  "moreInfo": "More info",
   "account": {
     "title": "Account"
   },

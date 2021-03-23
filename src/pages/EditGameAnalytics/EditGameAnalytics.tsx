@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, RouteComponentProps } from "react-router-dom";
-import { Button, Grid, Header, Placeholder, Table } from "semantic-ui-react";
+import { Button, Grid, Header, Table } from "semantic-ui-react";
 import { API } from "../../api/API";
 import { AdType, AppInfo, Event, IAPType } from "../../api/DataTypes";
 import { TableCard } from "../../components/Cards/TableCard";
@@ -10,6 +10,7 @@ import {
   GameCreationSteps,
 } from "../../components/GameCreationSteps";
 import { PathHelpers } from "../../routes";
+import { PagePlaceholder } from "../../components/Placeholders/PagePlaceholder";
 import { EventRow } from "./EventRow";
 
 export const AdTypeText = {
@@ -86,7 +87,7 @@ export const EditGameAnalytics = (props: RouteComponentProps) => {
     }
   }, [gameData, gameData?.name, props.match.params]);
 
-  if (gameData === null) return <Placeholder />;
+  if (gameData === null) return <PagePlaceholder />;
 
   const gameEvents = gameData.events;
 

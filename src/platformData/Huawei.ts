@@ -101,4 +101,15 @@ export const additionalFormFieldsForHuawei = [
     label: "editGame.info.categories.label",
     delimiter: "-",
   },
+  {
+    key: `age_rating_${huaweiID}`,
+    type: FieldType.Dropdown,
+    label: "editGame.info.age_rating",
+    moreInfoLink: "https://developer.huawei.com/consumer/en/doc/50125",
+    options: ["3+", "7+", "12+", "16+", "18+"].map((rating) => ({
+      key: rating,
+      value: rating,
+      text: rating,
+    })),
+  },
 ];

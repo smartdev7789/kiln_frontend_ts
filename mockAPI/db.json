@@ -1,13 +1,13 @@
 {
   "teams": [
     {
-      "id": "1",
+      "id": 1,
       "name": "Gamebake"
     }
   ],
   "users": [
     {
-      "id": "1",
+      "id": 1,
       "name": "Sam Barker",
       "email": "sam@gamebake.io",
       "contact_number": "07403135264",
@@ -18,7 +18,7 @@
   ],
   "platforms": [
     {
-      "id": "1",
+      "id": 1,
       "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Huawei_AppGallery.svg/1200px-Huawei_AppGallery.svg.png",
       "name": "Huawei",
       "market": "Global",
@@ -27,7 +27,7 @@
       "connection_status": 0
     },
     {
-      "id": "2",
+      "id": 2,
       "icon": "https://t1.daumcdn.net/cfile/tistory/2405F2445797118E07",
       "name": "OneStore",
       "market": "SEA",
@@ -38,7 +38,7 @@
   ],
   "appSummaries": [
     {
-      "id": "1",
+      "id": 1,
       "name": "Mr Bean Special Delivery",
       "icon": "https://pbs.twimg.com/profile_images/1068084882788806656/Pyk22lxo.jpg",
       "platforms": [
@@ -47,7 +47,7 @@
       ]
     },
     {
-      "id": "2",
+      "id": 2,
       "name": "Mr Bean Solitaire",
       "icon": "https://img4.apk.tools/img/NSTTjGZhG17_Ik6qt5GZY_-xUhzQVyWd6gYZt8ATxGHD76qZezIcFFX3g5tDWJpybr8=s300",
       "platforms": [
@@ -64,8 +64,9 @@
     {
       "name": "Mr Bean Special Delivery",
       "default_language": "en",
-      "summary": "No delivery job is too far for Bean and his trusty sidekick, Teddy! So buckle up and start your engines, in this awesome official Mr Bean game.",
+      "summary": "No delivery job is too farrrrrrrrrrrrrrrrrrrrrrrrhgnbeoiurbgoieurbgiejhrbgoejrbl",
       "description": "🚙🐻No delivery job is too far for Bean and his trusty sidekick, Teddy! So buckle up and start your engines, in this awesome official Mr Bean game.🐻🚙\n\n      Mr Bean Driving Games\n      🛑Play the OFFICIAL Mr Bean driving game for FREE now and deliver to all his friends & foes.\n      🛑Test your driving skills – get to the finish line as fast as possible WITHOUT dropping any of the precious packages.\n      \n      Customize Mr Bean's famous green Mini\n      🚗 Upgrade his old Green Car with Paints, Wheels, Toppers & Trails. Collect them ALL for special bonuses!\n      ⬆️ Level up your Experience to unlock more upgrades.\n      🚀 Craft power-ups in Mr Bean's Boost-a-matic to give you an edge on each run.\n      \n      Deliver to 4 exciting original AREAS!\n      🏙️ Drive through the steep streets of the CITY.\n      🌳 Climb the high hills of the COUNTRYSIDE.\n      🏔️ Ride the rollercoaster in the MOUNTAINS.\n      🏜️ Melt your tyres in the DESERT\n      \n      Follow us for the latest news\n      Follow us: http://fb.me/mrbeangames\n      \n      ⭐⭐⭐⭐⭐ If you like this app, please give us 5* ✋\n      \n      Free to download and play, but contains 3rd party advertising and some in app items can also be purchased for real money.\n      ",
+      "privacy_policy": "https://en.wikipedia.org/wiki/Privacy_policy",
       "type": 0,
       "platforms": [
         {
@@ -98,7 +99,8 @@
         }
       ],
       "categories_1": "0-3-1",
-      "id": "1",
+      "age_rating_1": "7+",
+      "id": 1,
       "leaderboards": [],
       "iap": [],
       "events": [],
@@ -107,6 +109,8 @@
     {
       "platforms": [],
       "leaderboards": [],
+      "privacy_policy": "https://en.wikipedia.org/wiki/Privacy_policy",
+
       "iap": [
         {
           "type": 0,
@@ -132,11 +136,13 @@
       "summary": "mr beansmr beansmr beansmr beans",
       "description": "mr beans\nmr beansmr beans\n\nmr beans",
       "type": 0,
-      "id": "2"
+      "id": 2
     },
     {
       "platforms": [],
       "leaderboards": [],
+      "privacy_policy": "https://en.wikipedia.org/wiki/Privacy_policy",
+
       "iap": [],
       "events": [],
       "ads": [],
@@ -145,12 +151,12 @@
       "summary": "mr beansmr beansmr beansmr beans",
       "description": "mr beans\nmr beansmr beans\n\nmr beans",
       "type": 0,
-      "id": "3"
+      "id": 3
     }
   ],
   "stats": [
     {
-      "id": "1",
+      "id": 1,
       "stats": [
         {
           "label": "DAU",

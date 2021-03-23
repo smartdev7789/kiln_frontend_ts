@@ -1,14 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, RouteComponentProps } from "react-router-dom";
-import {
-  Button,
-  Checkbox,
-  Grid,
-  Header,
-  Image,
-  Placeholder,
-} from "semantic-ui-react";
+import { Button, Checkbox, Grid, Header, Image } from "semantic-ui-react";
 import { API } from "../../api/API";
 import { AppInfo, Platform } from "../../api/DataTypes";
 import { DispatchContext } from "../../App";
@@ -22,6 +15,7 @@ import {
   StatusDisabled,
 } from "../../components/StatusIndicator";
 import { PathHelpers } from "../../routes";
+import { PagePlaceholder } from "../../components/Placeholders/PagePlaceholder";
 
 const platformDataToRow = (
   platformData: Platform,
@@ -84,7 +78,7 @@ export const EditGamePlatforms = (props: RouteComponentProps) => {
 
   const platforms = state.platforms || [];
 
-  if (gameData === null) return <Placeholder />;
+  if (gameData === null) return <PagePlaceholder />;
 
   const gamePlatforms = gameData.platforms;
   const gamePlatformIds = gameData.platforms.map((platform) => platform.id);

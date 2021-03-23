@@ -28,6 +28,7 @@ export interface AppPlatform {
 
 export interface AppInfo extends BasicAppInfo {
   platforms: AppPlatform[];
+  privacy_policy: string;
   assets_1?: Asset[];
   assets_2?: Asset[];
   categories_1?: string;

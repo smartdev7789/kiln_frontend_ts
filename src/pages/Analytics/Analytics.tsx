@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { RouteComponentProps } from "react-router-dom";
-import { Card, Grid, Header, Placeholder } from "semantic-ui-react";
+import { Card, Grid, Header } from "semantic-ui-react";
 import { API } from "../../api/API";
 import {
   Analytics as AnalyticsData,
@@ -13,14 +13,17 @@ import { StatsCard } from "../../components/Cards/StatsCard";
 import { TopStatsCard } from "../../components/Cards/TopStatsCard";
 import { Filters } from "../../components/Filters/Filters";
 import { useQueryParams } from "../../hooks/useQueryParams";
+import { PagePlaceholder } from "../../components/Placeholders/PagePlaceholder";
 import "./Analytics.less";
+import { GraphCardPlaceholder } from "../../components/Placeholders/GraphCardPlaceholder";
 
 export const Analytics = (props: RouteComponentProps) => {
   const { t } = useTranslation();
 
-  const [analyticsData, setAnalyticsData] = useState<AnalyticsData | null>(
-    null
-  );
+  const [analyticsData, setAnalyticsData] = useState<AnalyticsData>({
+    stats: [],
+    graphs: [],
+  });
   const [topStatsData, setTopStatsData] = useState<TopStatsData>({
     top_games: [],
     top_platforms: [],
@@ -62,7 +65,7 @@ export const Analytics = (props: RouteComponentProps) => {
     });
   }, []);
 
-  if (!analyticsData) return <Placeholder></Placeholder>;
+  if (!analyticsData) return <PagePlaceholder />;
 
   const { stats, graphs } = analyticsData;
   const { top_games, top_platforms } = topStatsData;
@@ -88,7 +91,11 @@ export const Analytics = (props: RouteComponentProps) => {
         </Card.Group>
       </Grid.Row>
       <Grid.Row>
-        <GraphCard data={graphs} />
+        {graphs.length > 0 ? (
+          <GraphCard data={graphs} />
+        ) : (
+          <GraphCardPlaceholder />
+        )}
       </Grid.Row>
       <Grid.Row>
         <Card.Group>

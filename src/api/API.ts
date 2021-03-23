@@ -71,7 +71,7 @@ const createApp = async (appData: BasicAppInfo) => {
 
 const updateApp = async (id: number, appData: AppInfo) => {
   const res = await fetch(`${API_ENDPOINT}/apps/${id}`, {
-    method: "PUT",
+    method: "PATCH",
     headers: {
       "Content-Type": "application/json",
       Accept: "application/json",

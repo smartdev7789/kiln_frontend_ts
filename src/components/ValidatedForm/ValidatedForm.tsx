@@ -1,5 +1,6 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 import { Button, Dropdown, Form, Label, Radio } from "semantic-ui-react";
 import { FieldValue, useForm, Validation } from "../../hooks/useForm";
 import {
@@ -10,7 +11,9 @@ import { MultipleImageField } from "./MultipleImageField";
 
 export enum FieldType {
   Text = "text",
+  URL = "url",
   SearchDropdown = "search dropdown",
+  Dropdown = "dropdown",
   Textarea = "textarea",
   Radio = "radio",
   MultipleImages = "MultipleImages",
@@ -21,10 +24,12 @@ export enum FieldType {
 }
 
 export interface FormField extends Validation {
+  placeholder?: string;
   key: string;
   type: FieldType;
   label?: string;
   delimiter?: string;
+  moreInfoLink?: string;
   options?: { key: string; text: string; value: string | number }[];
 }
 
@@ -75,14 +80,35 @@ export const ValidatedForm = (props: ValidatedFormProps) => {
               !!(formErrors[field.key] && touchedFields.includes(field.key))
             }
           >
-            <label>{t(field.label || "")}</label>
+            <label>
+              {t(field.label || "")}{" "}
+              {field.moreInfoLink && (
+                <Link
+                  to={{ pathname: field.moreInfoLink }}
+                  target="_blank"
+                  style={{ color: "#2185d0" }}
+                >
+                  {t("moreInfo")}
+                </Link>
+              )}
+            </label>
             {field.type === FieldType.Text && (
               <input
                 onChange={handleInputChange}
                 name={field.key}
                 value={formData[field.key] as string}
                 type="text"
-                placeholder={t(field.label || "")}
+                placeholder={field.placeholder || t(field.label || "")}
+                required={field.required}
+              />
+            )}
+            {field.type === FieldType.URL && (
+              <input
+                onChange={handleInputChange}
+                name={field.key}
+                value={formData[field.key] as string}
+                type="url"
+                placeholder={field.placeholder || t(field.label || "")}
                 required={field.required}
               />
             )}
@@ -92,7 +118,7 @@ export const ValidatedForm = (props: ValidatedFormProps) => {
                 name={field.key}
                 value={formData[field.key] as string}
                 type="email"
-                placeholder={t(field.label || "")}
+                placeholder={field.placeholder || t(field.label || "")}
                 required={field.required}
               />
             )}
@@ -102,7 +128,7 @@ export const ValidatedForm = (props: ValidatedFormProps) => {
                 name={field.key}
                 value={formData[field.key] as string}
                 type="tel"
-                placeholder={t(field.label || "")}
+                placeholder={field.placeholder || t(field.label || "")}
                 required={field.required}
               />
             )}
@@ -111,16 +137,17 @@ export const ValidatedForm = (props: ValidatedFormProps) => {
                 onChange={handleInputChange}
                 name={field.key}
                 type="file"
-                placeholder={t(field.label || "")}
+                placeholder={field.placeholder || t(field.label || "")}
                 required={field.required}
               />
             )}
-            {field.type === FieldType.SearchDropdown && (
+            {(field.type === FieldType.SearchDropdown ||
+              field.type === FieldType.Dropdown) && (
               <Dropdown
                 onChange={handleDropdownChange}
-                placeholder={t(field.label || "")}
+                placeholder={field.placeholder || t(field.label || "")}
                 value={formData[field.key] as string | number}
-                search
+                search={field.type === FieldType.SearchDropdown}
                 selection
                 name={field.key}
                 options={field.options}
@@ -144,7 +171,7 @@ export const ValidatedForm = (props: ValidatedFormProps) => {
                 onChange={handleInputChange}
                 name={field.key}
                 value={formData[field.key] as string}
-                placeholder={t(field.label || "")}
+                placeholder={field.placeholder || t(field.label || "")}
                 maxLength={field.maxLength}
                 rows={Math.min(10, (field.maxLength || 240) / 30)}
                 required={field.required}

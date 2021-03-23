@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, RouteComponentProps } from "react-router-dom";
-import { Button, Grid, Header, Placeholder, Table } from "semantic-ui-react";
+import { Button, Grid, Header, Table } from "semantic-ui-react";
 import { API } from "../../api/API";
 import {
   Ad,
@@ -17,6 +17,7 @@ import {
   GameCreationSteps,
 } from "../../components/GameCreationSteps";
 import { PathHelpers } from "../../routes";
+import { PagePlaceholder } from "../../components/Placeholders/PagePlaceholder";
 import { AdRow } from "./AdRow";
 import { IAPRow } from "./IAPRow";
 
@@ -134,12 +135,10 @@ export const EditGameMonetisation = (props: RouteComponentProps) => {
     }
   }, [gameData, gameData?.name, props.match.params]);
 
-  if (gameData === null) return <Placeholder />;
+  if (gameData === null) return <PagePlaceholder />;
 
   const gameAds = gameData.ads || [];
   const gameIAPs = gameData.iap || [];
-
-  console.log(gameData);
 
   return (
     <Grid style={{ marginTop: "1em" }}>

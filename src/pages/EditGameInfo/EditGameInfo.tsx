@@ -1,5 +1,5 @@
 import codes from "iso-language-codes";
-import { Button, Grid, Header, Placeholder, Segment } from "semantic-ui-react";
+import { Button, Grid, Header, Segment } from "semantic-ui-react";
 import { useTranslation } from "react-i18next";
 import React, { useEffect, useState } from "react";
 import { API } from "../../api/API";
@@ -20,6 +20,7 @@ import {
   huaweiCategoryDropdownData,
   huaweiID,
 } from "../../platformData/Huawei";
+import { PagePlaceholder } from "../../components/Placeholders/PagePlaceholder";
 
 export type LangCode = {
   name: string;
@@ -82,6 +83,14 @@ const formFields: FormField[] = [
     ],
     required: true,
   },
+  {
+    key: "privacy_policy",
+    label: "newGame.privacy_policy",
+    placeholder: "https://example.com",
+    type: FieldType.URL,
+    required: true,
+    maxLength: 150,
+  },
 ];
 
 export const EditGameInfo = ({
@@ -114,9 +123,9 @@ export const EditGameInfo = ({
     }
   }, [gameData, gameData?.name, match.params]);
 
-  if (gameData === null) return <Placeholder />;
+  if (gameData === null) return <PagePlaceholder />;
 
-  const allFields = formFields;
+  const allFields = [...formFields];
 
   if (gameData.platforms.find((plat) => plat.id === huaweiID)) {
     additionalFormFieldsForHuawei.forEach((field) => {
