@@ -21,9 +21,9 @@ const validate = async (token: string) => {
 };
 
 const analytics = async (
-  platform: string | null,
-  app_id: string | null,
-  date: string | null
+  platform: number | null,
+  app_id: number | null,
+  date: number | null
 ) => {
   const res = await fetch(`${API_ENDPOINT}/stats/1`);
   return (await res.json()) as Analytics;

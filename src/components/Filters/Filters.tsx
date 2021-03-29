@@ -8,9 +8,9 @@ type FiltersProps = {
   apps: AppSummary[];
   onChange: (key: "platform" | "date" | "app_id", value: number | null) => void;
   filters: {
-    platform: string | null;
-    app_id: string | null;
-    date: string | null;
+    platform: number | null;
+    app_id: number | null;
+    date: number | null;
   };
 };
 

@@ -14,7 +14,6 @@ import { TopStatsCard } from "../../components/Cards/TopStatsCard";
 import { Filters } from "../../components/Filters/Filters";
 import { useQueryParams } from "../../hooks/useQueryParams";
 import { PagePlaceholder } from "../../components/Placeholders/PagePlaceholder";
-import "./Analytics.less";
 import { GraphCardPlaceholder } from "../../components/Placeholders/GraphCardPlaceholder";
 
 export const Analytics = (props: RouteComponentProps) => {
@@ -30,12 +29,12 @@ export const Analytics = (props: RouteComponentProps) => {
   });
   const { state } = useContext(DispatchContext);
 
-  const { getQueryParam, setQueryParams } = useQueryParams();
+  const { getQueryParamNumber, setQueryParams } = useQueryParams();
 
   const [filters, setFilters] = useState({
-    platform: getQueryParam("platform"),
-    date: getQueryParam("date"),
-    app_id: getQueryParam("app_id"),
+    platform: getQueryParamNumber("platform"),
+    date: getQueryParamNumber("date"),
+    app_id: getQueryParamNumber("app_id"),
   });
 
   const updateFilters = (

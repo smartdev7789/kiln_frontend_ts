@@ -8,6 +8,13 @@ export const useQueryParams = () => {
   const query = new URLSearchParams(location.search);
 
   return {
+    getQueryParamNumber: (key: string) => {
+      if (!query.has(key)) return null;
+
+      const queryValue = query.get(key);
+
+      return parseInt(queryValue as string);
+    },
     getQueryParam: (key: string) => {
       if (!query.has(key)) return null;
 
@@ -15,7 +22,7 @@ export const useQueryParams = () => {
 
       return queryValue;
     },
-    setQueryParams: (object: { [key: string]: string | null }) => {
+    setQueryParams: (object: { [key: string]: string | number | null }) => {
       Object.keys(object).forEach((key) => {
         const value = object[key];
         if (value === null) query.delete(key);
