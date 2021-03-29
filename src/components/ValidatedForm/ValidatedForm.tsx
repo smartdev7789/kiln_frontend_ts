@@ -9,7 +9,6 @@ import {
   DropdownData,
   MultipleDropdownsToString,
 } from "./MultipleDropdownsToString";
-import { MultipleFileField } from "./MultipleFileField";
 
 export enum FieldType {
   Text = "text",

@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Segment, Image, Icon, Button, Card, Header } from "semantic-ui-react";
+import { Segment, Header } from "semantic-ui-react";
 import { Asset, AssetType } from "../../api/DataTypes";
 import { MultipleFileField } from "./MultipleFileField";
 

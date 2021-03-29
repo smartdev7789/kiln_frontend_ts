@@ -1,4 +1,4 @@
-import { ChangeEvent, useRef, useState } from "react";
+import { ChangeEvent } from "react";
 import { Segment, Image, Icon, Button, Card } from "semantic-ui-react";
 import { Asset } from "../../api/DataTypes";
 
