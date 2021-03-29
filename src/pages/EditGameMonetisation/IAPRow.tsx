@@ -52,7 +52,7 @@ export const IAPRow = ({
     <Table.Row>
       <Table.Cell>
         {editing ? (
-          <Input onChange={handleChange} name="i" value={iap.name} />
+          <Input onChange={handleChange} name="name" value={iap.name} />
         ) : (
           iap.name
         )}
