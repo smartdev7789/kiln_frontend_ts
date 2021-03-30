@@ -5,6 +5,7 @@ type Currency = "GBP";
 
 type UseCurrencyProps = {
   currency: Currency;
+  compactNotation?: boolean;
 };
 export const useCurrency = (props: UseCurrencyProps) => {
   const { i18n } = useTranslation();
@@ -21,9 +22,10 @@ export const useCurrency = (props: UseCurrencyProps) => {
       new Intl.NumberFormat(i18n.language, {
         style: "currency",
         currency: props.currency,
+        notation: props.compactNotation ? "compact" : undefined,
       })
     );
-  }, [i18n.language, props.currency]);
+  }, [i18n.language, props.currency, props.compactNotation]);
 
   return {
     format: (value: number) => numberFormatter.format(value),

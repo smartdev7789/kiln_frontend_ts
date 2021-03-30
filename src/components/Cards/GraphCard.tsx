@@ -9,6 +9,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { GraphData } from "../../api/DataTypes";
+import { useCurrency } from "../../hooks/useCurrency";
 
 export type GraphCardProps = {
   data: GraphData[];
@@ -41,6 +42,7 @@ const RoundedRect = ({ fill, x, y, width, height }: RoundedRectProps) => {
 
 export const GraphCard = ({ data }: GraphCardProps) => {
   const [currentTab, setCurrentTab] = useState(data[0].graph_title);
+  const { format } = useCurrency({ currency: "GBP", compactNotation: true });
 
   const currentGraphData = data.find(
     (graphData) => graphData.graph_title === currentTab
@@ -52,6 +54,10 @@ export const GraphCard = ({ data }: GraphCardProps) => {
       x_axis: currentGraphData.x_axis[i],
     };
   });
+
+  const formatYAxis = Number.isNaN(parseInt(currentGraphData.y_axis[0])); // parseInt("$100") === NaN, parseInt("1,000") === 1
+
+  const yAxisFormatter = (value: any) => format(value);
 
   return (
     <Segment className="full-width borderless" style={{ height: "35em" }}>
@@ -73,7 +79,6 @@ export const GraphCard = ({ data }: GraphCardProps) => {
 
       <ResponsiveContainer width="100%" height="87%">
         <BarChart width={800} height={400} data={graphDataForLibrary}>
-          {/* <Line type="monotone" dataKey="value" stroke="#8884d8" /> */}
           <defs>
             <linearGradient id="barGradient" x1="0" y1="0" x2="0" y2="1">
               <stop offset="5%" stopColor="#B5B5B5" stopOpacity={1} />
@@ -83,7 +88,7 @@ export const GraphCard = ({ data }: GraphCardProps) => {
           <CartesianGrid vertical={false} />
           <Bar dataKey="value" fill="url(#barGradient)" shape={RoundedRect} />
           <XAxis dataKey="x_axis" />
-          <YAxis />
+          <YAxis tickFormatter={formatYAxis ? yAxisFormatter : undefined} />
         </BarChart>
       </ResponsiveContainer>
     </Segment>
