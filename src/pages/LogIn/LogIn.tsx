@@ -67,8 +67,8 @@ export const LogIn = ({ history }: RouteComponentProps) => {
             />
           </Form.Field>
           <Button.Group widths="2">
-            <Button type="submit" className="">{t("login.login")}</Button>
-            <Button className="" as={Link} to={Paths.ForgotPassword}>
+            <Button type="submit">{t("login.login")}</Button>
+            <Button as={Link} to={Paths.ForgotPassword}>
               {t("login.forgotPassword")}
             </Button>
           </Button.Group>
