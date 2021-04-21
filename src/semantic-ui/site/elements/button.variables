@@ -11,3 +11,5 @@
 @horizontalPadding: 0.5em;
 
 @fontWeight: normal;
+
+@groupButtonBoxShadow: 0 0.2em 0.2em 0em #79797924;
