@@ -3,6 +3,7 @@
     "title": "Log in",
     "header": "Log In",
     "email": "E-mail",
+    "username": "Username",
     "password": "Password",
     "login": "Login",
     "forgotPassword": "Forgot password?"

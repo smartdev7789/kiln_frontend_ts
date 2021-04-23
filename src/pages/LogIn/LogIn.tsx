@@ -12,13 +12,13 @@ import { Authentication } from "../../authentication/Authentication";
 export const LogIn = ({ history }: RouteComponentProps) => {
   const { t } = useTranslation();
   const [waitingForResponse, setWaitingForResponse] = useState(false);
-  const [formData, setFormData] = useState({ email: "", password: "" });
+  const [formData, setFormData] = useState({ username: "", password: "" });
   const { dispatch } = useContext(DispatchContext);
 
   const handleSubmit = async () => {
     setWaitingForResponse(true);
 
-    const user = await API.login(formData.email, formData.password);
+    const user = await API.login(formData.username, formData.password);
 
     dispatch({
       type: ActionType.SetUser,
@@ -48,11 +48,11 @@ export const LogIn = ({ history }: RouteComponentProps) => {
           <Image src={Logo} />
           <Form.Field>
             <input
-              name="email"
-              value={formData.email}
-              type="email"
-              autoComplete="email"
-              placeholder={t("login.email")}
+              name="username"
+              value={formData.username}
+              type="text"
+              autoComplete="username"
+              placeholder={t("login.username")}
               onChange={handleInputChange}
             />
           </Form.Field>
