@@ -34,6 +34,7 @@
     "start": "craco start",
     "mock": "concurrently \"craco start\" \"cd mockAPI && json-server --watch db.json --port=3333\"",
     "build": "craco build",
+    "build-staging": "export REACT_APP_API_URI='https://staging.gamebake.io/v0.01';craco build",
     "test": "craco test",
     "eject": "craco eject"
   },

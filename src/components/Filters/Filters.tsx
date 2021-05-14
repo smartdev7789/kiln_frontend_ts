@@ -43,6 +43,7 @@ export const Filters = ({
   platforms,
   apps,
 }: FiltersProps) => {
+
   const { t } = useTranslation();
 
   const handleChange = (event: any, elementProps: DropdownProps) => {
@@ -52,56 +53,61 @@ export const Filters = ({
     );
   };
 
-  return (
-    <Form>
-      <Form.Group inline className="compact">
-        <Form.Field>
-          <Header size="small">{t("filters.filters")}</Header>
-        </Form.Field>
-        <Form.Field>
-          <Dropdown
-            onChange={handleChange}
-            name="platform"
-            placeholder={t("filters.platforms")}
-            clearable
-            value={filters.platform || undefined}
-            options={platforms.map((platform) => ({
-              key: platform.id,
-              text: platform.name,
-              value: platform.id,
-            }))}
-          />
-        </Form.Field>
-        <Form.Field>
-          <Dropdown
-            onChange={handleChange}
-            name="app_id"
-            placeholder={t("filters.app_id")}
-            clearable
-            value={filters.app_id || undefined}
-            options={apps.map((app) => ({
-              key: app.id,
-              text: app.name,
-              value: app.id,
-            }))}
-          />
-        </Form.Field>
-        <Form.Field>
-          <Dropdown
-            onChange={handleChange}
-            name="date"
-            placeholder={t("filters.date")}
-            clearable
-            value={filters.date || undefined}
-            options={DateOptions.map((option) => {
-              return {
-                ...option,
-                text: t(`filters.dateOptions.${option.text}`),
-              };
-            })}
-          />
-        </Form.Field>
-      </Form.Group>
-    </Form>
-  );
+  if ( platforms.length > 0 || apps.length > 0 ) {
+    return (
+      <Form>
+        <Form.Group inline className="compact">
+          <Form.Field>
+            <Header size="small">{t("filters.filters")}</Header>
+          </Form.Field>
+          <Form.Field>          
+            <Dropdown
+              onChange={handleChange}
+              name="platform"
+              placeholder={t("filters.platforms")}
+              clearable
+              value={filters.platform || undefined}
+              options={platforms.map((platform) => ({
+                key: platform.id,
+                text: platform.name,
+                value: platform.id,
+              }))}
+            />
+          </Form.Field>
+          <Form.Field>
+            <Dropdown
+              onChange={handleChange}
+              name="app_id"
+              placeholder={t("filters.app_id")}
+              clearable
+              value={filters.app_id || undefined}
+              options={apps.map((app) => ({
+                key: app.id,
+                text: app.name,
+                value: app.id,
+              }))}
+            />
+          </Form.Field>
+          <Form.Field>
+            <Dropdown
+              onChange={handleChange}
+              name="date"
+              placeholder={t("filters.date")}
+              clearable
+              value={filters.date || undefined}
+              options={DateOptions.map((option) => {
+                return {
+                  ...option,
+                  text: t(`filters.dateOptions.${option.text}`),
+                };
+              })}
+            />
+          </Form.Field>
+        </Form.Group>
+      </Form>
+    );
+  } else {
+    return <p>{t("analytics.no_data_yet")}</p>;
+  }
+
 };

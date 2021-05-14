@@ -23,26 +23,31 @@ export const App = (props: RouteComponentProps) => {
     initialState
   );
 
-  useEffect(() => {
-    API.platforms().then((platforms) => {
-      dispatch({
-        type: ActionType.SetPlatforms,
-        payload: {
-          platforms,
-        },
-      });
-    });
-    API.apps().then((apps) => {
-      dispatch({
-        type: ActionType.SetApps,
-        payload: {
-          apps,
-        },
-      });
-    });
-  }, []);
+  
+  // Get and set context (platforms, apps and releases).
+  // Only if user is login
+  // useEffect(() => {
+  //   API.platforms().then((platforms) => {
+  //     dispatch({
+  //       type: ActionType.SetPlatforms,
+  //       payload: {
+  //         platforms,
+  //       },
+  //     });
+  //   });
+  //   API.apps().then((apps) => {
+  //     dispatch({
+  //       type: ActionType.SetApps,
+  //       payload: {
+  //         apps,
+  //       },
+  //     });
+  //   });
+  // }, []);
 
+  // Try to redirect user login to Analytics
   useEffect(() => {
+    console.log(location.pathname);
     if (!PublicPaths.includes(location.pathname)) {
       Authentication.validateToken()
         .then((user) => {

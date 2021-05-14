@@ -11,7 +11,7 @@ type GameCreationStep = {
 
 type GameCreationStepsProps = {
   steps: GameCreationStep[];
-  gameId: number;
+  gameId: string;
 };
 
 export const GameCreationStepData = [

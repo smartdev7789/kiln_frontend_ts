@@ -1,58 +1,43 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, RouteComponentProps } from "react-router-dom";
-import { Button, Grid, Header, Icon, Image } from "semantic-ui-react";
+import { Button, Grid, Header, Icon } from "semantic-ui-react";
 import { API } from "../../api/API";
 import { AppSummary } from "../../api/DataTypes";
-import { Row, TableCard } from "../../components/Cards/TableCard";
-import { StatusIndicator } from "../../components/StatusIndicator";
-import { PathHelpers, Paths } from "../../routes";
+import { TableCard } from "../../components/Cards/TableCard";
+import { getToken } from "../../authentication/Authentication";
+import { Paths } from "../../routes";
+// import { Game } from "../../components/Game/Game";
+import { appDataToRow } from "../../components/Game/AppDataToRow"
 
-const appDataToRow: (appData: AppSummary, edit: string) => Row = (
-  appData: AppSummary,
-  edit: string
-) => {
-  return {
-    id: appData.id,
-    cellContents: [
-      <Header size="small">
-        <Image avatar src={appData.icon} />
-        <Link to={PathHelpers.Analytics(appData.id.toString())}>
-          {appData.name}
-        </Link>
-      </Header>,
-      appData.id.toString(),
-      appData.platforms.map((platformIconUrl, i) => (
-        <Image key={i} avatar src={platformIconUrl} />
-      )),
-      <StatusIndicator status={1} />,
-      <Button as={Link} to={PathHelpers.EditGameInfo({ id: appData.id })}>
-        {edit}
-      </Button>,
-    ],
-  };
-};
 
 export const Games = (props: RouteComponentProps) => {
   const { t } = useTranslation();
 
-  const [games, setGames] = useState<AppSummary[]>([]);
+  const [games, setGames] = useState<AppSummary[] | null >([]);
+  const [totalGames, setTotalGames] = useState<number>(0);
+  const token = getToken();
 
   useEffect(() => {
-    API.games().then((data) => {
-      setGames(data);
-    });
-  }, []);
+    API.apps(token).then(
+      (data) => {
+        setTotalGames(data._meta.total)
+        setGames(data._items);
+      }
+    );
+  }, [token]);
+
+  const tableHeaders = [ "game", "platforms", "type", "default_language", "status", "actions" ];
 
   return (
     <Grid style={{ marginTop: "1em" }}>
       <Grid.Row style={{ borderBottom: "2px solid #C4C4C4" }}>
+        
         <Header size="huge" style={{ marginBottom: 0 }}>
-          {t("games.title")}
-          <span style={{ paddingLeft: "0.6em", fontSize: "0.6em" }}>
-            ({games.length})
-          </span>
+            {t("games.title")}
+            <span style={{ paddingLeft: "0.6em", fontSize: "0.6em" }}>({totalGames})</span>
         </Header>
+        
         <Button
           compact
           positive
@@ -65,21 +50,22 @@ export const Games = (props: RouteComponentProps) => {
           <Icon name="plus" />
           {t("games.addGame")}
         </Button>
+      
       </Grid.Row>
+      
       <Grid.Row>
-        <TableCard
-          headers={[
-            "game",
-            "id",
-            "platforms",
-            "status",
-            "actions",
-          ].map((string) => t(`games.table.headers.${string}`))}
-          rowContents={games.map((appData) =>
-            appDataToRow(appData, t("games.table.edit"))
-          )}
-        />
+        {
+          Array.isArray(games) ?
+            <TableCard
+              headers = { tableHeaders.map( (string) => t( `games.table.headers.${string}` ) ) }
+              rowContents={ games.map( 
+                ( appData ) => appDataToRow( appData, t("games.table.edit" ) ) ) 
+              }
+            />
+          : null
+        }
       </Grid.Row>
+
     </Grid>
   );
 };

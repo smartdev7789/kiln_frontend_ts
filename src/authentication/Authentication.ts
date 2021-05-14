@@ -1,10 +1,15 @@
 import { API } from "../api/API";
-import { User } from "../api/DataTypes";
+// import { User } from "../api/DataTypes";
 
 const StorageString = "gamebake-token";
 
 export const getToken = () => {
-  return localStorage.getItem(StorageString);
+  const token: string | null = localStorage.getItem(StorageString);
+  if ( token === "undefined" ) {
+    return null
+  } else {
+    return token;
+  }
 };
 
 export const storeToken = (token: string) => {
@@ -15,14 +20,13 @@ export const clearToken = () => {
   localStorage.removeItem(StorageString);
 };
 
-export const handleSuccessfulLogin = (response: User) => {
-  storeToken(response.id.toString());
+export const handleSuccessfulLogin = (token: string) => {
+  storeToken(token);
 };
 
 export const validateToken = () => {
   const token = getToken();
-
-  if (typeof token === "string") return API.validate(token);
+  if (typeof token === "string") return API.securityCheck(token);
   else return Promise.reject();
 };
 
@@ -33,5 +37,6 @@ export const logOut = () => {
 export const Authentication = {
   handleSuccessfulLogin,
   validateToken,
+  clearToken,
   logOut,
 };

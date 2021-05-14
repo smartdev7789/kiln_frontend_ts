@@ -21,6 +21,7 @@ import {
   huaweiID,
 } from "../../platformData/Huawei";
 import { PagePlaceholder } from "../../components/Placeholders/PagePlaceholder";
+import { getToken } from "../../authentication/Authentication";
 
 export type LangCode = {
   name: string;
@@ -100,34 +101,40 @@ export const EditGameInfo = ({
 }: RouteComponentProps) => {
   const { t } = useTranslation();
   const [waitingForResponse, setWaitingForResponse] = useState(false);
-
   const [gameData, setGameData] = useState<AppInfo | null>(
     location.state ? ((location.state as any).app as AppInfo) : null
   );
-
+    
   const handleSubmit = async (formData: object) => {
-    setWaitingForResponse(true);
-
-    const app = await API.updateApp(gameData!.id!, formData as AppInfo);
-
-    setWaitingForResponse(false);
-
-    history.push(PathHelpers.EditGameMonetisation({ id: app.id }), { app });
+    setWaitingForResponse(true);     
+    // const app = await API.updateApp(gameData!.id!, formData as AppInfo);    
+    setWaitingForResponse(false);      
+    // history.push(PathHelpers.EditGameMonetisation({ id: app.id }), { app });
   };
+  
+  
+  // const token = async () => {
+    //   return await getToken();
+    // }
+  
+  const token = ''
+  // const token = await getToken();
 
-  useEffect(() => {
-    if (!gameData || !gameData.name) {
-      API.app((match.params as { id: string }).id).then((app) => {
-        setGameData(app);
+  useEffect( () => {
+      API.app(token, ( match.params as { id: string }).id ).then( (app) => {
+        console.log(app)
+        // TODO
+        // setGameData(app);
       });
-    }
-  }, [gameData, gameData?.name, match.params]);
+  }, [token, match.params]);
+
+  // [gameData, gameData?.name, match.params]);
 
   if (gameData === null) return <PagePlaceholder />;
 
   const allFields = [...formFields];
 
-  if (gameData.platforms.find((plat) => plat.id === huaweiID)) {
+  if (gameData.platforms_info.find((plat) => plat.id === huaweiID)) {
     additionalFormFieldsForHuawei.forEach((field) => {
       allFields.push({ ...field });
     });

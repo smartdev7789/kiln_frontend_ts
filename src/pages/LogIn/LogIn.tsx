@@ -16,21 +16,36 @@ export const LogIn = ({ history }: RouteComponentProps) => {
   const { dispatch } = useContext(DispatchContext);
 
   const handleSubmit = async () => {
+    // Put spinner loading
     setWaitingForResponse(true);
 
-    const user = await API.login(formData.username, formData.password);
+    // Get login data { token, account }
+    const { token, account } = await API.login(formData.username, formData.password);   
+  
+    // Set context account.
+    if ( account ) {
+      dispatch({
+        type: ActionType.SetAccount,
+        payload: {
+          account,
+        },
+      });
+    }
 
-    dispatch({
-      type: ActionType.SetUser,
-      payload: {
-        user,
-      },
-    });
+    // Save token in localstorare
+    if ( token ) {
+      Authentication.handleSuccessfulLogin(token);
+    } else {
+      Authentication.clearToken();
+    }
 
-    Authentication.handleSuccessfulLogin(user);
-
+    // Remove spinner loading
     setWaitingForResponse(false);
-
+    
+    // Go to Analytics.
+    // if ( Authentication.validateToken() ) {
+    //   history.push(Paths.Analytics);
+    // }
     history.push(Paths.Analytics);
   };
 

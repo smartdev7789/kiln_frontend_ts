@@ -1,16 +1,19 @@
+import React, { useState } from "react"; //, useContext
 import codes from "iso-language-codes";
 import { Grid, Header, Segment } from "semantic-ui-react";
 import { useTranslation } from "react-i18next";
-import React, { useState } from "react";
 import { API } from "../../api/API";
 import { RouteComponentProps } from "react-router-dom";
-import { PathHelpers } from "../../routes";
-import { BasicAppInfo } from "../../api/DataTypes";
+import { PathHelpers, Paths } from "../../routes";
+import { BasicAppInfo, APIResponse } from "../../api/DataTypes";
 import {
   FormField,
   FieldType,
   ValidatedForm,
 } from "../../components/ValidatedForm/ValidatedForm";
+import { getToken } from "../../authentication/Authentication";
+// import { DispatchContext } from "../../App";
+// import { collapseTextChangeRangesAcrossMultipleVersions } from "typescript";
 
 export type LangCode = {
   name: string;
@@ -77,16 +80,33 @@ const formFields: FormField[] = [
 
 export const NewGame = ({ history }: RouteComponentProps) => {
   const { t } = useTranslation();
-  const [waitingForResponse, setWaitingForResponse] = useState(false);
+  const [ waitingForResponse, setWaitingForResponse ] = useState(false);
+  const [ error, setError ] = useState(false);
+
+  // const { dispatch } = useContext(DispatchContext);
 
   const handleSubmit = async (formData: object) => {
+    
+    // Put spinner
     setWaitingForResponse(true);
-
-    const app = await API.createApp(formData as BasicAppInfo);
-
+    
+    const token = await getToken();
+    const response:APIResponse = await API.createApp(token, formData as BasicAppInfo);
+    
+    // remove spinner
     setWaitingForResponse(false);
 
-    history.push(PathHelpers.EditGamePlatforms({ id: app.id }), { app });
+    if ( response._status === "OK" ) {
+      console.log(response);
+      // history.push(PathHelpers.EditGamePlatforms({ id: response.id }), { "app" });
+      // > http://localhost:3000/games/54084578-1b04-4945-8057-8bc2c208461f/edit/platforms
+      // history.push( PathHelpers.EditGamePlatforms( { id: response.id } ) );
+      history.push(Paths.Games)
+    } else {
+      console.log(response._error);
+      setError(true);
+    }
+
   };
 
   return (

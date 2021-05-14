@@ -1,4 +1,5 @@
 import {
+  Login,
   Analytics,
   TopStats,
   User,
@@ -6,47 +7,182 @@ import {
   AppSummary,
   AppInfo,
   BasicAppInfo,
+  APIResponse,
 } from "./DataTypes";
 
+// Endpoint URL.
 const API_ENDPOINT = process.env.REACT_APP_API_URI;
 
-const login = async (email: string, password: string) => {
-  const res = await fetch(`${API_ENDPOINT}/users/1`);
-  return (await res.json()) as User;
+const makeHead = (method:string, token:string) => {
+  const bearer = 'Bearer ' + token;
+  const requestInit = { 
+    method: method,
+    mode: 'cors',
+    headers: { 
+      'Content-Type': 'application/json', 
+      'Authorization': bearer,
+    },
+  }
+  console.log(requestInit);
+  return requestInit
+}
+
+// Login.
+const login = async (username: string, password: string) => {
+  const postData = { username, password };
+  const url = `${API_ENDPOINT}/login`;
+  const res = await fetch( 
+    url, 
+    { 
+      method: 'POST', 
+      mode: 'cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(postData)  
+    }
+  );
+
+  if (res.status === 200 ) {
+    return (await res.json()) as Login;
+  } else {
+    return ( { "token": null, "account": null } ) as Login;
+  }
 };
 
-const validate = async (token: string) => {
-  const res = await fetch(`${API_ENDPOINT}/users/${token}`);
-  return (await res.json()) as User;
+// Security Check.
+const securityCheck = async (token: string) => {
+  const url = `${API_ENDPOINT}/security_check`;
+  const bearer = 'Bearer ' + token;
+  const res = await fetch( url, 
+    { 
+      method: 'GET',
+      headers: { 
+        'Content-Type': 'application/json', 
+        'Authorization': bearer,
+      },
+    }
+  );
+  
+  if (res.status === 200 ) {
+    // { "response": "success" }
+    return (await res.json());
+  } else {
+    return ( { "response": "fail" } );
+  }
 };
 
+// Validate -> securityCheck
+// const validate = async (token: string) => {
+//   const res = await fetch(`${API_ENDPOINT}/users/${token}`);
+//   return (await res.json()) as User;
+// };
+
+// TODO
 const analytics = async (
   platform: number | null,
   app_id: number | null,
-  date: number | null
+  date: number | null,
+  token: string | null
 ) => {
-  const res = await fetch(`${API_ENDPOINT}/stats/1`);
-  return (await res.json()) as Analytics;
+  
+
+  const url = `${API_ENDPOINT}/stats/`;
+  // const res = await fetch( url, makeHead('GET', token) );
+
+  if ( token ) {
+    const bearer = 'Bearer ' + token;
+    const res = await fetch( url, 
+      { 
+        method: 'GET',
+        mode: 'cors',
+        headers: { 
+          'Content-Type': 'application/json', 
+          'Authorization': bearer,
+        },
+      }
+    );
+    if (res.status === 200 ) {
+      return (await res.json()) as Analytics;
+    } else {
+      return ( { graphs: [], stats: [] } );
+    }
+  } else {
+    return ( { graphs: [], stats: [] } );
+  }
 };
 
-const topStats = async () => {
-  const res = await fetch(`${API_ENDPOINT}/stats/top`);
-  return (await res.json()) as TopStats;
+const topStats = async (token: string | null) => {
+  // const res = await fetch(`${API_ENDPOINT}/stats/top`);  
+  const url = `${API_ENDPOINT}/stats/top`;
+  
+  if ( token ) {
+    const bearer = 'Bearer ' + token;
+    const res = await fetch( url, 
+      { 
+        method: 'GET',
+        mode: 'cors',
+        headers: { 
+          'Content-Type': 'application/json', 
+          'Authorization': bearer,
+        },
+      }
+    );
+    if (res.status === 200 ) {
+      return ( await res.json() ) as TopStats;
+    } else {
+      return ( { top_games: [], top_platforms: [] } );
+    }
+  } else {
+    return ( { top_games: [], top_platforms: [] } );
+  }
 };
 
+// Get Platforms.
 const platforms = async () => {
   const res = await fetch(`${API_ENDPOINT}/platforms`);
   return (await res.json()) as Platform[];
 };
 
-const apps = async () => {
-  const res = await fetch(`${API_ENDPOINT}/appSummaries`);
-  return (await res.json()) as AppSummary[];
+// Get all Apps (of user login?).
+const apps = async (token: string | null) => {
+ 
+  if ( token ) {
+    const url = `${API_ENDPOINT}/apps`;
+    const bearer = 'Bearer ' + token;
+    const res = await fetch( url, 
+      { 
+        method: 'GET',
+        headers: { 
+          'Content-Type': 'application/json', 
+          'Authorization': bearer,
+        },
+      }
+    );
+    if (res.status === 200 ) {
+      return (await res.json());
+    } else {
+      return {'_items':[]};
+    }
+  } else {
+    return {'_items':[]};
+  }
+  
 };
 
-const app = async (id: string) => {
-  const res = await fetch(`${API_ENDPOINT}/apps/${id}`);
-  return (await res.json()) as AppInfo;
+// Get App.
+const app = async (token: string | null, id: string) => {
+  if ( token ) {
+    const url = `${API_ENDPOINT}/apps/${id}`
+    const bearer = 'Bearer ' + token;
+    const res = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json', 
+        'Authorization': bearer,
+      },
+    });
+    return (await res.json()) as AppInfo;
+  }
+
 };
 
 const additionalAppInfo = {
@@ -57,19 +193,41 @@ const additionalAppInfo = {
   ads: [],
 };
 
-const createApp = async (appData: BasicAppInfo) => {
-  const res = await fetch(`${API_ENDPOINT}/apps`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    },
-    body: JSON.stringify({ ...additionalAppInfo, ...appData }),
-  });
-  return (await res.json()) as AppInfo;
+// Create App
+const createApp = async (token: string | null, appData: BasicAppInfo) => {
+  if ( token ) {
+    const url = `${API_ENDPOINT}/apps`;
+    const bearer = 'Bearer ' + token;
+    const res = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        'Authorization': bearer,
+        Accept: "application/json",
+      },
+      body: JSON.stringify({ ...appData }),
+    });
+    if (res.status === 200 ) {
+      return ( await res.json() ) as APIResponse;
+    } else {
+      return ( await res.json() ) as APIResponse;
+    }
+    
+  } else {
+    let noToken = {
+      "_status" : "ERR",
+      "_error": {
+        "message": "No token"
+      }
+    }
+    return noToken as APIResponse;
+  }
+
 };
 
-const updateApp = async (id: number, appData: AppInfo) => {
+
+// Update App
+const updateApp = async (id: string, appData: AppInfo) => {
   const res = await fetch(`${API_ENDPOINT}/apps/${id}`, {
     method: "PATCH",
     headers: {
@@ -110,7 +268,8 @@ const updateAccountInfo = async (accountData: User) => {
 
 export const API = {
   login,
-  validate,
+  securityCheck,
+  // validate, -> securityCheck
   analytics,
   topStats,
   platforms,

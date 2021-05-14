@@ -81,8 +81,11 @@ export const EditGameAnalytics = (props: RouteComponentProps) => {
 
   useEffect(() => {
     if (!gameData || !gameData.name) {
-      API.app((props.match.params as { id: string }).id).then((app) => {
-        setGameData(app);
+      // TODO - getToken
+      API.app('', (props.match.params as { id: string }).id).then((app) => {
+        console.log(app);
+        // TODO
+        // setGameData(app);
       });
     }
   }, [gameData, gameData?.name, props.match.params]);
