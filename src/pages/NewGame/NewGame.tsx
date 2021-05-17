@@ -97,13 +97,12 @@ export const NewGame = ({ history }: RouteComponentProps) => {
     setWaitingForResponse(false);
 
     if ( response._status === "OK" ) {
-      console.log(response);
+      // console.log(response);
       // history.push(PathHelpers.EditGamePlatforms({ id: response.id }), { "app" });
       // > http://localhost:3000/games/54084578-1b04-4945-8057-8bc2c208461f/edit/platforms
-      // history.push( PathHelpers.EditGamePlatforms( { id: response.id } ) );
-      history.push(Paths.Games)
+      history.push( PathHelpers.EditGamePlatforms( { id: response.id } ) );
     } else {
-      console.log(response._error);
+      // console.log(response._error);
       setError(true);
     }
 

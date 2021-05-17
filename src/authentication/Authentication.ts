@@ -1,7 +1,8 @@
 import { API } from "../api/API";
-// import { User } from "../api/DataTypes";
+import { Account } from "../api/DataTypes";
 
 const StorageString = "gamebake-token";
+const StoreAccount = "kiln-account";
 
 export const getToken = () => {
   const token: string | null = localStorage.getItem(StorageString);
@@ -16,12 +17,17 @@ export const storeToken = (token: string) => {
   localStorage.setItem(StorageString, token);
 };
 
+const storeAccount = (account: Account | null) => {
+  localStorage.setItem(StoreAccount, JSON.stringify(account));
+};
+
 export const clearToken = () => {
   localStorage.removeItem(StorageString);
 };
 
-export const handleSuccessfulLogin = (token: string) => {
+export const handleSuccessfulLogin = (token: string, account: Account | null) => {
   storeToken(token);
+  storeAccount(account);
 };
 
 export const validateToken = () => {

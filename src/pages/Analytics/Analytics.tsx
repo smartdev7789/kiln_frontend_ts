@@ -51,7 +51,7 @@ export const Analytics = (props: RouteComponentProps) => {
   // Filter onChange.
   const updateFilters = (
     key: "platform" | "date" | "app_id",
-    value: number | null
+    value: string | number | null
   ) => {
     setFilters({
       ...filters,
@@ -61,9 +61,15 @@ export const Analytics = (props: RouteComponentProps) => {
 
   // Get analytics data when filters change.
   useEffect(() => {
-    API.analytics(filters.platform, filters.app_id, filters.date, token).then(
+    
+    API.analytics(
+      filters.platform, 
+      filters.app_id, 
+      filters.date, 
+      token).then(
       (data) => { setAnalyticsData(data); }
     );
+
     setQueryParams(filters);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -98,7 +104,7 @@ export const Analytics = (props: RouteComponentProps) => {
         />
       </Grid.Row>
       
-      {/*  */}
+      {/* Stats */}
       <Grid.Row>
         <Card.Group>
           { stats.map((item, i) => { return <StatsCard key={i} {...item} />; })  }

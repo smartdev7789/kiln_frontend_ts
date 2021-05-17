@@ -50,33 +50,33 @@ export const EditGameMonetisation = (props: RouteComponentProps) => {
   const handleAdChange = (newAd: Ad, index: number) => {
     if (gameData === null) return;
 
-    setGameData({
-      ...gameData,
-      ads: gameData.ads.map((ad, i) => (i === index ? newAd : ad)),
-    });
+    // setGameData({
+    //   ...gameData,
+    //   ads: gameData.ads.map((ad, i) => (i === index ? newAd : ad)),
+    // });
   };
 
   const deleteAd = (index: number) => {
     if (gameData === null) return;
 
-    setGameData({
-      ...gameData,
-      ads: gameData.ads.filter((a, i) => i !== index),
-    });
+    // setGameData({
+    //   ...gameData,
+    //   ads: gameData.ads.filter((a, i) => i !== index),
+    // });
   };
 
   const addNewAd = () => {
     if (gameData === null) return;
 
-    setGameData({
-      ...gameData,
-      ads: [
-        ...gameData.ads,
-        { type: AdType.Banner, kiln_id: "NEW_AD", status: AdStatus.Draft },
-      ],
-    });
+    // setGameData({
+    //   ...gameData,
+    //   ads: [
+    //     ...gameData.ads,
+    //     { type: AdType.Banner, kiln_id: "NEW_AD", status: AdStatus.Draft },
+    //   ],
+    // });
 
-    enablAdEditing(gameData.ads.length);
+    // enablAdEditing(gameData.ads.length);
   };
 
   const saveAd = (index: number) => {
@@ -90,33 +90,33 @@ export const EditGameMonetisation = (props: RouteComponentProps) => {
   const handleIAPChange = (newIAP: IAP, index: number) => {
     if (gameData === null) return;
 
-    setGameData({
-      ...gameData,
-      iaps: gameData.iaps.map((iap, i) => (i === index ? newIAP : iap)),
-    });
+    // setGameData({
+    //   ...gameData,
+    //   iaps: gameData.iaps.map((iap, i) => (i === index ? newIAP : iap)),
+    // });
   };
 
   const deleteIAP = (index: number) => {
     if (gameData === null) return;
 
-    setGameData({
-      ...gameData,
-      iaps: gameData.iaps.filter((a, i) => i !== index),
-    });
+    // setGameData({
+    //   ...gameData,
+    //   iaps: gameData.iaps.filter((a, i) => i !== index),
+    // });
   };
 
   const addNewIAP = () => {
     if (gameData === null) return;
 
-    setGameData({
-      ...gameData,
-      iaps: [
-        ...gameData.iaps,
-        { type: 0, kiln_id: "NEW_IAP", price: 1, name: "New item" },
-      ],
-    });
+    // setGameData({
+    //   ...gameData,
+    //   iaps: [
+    //     ...gameData.iaps,
+    //     { type: 0, kiln_id: "NEW_IAP", price: 1, name: "New item" },
+    //   ],
+    // });
 
-    enablIAPEditing(gameData.iaps.length);
+    // enablIAPEditing(gameData.iaps.length);
   };
 
   const saveIAP = (index: number) => {

@@ -70,11 +70,28 @@ const securityCheck = async (token: string) => {
   }
 };
 
-// Validate -> securityCheck
-// const validate = async (token: string) => {
-//   const res = await fetch(`${API_ENDPOINT}/users/${token}`);
-//   return (await res.json()) as User;
-// };
+// Security Check.
+const account = async (token: string, accouut_ID: string) => {
+  const url = `${API_ENDPOINT}/accounts/${accouut_ID}`;
+  const bearer = 'Bearer ' + token;
+  const res = await fetch( url, 
+    { 
+      method: 'GET',
+      headers: { 
+        'Content-Type': 'application/json', 
+        'Authorization': bearer,
+      },
+    }
+  );
+  
+  if (res.status === 200 ) {
+    // { "response": "success" }
+    return (await res.json());
+  } else {
+    return ( { "response": "fail" } );
+  }
+};
+
 
 // TODO
 const analytics = async (
@@ -136,10 +153,29 @@ const topStats = async (token: string | null) => {
   }
 };
 
-// Get Platforms.
-const platforms = async () => {
-  const res = await fetch(`${API_ENDPOINT}/platforms`);
-  return (await res.json()) as Platform[];
+// Get all Platforms.
+const platforms = async ( token: string | null ) => {
+  if ( token ) {
+    const url = `${API_ENDPOINT}/platforms/`
+    const bearer = 'Bearer ' + token;
+    const res = await fetch( url, 
+        { 
+          method: 'GET',
+          headers: { 
+            'Content-Type': 'application/json', 
+            'Authorization': bearer,
+          },
+        }
+      );
+      
+    if (res.status === 200 ) {
+      return ( await res.json() );
+    } else {
+      return {'_items':[]};
+    }
+  } else {
+    return {'_items':[]};
+  }
 };
 
 // Get all Apps (of user login?).
@@ -167,6 +203,8 @@ const apps = async (token: string | null) => {
   }
   
 };
+
+
 
 // Get App.
 const app = async (token: string | null, id: string) => {
@@ -266,8 +304,10 @@ const updateAccountInfo = async (accountData: User) => {
   return await res.json();
 };
 
+
 export const API = {
   login,
+  account,
   securityCheck,
   // validate, -> securityCheck
   analytics,

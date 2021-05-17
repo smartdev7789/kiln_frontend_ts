@@ -50,23 +50,23 @@ export const EditGameAnalytics = (props: RouteComponentProps) => {
   const handleEventChange = (newEvent: Event, index: number) => {
     if (gameData === null) return;
 
-    setEvents(
-      gameData.events.map((event, i) => (i === index ? newEvent : event))
-    );
+    // setEvents(
+    //   gameData.events.map((event, i) => (i === index ? newEvent : event))
+    // );
   };
 
   const deleteEvent = (index: number) => {
     if (gameData === null) return;
 
-    setEvents(gameData.events.filter((e, i) => i !== index));
+    // setEvents(gameData.events.filter((e, i) => i !== index));
   };
 
   const addNewEvent = () => {
     if (gameData === null) return;
 
-    setEvents([...gameData.events, { kiln_id: "NEW_EVENT" }]);
+    // setEvents([...gameData.events, { kiln_id: "NEW_EVENT" }]);
 
-    enablEventEditing(gameData.events.length);
+    // enablEventEditing(gameData.events.length);
   };
 
   const saveEvent = (index: number) => {
@@ -122,7 +122,7 @@ export const EditGameAnalytics = (props: RouteComponentProps) => {
             t(`editGame.analytics.eventTable.headers.${string}`)
           )}
         >
-          {gameEvents.map((eventData, i) => (
+          {/* {gameEvents.map((eventData, i) => (
             <EventRow
               key={i}
               index={i}
@@ -133,7 +133,7 @@ export const EditGameAnalytics = (props: RouteComponentProps) => {
               enableEditing={enablEventEditing}
               onSave={saveEvent}
             />
-          ))}
+          ))} */}
           <Table.Row>
             <Table.Cell></Table.Cell>
             <Table.Cell>

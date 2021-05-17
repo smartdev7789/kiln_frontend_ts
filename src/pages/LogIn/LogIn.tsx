@@ -34,7 +34,7 @@ export const LogIn = ({ history }: RouteComponentProps) => {
 
     // Save token in localstorare
     if ( token ) {
-      Authentication.handleSuccessfulLogin(token);
+      Authentication.handleSuccessfulLogin(token, account);
     } else {
       Authentication.clearToken();
     }

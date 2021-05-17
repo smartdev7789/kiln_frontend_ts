@@ -114,8 +114,8 @@ export const EditGameInfo = ({
   
   
   // const token = async () => {
-    //   return await getToken();
-    // }
+  //   return await getToken();
+  // }
   
   const token = ''
   // const token = await getToken();
@@ -134,11 +134,11 @@ export const EditGameInfo = ({
 
   const allFields = [...formFields];
 
-  if (gameData.platforms_info.find((plat) => plat.id === huaweiID)) {
-    additionalFormFieldsForHuawei.forEach((field) => {
-      allFields.push({ ...field });
-    });
-  }
+  // if (gameData.platforms_info.find((plat) => plat.id === huaweiID)) {
+  //   additionalFormFieldsForHuawei.forEach((field) => {
+  //     allFields.push({ ...field });
+  //   });
+  // }
 
   const initialFormData = allFields.reduce(
     (data: { [key: string]: any }, field) => {

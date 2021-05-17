@@ -1,5 +1,7 @@
 // API Response
 
+import { Platforms } from "../pages/Platforms/Platforms";
+
 interface APIError {
   code: number; 
   message: string;
@@ -16,6 +18,7 @@ export interface APIResponse {
   _error: APIError | null;
   // OK
   id: string | null;
+  _items: Platform[] | Account[] | AppInfo[] | null;
 }
 
 // APP
@@ -53,8 +56,8 @@ export interface BasicAppInfo {
   type: 0 | 1;
   name: string;
   default_language: string;
-  summary: string;
-  description: string;
+  summary: string | null;
+  description: string | null;
 }
 
 export interface AppPlatform {
@@ -64,19 +67,19 @@ export interface AppPlatform {
 
 export interface AppInfo extends BasicAppInfo {
   team: string;
-  releases: any[];
-  platforms_info: AppPlatform[];
-  privacy_policy: string;
-  assets_1?: Asset[];
-  assets_2?: Asset[];
-  categories_1?: string;
-  categories_2?: string;
-  leaderboards: any[];
-  iaps: IAP[];
-  events: Event[];
-  ads: Ad[];
-  stats: any[];
-  graphs: any[];
+  releases: any[] | null;
+  platforms_info: AppPlatform[] | null;
+  privacy_policy: string | null;
+  assets_1?: Asset[] | null;
+  assets_2?: Asset[] | null;
+  categories_1?: string | null;
+  categories_2?: string | null;
+  leaderboards: any[] | null;
+  iaps: IAP[] | null;
+  events: Event[] | null;
+  ads: Ad[] | null;
+  stats: any[] | null;
+  graphs: any[] | null;
 }
 
 export enum PlatformConnectionStatus {
@@ -87,12 +90,16 @@ export enum PlatformConnectionStatus {
 
 export interface Platform {
   id: number;
-  name: string;
-  icon: string;
-  market: string;
-  description: string;
-  more_info: string;
+  name: string | null;
+  icon: string | null;
+  market: string | null;
+  description: string | null;
+  more_info: string | null;
   connection_status: PlatformConnectionStatus;
+  build: [] | null;
+  platforms_info: [] | null;
+  stats: []  | null;
+  graphs: []  | null;
 }
 
 export interface User {
@@ -106,8 +113,8 @@ export interface User {
 }
 
 export interface Account {
-  id: number,
-  token_id: string;
+  id: string,
+  team_id: string;
   _created: Date,
   _updated: Date,
   _etag: string[],
