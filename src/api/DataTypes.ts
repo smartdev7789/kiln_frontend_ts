@@ -75,9 +75,9 @@ export interface AppInfo extends BasicAppInfo {
   categories_1?: string | null;
   categories_2?: string | null;
   leaderboards: any[] | null;
-  iaps: IAP[] | null;
-  events: Event[] | null;
-  ads: Ad[] | null;
+  iaps: IAP[];
+  events: Event[];
+  ads: Ad[];
   stats: any[] | null;
   graphs: any[] | null;
 }

@@ -20,6 +20,7 @@ import { PathHelpers } from "../../routes";
 import { PagePlaceholder } from "../../components/Placeholders/PagePlaceholder";
 import { AdRow } from "./AdRow";
 import { IAPRow } from "./IAPRow";
+import { getToken } from "../../authentication/Authentication";
 
 export const AdTypeText = {
   [AdType.Interstitial]: "adType.interstitial",
@@ -32,14 +33,15 @@ export const IAPTypeText = {
   [IAPType.NonConsumable]: "iapType.nonconsumable",
 };
 
+// Componente
 export const EditGameMonetisation = (props: RouteComponentProps) => {
   const { t } = useTranslation();
 
   const [adsBeingEdited, setAdsBeingEdited] = useState<number[]>([]);
   const [IAPsBeingEdited, setIAPsBeingEdited] = useState<number[]>([]);
-  const [gameData, setGameData] = useState<AppInfo | null>(
-    props.location.state ? ((props.location.state as any).app as AppInfo) : null
-  );
+  const [gameData, setGameData] = useState<AppInfo | null>( null )
+  const [gameID, setGameID] = useState<string | null>(null);
+  const [token, setToken] = useState<string | null>(null);
 
   const saveGame = () => {
     if (gameData === null) return;
@@ -50,33 +52,32 @@ export const EditGameMonetisation = (props: RouteComponentProps) => {
   const handleAdChange = (newAd: Ad, index: number) => {
     if (gameData === null) return;
 
-    // setGameData({
-    //   ...gameData,
-    //   ads: gameData.ads.map((ad, i) => (i === index ? newAd : ad)),
-    // });
+    setGameData({
+      ...gameData,
+      ads: gameData.ads.map((ad: Ad, i:number) => (i === index ? newAd : ad)),
+    });
   };
 
   const deleteAd = (index: number) => {
     if (gameData === null) return;
-
-    // setGameData({
-    //   ...gameData,
-    //   ads: gameData.ads.filter((a, i) => i !== index),
-    // });
+    setGameData({
+      ...gameData,
+      ads: gameData.ads.filter((a, i) => i !== index),
+    });
   };
 
   const addNewAd = () => {
     if (gameData === null) return;
 
-    // setGameData({
-    //   ...gameData,
-    //   ads: [
-    //     ...gameData.ads,
-    //     { type: AdType.Banner, kiln_id: "NEW_AD", status: AdStatus.Draft },
-    //   ],
-    // });
+    setGameData({
+      ...gameData,
+      ads: [
+        ...gameData.ads,
+        { type: AdType.Banner, kiln_id: "NEW_AD", status: AdStatus.Draft },
+      ],
+    });
 
-    // enablAdEditing(gameData.ads.length);
+    enablAdEditing( gameData.ads.length);
   };
 
   const saveAd = (index: number) => {
@@ -90,33 +91,33 @@ export const EditGameMonetisation = (props: RouteComponentProps) => {
   const handleIAPChange = (newIAP: IAP, index: number) => {
     if (gameData === null) return;
 
-    // setGameData({
-    //   ...gameData,
-    //   iaps: gameData.iaps.map((iap, i) => (i === index ? newIAP : iap)),
-    // });
+    setGameData({
+      ...gameData,
+      iaps: gameData.iaps.map((iap, i) => (i === index ? newIAP : iap)),
+    });
   };
 
   const deleteIAP = (index: number) => {
     if (gameData === null) return;
 
-    // setGameData({
-    //   ...gameData,
-    //   iaps: gameData.iaps.filter((a, i) => i !== index),
-    // });
+    setGameData({
+      ...gameData,
+      iaps: gameData.iaps.filter((a, i) => i !== index),
+    });
   };
 
   const addNewIAP = () => {
     if (gameData === null) return;
 
-    // setGameData({
-    //   ...gameData,
-    //   iaps: [
-    //     ...gameData.iaps,
-    //     { type: 0, kiln_id: "NEW_IAP", price: 1, name: "New item" },
-    //   ],
-    // });
+    setGameData({
+      ...gameData,
+      iaps: [
+        ...gameData.iaps,
+        { type: 0, kiln_id: "NEW_IAP", price: 1, name: "New item" },
+      ],
+    });
 
-    // enablIAPEditing(gameData.iaps.length);
+    enablIAPEditing( gameData.iaps.length);
   };
 
   const saveIAP = (index: number) => {
@@ -126,16 +127,26 @@ export const EditGameMonetisation = (props: RouteComponentProps) => {
   const enablIAPEditing = (index: number) => {
     setIAPsBeingEdited([...IAPsBeingEdited, index]);
   };
-
-  useEffect(() => {
-    if (!gameData || !gameData.name) {
-      // TODO, getToken
-      API.app('token', (props.match.params as { id: string }).id).then((app) => {
-        console.log(app)
-        // setGameData(app);
-      });
+  
+  // obtiene el ID de la app y setea el token
+  useEffect( () => {
+    if ( props.match.params! ) {
+      setGameID( (props.match.params as { id: string }).id );
+      const t = getToken();
+      if ( t! ) {
+        setToken(t);
+      }
     }
-  }, [gameData, gameData?.name, props.match.params]);
+  }, [ props.match.params ]);
+  
+  // Obtiene y setea gameData.
+  useEffect(() => {
+    if ( token! && gameID! ){
+      API.app( token, gameID ).then( ( app ) => { 
+        setGameData( (app as AppInfo ) );
+      })
+    }
+  },[token, gameID])
 
   if (gameData === null) return <PagePlaceholder />;
 

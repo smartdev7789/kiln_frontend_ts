@@ -101,9 +101,9 @@ export const EditGameInfo = ({
 }: RouteComponentProps) => {
   const { t } = useTranslation();
   const [waitingForResponse, setWaitingForResponse] = useState(false);
-  const [gameData, setGameData] = useState<AppInfo | null>(
-    location.state ? ((location.state as any).app as AppInfo) : null
-  );
+  const [gameID, setGameID] = useState<string | null>(null);
+  const [token, setToken] = useState<string | null>(null);
+  const [gameData, setGameData] = useState<AppInfo | null>( null );
     
   const handleSubmit = async (formData: object) => {
     setWaitingForResponse(true);     
@@ -113,42 +113,55 @@ export const EditGameInfo = ({
   };
   
   
-  // const token = async () => {
-  //   return await getToken();
-  // }
-  
-  const token = ''
-  // const token = await getToken();
-
+  // obtiene el ID de la app y setea el token
   useEffect( () => {
-      API.app(token, ( match.params as { id: string }).id ).then( (app) => {
-        console.log(app)
-        // TODO
-        // setGameData(app);
-      });
-  }, [token, match.params]);
+    if ( match.params! ) {
+      setGameID( (match.params as { id: string }).id );
+      const t = getToken();
+      if ( t! ) {
+        setToken(t);
+      }
+    }
+  }, [ match.params ]);
 
-  // [gameData, gameData?.name, match.params]);
+  // Obtiene y setea gameData.
+  useEffect(() => {
+    if ( token! && gameID! ){
+      API.app( token, gameID ).then( ( app ) => { 
+        setGameData( (app as AppInfo ) );
+      })
+    }
+  },[token, gameID])
+
 
   if (gameData === null) return <PagePlaceholder />;
 
+  // Campos del formulario
   const allFields = [...formFields];
+  // TODO
+  if ( gameData.platforms_info! ) {
+    if (gameData.platforms_info.find((plat) => plat.id === huaweiID)) {
+      additionalFormFieldsForHuawei.forEach((field) => {
+        allFields.push({ ...field });
+      });
+    }
+  }
+ 
+  // Devuelve los datos para el formulario
+  const initialFormData = () => {
+      const data: { [key: string]: any } = {};
 
-  // if (gameData.platforms_info.find((plat) => plat.id === huaweiID)) {
-  //   additionalFormFieldsForHuawei.forEach((field) => {
-  //     allFields.push({ ...field });
-  //   });
-  // }
-
-  const initialFormData = allFields.reduce(
-    (data: { [key: string]: any }, field) => {
-      data[field.key] = (gameData as any)[field.key];
-
-      return data;
-    },
-    {}
-  );
-
+      allFields.map( (field) => {
+        if ( (gameData as any)[field.key]! ) {
+          data[field.key] = (gameData as any)[field.key];
+        } else {
+          data[field.key] = '';
+        }  
+      })
+      return data
+  }
+  
+  // TODO / Consultar por Huawei.
   const categories_1 = huaweiCategoryDropdownData;
 
   return (
@@ -171,12 +184,12 @@ export const EditGameInfo = ({
         <GameCreationSteps steps={EditGameInfoSteps} gameId={gameData.id!} />
       </Grid.Row>
       <Grid.Row>
-        <Segment className="full-width">
+        <Segment className="full-width"> 
           <ValidatedForm
             loading={waitingForResponse}
             onSubmit={handleSubmit}
             fields={allFields}
-            initialFormData={initialFormData}
+            initialFormData={ initialFormData() }
             additionalFieldData={{
               categories_1,
             }}

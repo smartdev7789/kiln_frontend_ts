@@ -12,6 +12,7 @@ import {
 import { PathHelpers } from "../../routes";
 import { PagePlaceholder } from "../../components/Placeholders/PagePlaceholder";
 import { EventRow } from "./EventRow";
+import { getToken } from "../../authentication/Authentication";
 
 export const AdTypeText = {
   [AdType.Interstitial]: "adType.interstitial",
@@ -28,9 +29,9 @@ export const EditGameAnalytics = (props: RouteComponentProps) => {
   const { t } = useTranslation();
 
   const [eventsBeingEdited, setEventsBeingEdited] = useState<number[]>([]);
-  const [gameData, setGameData] = useState<AppInfo | null>(
-    props.location.state ? ((props.location.state as any).app as AppInfo) : null
-  );
+  const [gameData, setGameData] = useState<AppInfo | null>( null )
+  const [gameID, setGameID] = useState<string | null>(null);
+  const [token, setToken] = useState<string | null>(null);
 
   const saveGame = () => {
     if (gameData === null) return;
@@ -50,21 +51,21 @@ export const EditGameAnalytics = (props: RouteComponentProps) => {
   const handleEventChange = (newEvent: Event, index: number) => {
     if (gameData === null) return;
 
-    // setEvents(
-    //   gameData.events.map((event, i) => (i === index ? newEvent : event))
-    // );
+    setEvents(
+      gameData.events.map((event, i) => (i === index ? newEvent : event))
+    );
   };
 
   const deleteEvent = (index: number) => {
     if (gameData === null) return;
 
-    // setEvents(gameData.events.filter((e, i) => i !== index));
+    setEvents(gameData.events.filter((e, i) => i !== index));
   };
 
   const addNewEvent = () => {
     if (gameData === null) return;
 
-    // setEvents([...gameData.events, { kiln_id: "NEW_EVENT" }]);
+    setEvents([...gameData.events, { kiln_id: "NEW_EVENT" }]);
 
     // enablEventEditing(gameData.events.length);
   };
@@ -79,16 +80,25 @@ export const EditGameAnalytics = (props: RouteComponentProps) => {
     setEventsBeingEdited([...eventsBeingEdited, index]);
   };
 
-  useEffect(() => {
-    if (!gameData || !gameData.name) {
-      // TODO - getToken
-      API.app('', (props.match.params as { id: string }).id).then((app) => {
-        console.log(app);
-        // TODO
-        // setGameData(app);
-      });
+  // obtiene el ID de la app y setea el token
+  useEffect( () => {
+    if ( props.match.params! ) {
+      setGameID( (props.match.params as { id: string }).id );
+      const t = getToken();
+      if ( t! ) {
+        setToken(t);
+      }
     }
-  }, [gameData, gameData?.name, props.match.params]);
+  }, [ props.match.params ]);
+  
+  // Obtiene y setea gameData.
+  useEffect(() => {
+    if ( token! && gameID! ){
+      API.app( token, gameID ).then( ( app ) => { 
+        setGameData( (app as AppInfo ) );
+      })
+    }
+  },[token, gameID])
 
   if (gameData === null) return <PagePlaceholder />;
 
@@ -122,7 +132,7 @@ export const EditGameAnalytics = (props: RouteComponentProps) => {
             t(`editGame.analytics.eventTable.headers.${string}`)
           )}
         >
-          {/* {gameEvents.map((eventData, i) => (
+          {gameEvents.map((eventData, i) => (
             <EventRow
               key={i}
               index={i}
@@ -133,7 +143,7 @@ export const EditGameAnalytics = (props: RouteComponentProps) => {
               enableEditing={enablEventEditing}
               onSave={saveEvent}
             />
-          ))} */}
+          ))}
           <Table.Row>
             <Table.Cell></Table.Cell>
             <Table.Cell>
