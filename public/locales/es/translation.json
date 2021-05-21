@@ -15,7 +15,8 @@
     },
     "top_platforms": {
       "header": "Top platforms"
-    }
+    },
+    "no_data_yet": "No data yet"
   },
   "editAccountInfo": {
     "title": "Edit account info",
@@ -65,9 +66,7 @@
         "id": "ID",
         "platforms": "Platforms",
         "actions": "Actions",
-        "status": "Status",
-        "type": "Type",
-        "default_language":"Language"
+        "status": "Status"
       },
       "edit": "Edit"
     }
@@ -94,7 +93,6 @@
   },
   "editGame": {
     "nextStep": "Next step",
-    "end": "Finish",
     "platforms": {
       "title": "Platforms",
       "table": {
@@ -161,7 +159,6 @@
     },
     "info": {
       "title": "Game info",
-      "submit": "Submit",
       "screenshots": "Screenshots",
       "age_rating": "Age rating",
       "assets": {

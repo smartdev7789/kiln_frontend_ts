@@ -3,6 +3,7 @@ import { Route, Switch } from "react-router-dom";
 import { Path } from "path-parser";
 import { Placeholder } from "semantic-ui-react";
 import { LogOut } from "./components/LogOut";
+import { SecurityCheck } from "./pages/SecurityCheck/SecurityCheck";
 import { Analytics } from "./pages/Analytics/Analytics";
 import { ForgotPassword } from "./pages/ForgotPassword/ForgotPassword";
 import { Games } from "./pages/Games/Games";
@@ -51,6 +52,7 @@ export const RenderRoutes = ({ routes }: { routes: RouteConfig[] }) => (
 export enum Paths {
   Root = "/",
   LogIn = "/login",
+  SecurityCheck = "/security-check",
   Analytics = "/analytics",
   Account = "/account",
   Games = "/games",
@@ -98,6 +100,13 @@ export const ROUTES: RouteConfig[] = [
     exact: true,
     component: LogIn,
   },
+  {
+    path: Paths.SecurityCheck,
+    hideInMenu: true,
+    public: false,
+    exact: true,
+    component: SecurityCheck,
+  },  
   {
     path: Paths.Analytics,
     exact: true,

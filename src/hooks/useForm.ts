@@ -27,7 +27,7 @@ export const validateData = (
   validations: Validation[]
 ) => {
   const errors: { [key: string]: string[] } = {};
-
+  
   Object.keys(formData).forEach((key) => {
     const validation = validations.find((v) => v.key === key);
 
@@ -37,8 +37,7 @@ export const validateData = (
       if (formData[key] === undefined) {
         addError(errors, key, "Required field");
       }
-
-      if ((formData[key] as string).length === 0) {
+      if (formData[key]! && (formData[key] as string).length === 0) {
         addError(errors, key, "Required field");
       }
     }

@@ -13,6 +13,7 @@
     "@types/react": "^17.0.3",
     "@types/react-dom": "^17.0.2",
     "@types/react-router-dom": "^5.1.7",
+    "axios": "^0.21.1",
     "i18next": "^19.9.2",
     "i18next-browser-languagedetector": "^6.0.1",
     "i18next-http-backend": "^1.1.1",
@@ -30,8 +31,10 @@
     "web-vitals": "^1.1.1"
   },
   "scripts": {
-    "start": "concurrently \"craco start\" \"cd mockAPI && json-server --watch db.json --port=3333\"",
+    "start": "craco start",
+    "mock": "concurrently \"craco start\" \"cd mockAPI && json-server --watch db.json --port=3333\"",
     "build": "craco build",
+    "build-staging": "export REACT_APP_API_URI='https://staging.gamebake.io/v0.01';craco build",
     "test": "craco test",
     "eject": "craco eject"
   },
@@ -55,6 +58,7 @@
   },
   "devDependencies": {
     "concurrently": "^6.0.0",
-    "json-server": "^0.16.3"
+    "json-server": "^0.16.3",
+    "json-server-auth": "^2.0.2"
   }
 }

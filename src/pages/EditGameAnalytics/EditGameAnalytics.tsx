@@ -9,9 +9,10 @@ import {
   EditGameAnalyticsSteps,
   GameCreationSteps,
 } from "../../components/GameCreationSteps";
-import { PathHelpers } from "../../routes";
+import { Paths } from "../../routes";
 import { PagePlaceholder } from "../../components/Placeholders/PagePlaceholder";
 import { EventRow } from "./EventRow";
+import { getToken } from "../../authentication/Authentication";
 
 export const AdTypeText = {
   [AdType.Interstitial]: "adType.interstitial",
@@ -28,14 +29,13 @@ export const EditGameAnalytics = (props: RouteComponentProps) => {
   const { t } = useTranslation();
 
   const [eventsBeingEdited, setEventsBeingEdited] = useState<number[]>([]);
-  const [gameData, setGameData] = useState<AppInfo | null>(
-    props.location.state ? ((props.location.state as any).app as AppInfo) : null
-  );
+  const [gameData, setGameData] = useState<AppInfo | null>( null )
+  const [gameID, setGameID] = useState<string | null>(null);
+  const [token, setToken] = useState<string>('');
 
   const saveGame = () => {
     if (gameData === null) return;
-
-    API.updateApp(gameData.id!, gameData);
+    API.updateApp(token, gameData.id!, gameData, gameData._etag);
   };
 
   const setEvents = (events: Event[]) => {
@@ -66,7 +66,7 @@ export const EditGameAnalytics = (props: RouteComponentProps) => {
 
     setEvents([...gameData.events, { kiln_id: "NEW_EVENT" }]);
 
-    enablEventEditing(gameData.events.length);
+    // enablEventEditing(gameData.events.length);
   };
 
   const saveEvent = (index: number) => {
@@ -79,13 +79,25 @@ export const EditGameAnalytics = (props: RouteComponentProps) => {
     setEventsBeingEdited([...eventsBeingEdited, index]);
   };
 
-  useEffect(() => {
-    if (!gameData || !gameData.name) {
-      API.app((props.match.params as { id: string }).id).then((app) => {
-        setGameData(app);
-      });
+  // obtiene el ID de la app y setea el token
+  useEffect( () => {
+    if ( props.match.params! ) {
+      setGameID( (props.match.params as { id: string }).id );
+      const t = getToken();
+      if ( t! ) {
+        setToken(t);
+      }
     }
-  }, [gameData, gameData?.name, props.match.params]);
+  }, [ props.match.params ]);
+  
+  // Obtiene y setea gameData.
+  useEffect(() => {
+    if ( token! && gameID! ){
+      API.app( token, gameID ).then( ( app ) => { 
+        setGameData( (app as AppInfo ) );
+      })
+    }
+  },[token, gameID])
 
   if (gameData === null) return <PagePlaceholder />;
 
@@ -102,9 +114,9 @@ export const EditGameAnalytics = (props: RouteComponentProps) => {
           positive
           style={{ marginBottom: 0, marginLeft: "auto", padding: "0.5em" }}
           as={Link}
-          to={PathHelpers.EditGameAnalytics({ id: gameData.id })}
+          to={Paths.Games}
         >
-          {t("editGame.nextStep")}
+          {t("editGame.end")}
         </Button>
       </Grid.Row>
       <Grid.Row>

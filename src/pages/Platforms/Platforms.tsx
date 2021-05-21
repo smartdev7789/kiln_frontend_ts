@@ -7,6 +7,7 @@ import { Platform, PlatformConnectionStatus } from "../../api/DataTypes";
 import { Row, TableCard } from "../../components/Cards/TableCard";
 import { PlatformStatusIndicator } from "../../components/PlatformStatusIndicator";
 import { Paths } from "../../routes";
+import { getToken } from "../../authentication/Authentication";
 
 const platformDataToRow = (
   platformData: Platform,
@@ -43,14 +44,14 @@ const platformDataToRow = (
 
 export const Platforms = (props: RouteComponentProps) => {
   const { t } = useTranslation();
-
+  const token = getToken();
   const [platforms, setPlatforms] = useState<Platform[]>([]);
 
   useEffect(() => {
-    API.platforms().then((data) => {
-      setPlatforms(data);
+    API.platforms(token).then( ( data ) => {
+      setPlatforms(data._items);
     });
-  }, []);
+  }, [token]);
 
   const connectedPlatforms = platforms.filter(
     (platform) =>

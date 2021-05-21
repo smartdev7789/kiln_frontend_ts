@@ -1,20 +1,21 @@
 {
   "login": {
-    "title": "Log in",
-    "header": "Log In",
+    "title": "Iniciar sesión",
+    "header": "Iniciar sesión",
     "email": "E-mail",
-    "username": "Username",
-    "password": "Password",
-    "login": "Login",
-    "forgotPassword": "Forgot password?"
+    "username": "Usuario",
+    "password": "Contraseña",
+    "login": "Acceso",
+    "forgotPassword": "¿Olvidó su contraseña?"
   },
   "analytics": {
     "title": "Analytics",
+    "no_data_yet": "Todavía no hay datos",
     "top_games": {
-      "header": "Top games"
+      "header": "Los mejores juegos"
     },
     "top_platforms": {
-      "header": "Top platforms"
+      "header": "Las mejores plataformas"
     }
   },
   "editAccountInfo": {
@@ -94,7 +95,6 @@
   },
   "editGame": {
     "nextStep": "Next step",
-    "end": "Finish",
     "platforms": {
       "title": "Platforms",
       "table": {
@@ -161,7 +161,6 @@
     },
     "info": {
       "title": "Game info",
-      "submit": "Submit",
       "screenshots": "Screenshots",
       "age_rating": "Age rating",
       "assets": {
