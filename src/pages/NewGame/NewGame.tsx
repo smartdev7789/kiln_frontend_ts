@@ -4,7 +4,8 @@ import { Grid, Header, Segment } from "semantic-ui-react";
 import { useTranslation } from "react-i18next";
 import { API } from "../../api/API";
 import { RouteComponentProps } from "react-router-dom";
-import { PathHelpers, Paths } from "../../routes";
+// import { PathHelpers, Paths } from "../../routes";
+import { PathHelpers } from "../../routes";
 import { BasicAppInfo, APIResponse } from "../../api/DataTypes";
 import {
   FormField,
@@ -81,7 +82,7 @@ const formFields: FormField[] = [
 export const NewGame = ({ history }: RouteComponentProps) => {
   const { t } = useTranslation();
   const [ waitingForResponse, setWaitingForResponse ] = useState(false);
-  const [ error, setError ] = useState(false);
+  // const [ error, setError ] = useState(false);
 
   // const { dispatch } = useContext(DispatchContext);
 
@@ -102,8 +103,8 @@ export const NewGame = ({ history }: RouteComponentProps) => {
       // > http://localhost:3000/games/54084578-1b04-4945-8057-8bc2c208461f/edit/platforms
       history.push( PathHelpers.EditGamePlatforms( { id: response.id } ) );
     } else {
-      // console.log(response._error);
-      setError(true);
+      console.log(response._error);
+      // setError(true);
     }
 
   };

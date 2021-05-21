@@ -1,5 +1,6 @@
 import React from "react";
-import { Card, Divider, Image, List } from "semantic-ui-react";
+// import { Card, Divider, Image, List } from "semantic-ui-react";
+import { Card, Divider, List } from "semantic-ui-react";
 import { PlatformStat } from "../../api/DataTypes";
 import { useTranslation } from "react-i18next";
 
