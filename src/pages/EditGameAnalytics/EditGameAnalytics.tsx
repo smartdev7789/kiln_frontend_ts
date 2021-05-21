@@ -9,7 +9,7 @@ import {
   EditGameAnalyticsSteps,
   GameCreationSteps,
 } from "../../components/GameCreationSteps";
-import { PathHelpers } from "../../routes";
+import { Paths } from "../../routes";
 import { PagePlaceholder } from "../../components/Placeholders/PagePlaceholder";
 import { EventRow } from "./EventRow";
 import { getToken } from "../../authentication/Authentication";
@@ -31,12 +31,11 @@ export const EditGameAnalytics = (props: RouteComponentProps) => {
   const [eventsBeingEdited, setEventsBeingEdited] = useState<number[]>([]);
   const [gameData, setGameData] = useState<AppInfo | null>( null )
   const [gameID, setGameID] = useState<string | null>(null);
-  const [token, setToken] = useState<string | null>(null);
+  const [token, setToken] = useState<string>('');
 
   const saveGame = () => {
     if (gameData === null) return;
-
-    API.updateApp(gameData.id!, gameData);
+    API.updateApp(token, gameData.id!, gameData, gameData._etag);
   };
 
   const setEvents = (events: Event[]) => {
@@ -115,9 +114,9 @@ export const EditGameAnalytics = (props: RouteComponentProps) => {
           positive
           style={{ marginBottom: 0, marginLeft: "auto", padding: "0.5em" }}
           as={Link}
-          to={PathHelpers.EditGameAnalytics({ id: gameData.id })}
+          to={Paths.Games}
         >
-          {t("editGame.nextStep")}
+          {t("editGame.end")}
         </Button>
       </Grid.Row>
       <Grid.Row>

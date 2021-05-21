@@ -207,28 +207,33 @@ const apps = async (token: string | null) => {
 
 
 // Get App.
-const app = async (token: string | null, id: string) => {
-  if ( token ) {
+const app = async (token: string, id: string) => {
+  if ( token !== '' ) {
     const url = `${API_ENDPOINT}/apps/${id}`
     const bearer = 'Bearer ' + token;
-    const res = await fetch(url, {
+    const response = await fetch(url, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json', 
         'Authorization': bearer,
       },
     });
-    return (await res.json()) as AppInfo;
+    if (!response.ok) {
+      throw new Error("HTTP error, status = " + response.status);
+    }
+    return (await response.json()) as AppInfo;
   }
-
 };
 
+// Aditon App info (Ver api/DataTypes.ts/AppInfo)
 const additionalAppInfo = {
-  platforms: [],
+  platforms_info: [],
   leaderboards: [],
-  iap: [],
+  iaps: [],
   events: [],
   ads: [],
+  stats: [],
+  graphs: [],
 };
 
 // Create App
@@ -243,7 +248,7 @@ const createApp = async (token: string | null, appData: BasicAppInfo) => {
         'Authorization': bearer,
         Accept: "application/json",
       },
-      body: JSON.stringify({ ...appData }),
+      body: JSON.stringify({ ...appData, ...additionalAppInfo }),
     });
     if (res.status === 200 ) {
       return ( await res.json() ) as APIResponse;
@@ -265,16 +270,22 @@ const createApp = async (token: string | null, appData: BasicAppInfo) => {
 
 
 // Update App
-const updateApp = async (id: string, appData: AppInfo) => {
-  const res = await fetch(`${API_ENDPOINT}/apps/${id}`, {
-    method: "PATCH",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    },
-    body: JSON.stringify({ ...appData }),
-  });
-  return (await res.json()) as AppInfo;
+const updateApp = async (token: string, id: string, appData: AppInfo, etag: string) => {
+  if (token !== '') {
+    const url = `${API_ENDPOINT}/apps/${id}`;
+    const bearer = 'Bearer ' + token;
+
+    const res = await fetch(url, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        'If-Match': etag,
+        'Authorization': bearer,
+      },
+      body: JSON.stringify({ ...appData }),
+    });
+    return (await res.json()) as AppInfo;
+  }
 };
 
 const resetPassword = async (email: string) => {

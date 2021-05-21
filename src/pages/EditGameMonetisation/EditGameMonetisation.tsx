@@ -41,12 +41,11 @@ export const EditGameMonetisation = (props: RouteComponentProps) => {
   const [IAPsBeingEdited, setIAPsBeingEdited] = useState<number[]>([]);
   const [gameData, setGameData] = useState<AppInfo | null>( null )
   const [gameID, setGameID] = useState<string | null>(null);
-  const [token, setToken] = useState<string | null>(null);
+  const [token, setToken] = useState<string>('');
 
   const saveGame = () => {
     if (gameData === null) return;
-
-    API.updateApp(gameData.id!, gameData);
+    API.updateApp(token, gameData.id!, gameData, gameData._etag);
   };
 
   const handleAdChange = (newAd: Ad, index: number) => {

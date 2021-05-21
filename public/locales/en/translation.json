@@ -94,6 +94,7 @@
   },
   "editGame": {
     "nextStep": "Next step",
+    "end": "Finish",
     "platforms": {
       "title": "Platforms",
       "table": {
@@ -160,6 +161,7 @@
     },
     "info": {
       "title": "Game info",
+      "submit": "Submit",
       "screenshots": "Screenshots",
       "age_rating": "Age rating",
       "assets": {

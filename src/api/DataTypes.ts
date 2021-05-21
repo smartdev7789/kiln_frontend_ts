@@ -52,7 +52,7 @@ export interface Asset {
 }
 
 export interface BasicAppInfo {
-  id?: string;
+  id: string;
   type: 0 | 1;
   name: string;
   default_language: string;
@@ -68,7 +68,7 @@ export interface AppPlatform {
 export interface AppInfo extends BasicAppInfo {
   team: string;
   releases: any[] | null;
-  platforms_info: AppPlatform[] | null;
+  platforms_info: number[] | null;
   privacy_policy: string | null;
   assets_1?: Asset[] | null;
   assets_2?: Asset[] | null;
@@ -80,6 +80,7 @@ export interface AppInfo extends BasicAppInfo {
   ads: Ad[];
   stats: any[] | null;
   graphs: any[] | null;
+  _etag: string;
 }
 
 export enum PlatformConnectionStatus {

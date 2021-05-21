@@ -38,7 +38,7 @@ export const Analytics = (props: RouteComponentProps) => {
   // Get context.
   const { state } = useContext(DispatchContext);
 
-  // ???
+  // Filter Param.
   const { getQueryParamNumber, setQueryParams } = useQueryParams();
 
   // State filters.
@@ -61,7 +61,6 @@ export const Analytics = (props: RouteComponentProps) => {
 
   // Get analytics data when filters change.
   useEffect(() => {
-    
     API.analytics(
       filters.platform, 
       filters.app_id, 
@@ -69,9 +68,7 @@ export const Analytics = (props: RouteComponentProps) => {
       token).then(
       (data) => { setAnalyticsData(data); }
     );
-
     setQueryParams(filters);
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filters, token]);
 
@@ -82,6 +79,7 @@ export const Analytics = (props: RouteComponentProps) => {
     });
   }, [token]);
 
+  // Si no existe analyticsData mostrar el spiner
   if (!analyticsData) return <PagePlaceholder />;
 
   // const { stats, graphs } = analyticsData; // TODO
@@ -122,7 +120,7 @@ export const Analytics = (props: RouteComponentProps) => {
           ) : (
             <GraphCardPlaceholder />
           )}
-        </Grid.Row>        
+        </Grid.Row>
         :
         null
       }

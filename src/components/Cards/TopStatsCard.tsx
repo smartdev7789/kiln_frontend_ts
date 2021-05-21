@@ -28,7 +28,7 @@ export const TopStatsCard = ({ header, data }: TopStatsCardProps) => {
                   <List.Content floated="right">
                     {stat.earnings.toLocaleString()}
                   </List.Content>
-                  <Image avatar src={stat.icon} />
+                  {/* <Image avatar src={stat.icon} /> */}
                   <List.Content>{stat.name}</List.Content>
                 </List.Item>
               );

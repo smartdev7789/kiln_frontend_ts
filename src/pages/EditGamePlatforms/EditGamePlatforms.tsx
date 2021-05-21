@@ -27,11 +27,16 @@ const platformDataToRow = (
     onChange: (platformId: number) => void; 
     status: number; }
   ) => {
+    
+    console.log(enabled);
+    console.log(onChange);
+    console.log(status);
+
     return {
       id: platformData.id,
       cellContents: [
         <Header size="small">
-          <Image avatar src={platformData.icon} />
+          {/* <Image avatar src={platformData.icon} /> */}
           {platformData.name}
         </Header>,
         platformData.market,
@@ -57,36 +62,34 @@ export const EditGamePlatforms = (props: RouteComponentProps) => {
   // Datos de la app/game
   const [gameData, setGameData] = useState<AppInfo | null >( null)
   // Platarormas del juego/app 
-  const [gamePlatforms, setGamePlatforms] = useState<AppPlatform[] | null>(null)
+  const [gamePlatforms, setGamePlatforms] = useState<number[]>([])
   // Listas de IDs
   const [gamePlatformIds, setGamePlatformIds] = useState<number[]>([])
 
-  // Captura el evento
+  // On checkbox select
   const handlePlatformEnabledChange = (platformId: number) => {
     if (gameData === null) return;
-    if ( gameData.platforms_info!) {
-      if (gameData.platforms_info.map((p) => p.id).includes(platformId)) {
-        setGameData({
-          ...gameData,
-          platforms_info: gameData.platforms_info.filter((plat) => plat.id !== platformId),
-        });
-      } else {
-        setGameData({
-          ...gameData,
-          platforms_info: [...gameData.platforms_info, { id: platformId, status: 0 }],
-        });
-      }
-    }
+    // if ( gameData.platforms_info!) {
+    //   if (gameData.platforms_info.map((p) => p.id).includes(platformId)) {
+    //     setGameData({
+    //       ...gameData,
+    //       platforms_info: gameData.platforms_info.filter((plat) => plat.id !== platformId),
+    //     });
+    //   } else {
+    //     setGameData({
+    //       ...gameData,
+    //       platforms_info: [...gameData.platforms_info, { id: platformId, status: 0 }],
+    //     });
+    //   }
+    // }
   };
 
 
   // Extrae el id (uuid) y obtiene la app
   useEffect( () => {
     const gameID = (props.match.params as { id: string }).id;
-    const token = getToken();
-    // console.log(gameID);
+    const token = getToken() || '';
     API.app(token, gameID).then( ( app ) => { 
-      // console.log(app);
       setGameData( (app as AppInfo ) );
     });
   }, [ props.match.params ]);
@@ -94,12 +97,15 @@ export const EditGamePlatforms = (props: RouteComponentProps) => {
     
   // Set gameplatforms y gameplatformIDs
   useEffect( () => {
-    if ( gameData !== null ) {
-      setGamePlatforms( (gameData as AppInfo).platforms_info );
-      if ( gamePlatforms !== null && gamePlatforms.length > 0 ) {
-        const gamePlatformIds = (gamePlatforms as AppPlatform[]).map( (platform) => platform.id );
-        setGamePlatformIds( gamePlatformIds );
-      }
+    if ( gameData! && gameData.platforms_info!) {
+      // TODO
+      const status = 1;
+      setGamePlatforms(gameData.platforms_info);
+      // TODO
+      // if ( gamePlatforms !== null && gamePlatforms.length > 0 ) {
+      //   const gamePlatformIds = (gamePlatforms as AppPlatform[]).map( (platform) => platform.id );
+      //   setGamePlatformIds( gamePlatformIds );
+      // }
     }
   },[gameData, gamePlatforms]);
 
@@ -139,28 +145,15 @@ export const EditGamePlatforms = (props: RouteComponentProps) => {
               rowContents={ platforms.map( (data) => { 
                 return platformDataToRow( data,
                   {
-                    enabled: gamePlatformIds.includes(data.id),
+                    enabled: gamePlatforms.includes(data.id),
                     onChange: handlePlatformEnabledChange,
-                    status: gamePlatformIds.includes(data.id) 
-                      ? 1 
+                    status: gamePlatforms.includes(data.id) 
+                      ? 1 // TODO
                       : StatusDisabled,
                   }
                 )
               }
               )}
-              
-              // rowContents={ platforms.map( (platformData) => {
-              //     return platformDataToRow(platformData, {
-              //       enabled: gamePlatformIds.includes(platformData.id),
-              //       onChange: handlePlatformEnabledChange,
-              //       status: gamePlatformIds.includes(platformData.id)
-              //         ? gamePlatforms.find((plat) => plat.id === platformData.id)!
-              //             .status
-              //         : StatusDisabled,
-              //     })
-              //   }
-              // )}
-
             />
           </Grid.Row>
         </Grid>

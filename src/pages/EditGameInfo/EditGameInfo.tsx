@@ -15,11 +15,11 @@ import {
   EditGameInfoSteps,
   GameCreationSteps,
 } from "../../components/GameCreationSteps";
-import {
-  additionalFormFieldsForHuawei,
-  huaweiCategoryDropdownData,
-  huaweiID,
-} from "../../platformData/Huawei";
+// import {
+//   additionalFormFieldsForHuawei,
+//   huaweiCategoryDropdownData,
+//   huaweiID,
+// } from "../../platformData/Huawei";
 import { PagePlaceholder } from "../../components/Placeholders/PagePlaceholder";
 import { getToken } from "../../authentication/Authentication";
 
@@ -94,76 +94,73 @@ const formFields: FormField[] = [
   },
 ];
 
-export const EditGameInfo = ({
-  history,
-  location,
-  match,
-}: RouteComponentProps) => {
+// Componente.
+export const EditGameInfo = ({ history, match }: RouteComponentProps) => {
   const { t } = useTranslation();
   const [waitingForResponse, setWaitingForResponse] = useState(false);
   const [gameID, setGameID] = useState<string | null>(null);
-  const [token, setToken] = useState<string | null>(null);
+  const [token, setToken] = useState<string>('');
   const [gameData, setGameData] = useState<AppInfo | null>( null );
-    
-  const handleSubmit = async (formData: object) => {
-    setWaitingForResponse(true);     
-    // const app = await API.updateApp(gameData!.id!, formData as AppInfo);    
-    setWaitingForResponse(false);      
-    // history.push(PathHelpers.EditGameMonetisation({ id: app.id }), { app });
+  const [categories_1, setCategories_1] = useState<any>();
+  // Submit.
+  const handleSubmit = async (formData: object) => {   
+    setWaitingForResponse(true);
+    const app = await API.updateApp(token, gameData!.id, formData as AppInfo, gameData!._etag);
+    setWaitingForResponse(false);
+    history.push(PathHelpers.EditGameMonetisation({ id: app!.id! }), { app });
   };
-  
   
   // obtiene el ID de la app y setea el token
   useEffect( () => {
     if ( match.params! ) {
       setGameID( (match.params as { id: string }).id );
-      const t = getToken();
-      if ( t! ) {
-        setToken(t);
-      }
+      setToken( getToken()! );
     }
   }, [ match.params ]);
 
   // Obtiene y setea gameData.
   useEffect(() => {
     if ( token! && gameID! ){
-      API.app( token, gameID ).then( ( app ) => { 
+      API.app( token, gameID ).then( ( app ) => {
         setGameData( (app as AppInfo ) );
       })
     }
   },[token, gameID])
 
-
+  // Show roulette until gameData is populated
   if (gameData === null) return <PagePlaceholder />;
 
-  // Campos del formulario
+  // Forms fields
   const allFields = [...formFields];
-  // TODO
-  if ( gameData.platforms_info! ) {
-    if (gameData.platforms_info.find((plat) => plat.id === huaweiID)) {
-      additionalFormFieldsForHuawei.forEach((field) => {
-        allFields.push({ ...field });
-      });
-    }
-  }
+  
+  // Add fields for specific platform.
+  // if ( gameData.platforms_info! ) {
+  //   // Huawai
+  //   const platforms = gameData.platforms_info;
+  //   console.log(platforms);
+
+  //   platforms.forEach( (platform) => {
+  //     switch (platform) {
+  //       case 1:
+  //         // additionalFormFieldsForHuawei.forEach((field) => { allFields.push({ ...field });
+  //         // setCategories_1(huaweiCategoryDropdownData);
+  //         console.log("huaweiID")
+  //         break;
+  //     }
+  //   });
+
+  // }
  
-  // Devuelve los datos para el formulario
+  // Return initial form data.
   const initialFormData = () => {
       const data: { [key: string]: any } = {};
-
       allFields.map( (field) => {
-        if ( (gameData as any)[field.key]! ) {
+          console.log(`${field.key}: ${(gameData as any)[field.key]}`)
           data[field.key] = (gameData as any)[field.key];
-        } else {
-          data[field.key] = '';
-        }  
       })
       return data
   }
   
-  // TODO / Consultar por Huawei.
-  const categories_1 = huaweiCategoryDropdownData;
-
   return (
     <Grid>
       <Grid.Row style={{ borderBottom: "2px solid #C4C4C4" }}>
@@ -186,9 +183,9 @@ export const EditGameInfo = ({
       <Grid.Row>
         <Segment className="full-width"> 
           <ValidatedForm
-            loading={waitingForResponse}
-            onSubmit={handleSubmit}
-            fields={allFields}
+            loading={ waitingForResponse }
+            onSubmit={ handleSubmit }
+            fields={ allFields }
             initialFormData={ initialFormData() }
             additionalFieldData={{
               categories_1,
