@@ -101,7 +101,8 @@ export const EditGameInfo = ({ history, match }: RouteComponentProps) => {
   const [gameID, setGameID] = useState<string | null>(null);
   const [token, setToken] = useState<string>('');
   const [gameData, setGameData] = useState<AppInfo | null>( null );
-  const [categories_1, setCategories_1] = useState<any>();
+  // const [categories_1, setCategories_1] = useState<any>();
+  const categories_1 = null;
   // Submit.
   const handleSubmit = async (formData: object) => {   
     setWaitingForResponse(true);
@@ -157,6 +158,8 @@ export const EditGameInfo = ({ history, match }: RouteComponentProps) => {
       allFields.map( (field) => {
           console.log(`${field.key}: ${(gameData as any)[field.key]}`)
           data[field.key] = (gameData as any)[field.key];
+          // TODO
+          return field;
       })
       return data
   }
@@ -187,9 +190,7 @@ export const EditGameInfo = ({ history, match }: RouteComponentProps) => {
             onSubmit={ handleSubmit }
             fields={ allFields }
             initialFormData={ initialFormData() }
-            additionalFieldData={{
-              categories_1,
-            }}
+            additionalFieldData={{ categories_1 }}
             buttons={[
               {
                 text: "editGame.info.submit",

@@ -3,8 +3,8 @@ import {
   Analytics,
   TopStats,
   User,
-  Platform,
-  AppSummary,
+  // Platform,
+  // AppSummary,
   AppInfo,
   BasicAppInfo,
   APIResponse,
@@ -13,19 +13,19 @@ import {
 // Endpoint URL.
 const API_ENDPOINT = process.env.REACT_APP_API_URI;
 
-const makeHead = (method:string, token:string) => {
-  const bearer = 'Bearer ' + token;
-  const requestInit = { 
-    method: method,
-    mode: 'cors',
-    headers: { 
-      'Content-Type': 'application/json', 
-      'Authorization': bearer,
-    },
-  }
-  console.log(requestInit);
-  return requestInit
-}
+// const makeHead = (method:string, token:string) => {
+//   const bearer = 'Bearer ' + token;
+//   const requestInit = { 
+//     method: method,
+//     mode: 'cors',
+//     headers: { 
+//       'Content-Type': 'application/json', 
+//       'Authorization': bearer,
+//     },
+//   }
+//   console.log(requestInit);
+//   return requestInit
+// }
 
 // Login.
 const login = async (username: string, password: string) => {

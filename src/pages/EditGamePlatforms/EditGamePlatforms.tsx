@@ -1,9 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, RouteComponentProps } from "react-router-dom";
-import { Button, Checkbox, Grid, Header, Image } from "semantic-ui-react";
+// import { Button, Checkbox, Grid, Header, Image } from "semantic-ui-react";
+import { Button, Checkbox, Grid, Header } from "semantic-ui-react";
 import { API } from "../../api/API";
-import { AppInfo, Platform, AppPlatform } from "../../api/DataTypes";
+// import { AppInfo, Platform, AppPlatform } from "../../api/DataTypes";
+import { AppInfo, Platform } from "../../api/DataTypes";
 import { DispatchContext } from "../../App";
 import { Row, TableCard } from "../../components/Cards/TableCard";
 import {
@@ -56,6 +58,8 @@ export const EditGamePlatforms = (props: RouteComponentProps) => {
   platforms.map( (p:Platform) => {
       console.log(`Platarorma: ${p}`);
       console.log(p.name);
+      // TODO
+      return p;
   })
   
   // States
@@ -64,7 +68,7 @@ export const EditGamePlatforms = (props: RouteComponentProps) => {
   // Platarormas del juego/app 
   const [gamePlatforms, setGamePlatforms] = useState<number[]>([])
   // Listas de IDs
-  const [gamePlatformIds, setGamePlatformIds] = useState<number[]>([])
+  // const [gamePlatformIds, setGamePlatformIds] = useState<number[]>([])
 
   // On checkbox select
   const handlePlatformEnabledChange = (platformId: number) => {
@@ -99,7 +103,7 @@ export const EditGamePlatforms = (props: RouteComponentProps) => {
   useEffect( () => {
     if ( gameData! && gameData.platforms_info!) {
       // TODO
-      const status = 1;
+      // const status = 1;
       setGamePlatforms(gameData.platforms_info);
       // TODO
       // if ( gamePlatforms !== null && gamePlatforms.length > 0 ) {

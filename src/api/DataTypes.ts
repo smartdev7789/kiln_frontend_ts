@@ -1,6 +1,6 @@
 // API Response
 
-import { Platforms } from "../pages/Platforms/Platforms";
+// import { Platforms } from "../pages/Platforms/Platforms";
 
 interface APIError {
   code: number; 

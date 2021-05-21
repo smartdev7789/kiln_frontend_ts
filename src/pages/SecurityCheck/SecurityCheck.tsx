@@ -1,16 +1,17 @@
-import React, { useEffect, useContext } from "react";
+// import React, { useEffect, useContext } from "react";
+import { useEffect } from "react";
 import { Grid, Header } from "semantic-ui-react";
 import { API } from "../../api/API";
 import { Paths } from "../../routes";
 import { getToken } from "../../authentication/Authentication";
 import { RouteComponentProps } from "react-router-dom";
 
-import { DispatchContext } from "../../App";
+// import { DispatchContext } from "../../App";
 
 
 export const SecurityCheck = ( { history }: RouteComponentProps ) => {
 
-    const { dispatch } = useContext(DispatchContext);
+    // const { dispatch } = useContext(DispatchContext);
     
     // Get analytics data when filters change.
     useEffect(() => {
