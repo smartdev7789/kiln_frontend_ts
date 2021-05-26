@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { RouteComponentProps } from "react-router-dom";
-import { Card, Grid, Header, Placeholder, Segment } from "semantic-ui-react";
+import { Card, Grid, Header, Segment } from "semantic-ui-react";
 import { API } from "../../api/API";
 import {
   Analytics as AnalyticsData,
@@ -39,13 +39,13 @@ export const Analytics = (props: RouteComponentProps) => {
   const { state } = useContext(DispatchContext);
 
   // Filter Param.
-  const { getQueryParamNumber, setQueryParams } = useQueryParams();
+  const { getQueryParamNumber, getQueryParam, setQueryParams } = useQueryParams();
 
   // State filters.
   const [filters, setFilters] = useState({
     platform_id: getQueryParamNumber("platform_id"),
-    date: getQueryParamNumber("date"),
-    application_id: getQueryParamNumber("application_id"),
+    date: getQueryParam("date"),
+    application_id: getQueryParam("application_id"),
   });
 
   // Filter onChange.
@@ -64,7 +64,7 @@ export const Analytics = (props: RouteComponentProps) => {
     API.analytics(
       filters.platform_id, 
       filters.application_id, 
-      filters.date, 
+      filters.date,
       token).then(
       (data) => { setAnalyticsData(data); }
     );
@@ -78,6 +78,8 @@ export const Analytics = (props: RouteComponentProps) => {
       console.log(filters)
       API.graphs(token, filters).then((data) => { setGraphData(data!._items as GraphData[]) })
       // API.stats(token).then((data) => { setGraphData(data!._items as GraphData[]) })
+    } else {
+      setGraphData([])
     }
   }, [token,filters])
 
