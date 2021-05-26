@@ -243,3 +243,9 @@ export const IAPTypeOptions = [
     key: IAPType.NonConsumable,
   },
 ];
+
+export interface Filter {
+  application_id: string | null,
+  platform_id: number | null,
+  date: string | null
+}

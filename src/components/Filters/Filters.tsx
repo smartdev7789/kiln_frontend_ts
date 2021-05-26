@@ -1,17 +1,13 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Header, Dropdown, Form, DropdownProps } from "semantic-ui-react";
-import { AppSummary, Platform } from "../../api/DataTypes";
+import { AppSummary, Platform, Filter } from "../../api/DataTypes";
 
 type FiltersProps = {
   platforms: Platform[];
   apps: AppSummary[];
   onChange: (key: "platform_id" | "date" | "application_id", value: number | null) => void;
-  filters: {
-    platform_id: number | null;
-    application_id: number | null;
-    date: number | null;
-  };
+  filters: Filter
 };
 
 const DateOptions = [
