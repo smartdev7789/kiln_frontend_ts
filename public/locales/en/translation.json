@@ -105,6 +105,9 @@
           "status": "Status"
         },
         "edit": "Edit info"
+      },
+      "accordion":{
+        "comming-soon": "Comming soon"
       }
     },
     "monetisation": {

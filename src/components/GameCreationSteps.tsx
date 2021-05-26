@@ -14,19 +14,20 @@ type GameCreationStepsProps = {
   gameId: string;
 };
 
+// Game steps order.
 export const GameCreationStepData = [
   {
-    text: "platforms",
+    text: "gameInfo",
   },
   {
-    text: "gameInfo",
+    text: "platforms",
   },
   {
     text: "monetisation",
   },
   {
     text: "analytics",
-  },
+  }
 ];
 
 const createSteps = (currentIndex: number) =>
@@ -38,8 +39,8 @@ const createSteps = (currentIndex: number) =>
     };
   });
 
-export const EditGamePlatformsSteps = createSteps(0);
-export const EditGameInfoSteps = createSteps(1);
+export const EditGameInfoSteps = createSteps(0);
+export const EditGamePlatformsSteps = createSteps(1);
 export const EditGameMonetisationSteps = createSteps(2);
 export const EditGameAnalyticsSteps = createSteps(3);
 
@@ -47,8 +48,8 @@ export const GameCreationSteps = (props: GameCreationStepsProps) => {
   const { t } = useTranslation();
 
   const pathHelpers: { [key: string]: (object: object) => string } = {
-    platforms: PathHelpers.EditGamePlatforms,
     gameInfo: PathHelpers.EditGameInfo,
+    platforms: PathHelpers.EditGamePlatforms,
     monetisation: PathHelpers.EditGameMonetisation,
     analytics: PathHelpers.EditGameAnalytics,
   };

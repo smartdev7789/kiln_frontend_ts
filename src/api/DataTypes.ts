@@ -13,6 +13,7 @@ interface APIErrorIssues {
 
 export interface APIResponse {
   _status: 'OK' | 'ERR';
+  _etag: string;
   // ERROR
   _issues:  APIErrorIssues | null;
   _error: APIError | null;
@@ -56,8 +57,8 @@ export interface BasicAppInfo {
   type: 0 | 1;
   name: string;
   default_language: string;
-  summary: string | null;
   description: string | null;
+  summary: string | null;
 }
 
 export interface AppPlatform {
@@ -65,22 +66,25 @@ export interface AppPlatform {
   status: number;
 }
 
-export interface AppInfo extends BasicAppInfo {
+export interface AppInfoPatch extends BasicAppInfo {
   team: string;
   releases: any[] | null;
   platforms_info: number[] | null;
-  privacy_policy: string | null;
-  assets_1?: Asset[] | null;
-  assets_2?: Asset[] | null;
-  categories_1?: string | null;
-  categories_2?: string | null;
   leaderboards: any[] | null;
   iaps: IAP[];
   events: Event[];
   ads: Ad[];
   stats: any[] | null;
   graphs: any[] | null;
+  privacy_policy: string | null;
+}
+
+export interface AppInfo extends AppInfoPatch {
   _etag: string;
+  assets_1?: Asset[] | null;
+  assets_2?: Asset[] | null;
+  categories_1?: string | null;
+  categories_2?: string | null;
 }
 
 export enum PlatformConnectionStatus {

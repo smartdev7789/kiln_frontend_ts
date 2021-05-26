@@ -6,6 +6,7 @@ import {
   Platform,
   AppSummary,
   AppInfo,
+  AppInfoPatch,
   BasicAppInfo,
   APIResponse,
 } from "./DataTypes";
@@ -181,7 +182,7 @@ const platforms = async ( token: string | null ) => {
 // Get all Apps (of user login?).
 const apps = async (token: string | null) => {
  
-  if ( token ) {
+  if ( token !== '' ) {
     const url = `${API_ENDPOINT}/apps`;
     const bearer = 'Bearer ' + token;
     const res = await fetch( url, 
@@ -203,8 +204,6 @@ const apps = async (token: string | null) => {
   }
   
 };
-
-
 
 // Get App.
 const app = async (token: string, id: string) => {
@@ -270,21 +269,22 @@ const createApp = async (token: string | null, appData: BasicAppInfo) => {
 
 
 // Update App
-const updateApp = async (token: string, id: string, appData: AppInfo, etag: string) => {
+const updateApp = async (token: string, id: string, data:AppInfo, etag: string) => {
+
   if (token !== '') {
     const url = `${API_ENDPOINT}/apps/${id}`;
     const bearer = 'Bearer ' + token;
 
     const res = await fetch(url, {
       method: "PATCH",
+      body: JSON.stringify( data ),
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         'If-Match': etag,
         'Authorization': bearer,
       },
-      body: JSON.stringify({ ...appData }),
     });
-    return (await res.json()) as AppInfo;
+    return (await res.json()) as APIResponse;
   }
 };
 

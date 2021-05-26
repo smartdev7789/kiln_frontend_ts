@@ -5,12 +5,8 @@ const StorageString = "gamebake-token";
 const StoreAccount = "kiln-account";
 
 export const getToken = () => {
-  const token: string | null = localStorage.getItem(StorageString);
-  if ( token === "undefined" ) {
-    return null
-  } else {
-    return token;
-  }
+  const token:string = localStorage.getItem(StorageString) || '';
+  return token;
 };
 
 export const storeToken = (token: string) => {
