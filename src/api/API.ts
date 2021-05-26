@@ -2,6 +2,7 @@ import {
   Login,
   Analytics,
   TopStats,
+  GraphData,
   User,
   Platform,
   AppSummary,
@@ -102,7 +103,6 @@ const analytics = async (
   token: string | null
 ) => {
   
-
   const url = `${API_ENDPOINT}/stats/`;
   // const res = await fetch( url, makeHead('GET', token) );
 
@@ -151,6 +151,35 @@ const topStats = async (token: string | null) => {
     }
   } else {
     return ( { top_games: [], top_platforms: [] } );
+  }
+};
+
+
+const graphs = async (token: string | null, filters:{}) => {
+  // const res = await fetch(`${API_ENDPOINT}/graphs`);
+  // ?where={"application_id":"b0ca2dae-836a-422c-98e0-858526651edf", "platform_id":1, "date":"2021-05-21"}
+  const url = `${API_ENDPOINT}/graphs`;
+  console.log(filters)
+  
+  if ( token ) {
+    const bearer = 'Bearer ' + token;
+    const res = await fetch( url, 
+      { 
+        method: 'GET',
+        mode: 'cors',
+        headers: { 
+          'Content-Type': 'application/json', 
+          'Authorization': bearer,
+        },
+      }
+    );
+    if (res.status === 200 ) {
+      return ( await res.json() ) as APIResponse;
+    } else {
+      return null
+    }
+  } else {
+    return null
   }
 };
 
@@ -323,6 +352,7 @@ export const API = {
   // validate, -> securityCheck
   analytics,
   topStats,
+  graphs,
   platforms,
   apps,
   app,

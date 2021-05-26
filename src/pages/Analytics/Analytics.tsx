@@ -1,11 +1,12 @@
 import { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { RouteComponentProps } from "react-router-dom";
-import { Card, Grid, Header } from "semantic-ui-react";
+import { Card, Grid, Header, Placeholder, Segment } from "semantic-ui-react";
 import { API } from "../../api/API";
 import {
   Analytics as AnalyticsData,
   TopStats as TopStatsData,
+  GraphData
 } from "../../api/DataTypes";
 import { DispatchContext } from "../../App";
 import { GraphCard } from "../../components/Cards/GraphCard";
@@ -24,10 +25,9 @@ export const Analytics = (props: RouteComponentProps) => {
   const token:string|null = getToken();
 
   // State analytics
-  const [analyticsData, setAnalyticsData] = useState<AnalyticsData>({
-    stats: [],
-    graphs: [],
-  });
+  const [analyticsData, setAnalyticsData] = useState<AnalyticsData>({ stats: [], graphs: [] });
+
+  const [graphData, setGraphData] = useState<GraphData[]>([]);
 
   // State Top stats
   const [topStatsData, setTopStatsData] = useState<TopStatsData>({
@@ -43,14 +43,14 @@ export const Analytics = (props: RouteComponentProps) => {
 
   // State filters.
   const [filters, setFilters] = useState({
-    platform: getQueryParamNumber("platform"),
+    platform_id: getQueryParamNumber("platform_id"),
     date: getQueryParamNumber("date"),
-    app_id: getQueryParamNumber("app_id"),
+    application_id: getQueryParamNumber("application_id"),
   });
 
   // Filter onChange.
   const updateFilters = (
-    key: "platform" | "date" | "app_id",
+    key: "platform_id" | "date" | "application_id",
     value: string | number | null
   ) => {
     setFilters({
@@ -62,8 +62,8 @@ export const Analytics = (props: RouteComponentProps) => {
   // Get analytics data when filters change.
   useEffect(() => {
     API.analytics(
-      filters.platform, 
-      filters.app_id, 
+      filters.platform_id, 
+      filters.application_id, 
       filters.date, 
       token).then(
       (data) => { setAnalyticsData(data); }
@@ -72,18 +72,25 @@ export const Analytics = (props: RouteComponentProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filters, token]);
 
+  useEffect(() => {
+    console.log(filters)
+    if ( filters.application_id! && filters.date! && filters.platform_id! ) {
+      console.log(filters)
+      API.graphs(token, filters).then((data) => { setGraphData(data!._items as GraphData[]) })
+      // API.stats(token).then((data) => { setGraphData(data!._items as GraphData[]) })
+    }
+  }, [token,filters])
+
   // Get top stats data when filters change.
   useEffect(() => {
-    API.topStats(token).then((data) => {
-      setTopStatsData(data);
-    });
+    API.topStats(token).then((data) => { setTopStatsData(data) })
   }, [token]);
 
   // Si no existe analyticsData mostrar el spiner
   if (!analyticsData) return <PagePlaceholder />;
 
-  // const { stats, graphs } = analyticsData; // TODO
-  const { stats, graphs } = { stats:[], graphs:[] };
+  const { stats } = {  stats:[] }
+  
   const { top_games, top_platforms } = topStatsData;
 
   return (
@@ -112,17 +119,21 @@ export const Analytics = (props: RouteComponentProps) => {
       {/* TODO */}
       {/* Graphp card  */}
       { 
-        graphs.length !== 0
+        graphData.length !== 0
         ?
         <Grid.Row>
-          { graphs.length > 0 ? (
-            <GraphCard data={graphs} />
+          { graphData.length > 0 ? (
+            <GraphCard data={graphData as GraphData[]} />
           ) : (
             <GraphCardPlaceholder />
           )}
         </Grid.Row>
         :
-        null
+        <Grid.Row>
+          <Segment className="full-width borderless">
+            <h3>{t("analytics.graphs.set-filter")}</h3>
+          </Segment>
+        </Grid.Row>
       }
       
       {/* Tops */}
