@@ -32,7 +32,7 @@ export const Menu = ({ routes, location }: MenuProps) => {
                   item
                   text={
                     route.path === Paths.Account
-                      ? state.user?.name
+                      ? state.account?.name
                       : t(route.text || "")
                   }
                 >

@@ -1,127 +1,152 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, RouteComponentProps } from "react-router-dom";
-import { Button, Checkbox, Grid, Header, Image } from "semantic-ui-react";
+import { Button, Grid, Header, Accordion, Icon } from "semantic-ui-react";
 import { API } from "../../api/API";
 import { AppInfo, Platform } from "../../api/DataTypes";
 import { DispatchContext } from "../../App";
-import { Row, TableCard } from "../../components/Cards/TableCard";
 import {
   EditGamePlatformsSteps,
   GameCreationSteps,
 } from "../../components/GameCreationSteps";
-import {
-  StatusIndicator,
-  StatusDisabled,
-} from "../../components/StatusIndicator";
 import { PathHelpers } from "../../routes";
 import { PagePlaceholder } from "../../components/Placeholders/PagePlaceholder";
+import { getToken } from "../../authentication/Authentication";
 
-const platformDataToRow = (
-  platformData: Platform,
-  {
-    enabled,
-    onChange,
-    status,
-  }: {
-    enabled: boolean;
-    onChange: (platformId: number) => void;
-    status: number;
+// Platforms
+// Huawei
+import { HuaweiForm } from "../../platforms/HuaweiForm";
+import { DefaultForm } from "../../platforms/Default";
+
+// Defino algunos estilos
+const styles = {
+  accordion: {
+    div: { width: '100%' },
+    title: {
+      fontSize: '1.2rem',
+      color: '#7a7a7a',
+      icon: {
+        position: 'absolute',
+        right: '0',
+      },
+    },
+
+  } 
+}
+
+// Dibuja el formulario.
+// Recibe:
+//  - ID de la plataforma
+//  - La funcion "t" para traducciones
+const PlatformForm = ( platformID:number ) => { 
+  switch ( platformID ) {
+    case 1:
+      // Huawei
+      return <HuaweiForm/>
+    default:
+      return <DefaultForm/>
   }
-) => {
-  return {
-    id: platformData.id,
-    cellContents: [
-      <Header size="small">
-        <Image avatar src={platformData.icon} />
-        {platformData.name}
-      </Header>,
-      platformData.market,
-      <StatusIndicator status={status} />,
-      <Checkbox onChange={() => onChange(platformData.id)} checked={enabled} />,
-    ],
-  } as Row;
-};
+}
+
 
 export const EditGamePlatforms = (props: RouteComponentProps) => {
+
   const { t } = useTranslation();
-
   const { state } = useContext(DispatchContext);
+  const [ token, setToken ] = useState( getToken() )
+  // Todas las plataformas
+  const platforms:Platform[] = state.platforms || []
+  const [ activeIndex, setActiveIndex ] = useState(0)
 
-  const [gameData, setGameData] = useState<AppInfo | null>(
-    props.location.state ? ((props.location.state as any).app as AppInfo) : null
-  );
+  // States
+  // Datos de la app/game
+  const [gameData, setGameData] = useState<AppInfo | null >( null)
+  // Platarormas del juego/app 
+  const [gamePlatforms, setGamePlatforms] = useState<number[]>([])
 
-  const handlePlatformEnabledChange = (platformId: number) => {
-    if (gameData === null) return;
+  const handleClick = (index:number) => {
+    const newIndex = activeIndex === index ? -1 : index
+    setActiveIndex( newIndex )
+  }
+  
+  // Extrae el id (uuid) y obtiene la app
+  useEffect( () => {
+    const gameID = (props.match.params as { id: string }).id;   
+    API.app(token, gameID).then( ( app ) => { 
+      setGameData( (app as AppInfo ) );
+    });
+  }, [ props.match.params, token ])
 
-    if (gameData.platforms.map((p) => p.id).includes(platformId)) {
-      setGameData({
-        ...gameData,
-        platforms: gameData.platforms.filter((plat) => plat.id !== platformId),
-      });
-    } else {
-      setGameData({
-        ...gameData,
-        platforms: [...gameData.platforms, { id: platformId, status: 0 }],
-      });
+  // Set gameplatforms y gameplatformIDs
+  useEffect( () => {
+    if ( gameData! && gameData.platforms_info!) {
+      // TODO - Obtener los datos de las plataformas del juego / Si es que no viene tedo junto.
+      setGamePlatforms(gameData.platforms_info)
     }
-  };
+  },[ gameData ]);
 
-  useEffect(() => {
-    if (!gameData || !gameData.name) {
-      API.app((props.match.params as { id: string }).id).then((app) => {
-        setGameData(app);
-      });
-    }
-  }, [gameData, gameData?.name, props.match.params]);
-
-  const platforms = state.platforms || [];
-
-  if (gameData === null) return <PagePlaceholder />;
-
-  const gamePlatforms = gameData.platforms;
-  const gamePlatformIds = gameData.platforms.map((platform) => platform.id);
+  // Mientras no existan gameData mostrar el spinner
+  if ( gameData === null ) { return <PagePlaceholder />;  }
 
   return (
-    <Grid style={{ marginTop: "1em" }}>
-      <Grid.Row style={{ borderBottom: "2px solid #C4C4C4" }}>
-        <Header size="huge" style={{ marginBottom: 0 }}>
-          {gameData.name} - {t("editGame.platforms.title")}
-        </Header>
-        <Button
-          compact
-          positive
-          style={{ marginBottom: 0, marginLeft: "auto", padding: "0.5em" }}
-          as={Link}
-          to={PathHelpers.EditGameInfo({ id: gameData.id })}
-        >
-          {t("editGame.nextStep")}
-        </Button>
-      </Grid.Row>
-      <Grid.Row>
-        <GameCreationSteps
-          steps={EditGamePlatformsSteps}
-          gameId={gameData.id!}
-        />
-      </Grid.Row>
-      <Grid.Row>
-        <TableCard
-          headers={["platform", "market", "status", "enabled"].map((string) =>
-            t(`editGame.platforms.table.headers.${string}`)
-          )}
-          rowContents={platforms.map((platformData) =>
-            platformDataToRow(platformData, {
-              enabled: gamePlatformIds.includes(platformData.id),
-              onChange: handlePlatformEnabledChange,
-              status: gamePlatformIds.includes(platformData.id)
-                ? gamePlatforms.find((plat) => plat.id === platformData.id)!
-                    .status
-                : StatusDisabled,
-            })
-          )}
-        />
-      </Grid.Row>
-    </Grid>
-  );
-};
+    <>
+      { ( gameData! ) ?
+        <Grid style={{ marginTop: "1em" }}>
+          <Grid.Row style={{ borderBottom: "2px solid #C4C4C4" }}>
+            <Header size="huge" style={{ marginBottom: 0 }}>
+              {gameData.name} - {t("editGame.platforms.title")}
+            </Header>
+            <Button
+              compact
+              positive
+              style={{ marginBottom: 0, marginLeft: "auto", padding: "0.5em" }}
+              as={Link}
+              to={PathHelpers.EditGameMonetisation({ id: gameData.id })}
+            >
+              {t("editGame.nextStep")}
+            </Button>
+          </Grid.Row>
+          
+          {/* Steps */}
+          <Grid.Row>
+            <GameCreationSteps
+              steps={EditGamePlatformsSteps}
+              gameId={gameData.id!}
+            />
+          </Grid.Row>
+
+          {/* Platforms accordion */}
+          <Grid.Row>
+            <Accordion styled style={ styles.accordion.div } >
+              { platforms.map( (platform) => {
+                
+                return (
+                  <>
+                    <Accordion.Title
+                      style={ styles.accordion.title }
+                      active={activeIndex === platform.id}
+                      index={0}
+                      onClick={ () => { handleClick(platform.id) } }
+                    >
+                      {platform.name}
+                      <Icon name='dropdown' style={ styles.accordion.title.icon }/>
+                    </Accordion.Title>
+
+                    <Accordion.Content active={activeIndex === platform.id}>
+                      { PlatformForm( platform.id ) }
+                    </Accordion.Content>
+                  </>
+                )  
+              })}
+
+            </Accordion>
+
+          </Grid.Row>
+
+        </Grid>
+      :
+        null
+      }
+    </>
+  )
+}

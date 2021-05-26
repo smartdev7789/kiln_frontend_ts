@@ -41,11 +41,11 @@ const RoundedRect = ({ fill, x, y, width, height }: RoundedRectProps) => {
 };
 
 export const GraphCard = ({ data }: GraphCardProps) => {
-  const [currentTab, setCurrentTab] = useState(data[0].graph_title);
+  const [currentTab, setCurrentTab] = useState(data[0].title);
   const { format } = useCurrency({ currency: "GBP", compactNotation: true });
 
   const currentGraphData = data.find(
-    (graphData) => graphData.graph_title === currentTab
+    (graphData) => graphData.title === currentTab
   )!;
 
   const graphDataForLibrary = currentGraphData.values.map((value, i) => {
@@ -67,12 +67,12 @@ export const GraphCard = ({ data }: GraphCardProps) => {
       >
         {data.map((graphData, i) => (
           <Menu.Item
-            key={graphData.graph_title}
-            onClick={() => setCurrentTab(graphData.graph_title)}
+            key={graphData.title}
+            onClick={() => setCurrentTab(graphData.title)}
             className="label"
-            active={currentTab === graphData.graph_title}
+            active={currentTab === graphData.title}
           >
-            {graphData.graph_title}
+            {graphData.title}
           </Menu.Item>
         ))}
       </Menu>

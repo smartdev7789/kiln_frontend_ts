@@ -5,7 +5,32 @@ export const reducer: (state: State, action: Action) => State = (
   action: Action
 ) => {
   const { type, payload } = action;
+ 
+  // Account context.
+  if (type === ActionType.SetAccount) {
+    return {
+      ...state,
+      account: payload.account,
+    };
+  }
 
+  // LoginSuccessful context.
+  if (type === ActionType.LoginSuccessful) {
+    return {
+      ...state,
+      loginSuccessful: true,
+    };
+  }
+
+  // Releases context.
+  if (type === ActionType.SetReleases) {
+    return {
+      ...state,
+      releases: payload.releases,
+    };
+  }
+
+  // User context.
   if (type === ActionType.SetUser) {
     return {
       ...state,
@@ -13,6 +38,7 @@ export const reducer: (state: State, action: Action) => State = (
     };
   }
 
+  // Platforms context.
   if (type === ActionType.SetPlatforms) {
     return {
       ...state,
@@ -20,12 +46,16 @@ export const reducer: (state: State, action: Action) => State = (
     };
   }
 
+  // Apps context.
   if (type === ActionType.SetApps) {
     return {
       ...state,
       apps: payload.apps,
     };
   }
+
+
+
 
   return { ...state };
 };

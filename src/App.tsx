@@ -1,14 +1,15 @@
-import React, { Suspense, useEffect, useReducer } from "react";
+import React, { Suspense, useEffect, useReducer, useState } from "react";
 import "./App.css";
 import { Container, Placeholder } from "semantic-ui-react";
 import { Paths, PublicPaths, RenderRoutes, ROUTES } from "./routes";
 import { Action, ActionType, initialState, State } from "./state/types";
 import { reducer } from "./state/reducer";
 import { Menu } from "./components/Menu/Menu";
-import { Authentication } from "./authentication/Authentication";
+import { Authentication, getToken } from "./authentication/Authentication";
 import { RouteComponentProps } from "react-router-dom";
 import { Footer } from "./components/Footer/Footer";
 import { API } from "./api/API";
+import { Platform } from "./api/DataTypes";
 
 // @ts-ignore
 export const DispatchContext: React.Context<{
@@ -18,34 +19,60 @@ export const DispatchContext: React.Context<{
 
 export const App = (props: RouteComponentProps) => {
   const { history, location } = props;
+  const [token, setToken ] = useState<string | null>();
   const [state, dispatch]: [State, React.Dispatch<Action>] = useReducer(
     reducer,
     initialState
   );
 
-  useEffect(() => {
-    API.platforms().then((platforms) => {
-      dispatch({
-        type: ActionType.SetPlatforms,
-        payload: {
-          platforms,
-        },
-      });
-    });
-    API.apps().then((apps) => {
-      dispatch({
-        type: ActionType.SetApps,
-        payload: {
-          apps,
-        },
-      });
-    });
-  }, []);
+  
+  // Get and set context (platforms, apps and releases).
+  // Only if user is login
+  useEffect( () => {
+    if ( token ) {
 
+      // Local storage.
+      const account = JSON.parse( localStorage.getItem('kiln-account') || '{}' );
+      
+      // Set Context Account
+      dispatch({
+        type: ActionType.SetAccount,
+        payload: { account },
+      })
+
+      // Set Context platforms
+      API.platforms(token).then( ( data:any ) => {
+        const platforms:[] = data._items.map( ( p:Platform ) => { return (p as Platform) })
+        dispatch({
+          type: ActionType.SetPlatforms,
+          payload: { platforms },
+        });
+      });
+    
+      // Set Context Apps/games
+      API.apps(token).then((apps) => {
+        dispatch({
+          type: ActionType.SetApps,
+          payload: {
+            apps: apps._items,
+          },
+        });
+      });
+
+    }
+    
+  }, [token] );
+
+  // Try to redirect user login to Analytics
   useEffect(() => {
+    
+    // console.log(location.pathname);
+    
     if (!PublicPaths.includes(location.pathname)) {
       Authentication.validateToken()
         .then((user) => {
+          
+          setToken( getToken() );
           dispatch({
             type: ActionType.SetUser,
             payload: {
@@ -63,7 +90,7 @@ export const App = (props: RouteComponentProps) => {
           if (location.pathname !== Paths.LogIn) history.push(Paths.LogIn);
         });
     }
-  }, [history, location]);
+  }, [history, location] );
 
   return (
     <Suspense fallback={<Placeholder></Placeholder>}>

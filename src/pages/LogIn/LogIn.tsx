@@ -12,25 +12,40 @@ import { Authentication } from "../../authentication/Authentication";
 export const LogIn = ({ history }: RouteComponentProps) => {
   const { t } = useTranslation();
   const [waitingForResponse, setWaitingForResponse] = useState(false);
-  const [formData, setFormData] = useState({ email: "", password: "" });
+  const [formData, setFormData] = useState({ username: "", password: "" });
   const { dispatch } = useContext(DispatchContext);
 
   const handleSubmit = async () => {
+    // Put spinner loading
     setWaitingForResponse(true);
 
-    const user = await API.login(formData.email, formData.password);
+    // Get login data { token, account }
+    const { token, account } = await API.login(formData.username, formData.password);   
+  
+    // Set context account.
+    if ( account ) {
+      dispatch({
+        type: ActionType.SetAccount,
+        payload: {
+          account,
+        },
+      });
+    }
 
-    dispatch({
-      type: ActionType.SetUser,
-      payload: {
-        user,
-      },
-    });
+    // Save token in localstorare
+    if ( token ) {
+      Authentication.handleSuccessfulLogin(token, account);
+    } else {
+      Authentication.clearToken();
+    }
 
-    Authentication.handleSuccessfulLogin(user);
-
+    // Remove spinner loading
     setWaitingForResponse(false);
-
+    
+    // Go to Analytics.
+    // if ( Authentication.validateToken() ) {
+    //   history.push(Paths.Analytics);
+    // }
     history.push(Paths.Analytics);
   };
 
@@ -48,11 +63,11 @@ export const LogIn = ({ history }: RouteComponentProps) => {
           <Image src={Logo} />
           <Form.Field>
             <input
-              name="email"
-              value={formData.email}
-              type="email"
-              autoComplete="email"
-              placeholder={t("login.email")}
+              name="username"
+              value={formData.username}
+              type="text"
+              autoComplete="username"
+              placeholder={t("login.username")}
               onChange={handleInputChange}
             />
           </Form.Field>
