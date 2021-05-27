@@ -13,12 +13,19 @@ interface APIErrorIssues {
 
 export interface APIResponse {
   _status: 'OK' | 'ERR';
+  _etag: string;
   // ERROR
   _issues:  APIErrorIssues | null;
   _error: APIError | null;
   // OK
   id: string | null;
-  _items: Platform[] | Account[] | AppInfo[] | null;
+  _items: 
+    Platform[] | 
+    Account[] | 
+    AppInfo[] | 
+    GraphData[] | 
+    StatData[] | 
+    null;
 }
 
 // APP
@@ -56,8 +63,8 @@ export interface BasicAppInfo {
   type: 0 | 1;
   name: string;
   default_language: string;
-  summary: string | null;
   description: string | null;
+  summary: string | null;
 }
 
 export interface AppPlatform {
@@ -65,22 +72,25 @@ export interface AppPlatform {
   status: number;
 }
 
-export interface AppInfo extends BasicAppInfo {
+export interface AppInfoPatch extends BasicAppInfo {
   team: string;
   releases: any[] | null;
   platforms_info: number[] | null;
-  privacy_policy: string | null;
-  assets_1?: Asset[] | null;
-  assets_2?: Asset[] | null;
-  categories_1?: string | null;
-  categories_2?: string | null;
   leaderboards: any[] | null;
   iaps: IAP[];
   events: Event[];
   ads: Ad[];
   stats: any[] | null;
   graphs: any[] | null;
+  privacy_policy: string | null;
+}
+
+export interface AppInfo extends AppInfoPatch {
   _etag: string;
+  assets_1?: Asset[] | null;
+  assets_2?: Asset[] | null;
+  categories_1?: string | null;
+  categories_2?: string | null;
 }
 
 export enum PlatformConnectionStatus {
@@ -135,24 +145,24 @@ export interface Login {
   account: Account | null;
 }
 
-/**
- * Analytics
- */
+// Stats
+export interface StatData {
+  application_id: string;
+  platform_id: number;
+  date: string;
+  label: string;
+  value: string,
+  id: number,
+}
+
+// Analytics
 export interface GraphData {
-  graph_title: string;
+  title: string
   x_axis: string[];
   y_axis: string[];
   values: number[];
-}
-
-export interface StatData {
-  label: string;
-  value: string | number;
-}
-
-export interface Analytics {
-  graphs: GraphData[];
-  stats: StatData[];
+  application: string,
+  date: string,
 }
 
 export interface PlatformStat {
@@ -162,6 +172,11 @@ export interface PlatformStat {
 }
 
 export interface TopStats {
+  top_games: PlatformStat[];
+  top_platforms: PlatformStat[];
+}
+
+export interface GraphData {
   top_games: PlatformStat[];
   top_platforms: PlatformStat[];
 }
@@ -232,3 +247,9 @@ export const IAPTypeOptions = [
     key: IAPType.NonConsumable,
   },
 ];
+
+export interface Filter {
+  application_id: string | null,
+  platform_id: number | null,
+  date: string | null
+}

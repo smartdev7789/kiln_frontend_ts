@@ -1,17 +1,13 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Header, Dropdown, Form, DropdownProps } from "semantic-ui-react";
-import { AppSummary, Platform } from "../../api/DataTypes";
+import { AppSummary, Platform, Filter } from "../../api/DataTypes";
 
 type FiltersProps = {
   platforms: Platform[];
   apps: AppSummary[];
-  onChange: (key: "platform" | "date" | "app_id", value: number | null) => void;
-  filters: {
-    platform: number | null;
-    app_id: number | null;
-    date: number | null;
-  };
+  onChange: (key: "platform_id" | "date" | "application_id", value: number | null) => void;
+  filters: Filter
 };
 
 const DateOptions = [
@@ -63,10 +59,10 @@ export const Filters = ({
           <Form.Field>          
             <Dropdown
               onChange={handleChange}
-              name="platform"
-              placeholder={t("filters.platforms")}
+              name="platform_id"
+              placeholder={t("filters.platforms_id")}
               clearable
-              value={filters.platform || undefined}
+              value={filters.platform_id || undefined}
               options={platforms.map((platform) => ({
                 key: platform.id,
                 text: platform.name,
@@ -77,10 +73,10 @@ export const Filters = ({
           <Form.Field>
             <Dropdown
               onChange={handleChange}
-              name="app_id"
-              placeholder={t("filters.app_id")}
+              name="application_id"
+              placeholder={t("filters.application_id")}
               clearable
-              value={filters.app_id || undefined}
+              value={filters.application_id || undefined}
               options={apps.map((app) => ({
                 key: app.id,
                 text: app.name,

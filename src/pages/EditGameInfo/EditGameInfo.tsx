@@ -15,11 +15,7 @@ import {
   EditGameInfoSteps,
   GameCreationSteps,
 } from "../../components/GameCreationSteps";
-// import {
-//   additionalFormFieldsForHuawei,
-//   huaweiCategoryDropdownData,
-//   huaweiID,
-// } from "../../platformData/Huawei";
+
 import { PagePlaceholder } from "../../components/Placeholders/PagePlaceholder";
 import { getToken } from "../../authentication/Authentication";
 
@@ -101,14 +97,20 @@ export const EditGameInfo = ({ history, match }: RouteComponentProps) => {
   const [gameID, setGameID] = useState<string | null>(null);
   const [token, setToken] = useState<string>('');
   const [gameData, setGameData] = useState<AppInfo | null>( null );
+<<<<<<< HEAD
   // const [categories_1, setCategories_1] = useState<any>();
   const categories_1 = null;
+=======
+
+>>>>>>> develop
   // Submit.
   const handleSubmit = async (formData: object) => {   
+    // Start sniper
     setWaitingForResponse(true);
     const app = await API.updateApp(token, gameData!.id, formData as AppInfo, gameData!._etag);
+    // Stop sniper
     setWaitingForResponse(false);
-    history.push(PathHelpers.EditGameMonetisation({ id: app!.id! }), { app });
+    history.push(PathHelpers.EditGamePlatforms({ id: app!.id! }), { app });
   };
   
   // obtiene el ID de la app y setea el token
@@ -131,41 +133,28 @@ export const EditGameInfo = ({ history, match }: RouteComponentProps) => {
   // Show roulette until gameData is populated
   if (gameData === null) return <PagePlaceholder />;
 
-  // Forms fields
-  const allFields = [...formFields];
-  
-  // Add fields for specific platform.
-  // if ( gameData.platforms_info! ) {
-  //   // Huawai
-  //   const platforms = gameData.platforms_info;
-  //   console.log(platforms);
-
-  //   platforms.forEach( (platform) => {
-  //     switch (platform) {
-  //       case 1:
-  //         // additionalFormFieldsForHuawei.forEach((field) => { allFields.push({ ...field });
-  //         // setCategories_1(huaweiCategoryDropdownData);
-  //         console.log("huaweiID")
-  //         break;
-  //     }
-  //   });
-
-  // }
- 
   // Return initial form data.
   const initialFormData = () => {
       const data: { [key: string]: any } = {};
+<<<<<<< HEAD
       allFields.map( (field) => {
           console.log(`${field.key}: ${(gameData as any)[field.key]}`)
           data[field.key] = (gameData as any)[field.key];
           // TODO
           return field;
+=======
+      formFields.map( (field) => {
+        data[field.key] = (gameData as any)[field.key];
+        return field
+>>>>>>> develop
       })
+      console.log(data)
       return data
   }
   
   return (
     <Grid>
+      {/* Header */}
       <Grid.Row style={{ borderBottom: "2px solid #C4C4C4" }}>
         <Header size="huge" style={{ marginBottom: 0 }}>
           {gameData.name} - {t("editGame.info.title")}
@@ -175,22 +164,29 @@ export const EditGameInfo = ({ history, match }: RouteComponentProps) => {
           positive
           style={{ marginBottom: 0, marginLeft: "auto", padding: "0.5em" }}
           as={Link}
-          to={PathHelpers.EditGameMonetisation({ id: gameData.id })}
+          to={PathHelpers.EditGamePlatforms({ id: gameData.id })}
         >
           {t("editGame.nextStep")}
         </Button>
       </Grid.Row>
+      
+      {/* Steps */}
       <Grid.Row>
         <GameCreationSteps steps={EditGameInfoSteps} gameId={gameData.id!} />
       </Grid.Row>
+
+      {/* Form */}
       <Grid.Row>
         <Segment className="full-width"> 
           <ValidatedForm
             loading={ waitingForResponse }
             onSubmit={ handleSubmit }
-            fields={ allFields }
+            fields={ formFields }
             initialFormData={ initialFormData() }
+<<<<<<< HEAD
             additionalFieldData={{ categories_1 }}
+=======
+>>>>>>> develop
             buttons={[
               {
                 text: "editGame.info.submit",

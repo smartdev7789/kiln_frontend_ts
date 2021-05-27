@@ -1,14 +1,18 @@
 import {
   Login,
-  Analytics,
   TopStats,
+  GraphData,
   User,
   // Platform,
   // AppSummary,
   AppInfo,
+  AppInfoPatch,
   BasicAppInfo,
   APIResponse,
+  Filter
 } from "./DataTypes";
+
+import { yesterday } from "../libs/date"
 
 // Endpoint URL.
 const API_ENDPOINT = process.env.REACT_APP_API_URI;
@@ -94,20 +98,27 @@ const account = async (token: string, accouut_ID: string) => {
 
 
 // TODO
-const analytics = async (
-  platform: number | null,
-  app_id: number | null,
-  date: number | null,
-  token: string | null
-) => {
-  
-
+const stats = async ( filters:Filter, token:string | null ) => {
+  // http://localhost:5000/v0.01/stats?where={"application_id":"b0ca2dae-836a-422c-98e0-858526651edf","platform_id":1}
   const url = `${API_ENDPOINT}/stats/`;
   // const res = await fetch( url, makeHead('GET', token) );
 
+  let where = ''
+  switch (filters.date) {
+    case '0':
+      let date = yesterday()
+      where = `?where={"application_id":"${filters.application_id}","platform_id":${filters.platform_id},"date":"${date}"}`;
+      break
+    case '4':
+      where = `?where={"application_id":"${filters.application_id}","platform_id":${filters.platform_id}}`;
+      break
+    default:
+      where = `?where={"application_id":"${filters.application_id}","platform_id":${filters.platform_id}}`;
+  }
+
   if ( token ) {
     const bearer = 'Bearer ' + token;
-    const res = await fetch( url, 
+    const res = await fetch( url.concat(where),
       { 
         method: 'GET',
         mode: 'cors',
@@ -118,12 +129,12 @@ const analytics = async (
       }
     );
     if (res.status === 200 ) {
-      return (await res.json()) as Analytics;
+      return (await res.json()) as APIResponse;
     } else {
-      return ( { graphs: [], stats: [] } );
+      return null
     }
   } else {
-    return ( { graphs: [], stats: [] } );
+    return null
   }
 };
 
@@ -150,6 +161,56 @@ const topStats = async (token: string | null) => {
     }
   } else {
     return ( { top_games: [], top_platforms: [] } );
+  }
+};
+
+
+
+const graphs = async (token: string | null, filters:Filter) => {
+  // ?where={"application_id":"b0ca2dae-836a-422c-98e0-858526651edf", "platform_id":1, "date":"2021-05-21"}
+  // const url = `${API_ENDPOINT}/graphs?where={"application_id":${filters.application_id},"platform_id":${filters.platform_id},"date":"${filters.date}"}`;
+  const url = `${API_ENDPOINT}/graphs`
+
+  // "yesterday":"0",
+  // "last7Days": "1",
+  // "last14Days": "2",
+  // "last30Days": "3",
+  // "allTime": "4",
+
+  let where = ''
+  switch (filters.date) {
+    case '0':
+      let date = yesterday()
+      where = `?where={"application_id":"${filters.application_id}","platform_id":${filters.platform_id},"date":"${date}"}`;
+      break
+    case '4':
+      where = `?where={"application_id":"${filters.application_id}","platform_id":${filters.platform_id}}`;
+      break
+    default:
+      where = `?where={"application_id":"${filters.application_id}","platform_id":${filters.platform_id}}`;
+  }
+  
+  // console.log(url.concat(where))
+  
+  if ( token ) {
+    const bearer = 'Bearer ' + token;
+    const res = await fetch( url.concat(where),
+      { 
+        method: 'GET',
+        mode: 'cors',
+        headers: { 
+          'Content-Type': 'application/json', 
+          'Authorization': bearer,
+        },
+      }
+    );
+    if (res.status === 200 ) {
+      return ( await res.json() ) as APIResponse;
+    } else {
+      return null
+    }
+  } else {
+    return null
   }
 };
 
@@ -181,7 +242,7 @@ const platforms = async ( token: string | null ) => {
 // Get all Apps (of user login?).
 const apps = async (token: string | null) => {
  
-  if ( token ) {
+  if ( token !== '' ) {
     const url = `${API_ENDPOINT}/apps`;
     const bearer = 'Bearer ' + token;
     const res = await fetch( url, 
@@ -203,8 +264,6 @@ const apps = async (token: string | null) => {
   }
   
 };
-
-
 
 // Get App.
 const app = async (token: string, id: string) => {
@@ -270,21 +329,22 @@ const createApp = async (token: string | null, appData: BasicAppInfo) => {
 
 
 // Update App
-const updateApp = async (token: string, id: string, appData: AppInfo, etag: string) => {
+const updateApp = async (token: string, id: string, data:AppInfo, etag: string) => {
+
   if (token !== '') {
     const url = `${API_ENDPOINT}/apps/${id}`;
     const bearer = 'Bearer ' + token;
 
     const res = await fetch(url, {
       method: "PATCH",
+      body: JSON.stringify( data ),
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         'If-Match': etag,
         'Authorization': bearer,
       },
-      body: JSON.stringify({ ...appData }),
     });
-    return (await res.json()) as AppInfo;
+    return (await res.json()) as APIResponse;
   }
 };
 
@@ -321,7 +381,8 @@ export const API = {
   account,
   securityCheck,
   // validate, -> securityCheck
-  analytics,
+  stats,
+  graphs,
   topStats,
   platforms,
   apps,

@@ -1,5 +1,8 @@
+import React, { useState } from "react";
+// import { useTranslation } from "react-i18next";
+import { Segment } from "semantic-ui-react";
 import { Option } from "../components/ValidatedForm/MultipleDropdownsToString";
-import { FieldType } from "../components/ValidatedForm/ValidatedForm";
+import { FormField, FieldType, ValidatedForm } from "../components/ValidatedForm/ValidatedForm";
 
 const stringToCategoryOptions = (string: string) =>
   string.split(", ").map((categoryDisplay, i) => {
@@ -10,12 +13,12 @@ const stringToCategoryOptions = (string: string) =>
     };
   });
 
-export const huaweiCategory0Options =
+const huaweiCategory0Options =
   "Entertainment, Tools, Finance, Social, Lifestyle, Navigation & transport, Personalized themes, Education, Sports & health, Photo & video, News & reading, Shopping, Food & drink, Cars, Travel, Business, Kids";
-export const huawaiCategory1Options =
+const huawaiCategory1Options =
   "Puzzle & casual, Strategy, Action, Role-playing, Card & board, Sports games";
 
-export const huaweiSubcat0Options = [
+const huaweiSubcat0Options = [
   "Karaoke, Streaming, Radio, Videos, TV, Music",
   "Alarms, Browsers, Keyboards, Wi-Fi, Tools, Security",
   "Accounting, Personal finance, Lottery, Banking, Equity funds, Loans",
@@ -34,7 +37,7 @@ export const huaweiSubcat0Options = [
   "Notes, Efficiency, Email, Jobs, Business software",
   "Early learning, Nursery rhymes, Mom & baby",
 ];
-export const huaweiSubcat1Options = [
+const huaweiSubcat1Options = [
   "Music, Puzzle, Mystery, Tile-matching, Casual, IO",
   "Historical strategy, Modern strategy, Business management, 10065, Life simulation, Tower defense",
   "Fighting, Flying, Shooting, Running",
@@ -43,7 +46,7 @@ export const huaweiSubcat1Options = [
   "Basketball, Sports, Racing, Soccer",
 ];
 
-export const huaweiCategoryDropdownData = [
+const huaweiCategoryDropdownData = [
   {
     key: "0",
     label: "editGame.info.categories.mainCategory",
@@ -87,22 +90,18 @@ export const huaweiCategoryDropdownData = [
   },
 ];
 
-export const huaweiID = 1;
+const categories_1 = huaweiCategoryDropdownData;
 
-export const additionalFormFieldsForHuawei = [
+const formFields: FormField[] = [
   {
-    key: `assets_${huaweiID}`,
-    type: FieldType.MultipleAssets,
-    label: "editGame.info.assets.label",
-  },
-  {
-    key: `categories_${huaweiID}`,
+    // TODO
+    key: "categories_1",
     type: FieldType.MultipleDropdowns,
     label: "editGame.info.categories.label",
     delimiter: "-",
   },
   {
-    key: `age_rating_${huaweiID}`,
+    key: 'age_rating',
     type: FieldType.Dropdown,
     label: "editGame.info.age_rating",
     moreInfoLink: "https://developer.huawei.com/consumer/en/doc/50125",
@@ -112,4 +111,56 @@ export const additionalFormFieldsForHuawei = [
       text: rating,
     })),
   },
+  {
+    key: "assets",
+    type: FieldType.MultipleAssets,
+    label: "editGame.info.assets.label",
+  },
 ];
+
+export const HuaweiForm = () => {
+  const [ waitingForResponse, setWaitingForResponse ] = useState(false);
+  const handleSubmit = async (formData: object) => {
+    setWaitingForResponse(true);
+    // const app = await API.updateApp(gameData!.id!, formData as AppInfo);
+    setWaitingForResponse(false);
+  };
+
+  // TODO - para pruebas.
+  const gameData = {
+    categories_1: "0-0-0",
+    age_rating: null,
+    assets: [
+      // { type:0, width:360, height:360, url:"https://play-lh.googleusercontent.com/ecbXmgbcfIE631S3pQmkPxT9B1NBkKqAIWte9dFH37uBwC1hvuDQ2laeeosA7neBvbpl=s360-rw" },
+      // { type:1, width:1920, height:1080, url:"https://play-lh.googleusercontent.com/4ek-DNeaFzPeFw_24Yy1VlSEgmjmeKw0IGzL2ZOWGwxUD5bJNzOyDgsmGIEEYjNOXJU=w3360-h1942-rw"},
+      // { type:2, width:1920, height:1080, url:"https://youtu.be/co1wqrGI9tM" }
+    ]
+  }
+
+  const initialFormData = formFields.reduce(
+    (data: { [key: string]: any }, field) => {
+      data[field.key] = (gameData as any)[field.key];
+      return data;
+    },
+    {}
+  );
+
+  return (
+    <div>
+      <ValidatedForm
+        loading={waitingForResponse}
+        onSubmit={handleSubmit}
+        fields={formFields}
+        initialFormData={initialFormData}
+        additionalFieldData={{ categories_1, }}
+        buttons={[
+          {
+            text: "editGame.info.submit",
+            positive: true,
+            submit: true,
+          },
+        ]}
+      />
+    </div>
+  )
+}
