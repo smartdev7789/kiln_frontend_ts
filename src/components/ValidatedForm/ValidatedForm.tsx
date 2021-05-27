@@ -202,15 +202,15 @@ export const ValidatedForm = (props: ValidatedFormProps) => {
           </Form.Field>
         );
       })}
-      <Button.Group floated="right">
+      <div style={{textAlign:'right'}}>
         {props.buttons.map((buttonData) => {
           return (
             <Button
+              style={{margin: '5px'}}
               key={buttonData.text}
               disabled={
                 buttonData.disabled || buttonData.submit ? !isValid : undefined
               }
-              floated="right"
               positive={buttonData.positive}
               type={buttonData.submit ? "submit" : undefined}
             >
@@ -218,7 +218,7 @@ export const ValidatedForm = (props: ValidatedFormProps) => {
             </Button>
           );
         })}
-      </Button.Group>
+      </div>
     </Form>
   );
 };

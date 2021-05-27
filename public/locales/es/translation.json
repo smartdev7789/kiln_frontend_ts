@@ -16,9 +16,7 @@
     "top_platforms": {
       "header": "Top platforms"
     },
-    "graphs": {
-      "set-filter": "Set filter to show graphs"
-    }
+    "no_data_yet": "No data yet"
   },
   "editAccountInfo": {
     "title": "Edit account info",
@@ -68,9 +66,7 @@
         "id": "ID",
         "platforms": "Platforms",
         "actions": "Actions",
-        "status": "Status",
-        "type": "Type",
-        "default_language":"Language"
+        "status": "Status"
       },
       "edit": "Edit"
     }
@@ -97,7 +93,6 @@
   },
   "editGame": {
     "nextStep": "Next step",
-    "end": "Finish",
     "platforms": {
       "title": "Platforms",
       "table": {
@@ -108,9 +103,6 @@
           "status": "Status"
         },
         "edit": "Edit info"
-      },
-      "accordion":{
-        "comming-soon": "Comming soon"
       }
     },
     "monetisation": {
@@ -167,7 +159,6 @@
     },
     "info": {
       "title": "Game info",
-      "submit": "Submit",
       "screenshots": "Screenshots",
       "age_rating": "Age rating",
       "assets": {
@@ -207,9 +198,9 @@
   },
   "filters": {
     "filters": "Filters",
-    "application_id": "Game",
+    "app_id": "Game",
     "date": "Date",
-    "platforms_id": "Platforms",
+    "platforms": "Platforms",
     "dateOptions": {
       "yesterday": "Yesterday",
       "last7Days": "Last 7 days",

@@ -1,84 +1,351 @@
 import {
-  Analytics,
+  Login,
   TopStats,
+  GraphData,
   User,
   Platform,
   AppSummary,
   AppInfo,
+  AppInfoPatch,
   BasicAppInfo,
+  APIResponse,
+  Filter
 } from "./DataTypes";
 
+import { yesterday } from "../libs/date"
+
+// Endpoint URL.
 const API_ENDPOINT = process.env.REACT_APP_API_URI;
 
-const login = async (email: string, password: string) => {
-  const res = await fetch(`${API_ENDPOINT}/users/1`);
-  return (await res.json()) as User;
+const makeHead = (method:string, token:string) => {
+  const bearer = 'Bearer ' + token;
+  const requestInit = { 
+    method: method,
+    mode: 'cors',
+    headers: { 
+      'Content-Type': 'application/json', 
+      'Authorization': bearer,
+    },
+  }
+  console.log(requestInit);
+  return requestInit
+}
+
+// Login.
+const login = async (username: string, password: string) => {
+  const postData = { username, password };
+  const url = `${API_ENDPOINT}/login`;
+  const res = await fetch( 
+    url, 
+    { 
+      method: 'POST', 
+      mode: 'cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(postData)  
+    }
+  );
+
+  if (res.status === 200 ) {
+    return (await res.json()) as Login;
+  } else {
+    return ( { "token": null, "account": null } ) as Login;
+  }
 };
 
-const validate = async (token: string) => {
-  const res = await fetch(`${API_ENDPOINT}/users/${token}`);
-  return (await res.json()) as User;
+// Security Check.
+const securityCheck = async (token: string) => {
+  const url = `${API_ENDPOINT}/security_check`;
+  const bearer = 'Bearer ' + token;
+  const res = await fetch( url, 
+    { 
+      method: 'GET',
+      headers: { 
+        'Content-Type': 'application/json', 
+        'Authorization': bearer,
+      },
+    }
+  );
+  
+  if (res.status === 200 ) {
+    // { "response": "success" }
+    return (await res.json());
+  } else {
+    return ( { "response": "fail" } );
+  }
 };
 
-const analytics = async (
-  platform: number | null,
-  app_id: number | null,
-  date: number | null
-) => {
-  const res = await fetch(`${API_ENDPOINT}/stats/1`);
-  return (await res.json()) as Analytics;
+// Security Check.
+const account = async (token: string, accouut_ID: string) => {
+  const url = `${API_ENDPOINT}/accounts/${accouut_ID}`;
+  const bearer = 'Bearer ' + token;
+  const res = await fetch( url, 
+    { 
+      method: 'GET',
+      headers: { 
+        'Content-Type': 'application/json', 
+        'Authorization': bearer,
+      },
+    }
+  );
+  
+  if (res.status === 200 ) {
+    // { "response": "success" }
+    return (await res.json());
+  } else {
+    return ( { "response": "fail" } );
+  }
 };
 
-const topStats = async () => {
-  const res = await fetch(`${API_ENDPOINT}/stats/top`);
-  return (await res.json()) as TopStats;
+
+// TODO
+const stats = async ( filters:Filter, token:string | null ) => {
+  // http://localhost:5000/v0.01/stats?where={"application_id":"b0ca2dae-836a-422c-98e0-858526651edf","platform_id":1}
+  const url = `${API_ENDPOINT}/stats/`;
+  // const res = await fetch( url, makeHead('GET', token) );
+
+  let where = ''
+  switch (filters.date) {
+    case '0':
+      let date = yesterday()
+      where = `?where={"application_id":"${filters.application_id}","platform_id":${filters.platform_id},"date":"${date}"}`;
+      break
+    case '4':
+      where = `?where={"application_id":"${filters.application_id}","platform_id":${filters.platform_id}}`;
+      break
+    default:
+      where = `?where={"application_id":"${filters.application_id}","platform_id":${filters.platform_id}}`;
+  }
+
+  if ( token ) {
+    const bearer = 'Bearer ' + token;
+    const res = await fetch( url.concat(where),
+      { 
+        method: 'GET',
+        mode: 'cors',
+        headers: { 
+          'Content-Type': 'application/json', 
+          'Authorization': bearer,
+        },
+      }
+    );
+    if (res.status === 200 ) {
+      return (await res.json()) as APIResponse;
+    } else {
+      return null
+    }
+  } else {
+    return null
+  }
 };
 
-const platforms = async () => {
-  const res = await fetch(`${API_ENDPOINT}/platforms`);
-  return (await res.json()) as Platform[];
+const topStats = async (token: string | null) => {
+  // const res = await fetch(`${API_ENDPOINT}/stats/top`);  
+  const url = `${API_ENDPOINT}/stats/top`;
+  
+  if ( token ) {
+    const bearer = 'Bearer ' + token;
+    const res = await fetch( url, 
+      { 
+        method: 'GET',
+        mode: 'cors',
+        headers: { 
+          'Content-Type': 'application/json', 
+          'Authorization': bearer,
+        },
+      }
+    );
+    if (res.status === 200 ) {
+      return ( await res.json() ) as TopStats;
+    } else {
+      return ( { top_games: [], top_platforms: [] } );
+    }
+  } else {
+    return ( { top_games: [], top_platforms: [] } );
+  }
 };
 
-const apps = async () => {
-  const res = await fetch(`${API_ENDPOINT}/appSummaries`);
-  return (await res.json()) as AppSummary[];
+
+
+const graphs = async (token: string | null, filters:Filter) => {
+  // ?where={"application_id":"b0ca2dae-836a-422c-98e0-858526651edf", "platform_id":1, "date":"2021-05-21"}
+  // const url = `${API_ENDPOINT}/graphs?where={"application_id":${filters.application_id},"platform_id":${filters.platform_id},"date":"${filters.date}"}`;
+  const url = `${API_ENDPOINT}/graphs`
+
+  // "yesterday":"0",
+  // "last7Days": "1",
+  // "last14Days": "2",
+  // "last30Days": "3",
+  // "allTime": "4",
+
+  let where = ''
+  switch (filters.date) {
+    case '0':
+      let date = yesterday()
+      where = `?where={"application_id":"${filters.application_id}","platform_id":${filters.platform_id},"date":"${date}"}`;
+      break
+    case '4':
+      where = `?where={"application_id":"${filters.application_id}","platform_id":${filters.platform_id}}`;
+      break
+    default:
+      where = `?where={"application_id":"${filters.application_id}","platform_id":${filters.platform_id}}`;
+  }
+  
+  // console.log(url.concat(where))
+  
+  if ( token ) {
+    const bearer = 'Bearer ' + token;
+    const res = await fetch( url.concat(where),
+      { 
+        method: 'GET',
+        mode: 'cors',
+        headers: { 
+          'Content-Type': 'application/json', 
+          'Authorization': bearer,
+        },
+      }
+    );
+    if (res.status === 200 ) {
+      return ( await res.json() ) as APIResponse;
+    } else {
+      return null
+    }
+  } else {
+    return null
+  }
 };
 
-const app = async (id: string) => {
-  const res = await fetch(`${API_ENDPOINT}/apps/${id}`);
-  return (await res.json()) as AppInfo;
+// Get all Platforms.
+const platforms = async ( token: string | null ) => {
+  if ( token ) {
+    const url = `${API_ENDPOINT}/platforms/`
+    const bearer = 'Bearer ' + token;
+    const res = await fetch( url, 
+        { 
+          method: 'GET',
+          headers: { 
+            'Content-Type': 'application/json', 
+            'Authorization': bearer,
+          },
+        }
+      );
+      
+    if (res.status === 200 ) {
+      return ( await res.json() );
+    } else {
+      return {'_items':[]};
+    }
+  } else {
+    return {'_items':[]};
+  }
 };
 
+// Get all Apps (of user login?).
+const apps = async (token: string | null) => {
+ 
+  if ( token !== '' ) {
+    const url = `${API_ENDPOINT}/apps`;
+    const bearer = 'Bearer ' + token;
+    const res = await fetch( url, 
+      { 
+        method: 'GET',
+        headers: { 
+          'Content-Type': 'application/json', 
+          'Authorization': bearer,
+        },
+      }
+    );
+    if (res.status === 200 ) {
+      return (await res.json());
+    } else {
+      return {'_items':[]};
+    }
+  } else {
+    return {'_items':[]};
+  }
+  
+};
+
+// Get App.
+const app = async (token: string, id: string) => {
+  if ( token !== '' ) {
+    const url = `${API_ENDPOINT}/apps/${id}`
+    const bearer = 'Bearer ' + token;
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json', 
+        'Authorization': bearer,
+      },
+    });
+    if (!response.ok) {
+      throw new Error("HTTP error, status = " + response.status);
+    }
+    return (await response.json()) as AppInfo;
+  }
+};
+
+// Aditon App info (Ver api/DataTypes.ts/AppInfo)
 const additionalAppInfo = {
-  platforms: [],
+  platforms_info: [],
   leaderboards: [],
-  iap: [],
+  iaps: [],
   events: [],
   ads: [],
+  stats: [],
+  graphs: [],
 };
 
-const createApp = async (appData: BasicAppInfo) => {
-  const res = await fetch(`${API_ENDPOINT}/apps`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    },
-    body: JSON.stringify({ ...additionalAppInfo, ...appData }),
-  });
-  return (await res.json()) as AppInfo;
+// Create App
+const createApp = async (token: string | null, appData: BasicAppInfo) => {
+  if ( token ) {
+    const url = `${API_ENDPOINT}/apps`;
+    const bearer = 'Bearer ' + token;
+    const res = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        'Authorization': bearer,
+        Accept: "application/json",
+      },
+      body: JSON.stringify({ ...appData, ...additionalAppInfo }),
+    });
+    if (res.status === 200 ) {
+      return ( await res.json() ) as APIResponse;
+    } else {
+      return ( await res.json() ) as APIResponse;
+    }
+    
+  } else {
+    let noToken = {
+      "_status" : "ERR",
+      "_error": {
+        "message": "No token"
+      }
+    }
+    return noToken as APIResponse;
+  }
+
 };
 
-const updateApp = async (id: number, appData: AppInfo) => {
-  const res = await fetch(`${API_ENDPOINT}/apps/${id}`, {
-    method: "PATCH",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    },
-    body: JSON.stringify({ ...appData }),
-  });
-  return (await res.json()) as AppInfo;
+
+// Update App
+const updateApp = async (token: string, id: string, data:AppInfo, etag: string) => {
+
+  if (token !== '') {
+    const url = `${API_ENDPOINT}/apps/${id}`;
+    const bearer = 'Bearer ' + token;
+
+    const res = await fetch(url, {
+      method: "PATCH",
+      body: JSON.stringify( data ),
+      headers: {
+        'Content-Type': 'application/json',
+        'If-Match': etag,
+        'Authorization': bearer,
+      },
+    });
+    return (await res.json()) as APIResponse;
+  }
 };
 
 const resetPassword = async (email: string) => {
@@ -108,10 +375,14 @@ const updateAccountInfo = async (accountData: User) => {
   return await res.json();
 };
 
+
 export const API = {
   login,
-  validate,
-  analytics,
+  account,
+  securityCheck,
+  // validate, -> securityCheck
+  stats,
+  graphs,
   topStats,
   platforms,
   apps,

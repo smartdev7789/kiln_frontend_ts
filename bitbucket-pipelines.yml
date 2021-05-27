@@ -1,0 +1,29 @@
+clone:
+  depth: full
+  lfs: true
+
+# Reusable steps code (by using the '<<: *step-name' operator below)
+deploy-to-staging-server-step: &deploy-to-staging-server-step
+  - step:
+        name: Deploy to staging server
+        image: node:14.1.0
+        caches:
+          - node
+        script:
+          - npm install
+          - REACT_APP_API_URI='https://staging.gamebake.io/v0.01'; npm run build
+          - chmod 755 ./build
+          - find ./build -type d -exec chmod 755 {} \;
+          - find ./build -type f -exec chmod 644 {} \;
+          - apt-get update && apt-get install -y unzip rsync
+          - rsync -rpvz --delete build/ $STAGING_SERVER_USER@$STAGING_SERVER_ADDRESS:/home/$STAGING_SERVER_USER/frontend
+          - ssh $STAGING_SERVER_USER@$STAGING_SERVER_ADDRESS "sudo -u www-data rsync -rpvz --delete /home/$STAGING_SERVER_USER/frontend/ $STAGING_SERVER_DEPLOY_PATH"
+          - echo "Staging Version Deployed"
+
+pipelines:
+  custom:
+    staging-manual-deploy:
+      - <<: *deploy-to-staging-server-step
+  branches:
+    staging:
+      - <<: *deploy-to-staging-server-step

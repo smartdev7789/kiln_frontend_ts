@@ -1,23 +1,21 @@
 {
   "login": {
-    "title": "Log in",
-    "header": "Log In",
+    "title": "Iniciar sesión",
+    "header": "Iniciar sesión",
     "email": "E-mail",
-    "username": "Username",
-    "password": "Password",
-    "login": "Login",
-    "forgotPassword": "Forgot password?"
+    "username": "Usuario",
+    "password": "Contraseña",
+    "login": "Acceso",
+    "forgotPassword": "¿Olvidó su contraseña?"
   },
   "analytics": {
     "title": "Analytics",
+    "no_data_yet": "Todavía no hay datos",
     "top_games": {
-      "header": "Top games"
+      "header": "Los mejores juegos"
     },
     "top_platforms": {
-      "header": "Top platforms"
-    },
-    "graphs": {
-      "set-filter": "Set filter to show graphs"
+      "header": "Las mejores plataformas"
     }
   },
   "editAccountInfo": {
@@ -97,7 +95,6 @@
   },
   "editGame": {
     "nextStep": "Next step",
-    "end": "Finish",
     "platforms": {
       "title": "Platforms",
       "table": {
@@ -108,9 +105,6 @@
           "status": "Status"
         },
         "edit": "Edit info"
-      },
-      "accordion":{
-        "comming-soon": "Comming soon"
       }
     },
     "monetisation": {
@@ -167,7 +161,6 @@
     },
     "info": {
       "title": "Game info",
-      "submit": "Submit",
       "screenshots": "Screenshots",
       "age_rating": "Age rating",
       "assets": {
@@ -207,9 +200,9 @@
   },
   "filters": {
     "filters": "Filters",
-    "application_id": "Game",
+    "app_id": "Game",
     "date": "Date",
-    "platforms_id": "Platforms",
+    "platforms": "Platforms",
     "dateOptions": {
       "yesterday": "Yesterday",
       "last7Days": "Last 7 days",

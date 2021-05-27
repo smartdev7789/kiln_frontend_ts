@@ -15,12 +15,9 @@ import {
   EditGameInfoSteps,
   GameCreationSteps,
 } from "../../components/GameCreationSteps";
-import {
-  additionalFormFieldsForHuawei,
-  huaweiCategoryDropdownData,
-  huaweiID,
-} from "../../platformData/Huawei";
+
 import { PagePlaceholder } from "../../components/Placeholders/PagePlaceholder";
+import { getToken } from "../../authentication/Authentication";
 
 export type LangCode = {
   name: string;
@@ -93,59 +90,58 @@ const formFields: FormField[] = [
   },
 ];
 
-export const EditGameInfo = ({
-  history,
-  location,
-  match,
-}: RouteComponentProps) => {
+// Componente.
+export const EditGameInfo = ({ history, match }: RouteComponentProps) => {
   const { t } = useTranslation();
   const [waitingForResponse, setWaitingForResponse] = useState(false);
+  const [gameID, setGameID] = useState<string | null>(null);
+  const [token, setToken] = useState<string>('');
+  const [gameData, setGameData] = useState<AppInfo | null>( null );
 
-  const [gameData, setGameData] = useState<AppInfo | null>(
-    location.state ? ((location.state as any).app as AppInfo) : null
-  );
-
-  const handleSubmit = async (formData: object) => {
+  // Submit.
+  const handleSubmit = async (formData: object) => {   
+    // Start sniper
     setWaitingForResponse(true);
-
-    const app = await API.updateApp(gameData!.id!, formData as AppInfo);
-
+    const app = await API.updateApp(token, gameData!.id, formData as AppInfo, gameData!._etag);
+    // Stop sniper
     setWaitingForResponse(false);
-
-    history.push(PathHelpers.EditGameMonetisation({ id: app.id }), { app });
+    history.push(PathHelpers.EditGamePlatforms({ id: app!.id! }), { app });
   };
-
-  useEffect(() => {
-    if (!gameData || !gameData.name) {
-      API.app((match.params as { id: string }).id).then((app) => {
-        setGameData(app);
-      });
+  
+  // obtiene el ID de la app y setea el token
+  useEffect( () => {
+    if ( match.params! ) {
+      setGameID( (match.params as { id: string }).id );
+      setToken( getToken()! );
     }
-  }, [gameData, gameData?.name, match.params]);
+  }, [ match.params ]);
 
+  // Obtiene y setea gameData.
+  useEffect(() => {
+    if ( token! && gameID! ){
+      API.app( token, gameID ).then( ( app ) => {
+        setGameData( (app as AppInfo ) );
+      })
+    }
+  },[token, gameID])
+
+  // Show roulette until gameData is populated
   if (gameData === null) return <PagePlaceholder />;
 
-  const allFields = [...formFields];
-
-  if (gameData.platforms.find((plat) => plat.id === huaweiID)) {
-    additionalFormFieldsForHuawei.forEach((field) => {
-      allFields.push({ ...field });
-    });
+  // Return initial form data.
+  const initialFormData = () => {
+      const data: { [key: string]: any } = {};
+      formFields.map( (field) => {
+        data[field.key] = (gameData as any)[field.key];
+        return field
+      })
+      console.log(data)
+      return data
   }
-
-  const initialFormData = allFields.reduce(
-    (data: { [key: string]: any }, field) => {
-      data[field.key] = (gameData as any)[field.key];
-
-      return data;
-    },
-    {}
-  );
-
-  const categories_1 = huaweiCategoryDropdownData;
-
+  
   return (
     <Grid>
+      {/* Header */}
       <Grid.Row style={{ borderBottom: "2px solid #C4C4C4" }}>
         <Header size="huge" style={{ marginBottom: 0 }}>
           {gameData.name} - {t("editGame.info.title")}
@@ -155,24 +151,25 @@ export const EditGameInfo = ({
           positive
           style={{ marginBottom: 0, marginLeft: "auto", padding: "0.5em" }}
           as={Link}
-          to={PathHelpers.EditGameMonetisation({ id: gameData.id })}
+          to={PathHelpers.EditGamePlatforms({ id: gameData.id })}
         >
           {t("editGame.nextStep")}
         </Button>
       </Grid.Row>
+      
+      {/* Steps */}
       <Grid.Row>
         <GameCreationSteps steps={EditGameInfoSteps} gameId={gameData.id!} />
       </Grid.Row>
+
+      {/* Form */}
       <Grid.Row>
-        <Segment className="full-width">
+        <Segment className="full-width"> 
           <ValidatedForm
-            loading={waitingForResponse}
-            onSubmit={handleSubmit}
-            fields={allFields}
-            initialFormData={initialFormData}
-            additionalFieldData={{
-              categories_1,
-            }}
+            loading={ waitingForResponse }
+            onSubmit={ handleSubmit }
+            fields={ formFields }
+            initialFormData={ initialFormData() }
             buttons={[
               {
                 text: "editGame.info.submit",
