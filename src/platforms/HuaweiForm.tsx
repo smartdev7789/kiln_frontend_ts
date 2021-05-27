@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 // import { useTranslation } from "react-i18next";
-import { Segment } from "semantic-ui-react";
 import { Option } from "../components/ValidatedForm/MultipleDropdownsToString";
 import { FormField, FieldType, ValidatedForm } from "../components/ValidatedForm/ValidatedForm";
 

@@ -38,7 +38,8 @@ export const Analytics = (props: RouteComponentProps) => {
   const { state } = useContext(DispatchContext);
 
   // Filter Param.
-  const { getQueryParamNumber, getQueryParam, setQueryParams } = useQueryParams();
+  // const { getQueryParamNumber, getQueryParam, setQueryParams } = useQueryParams();
+  const { getQueryParamNumber, getQueryParam } = useQueryParams();
 
   // State filters.
   const [filters, setFilters] = useState({
@@ -58,7 +59,7 @@ export const Analytics = (props: RouteComponentProps) => {
     });
   };
 
-  // Get graphs data.
+  // Get graphs and stats data.
   useEffect(() => {
     console.log(filters)
     if ( filters.application_id! && filters.date! && filters.platform_id! ) {
@@ -81,8 +82,6 @@ export const Analytics = (props: RouteComponentProps) => {
   // Si no existe analyticsData mostrar el spiner
   if (!graphsData || !statsData) return <PagePlaceholder />;
 
-  const { stats } = {  stats:[] }
-  
   const { top_games, top_platforms } = topStatsData;
 
   return (

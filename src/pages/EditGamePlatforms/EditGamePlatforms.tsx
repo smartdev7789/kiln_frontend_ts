@@ -53,7 +53,7 @@ export const EditGamePlatforms = (props: RouteComponentProps) => {
 
   const { t } = useTranslation();
   const { state } = useContext(DispatchContext);
-  const [ token, setToken ] = useState( getToken() )
+  const [ token ] = useState( getToken() )
   // Todas las plataformas
   const platforms:Platform[] = state.platforms || []
   const [ activeIndex, setActiveIndex ] = useState(0)
@@ -62,7 +62,7 @@ export const EditGamePlatforms = (props: RouteComponentProps) => {
   // Datos de la app/game
   const [gameData, setGameData] = useState<AppInfo | null >( null)
   // Platarormas del juego/app 
-  const [gamePlatforms, setGamePlatforms] = useState<number[]>([])
+  // const [gamePlatforms, setGamePlatforms] = useState<number[]>([])
 
   const handleClick = (index:number) => {
     const newIndex = activeIndex === index ? -1 : index
@@ -81,7 +81,7 @@ export const EditGamePlatforms = (props: RouteComponentProps) => {
   useEffect( () => {
     if ( gameData! && gameData.platforms_info!) {
       // TODO - Obtener los datos de las plataformas del juego / Si es que no viene tedo junto.
-      setGamePlatforms(gameData.platforms_info)
+      // setGamePlatforms(gameData.platforms_info)
     }
   },[ gameData ]);
 

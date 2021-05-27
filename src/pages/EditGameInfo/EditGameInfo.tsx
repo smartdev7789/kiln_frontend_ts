@@ -97,12 +97,6 @@ export const EditGameInfo = ({ history, match }: RouteComponentProps) => {
   const [gameID, setGameID] = useState<string | null>(null);
   const [token, setToken] = useState<string>('');
   const [gameData, setGameData] = useState<AppInfo | null>( null );
-<<<<<<< HEAD
-  // const [categories_1, setCategories_1] = useState<any>();
-  const categories_1 = null;
-=======
-
->>>>>>> develop
   // Submit.
   const handleSubmit = async (formData: object) => {   
     // Start sniper
@@ -136,17 +130,9 @@ export const EditGameInfo = ({ history, match }: RouteComponentProps) => {
   // Return initial form data.
   const initialFormData = () => {
       const data: { [key: string]: any } = {};
-<<<<<<< HEAD
-      allFields.map( (field) => {
-          console.log(`${field.key}: ${(gameData as any)[field.key]}`)
-          data[field.key] = (gameData as any)[field.key];
-          // TODO
-          return field;
-=======
       formFields.map( (field) => {
         data[field.key] = (gameData as any)[field.key];
         return field
->>>>>>> develop
       })
       console.log(data)
       return data
@@ -183,10 +169,6 @@ export const EditGameInfo = ({ history, match }: RouteComponentProps) => {
             onSubmit={ handleSubmit }
             fields={ formFields }
             initialFormData={ initialFormData() }
-<<<<<<< HEAD
-            additionalFieldData={{ categories_1 }}
-=======
->>>>>>> develop
             buttons={[
               {
                 text: "editGame.info.submit",
