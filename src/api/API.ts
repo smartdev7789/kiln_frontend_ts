@@ -1,6 +1,5 @@
 import {
   Login,
-  Analytics,
   TopStats,
   GraphData,
   User,
@@ -99,19 +98,27 @@ const account = async (token: string, accouut_ID: string) => {
 
 
 // TODO
-const analytics = async (
-  platform: number | null,
-  app_id: string | null,
-  date: string | null,
-  token: string | null
-) => {
-  
+const stats = async ( filters:Filter, token:string | null ) => {
+  // http://localhost:5000/v0.01/stats?where={"application_id":"b0ca2dae-836a-422c-98e0-858526651edf","platform_id":1}
   const url = `${API_ENDPOINT}/stats/`;
   // const res = await fetch( url, makeHead('GET', token) );
 
+  let where = ''
+  switch (filters.date) {
+    case '0':
+      let date = yesterday()
+      where = `?where={"application_id":"${filters.application_id}","platform_id":${filters.platform_id},"date":"${date}"}`;
+      break
+    case '4':
+      where = `?where={"application_id":"${filters.application_id}","platform_id":${filters.platform_id}}`;
+      break
+    default:
+      where = `?where={"application_id":"${filters.application_id}","platform_id":${filters.platform_id}}`;
+  }
+
   if ( token ) {
     const bearer = 'Bearer ' + token;
-    const res = await fetch( url, 
+    const res = await fetch( url.concat(where),
       { 
         method: 'GET',
         mode: 'cors',
@@ -122,12 +129,12 @@ const analytics = async (
       }
     );
     if (res.status === 200 ) {
-      return (await res.json()) as Analytics;
+      return (await res.json()) as APIResponse;
     } else {
-      return ( { graphs: [], stats: [] } );
+      return null
     }
   } else {
-    return ( { graphs: [], stats: [] } );
+    return null
   }
 };
 
@@ -160,7 +167,6 @@ const topStats = async (token: string | null) => {
 
 
 const graphs = async (token: string | null, filters:Filter) => {
-  // const res = await fetch(`${API_ENDPOINT}/graphs`);
   // ?where={"application_id":"b0ca2dae-836a-422c-98e0-858526651edf", "platform_id":1, "date":"2021-05-21"}
   // const url = `${API_ENDPOINT}/graphs?where={"application_id":${filters.application_id},"platform_id":${filters.platform_id},"date":"${filters.date}"}`;
   const url = `${API_ENDPOINT}/graphs`
@@ -184,11 +190,11 @@ const graphs = async (token: string | null, filters:Filter) => {
       where = `?where={"application_id":"${filters.application_id}","platform_id":${filters.platform_id}}`;
   }
   
-  console.log(url.concat(where))
+  // console.log(url.concat(where))
   
   if ( token ) {
     const bearer = 'Bearer ' + token;
-    const res = await fetch( url.concat(where), 
+    const res = await fetch( url.concat(where),
       { 
         method: 'GET',
         mode: 'cors',
@@ -375,9 +381,9 @@ export const API = {
   account,
   securityCheck,
   // validate, -> securityCheck
-  analytics,
-  topStats,
+  stats,
   graphs,
+  topStats,
   platforms,
   apps,
   app,

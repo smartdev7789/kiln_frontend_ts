@@ -4,9 +4,9 @@ import { RouteComponentProps } from "react-router-dom";
 import { Card, Grid, Header, Segment } from "semantic-ui-react";
 import { API } from "../../api/API";
 import {
-  Analytics as AnalyticsData,
   TopStats as TopStatsData,
-  GraphData
+  GraphData,
+  StatData
 } from "../../api/DataTypes";
 import { DispatchContext } from "../../App";
 import { GraphCard } from "../../components/Cards/GraphCard";
@@ -24,10 +24,9 @@ export const Analytics = (props: RouteComponentProps) => {
 
   const token:string|null = getToken();
 
-  // State analytics
-  const [analyticsData, setAnalyticsData] = useState<AnalyticsData>({ stats: [], graphs: [] });
-
-  const [graphData, setGraphData] = useState<GraphData[]>([]);
+  // State stats and graphs
+  const [statsData, setStatsData] = useState<StatData[]>([]);
+  const [graphsData, setGraphsData] = useState<GraphData[]>([]);
 
   // State Top stats
   const [topStatsData, setTopStatsData] = useState<TopStatsData>({
@@ -59,28 +58,19 @@ export const Analytics = (props: RouteComponentProps) => {
     });
   };
 
-  // Get analytics data when filters change.
-  useEffect(() => {
-    API.analytics(
-      filters.platform_id, 
-      filters.application_id, 
-      filters.date,
-      token).then(
-      (data) => { setAnalyticsData(data); }
-    );
-    setQueryParams(filters);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filters, token]);
-
+  // Get graphs data.
   useEffect(() => {
     console.log(filters)
     if ( filters.application_id! && filters.date! && filters.platform_id! ) {
       console.log(filters)
-      API.graphs(token, filters).then((data) => { setGraphData(data!._items as GraphData[]) })
+      API.graphs(token, filters).then((data) => { setGraphsData(data!._items as GraphData[]) })
       // API.stats(token).then((data) => { setGraphData(data!._items as GraphData[]) })
+      API.stats( filters, token).then( (data) => { setStatsData(data!._items as StatData[]); });
     } else {
-      setGraphData([])
+      setGraphsData([])
+      setStatsData([])
     }
+    // setQueryParams(filters);
   }, [token,filters])
 
   // Get top stats data when filters change.
@@ -89,7 +79,7 @@ export const Analytics = (props: RouteComponentProps) => {
   }, [token]);
 
   // Si no existe analyticsData mostrar el spiner
-  if (!analyticsData) return <PagePlaceholder />;
+  if (!graphsData || !statsData) return <PagePlaceholder />;
 
   const { stats } = {  stats:[] }
   
@@ -114,18 +104,18 @@ export const Analytics = (props: RouteComponentProps) => {
       {/* Stats */}
       <Grid.Row>
         <Card.Group>
-          { stats.map((item, i) => { return <StatsCard key={i} {...item} />; })  }
+          { statsData.map((item, i) => { return <StatsCard key={i} {...item} />; })  }
         </Card.Group>
       </Grid.Row>
 
       {/* TODO */}
       {/* Graphp card  */}
       { 
-        graphData.length !== 0
+        graphsData.length !== 0
         ?
         <Grid.Row>
-          { graphData.length > 0 ? (
-            <GraphCard data={graphData as GraphData[]} />
+          { graphsData.length > 0 ? (
+            <GraphCard data={graphsData as GraphData[]} />
           ) : (
             <GraphCardPlaceholder />
           )}

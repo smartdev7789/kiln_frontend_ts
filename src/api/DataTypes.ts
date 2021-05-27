@@ -19,7 +19,13 @@ export interface APIResponse {
   _error: APIError | null;
   // OK
   id: string | null;
-  _items: Platform[] | Account[] | AppInfo[] | GraphData[] | null;
+  _items: 
+    Platform[] | 
+    Account[] | 
+    AppInfo[] | 
+    GraphData[] | 
+    StatData[] | 
+    null;
 }
 
 // APP
@@ -139,9 +145,17 @@ export interface Login {
   account: Account | null;
 }
 
-/**
- * Analytics
- */
+// Stats
+export interface StatData {
+  application_id: string;
+  platform_id: number;
+  date: string;
+  label: string;
+  value: string,
+  id: number,
+}
+
+// Analytics
 export interface GraphData {
   title: string
   x_axis: string[];
@@ -149,16 +163,6 @@ export interface GraphData {
   values: number[];
   application: string,
   date: string,
-}
-
-export interface StatData {
-  label: string;
-  value: string | number;
-}
-
-export interface Analytics {
-  graphs: GraphData[];
-  stats: StatData[];
 }
 
 export interface PlatformStat {
