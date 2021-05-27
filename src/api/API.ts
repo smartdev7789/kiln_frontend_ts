@@ -318,13 +318,36 @@ const updateApp = async (token: string, id: string, data:AppInfo, etag: string) 
 };
 
 const resetPassword = async (email: string) => {
-  const res = await fetch(`${API_ENDPOINT}/password`, {
-    method: "PATCH",
+  const res = await fetch(`${API_ENDPOINT}/users/forgot_password`, {
+    method: "POST",
     headers: {
       "Content-Type": "application/json",
       Accept: "application/json",
     },
     body: JSON.stringify({ email }),
+  });
+  return await res.json();
+};
+
+const resetPasswordValidateToken = async (token: string) => {
+  const res = await fetch(`${API_ENDPOINT}/users/reset_password?token=${token}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    }
+  });
+  return await res.json();
+};
+
+const changePassword = async (password: string, passwordConfirmation: string, token: string) => {
+  const res = await fetch(`${API_ENDPOINT}/users/change_password`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify({password: password, confirm_password: passwordConfirmation, token: token}),
   });
   return await res.json();
 };
@@ -360,6 +383,8 @@ export const API = {
   createApp,
   updateApp,
   resetPassword,
+  resetPasswordValidateToken,
+  changePassword,
   getTermsOfService,
   acceptTermsOfService,
   updateAccountInfo,

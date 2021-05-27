@@ -6,6 +6,7 @@ import { LogOut } from "./components/LogOut";
 import { SecurityCheck } from "./pages/SecurityCheck/SecurityCheck";
 import { Analytics } from "./pages/Analytics/Analytics";
 import { ForgotPassword } from "./pages/ForgotPassword/ForgotPassword";
+import { ResetPassword } from "./pages/ResetPassword/ResetPassword";
 import { Games } from "./pages/Games/Games";
 import { LogIn } from "./pages/LogIn/LogIn";
 import { NewGame } from "./pages/NewGame/NewGame";
@@ -63,6 +64,7 @@ export enum Paths {
   EditGameMonetisation = "/games/:id/edit/monetisation",
   EditGameAnalytics = "/games/:id/edit/analytics",
   ForgotPassword = `/account/forgot-password`,
+  ResetPassword = `/account/reset-password`,
   TermsOfService = `/account/terms`,
   AccountSettings = `/account/settings`,
   EditAccountInfo = `/account/edit`,
@@ -191,6 +193,13 @@ export const ROUTES: RouteConfig[] = [
         public: true,
         hideInMenu: true,
         component: ForgotPassword,
+      },
+      {
+        path: Paths.ResetPassword,
+        exact: true,
+        public: true,
+        hideInMenu: true,
+        component: ResetPassword,
       },
       {
         path: Paths.TermsOfService,
