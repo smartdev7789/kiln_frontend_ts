@@ -10,8 +10,9 @@ deploy-to-staging-server-step: &deploy-to-staging-server-step
         caches:
           - node
         script:
+          - export REACT_APP_API_URI='https://staging.gamebake.io/v0.01'
           - npm install
-          - REACT_APP_API_URI='https://staging.gamebake.io/v0.01'; npm run build
+          - npm run build
           - chmod 755 ./build
           - find ./build -type d -exec chmod 755 {} \;
           - find ./build -type f -exec chmod 644 {} \;

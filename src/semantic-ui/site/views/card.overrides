@@ -7,8 +7,7 @@
 }
 
 .ui.cards > .ui.card {
-  margin-left: auto;
-  margin-right: auto;
+  margin: 0.5rem auto;
   color: @textColor;
 }
 
@@ -17,11 +16,13 @@
   margin-right: 1em;
 }
 
-.ui.cards > .ui.card:first-child {
-  margin-left: 0;
+.ui.three.cards {
+  margin: 0;
+  padding: 0;
 }
-.ui.cards > .ui.card:last-child {
-  margin-right: 0;
+
+.ui.card.stats > .content {
+  padding: 0.8rem;
 }
 
 .ui.card.stats > .content > .header.label {
@@ -29,7 +30,7 @@
 }
 
 .ui.card.stats > .content > .header.value {
-  font-size: 2em;
+  font-size: 1.5em;
   padding-top: 0.25em;
   color: @textColor;
 }
@@ -41,13 +42,13 @@
 
 .top-stats .ui.list .list > .item > img.image + .content,
 .top-stats .ui.list > .item > img.image + .content {
-  padding-left: 1em;
+  // padding-left: 1em;
 }
 
 .ui.cards > .ui.card.top-stats > .content {
-  padding: 2em;
+  // padding: 2em;
 }
 
 .ui.list > .item {
-  margin-bottom: 1em;
+  // margin-bottom: 1em;
 }

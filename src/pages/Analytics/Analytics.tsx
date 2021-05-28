@@ -102,7 +102,7 @@ export const Analytics = (props: RouteComponentProps) => {
       
       {/* Stats */}
       <Grid.Row>
-        <Card.Group>
+        <Card.Group centered itemsPerRow={3}>
           { statsData.map((item, i) => { return <StatsCard key={i} {...item} />; })  }
         </Card.Group>
       </Grid.Row>
