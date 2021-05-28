@@ -330,13 +330,12 @@ const resetPassword = async (email: string) => {
 };
 
 const resetPasswordValidateToken = async (token: string) => {
-  const res = await fetch(`${API_ENDPOINT}/users/reset_password?token=${token}`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    }
-  });
+  const res = await fetch(`${API_ENDPOINT}/users/reset_password?token=${token}`);
+
+  if (!res.ok) {
+    throw new Error(res.statusText);
+  }
+
   return await res.json();
 };
 

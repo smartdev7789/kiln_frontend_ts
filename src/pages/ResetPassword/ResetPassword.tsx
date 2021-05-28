@@ -78,19 +78,28 @@ export const ResetPassword = ({ history }: RouteComponentProps) => {
 
     // Call the API to see if the token we've got is valid and hasn't expired
     async function validateToken(token: string) {
-      const response = await API.resetPasswordValidateToken("token");
+      // console.log("BEGIN");
+      // console.log(resetRequestToken);
+      // console.log(getQueryParam("token"));
+      // console.log("END");
+      
+      try {
+        const response = await API.resetPasswordValidateToken(resetRequestToken!);
 
-      console.log(response);
+        setTokenValidated({ validated: true, valid: true });
 
-      setTokenValidated({ validated: true, valid: true });
-      setFormData({
-        ...formData,
-        token: resetRequestToken!,
-      })
+        setFormData({
+          ...formData,
+          token: response["token"],
+        })
+      }
+      catch (err) {
+        setTokenValidated({ validated: true, valid: false });
+      }
     }
 
     validateToken(formData.password);
-  }, [resetRequestToken, formData]);
+  }, []);
 
   return (
     <Grid textAlign="center" style={{ height: "100vh" }} verticalAlign="middle">
