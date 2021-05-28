@@ -1,6 +1,7 @@
 import { Button, Form, Grid, Image } from "semantic-ui-react";
 import { useTranslation } from "react-i18next";
-import React, { HtmlHTMLAttributes, useEffect, useRef, useState } from "react";
+// import React, { HtmlHTMLAttributes, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Logo from "../../images/logos/full-grey.png";
 import { API } from "../../api/API";
 import { Link, RouteComponentProps } from "react-router-dom";
@@ -25,7 +26,8 @@ export const ResetPassword = ({ history }: RouteComponentProps) => {
   const [formData, setFormData] = useState({ password: "", confirm_password: "", token: "" });
   const passwordInput = useRef<HTMLInputElement>(null);
 
-  const { getQueryParam, setQueryParams } = useQueryParams();
+  // const { getQueryParam, setQueryParams } = useQueryParams();
+  const { getQueryParam } = useQueryParams();
 
   const handleSubmit = async () => {
     const validation = validateForm();
@@ -99,6 +101,7 @@ export const ResetPassword = ({ history }: RouteComponentProps) => {
     }
 
     validateToken(formData.password);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

@@ -6,10 +6,6 @@ export type StatsCardProps = {
   value: string | number;
 };
 
-const styles = {
-  
-}
-
 export const StatsCard = ({ label, value }: StatsCardProps) => {
   return (
     <Card className="stats">
