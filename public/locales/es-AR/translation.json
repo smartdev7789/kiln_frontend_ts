@@ -193,7 +193,11 @@
     "getNewPassword": "Get new password",
     "passwordRequested": {
       "message": "A new password is on the way"
-    }
+    },
+    "resetPassword": "Reset Password",
+    "confirmPassword": "Confirm Password",
+    "validatingToken": "Validating Token",
+    "invalidToken": "Invalid or Expired Token. Request a password change again."
   },
   "logout": {
     "title": "Log out"
