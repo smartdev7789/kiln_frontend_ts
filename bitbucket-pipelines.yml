@@ -37,8 +37,8 @@ deploy-to-production-server-step: &deploy-to-production-server-step
           - find ./build -type d -exec chmod 755 {} \;
           - find ./build -type f -exec chmod 644 {} \;
           - apt-get update && apt-get install -y unzip rsync
-          - echo "rsync -rpvz --delete build/ $SERVER_USER@$SERVER_ADDRESS:$SERVER_DEPLOY_PATH"
-          - rsync -rpvz --delete build/ $SERVER_USER@$SERVER_ADDRESS:$SERVER_DEPLOY_PATH
+          - rsync -rpvz --delete build/ $SERVER_USER@$SERVER_ADDRESS:/home/$SERVER_USER/frontend
+          - ssh $SERVER_USER@$SERVER_ADDRESS "sudo -u www-data rsync -rpvz --delete /home/$SERVER_USER/frontend/ $SERVER_DEPLOY_PATH"
           - echo "Production Version Deployed"
 
 pipelines:
