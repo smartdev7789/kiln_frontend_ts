@@ -30,7 +30,7 @@ deploy-to-production-server-step: &deploy-to-production-server-step
         caches:
           - node
         script:
-          - export REACT_APP_API_URI='$PRODUCTION_API_URI'
+          - export REACT_APP_API_URI='$SERVER_API_URI'
           - npm install
           - npm run build
           - chmod 755 ./build
