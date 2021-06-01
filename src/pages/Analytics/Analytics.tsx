@@ -61,11 +61,8 @@ export const Analytics = (props: RouteComponentProps) => {
 
   // Get graphs and stats data.
   useEffect(() => {
-    console.log(filters)
     if ( filters.application_id! && filters.date! && filters.platform_id! ) {
-      console.log(filters)
       API.graphs(token, filters).then((data) => { setGraphsData(data!._items as GraphData[]) })
-      // API.stats(token).then((data) => { setGraphData(data!._items as GraphData[]) })
       API.stats( filters, token).then( (data) => { setStatsData(data!._items as StatData[]); });
     } else {
       setGraphsData([])

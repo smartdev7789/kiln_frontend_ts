@@ -19,6 +19,7 @@ const storeAccount = (account: Account | null) => {
 
 export const clearToken = () => {
   localStorage.removeItem(StorageString);
+  localStorage.removeItem(StoreAccount);
 };
 
 export const handleSuccessfulLogin = (token: string, account: Account | null) => {
@@ -28,8 +29,11 @@ export const handleSuccessfulLogin = (token: string, account: Account | null) =>
 
 export const validateToken = () => {
   const token = getToken();
-  if (typeof token === "string") return API.securityCheck(token);
-  else return Promise.reject();
+  if (typeof token === "string" && token.length > 0 ) {
+    return API.securityCheck(token);
+  } else {
+    return Promise.reject();
+  }
 };
 
 export const logOut = () => {

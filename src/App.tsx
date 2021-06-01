@@ -69,9 +69,10 @@ export const App = (props: RouteComponentProps) => {
     // console.log(location.pathname);
     
     if (!PublicPaths.includes(location.pathname)) {
+      // console.log("Private page")
+      
       Authentication.validateToken()
         .then((user) => {
-          
           setToken( getToken() );
           dispatch({
             type: ActionType.SetUser,
@@ -80,11 +81,9 @@ export const App = (props: RouteComponentProps) => {
             },
           });
 
-          if (
-            location.pathname === Paths.LogIn ||
-            location.pathname === Paths.Root
-          )
+          if ( location.pathname === Paths.LogIn || location.pathname === Paths.Root ) {
             history.push(Paths.Analytics);
+          }
         })
         .catch(() => {
           if (location.pathname !== Paths.LogIn) history.push(Paths.LogIn);
