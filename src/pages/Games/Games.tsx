@@ -27,7 +27,7 @@ export const Games = (props: RouteComponentProps) => {
     );
   }, [token]);
 
-  const tableHeaders = [ "game", "platforms", "type", "default_language", "status", "actions", "releases" ];
+  const tableHeaders = [ "game", "platforms", "type", "default_language", "status", "actions" ];
 
   return (
     <Grid style={{ marginTop: "1em" }}>
