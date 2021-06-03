@@ -59,7 +59,7 @@ export const Games = (props: RouteComponentProps) => {
             <TableCard
               headers = { tableHeaders.map( (string) => t( `games.table.headers.${string}` ) ) }
               rowContents={ games.map( 
-                ( appData ) => appDataToRow( appData, t("games.table.edit" ) ) ) 
+                ( appData ) => appDataToRow( appData, t("games.table.edit"), t("games.table.releases" ) ) ) 
               }
             />
           : null

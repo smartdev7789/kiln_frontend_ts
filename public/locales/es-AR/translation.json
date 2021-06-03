@@ -70,7 +70,8 @@
         "type": "Type",
         "default_language":"Language"
       },
-      "edit": "Edit"
+      "edit": "Edit",
+      "releases": "Releases"
     }
   },
   "newGame": {

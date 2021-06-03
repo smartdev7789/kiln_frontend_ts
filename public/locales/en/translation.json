@@ -72,7 +72,8 @@
         "type": "Type",
         "default_language":"Language"
       },
-      "edit": "Edit"
+      "edit": "Edit",
+      "releases": "Releases"
     }
   },
   "newGame": {
@@ -164,6 +165,9 @@
         "edit": "Edit event",
         "save": "Save event"
       }
+    },
+    "releases": {
+      "title": "Releases"
     },
     "info": {
       "title": "Game info",
