@@ -70,7 +70,8 @@
         "actions": "Actions",
         "status": "Status",
         "type": "Type",
-        "default_language":"Language"
+        "default_language":"Language",
+        "releases":"Releases"
       },
       "edit": "Edit",
       "releases": "Releases"
@@ -92,9 +93,10 @@
   },
   "gameCreationSteps": {
     "platforms": "Platforms",
-    "gameInfo": "Game info",
+    "gameInfo": "Info",
     "monetisation": "Monetisation",
-    "analytics": "Analytics"
+    "analytics": "Analytics",
+    "releases": "Releases"
   },
   "editGame": {
     "nextStep": "Next step",
@@ -185,6 +187,9 @@
         "game": "Game",
         "app": "App"
       }
+    }, 
+    "releases": {
+      "title": "Releases"
     }
   },
   "moreInfo": "More info",

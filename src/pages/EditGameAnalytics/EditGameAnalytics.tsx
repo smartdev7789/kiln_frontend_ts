@@ -9,7 +9,7 @@ import {
   EditGameAnalyticsSteps,
   GameCreationSteps,
 } from "../../components/GameCreationSteps";
-import { Paths } from "../../routes";
+import { PathHelpers } from "../../routes";
 import { PagePlaceholder } from "../../components/Placeholders/PagePlaceholder";
 import { EventRow } from "./EventRow";
 import { getToken } from "../../authentication/Authentication";
@@ -94,7 +94,13 @@ export const EditGameAnalytics = (props: RouteComponentProps) => {
   useEffect(() => {
     if ( token! && gameID! ){
       API.app( token, gameID ).then( ( app ) => { 
-        setGameData( (app as AppInfo ) );
+        console.log(app)
+        // TODO
+        const appEvent = {
+          ...app,
+          events: [] 
+        }
+        setGameData( (appEvent as AppInfo ) );
       })
     }
   },[token, gameID])
@@ -114,9 +120,9 @@ export const EditGameAnalytics = (props: RouteComponentProps) => {
           positive
           style={{ marginBottom: 0, marginLeft: "auto", padding: "0.5em" }}
           as={Link}
-          to={Paths.Games}
+          to={PathHelpers.EditGameReleases({ id: gameData.id })}
         >
-          {t("editGame.end")}
+          {t("editGame.nextStep")}
         </Button>
       </Grid.Row>
       <Grid.Row>

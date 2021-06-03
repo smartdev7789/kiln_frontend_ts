@@ -2,6 +2,19 @@ clone:
   depth: full
   lfs: true
 
+definitions:
+  script: &CommonScript
+    - export REACT_APP_API_URI=$SERVER_API_URI
+    - npm install
+    - npm run build
+    - chmod 755 ./build
+    - find ./build -type d -exec chmod 755 {} \;
+    - find ./build -type f -exec chmod 644 {} \;
+    - apt-get update && apt-get install -y unzip rsync
+    - rsync -rpvz --delete build/ $SERVER_USER@$SERVER_ADDRESS:/home/$SERVER_USER/frontend
+    - ssh $SERVER_USER@$SERVER_ADDRESS "sudo -u www-data rsync -rpvz --delete /home/$SERVER_USER/frontend/ $SERVER_DEPLOY_PATH"
+    - echo "Production Version Deployed"
+
 # Reusable steps code (by using the '<<: *step-name' operator below)
 deploy-to-staging-server-step: &deploy-to-staging-server-step
   - step:
@@ -30,16 +43,7 @@ deploy-to-production-server-step: &deploy-to-production-server-step
         caches:
           - node
         script:
-          - export REACT_APP_API_URI='$SERVER_API_URI'
-          - npm install
-          - npm run build
-          - chmod 755 ./build
-          - find ./build -type d -exec chmod 755 {} \;
-          - find ./build -type f -exec chmod 644 {} \;
-          - apt-get update && apt-get install -y unzip rsync
-          - rsync -rpvz --delete build/ $SERVER_USER@$SERVER_ADDRESS:/home/$SERVER_USER/frontend
-          - ssh $SERVER_USER@$SERVER_ADDRESS "sudo -u www-data rsync -rpvz --delete /home/$SERVER_USER/frontend/ $SERVER_DEPLOY_PATH"
-          - echo "Production Version Deployed"
+          - *CommonScript
 
 pipelines:
   custom:

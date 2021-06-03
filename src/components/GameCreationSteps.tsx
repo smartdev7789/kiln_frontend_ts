@@ -14,7 +14,7 @@ type GameCreationStepsProps = {
   gameId: string;
 };
 
-// Game steps order.
+// Game steps order. (Same length and add in ../routes)
 export const GameCreationStepData = [
   {
     text: "gameInfo",
@@ -27,35 +27,44 @@ export const GameCreationStepData = [
   },
   {
     text: "analytics",
-  }
+  },
+  {
+    text: "releases",
+  },
+
 ];
 
-const createSteps = (currentIndex: number) =>
-  GameCreationStepData.map((step, i) => {
-    return {
-      ...step,
-      completed: i < currentIndex,
-      active: i === currentIndex,
-    };
-  });
 
+const createSteps = (currentIndex: number) =>
+GameCreationStepData.map((step, i) => {
+  return {
+    ...step,
+    completed: i < currentIndex,
+    active: i === currentIndex,
+  };
+});
+
+// Steps (Same length and add in ../routes)
 export const EditGameInfoSteps = createSteps(0);
 export const EditGamePlatformsSteps = createSteps(1);
 export const EditGameMonetisationSteps = createSteps(2);
 export const EditGameAnalyticsSteps = createSteps(3);
+export const EditGameReleasesSteps = createSteps(4);
 
 export const GameCreationSteps = (props: GameCreationStepsProps) => {
   const { t } = useTranslation();
 
+  // (Same length and add in ../routes)
   const pathHelpers: { [key: string]: (object: object) => string } = {
     gameInfo: PathHelpers.EditGameInfo,
     platforms: PathHelpers.EditGamePlatforms,
     monetisation: PathHelpers.EditGameMonetisation,
     analytics: PathHelpers.EditGameAnalytics,
+    releases: PathHelpers.EditGameReleases,
   };
 
   return (
-    <Step.Group fluid widths={4}>
+    <Step.Group fluid widths={5}>
       {props.steps.map((step, i) => {
         return (
           <Step

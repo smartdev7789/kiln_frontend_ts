@@ -1,7 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 // import { useTranslation } from "react-i18next";
+// import { Platform, PlatformInfo } from "../api/DataTypes";
+import { PlatformInfo } from "../api/DataTypes";
 import { Option } from "../components/ValidatedForm/MultipleDropdownsToString";
 import { FormField, FieldType, ValidatedForm } from "../components/ValidatedForm/ValidatedForm";
+import { getToken } from "../authentication/Authentication";
+import { API } from "../api/API";
 
 const stringToCategoryOptions = (string: string) =>
   string.split(", ").map((categoryDisplay, i) => {
@@ -110,56 +114,84 @@ const formFields: FormField[] = [
       text: rating,
     })),
   },
-  {
-    key: "assets",
-    type: FieldType.MultipleAssets,
-    label: "editGame.info.assets.label",
-  },
+  // {
+  //   key: "assets",
+  //   type: FieldType.MultipleAssets,
+  //   label: "editGame.info.assets.label",
+  // },
 ];
 
-export const HuaweiForm = () => {
+
+interface HuaweiFormProps {
+  appID: string;
+}
+
+interface x {
+  [key: string]: any;
+}
+
+
+export const HuaweiForm = ( { appID }:HuaweiFormProps ) => {
+  const platformID = 1 // ???
   const [ waitingForResponse, setWaitingForResponse ] = useState(false);
+  const [ platformInfo, setPlatformInfo ] = useState<PlatformInfo>();
+  const [ token ] = useState( getToken() )
+  const [ initialFormData, setInitialFormData ] = useState<x>()
   const handleSubmit = async (formData: object) => {
     setWaitingForResponse(true);
-    // const app = await API.updateApp(gameData!.id!, formData as AppInfo);
+    console.log(formData)
+    // Save platform info.
+    // const platforminfo = await API.updateApp(gameData!.id!, formData as AppInfo);
     setWaitingForResponse(false);
   };
+   
+  console.log(platformInfo)
 
-  // TODO - para pruebas.
-  const gameData = {
-    categories_1: "0-0-0",
-    age_rating: null,
-    assets: [
-      // { type:0, width:360, height:360, url:"https://play-lh.googleusercontent.com/ecbXmgbcfIE631S3pQmkPxT9B1NBkKqAIWte9dFH37uBwC1hvuDQ2laeeosA7neBvbpl=s360-rw" },
-      // { type:1, width:1920, height:1080, url:"https://play-lh.googleusercontent.com/4ek-DNeaFzPeFw_24Yy1VlSEgmjmeKw0IGzL2ZOWGwxUD5bJNzOyDgsmGIEEYjNOXJU=w3360-h1942-rw"},
-      // { type:2, width:1920, height:1080, url:"https://youtu.be/co1wqrGI9tM" }
-    ]
-  }
+  // Get and set platform info
+  useEffect( () => {
+    API.getPlatformInfo(token, appID, platformID ).then((data) => {
+      console.log(data)
+      setPlatformInfo(data)
+      // setInitialFormData(data)
+      
+      // TODO - para pruebas.
+      const gameData = {
+        categories_1: "0-0-0",
+        age_rating: null,
+        // assets: []
+      }
 
-  const initialFormData = formFields.reduce(
-    (data: { [key: string]: any }, field) => {
-      data[field.key] = (gameData as any)[field.key];
-      return data;
-    },
-    {}
-  );
+      setInitialFormData( formFields.reduce(
+        (data: { [key: string]: any }, field) => {
+          data[field.key] = (gameData as any)[field.key];
+          console.log(data)
+          return data;
+        },
+        {}
+      )
+    )
+
+    })
+  },[token, appID])
 
   return (
-    <div>
-      <ValidatedForm
-        loading={waitingForResponse}
-        onSubmit={handleSubmit}
-        fields={formFields}
-        initialFormData={initialFormData}
-        additionalFieldData={{ categories_1, }}
-        buttons={[
-          {
-            text: "editGame.info.submit",
-            positive: true,
-            submit: true,
-          },
-        ]}
-      />
-    </div>
+        initialFormData! && formFields
+        ?
+        <ValidatedForm
+          loading={waitingForResponse}
+          onSubmit={handleSubmit}
+          fields={formFields}
+          initialFormData={initialFormData}
+          additionalFieldData={{ categories_1, }}
+          buttons={[
+            {
+              text: "editGame.info.submit",
+              positive: true,
+              submit: true,
+            },
+          ]}
+        />
+      : 
+      <div></div>
   )
 }

@@ -6,6 +6,7 @@ import {
   // Platform,
   // AppSummary,
   AppInfo,
+  PlatformInfo,
   // AppInfoPatch,
   BasicAppInfo,
   APIResponse,
@@ -96,7 +97,6 @@ const account = async (token: string, accouut_ID: string) => {
   }
 };
 
-
 // TODO
 const stats = async ( filters:Filter, token:string | null ) => {
   // http://localhost:5000/v0.01/stats?where={"application_id":"b0ca2dae-836a-422c-98e0-858526651edf","platform_id":1}
@@ -138,6 +138,7 @@ const stats = async ( filters:Filter, token:string | null ) => {
   }
 };
 
+// TopStats
 const topStats = async (token: string | null) => {
   // const res = await fetch(`${API_ENDPOINT}/stats/top`);  
   const url = `${API_ENDPOINT}/stats/top`;
@@ -164,8 +165,7 @@ const topStats = async (token: string | null) => {
   }
 };
 
-
-
+// Graphs.
 const graphs = async (token: string | null, filters:Filter) => {
   // ?where={"application_id":"b0ca2dae-836a-422c-98e0-858526651edf", "platform_id":1, "date":"2021-05-21"}
   // const url = `${API_ENDPOINT}/graphs?where={"application_id":${filters.application_id},"platform_id":${filters.platform_id},"date":"${filters.date}"}`;
@@ -243,6 +243,7 @@ const platforms = async ( token: string | null ) => {
 const apps = async (token: string | null) => {
  
   if ( token !== '' ) {
+    // const url = `${API_ENDPOINT}/apps`;
     const url = `${API_ENDPOINT}/apps`;
     const bearer = 'Bearer ' + token;
     const res = await fetch( url, 
@@ -283,6 +284,31 @@ const app = async (token: string, id: string) => {
     return (await response.json()) as AppInfo;
   }
 };
+
+
+// Get Platform info.
+const getPlatformInfo = async (token: string, appID:string, platformID:number) => {
+  if ( token !== '' ) {
+    const baseURL = `${API_ENDPOINT}/apps/${appID}/platforms_info/${platformID}/`
+    const projection = '?projection={"platform":1}&embedded={"platform": 1}'
+    const url = baseURL+projection
+    console.log(url)
+    const bearer = 'Bearer ' + token;
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json', 
+        'Authorization': bearer,
+      },
+    });
+    if (!response.ok) {
+      // throw new Error("HTTP error, status = " + response.status);
+      return ({}) as PlatformInfo;
+    }
+    return (await response.json()) as PlatformInfo;
+  }
+};
+
 
 // Aditon App info (Ver api/DataTypes.ts/AppInfo)
 const additionalAppInfo = {
@@ -412,6 +438,7 @@ export const API = {
   games: apps,
   createApp,
   updateApp,
+  getPlatformInfo,
   resetPassword,
   resetPasswordValidateToken,
   changePassword,
