@@ -104,7 +104,8 @@ export interface PlatformInfo {
   application: string;
   platform: Platform,
   categories: string | null,
-  age_rating: string | null
+  age_rating: string | null,
+  _etag: string | null,
 }
 
 export interface Platform {

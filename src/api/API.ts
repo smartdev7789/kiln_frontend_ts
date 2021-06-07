@@ -6,7 +6,6 @@ import {
   // Platform,
   // AppSummary,
   AppInfo,
-  PlatformInfo,
   // AppInfoPatch,
   BasicAppInfo,
   APIResponse,
@@ -14,6 +13,11 @@ import {
 } from "./DataTypes";
 
 import { yesterday } from "../libs/date"
+import {
+  getPlatformInfo,
+  updatePlatformInfo,
+  createPlatformInfo
+} from "./PlatformInfo"
 
 // Endpoint URL.
 const API_ENDPOINT = process.env.REACT_APP_API_URI;
@@ -286,30 +290,6 @@ const app = async (token: string, id: string) => {
 };
 
 
-// Get Platform info.
-const getPlatformInfo = async (token: string, appID:string, platformID:number) => {
-  if ( token !== '' ) {
-    const baseURL = `${API_ENDPOINT}/apps/${appID}/platforms_info/${platformID}/`
-    const projection = '?projection={"platform":1}&embedded={"platform": 1}'
-    const url = baseURL+projection
-    console.log(url)
-    const bearer = 'Bearer ' + token;
-    const response = await fetch(url, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json', 
-        'Authorization': bearer,
-      },
-    });
-    if (!response.ok) {
-      // throw new Error("HTTP error, status = " + response.status);
-      return ({}) as PlatformInfo;
-    }
-    return (await response.json()) as PlatformInfo;
-  }
-};
-
-
 // Aditon App info (Ver api/DataTypes.ts/AppInfo)
 const additionalAppInfo = {
   platforms_info: [],
@@ -353,7 +333,6 @@ const createApp = async (token: string | null, appData: BasicAppInfo) => {
 
 };
 
-
 // Update App
 const updateApp = async (token: string, id: string, data:AppInfo, etag: string) => {
 
@@ -374,6 +353,7 @@ const updateApp = async (token: string, id: string, data:AppInfo, etag: string) 
   }
 };
 
+// Reset password
 const resetPassword = async (email: string) => {
   const res = await fetch(`${API_ENDPOINT}/users/forgot_password`, {
     method: "POST",
@@ -386,6 +366,7 @@ const resetPassword = async (email: string) => {
   return await res.json();
 };
 
+// Reset password validate tokern
 const resetPasswordValidateToken = async (token: string) => {
   const res = await fetch(`${API_ENDPOINT}/users/reset_password?token=${token}`);
 
@@ -396,6 +377,7 @@ const resetPasswordValidateToken = async (token: string) => {
   return await res.json();
 };
 
+// Change password
 const changePassword = async (password: string, passwordConfirmation: string, token: string) => {
   const res = await fetch(`${API_ENDPOINT}/users/change_password`, {
     method: "POST",
@@ -408,16 +390,19 @@ const changePassword = async (password: string, passwordConfirmation: string, to
   return await res.json();
 };
 
+// Get terms of service
 const getTermsOfService = async (lang = "en") => {
   const res = await fetch(`${API_ENDPOINT}/tos/${lang}`);
   return (await res.json()) as { tos: string };
 };
 
+// Accept terms of service.
 const acceptTermsOfService = async (lang = "en") => {
   const res = await fetch(`${API_ENDPOINT}/tos/${lang}`, { method: "POST" });
   return await res.json();
 };
 
+// Update account info.
 const updateAccountInfo = async (accountData: User) => {
   const res = await fetch(`${API_ENDPOINT}/users/${accountData.id}`);
   return await res.json();
@@ -439,6 +424,8 @@ export const API = {
   createApp,
   updateApp,
   getPlatformInfo,
+  createPlatformInfo,
+  updatePlatformInfo,
   resetPassword,
   resetPasswordValidateToken,
   changePassword,

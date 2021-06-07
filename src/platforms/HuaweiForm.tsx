@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 // import { useTranslation } from "react-i18next";
 // import { Platform, PlatformInfo } from "../api/DataTypes";
-import { PlatformInfo } from "../api/DataTypes";
+// import { PlatformInfo } from "../api/DataTypes";
 import { Option } from "../components/ValidatedForm/MultipleDropdownsToString";
 import { FormField, FieldType, ValidatedForm } from "../components/ValidatedForm/ValidatedForm";
 import { getToken } from "../authentication/Authentication";
 import { API } from "../api/API";
+import { FieldValue } from "../hooks/useForm";
 
 const stringToCategoryOptions = (string: string) =>
   string.split(", ").map((categoryDisplay, i) => {
@@ -95,9 +96,9 @@ const huaweiCategoryDropdownData = [
 
 const categories_1 = huaweiCategoryDropdownData;
 
+// Form fields.
 const formFields: FormField[] = [
   {
-    // TODO
     key: "categories_1",
     type: FieldType.MultipleDropdowns,
     label: "editGame.info.categories.label",
@@ -122,60 +123,112 @@ const formFields: FormField[] = [
 ];
 
 
+// Interfaces
 interface HuaweiFormProps {
   appID: string;
 }
 
-interface x {
-  [key: string]: any;
+interface interfaceFormData {
+  [key: string]: FieldValue
 }
 
-
+/**
+ * Huawei form componet.
+ * @param param0
+ * @returns 
+ */
 export const HuaweiForm = ( { appID }:HuaweiFormProps ) => {
-  const platformID = 1 // ???
-  const [ waitingForResponse, setWaitingForResponse ] = useState(false);
-  const [ platformInfo, setPlatformInfo ] = useState<PlatformInfo>();
+  const platformID = 1 // maybe this will be a problem at future. 
   const [ token ] = useState( getToken() )
-  const [ initialFormData, setInitialFormData ] = useState<x>()
-  const handleSubmit = async (formData: object) => {
+  const [ eTag, setETag ] = useState('')
+  const [ waitingForResponse, setWaitingForResponse ] = useState(false);
+  // const [ platformInfo, setPlatformInfo ] = useState<PlatformInfo>();
+  const [ initialFormData, setInitialFormData ] = useState<interfaceFormData>()
+  
+  /**
+   * On validate form submit
+   * 
+   * @param formData Data forms
+   */
+  const handleSubmit = async (formData: interfaceFormData) => {
     setWaitingForResponse(true);
-    console.log(formData)
+    
     // Save platform info.
-    // const platforminfo = await API.updateApp(gameData!.id!, formData as AppInfo);
-    setWaitingForResponse(false);
-  };
-   
-  console.log(platformInfo)
+    const data = {
+      platform: platformID,
+      age_rating: formData.age_rating,
+      categories: formData.categories_1
+    }
 
-  // Get and set platform info
+    const info = {
+      "age_rating": '',
+      "categories": ''
+    }
+
+    if ( eTag !== '' ) {
+      const response = await API.updatePlatformInfo(token, appID, platformID, data)
+      console.log("Update")
+      console.log(response)
+      info.age_rating = response?.age_rating! ? response.age_rating : ''
+      info.categories = response?.categories! ? response.categories : '0-0-0'
+      console.log(response?.age_rating)
+      console.log(response?.categories)
+    } else {
+      const response = await API.createPlatformInfo(token, appID, platformID, data)
+      console.log("Create")
+      console.log(response)
+      info.age_rating = response?.age_rating! ? response.age_rating : ''
+      info.categories = response?.categories! ? response.categories : '0-0-0'
+      console.log(response?.age_rating)
+      console.log(response?.categories)
+    }
+
+    // setPlatformInfo(response)
+    console.log(info)
+    setWaitingForResponse(false)
+  };
+
+  /**
+   * Set initial form data 
+   */
   useEffect( () => {
     API.getPlatformInfo(token, appID, platformID ).then((data) => {
-      console.log(data)
-      setPlatformInfo(data)
-      // setInitialFormData(data)
       
-      // TODO - para pruebas.
-      const gameData = {
-        categories_1: "0-0-0",
-        age_rating: null,
-        // assets: []
+      // if (data?._status === 'OK' ) { // TODO.
+      if ( Object.keys(data!).length > 2 ) {
+        console.log(data)
+        setETag(data?._etag!)
+        // TODO. Pay attention to categories_1
+        const gameData = {
+          categories_1: data?.categories! ? data?.categories : '0-0-0',
+          age_rating: data?.age_rating,
+        }
+        setInitialFormData(gameData as interfaceFormData)
+      } else {
+        setInitialFormData( 
+          { categories_1: '0-0-0', age_rating: '' } as interfaceFormData
+        )
       }
-
-      setInitialFormData( formFields.reduce(
-        (data: { [key: string]: any }, field) => {
-          data[field.key] = (gameData as any)[field.key];
-          console.log(data)
-          return data;
-        },
-        {}
-      )
-    )
+      
+      
+      // TODO. This block get keys of form Fields and map with API response.
+      // setPlatformInfo(data)
+      // 
+      // const initData = formFields.reduce(
+      //   (data: { [key: string]: any }, field) => {
+      //     data[field.key] = (gameData as any)[field.key];
+      //     return data as PlatformInfo;
+      //   },
+      //   {}
+      // )
+      // console.log(initData)
 
     })
+
   },[token, appID])
 
   return (
-        initialFormData! && formFields
+        initialFormData!
         ?
         <ValidatedForm
           loading={waitingForResponse}
