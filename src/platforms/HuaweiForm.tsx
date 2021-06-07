@@ -1,7 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 // import { useTranslation } from "react-i18next";
+// import { Platform, PlatformInfo } from "../api/DataTypes";
+// import { PlatformInfo } from "../api/DataTypes";
 import { Option } from "../components/ValidatedForm/MultipleDropdownsToString";
 import { FormField, FieldType, ValidatedForm } from "../components/ValidatedForm/ValidatedForm";
+import { getToken } from "../authentication/Authentication";
+import { API } from "../api/API";
+import { FieldValue } from "../hooks/useForm";
 
 const stringToCategoryOptions = (string: string) =>
   string.split(", ").map((categoryDisplay, i) => {
@@ -91,9 +96,9 @@ const huaweiCategoryDropdownData = [
 
 const categories_1 = huaweiCategoryDropdownData;
 
+// Form fields.
 const formFields: FormField[] = [
   {
-    // TODO
     key: "categories_1",
     type: FieldType.MultipleDropdowns,
     label: "editGame.info.categories.label",
@@ -110,56 +115,136 @@ const formFields: FormField[] = [
       text: rating,
     })),
   },
-  {
-    key: "assets",
-    type: FieldType.MultipleAssets,
-    label: "editGame.info.assets.label",
-  },
+  // {
+  //   key: "assets",
+  //   type: FieldType.MultipleAssets,
+  //   label: "editGame.info.assets.label",
+  // },
 ];
 
-export const HuaweiForm = () => {
+
+// Interfaces
+interface HuaweiFormProps {
+  appID: string;
+}
+
+interface interfaceFormData {
+  [key: string]: FieldValue
+}
+
+/**
+ * Huawei form componet.
+ * @param param0
+ * @returns 
+ */
+export const HuaweiForm = ( { appID }:HuaweiFormProps ) => {
+  const platformID = 1 // maybe this will be a problem at future. 
+  const [ token ] = useState( getToken() )
+  const [ eTag, setETag ] = useState('')
   const [ waitingForResponse, setWaitingForResponse ] = useState(false);
-  const handleSubmit = async (formData: object) => {
+  // const [ platformInfo, setPlatformInfo ] = useState<PlatformInfo>();
+  const [ initialFormData, setInitialFormData ] = useState<interfaceFormData>()
+  
+  /**
+   * On validate form submit
+   * 
+   * @param formData Data forms
+   */
+  const handleSubmit = async (formData: interfaceFormData) => {
     setWaitingForResponse(true);
-    // const app = await API.updateApp(gameData!.id!, formData as AppInfo);
-    setWaitingForResponse(false);
+    
+    // Save platform info.
+    const data = {
+      platform: platformID,
+      age_rating: formData.age_rating,
+      categories: formData.categories_1
+    }
+
+    const info = {
+      "age_rating": '',
+      "categories": ''
+    }
+
+    if ( eTag !== '' ) {
+      const response = await API.updatePlatformInfo(token, appID, platformID, data)
+      console.log("Update")
+      console.log(response)
+      info.age_rating = response?.age_rating! ? response.age_rating : ''
+      info.categories = response?.categories! ? response.categories : '0-0-0'
+      console.log(response?.age_rating)
+      console.log(response?.categories)
+    } else {
+      const response = await API.createPlatformInfo(token, appID, platformID, data)
+      console.log("Create")
+      console.log(response)
+      info.age_rating = response?.age_rating! ? response.age_rating : ''
+      info.categories = response?.categories! ? response.categories : '0-0-0'
+      console.log(response?.age_rating)
+      console.log(response?.categories)
+    }
+
+    // setPlatformInfo(response)
+    console.log(info)
+    setWaitingForResponse(false)
   };
 
-  // TODO - para pruebas.
-  const gameData = {
-    categories_1: "0-0-0",
-    age_rating: null,
-    assets: [
-      // { type:0, width:360, height:360, url:"https://play-lh.googleusercontent.com/ecbXmgbcfIE631S3pQmkPxT9B1NBkKqAIWte9dFH37uBwC1hvuDQ2laeeosA7neBvbpl=s360-rw" },
-      // { type:1, width:1920, height:1080, url:"https://play-lh.googleusercontent.com/4ek-DNeaFzPeFw_24Yy1VlSEgmjmeKw0IGzL2ZOWGwxUD5bJNzOyDgsmGIEEYjNOXJU=w3360-h1942-rw"},
-      // { type:2, width:1920, height:1080, url:"https://youtu.be/co1wqrGI9tM" }
-    ]
-  }
+  /**
+   * Set initial form data 
+   */
+  useEffect( () => {
+    API.getPlatformInfo(token, appID, platformID ).then((data) => {
+      
+      // if (data?._status === 'OK' ) { // TODO.
+      if ( Object.keys(data!).length > 2 ) {
+        console.log(data)
+        setETag(data?._etag!)
+        // TODO. Pay attention to categories_1
+        const gameData = {
+          categories_1: data?.categories! ? data?.categories : '0-0-0',
+          age_rating: data?.age_rating,
+        }
+        setInitialFormData(gameData as interfaceFormData)
+      } else {
+        setInitialFormData( 
+          { categories_1: '0-0-0', age_rating: '' } as interfaceFormData
+        )
+      }
+      
+      
+      // TODO. This block get keys of form Fields and map with API response.
+      // setPlatformInfo(data)
+      // 
+      // const initData = formFields.reduce(
+      //   (data: { [key: string]: any }, field) => {
+      //     data[field.key] = (gameData as any)[field.key];
+      //     return data as PlatformInfo;
+      //   },
+      //   {}
+      // )
+      // console.log(initData)
 
-  const initialFormData = formFields.reduce(
-    (data: { [key: string]: any }, field) => {
-      data[field.key] = (gameData as any)[field.key];
-      return data;
-    },
-    {}
-  );
+    })
+
+  },[token, appID])
 
   return (
-    <div>
-      <ValidatedForm
-        loading={waitingForResponse}
-        onSubmit={handleSubmit}
-        fields={formFields}
-        initialFormData={initialFormData}
-        additionalFieldData={{ categories_1, }}
-        buttons={[
-          {
-            text: "editGame.info.submit",
-            positive: true,
-            submit: true,
-          },
-        ]}
-      />
-    </div>
+        initialFormData!
+        ?
+        <ValidatedForm
+          loading={waitingForResponse}
+          onSubmit={handleSubmit}
+          fields={formFields}
+          initialFormData={initialFormData}
+          additionalFieldData={{ categories_1, }}
+          buttons={[
+            {
+              text: "editGame.info.submit",
+              positive: true,
+              submit: true,
+            },
+          ]}
+        />
+      : 
+      <div></div>
   )
 }

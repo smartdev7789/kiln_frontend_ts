@@ -5,7 +5,7 @@ import { Button, Header, Image } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 import Logo from "../../images/logos/thumb-grey.png";
 
-export const appDataToRow = (appData: AppSummary, edit: string) => {
+export const appDataToRow = (appData: AppSummary, edit: string, release: string) => {
 
     if (! appData.icon) { appData.icon= Logo }
     
@@ -42,9 +42,10 @@ export const appDataToRow = (appData: AppSummary, edit: string) => {
 
         <StatusIndicator status={status} />,
         
-        <Button as={Link} to={PathHelpers.EditGameInfo({ id: appData.id })}>
-          {edit}
-        </Button>,
+        <div className="actions-cell"> 
+          <Button as={Link} to={PathHelpers.EditGameInfo({ id: appData.id })}>{edit}</Button>
+          <Button as={Link} to={PathHelpers.EditGameReleases({ id: appData.id })}>{release}</Button>
+        </div>
       ],
     };
   };

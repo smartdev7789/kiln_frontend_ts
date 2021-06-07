@@ -13,6 +13,11 @@ import {
 } from "./DataTypes";
 
 import { yesterday } from "../libs/date"
+import {
+  getPlatformInfo,
+  updatePlatformInfo,
+  createPlatformInfo
+} from "./PlatformInfo"
 
 // Endpoint URL.
 const API_ENDPOINT = process.env.REACT_APP_API_URI;
@@ -96,7 +101,6 @@ const account = async (token: string, accouut_ID: string) => {
   }
 };
 
-
 // TODO
 const stats = async ( filters:Filter, token:string | null ) => {
   // http://localhost:5000/v0.01/stats?where={"application_id":"b0ca2dae-836a-422c-98e0-858526651edf","platform_id":1}
@@ -138,6 +142,7 @@ const stats = async ( filters:Filter, token:string | null ) => {
   }
 };
 
+// TopStats
 const topStats = async (token: string | null) => {
   // const res = await fetch(`${API_ENDPOINT}/stats/top`);  
   const url = `${API_ENDPOINT}/stats/top`;
@@ -164,8 +169,7 @@ const topStats = async (token: string | null) => {
   }
 };
 
-
-
+// Graphs.
 const graphs = async (token: string | null, filters:Filter) => {
   // ?where={"application_id":"b0ca2dae-836a-422c-98e0-858526651edf", "platform_id":1, "date":"2021-05-21"}
   // const url = `${API_ENDPOINT}/graphs?where={"application_id":${filters.application_id},"platform_id":${filters.platform_id},"date":"${filters.date}"}`;
@@ -243,6 +247,7 @@ const platforms = async ( token: string | null ) => {
 const apps = async (token: string | null) => {
  
   if ( token !== '' ) {
+    // const url = `${API_ENDPOINT}/apps`;
     const url = `${API_ENDPOINT}/apps`;
     const bearer = 'Bearer ' + token;
     const res = await fetch( url, 
@@ -283,6 +288,7 @@ const app = async (token: string, id: string) => {
     return (await response.json()) as AppInfo;
   }
 };
+
 
 // Aditon App info (Ver api/DataTypes.ts/AppInfo)
 const additionalAppInfo = {
@@ -327,7 +333,6 @@ const createApp = async (token: string | null, appData: BasicAppInfo) => {
 
 };
 
-
 // Update App
 const updateApp = async (token: string, id: string, data:AppInfo, etag: string) => {
 
@@ -348,6 +353,7 @@ const updateApp = async (token: string, id: string, data:AppInfo, etag: string) 
   }
 };
 
+// Reset password
 const resetPassword = async (email: string) => {
   const res = await fetch(`${API_ENDPOINT}/users/forgot_password`, {
     method: "POST",
@@ -360,6 +366,7 @@ const resetPassword = async (email: string) => {
   return await res.json();
 };
 
+// Reset password validate tokern
 const resetPasswordValidateToken = async (token: string) => {
   const res = await fetch(`${API_ENDPOINT}/users/reset_password?token=${token}`);
 
@@ -370,6 +377,7 @@ const resetPasswordValidateToken = async (token: string) => {
   return await res.json();
 };
 
+// Change password
 const changePassword = async (password: string, passwordConfirmation: string, token: string) => {
   const res = await fetch(`${API_ENDPOINT}/users/change_password`, {
     method: "POST",
@@ -382,16 +390,19 @@ const changePassword = async (password: string, passwordConfirmation: string, to
   return await res.json();
 };
 
+// Get terms of service
 const getTermsOfService = async (lang = "en") => {
   const res = await fetch(`${API_ENDPOINT}/tos/${lang}`);
   return (await res.json()) as { tos: string };
 };
 
+// Accept terms of service.
 const acceptTermsOfService = async (lang = "en") => {
   const res = await fetch(`${API_ENDPOINT}/tos/${lang}`, { method: "POST" });
   return await res.json();
 };
 
+// Update account info.
 const updateAccountInfo = async (accountData: User) => {
   const res = await fetch(`${API_ENDPOINT}/users/${accountData.id}`);
   return await res.json();
@@ -412,6 +423,9 @@ export const API = {
   games: apps,
   createApp,
   updateApp,
+  getPlatformInfo,
+  createPlatformInfo,
+  updatePlatformInfo,
   resetPassword,
   resetPasswordValidateToken,
   changePassword,

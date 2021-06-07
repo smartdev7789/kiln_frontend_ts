@@ -38,11 +38,11 @@ const styles = {
 // Recibe:
 //  - ID de la plataforma
 //  - La funcion "t" para traducciones
-const PlatformForm = ( platformID:number ) => { 
+const PlatformForm = ( appID:string, platformID:number ) => { 
   switch ( platformID ) {
     case 1:
       // Huawei
-      return <HuaweiForm/>
+      return <HuaweiForm appID={ appID } />
     default:
       return <DefaultForm/>
   }
@@ -118,11 +118,12 @@ export const EditGamePlatforms = (props: RouteComponentProps) => {
           {/* Platforms accordion */}
           <Grid.Row>
             <Accordion styled style={ styles.accordion.div } >
-              { platforms.map( (platform) => {
+              { platforms.map( (platform, key) => {
                 
                 return (
                   <>
                     <Accordion.Title
+                      key={key}
                       style={ styles.accordion.title }
                       active={activeIndex === platform.id}
                       index={0}
@@ -133,7 +134,7 @@ export const EditGamePlatforms = (props: RouteComponentProps) => {
                     </Accordion.Title>
 
                     <Accordion.Content active={activeIndex === platform.id}>
-                      { PlatformForm( platform.id ) }
+                      { PlatformForm( gameData.id, platform.id ) }
                     </Accordion.Content>
                   </>
                 )  

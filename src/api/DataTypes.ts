@@ -99,6 +99,15 @@ export enum PlatformConnectionStatus {
   Connected = 2,
 }
 
+export interface PlatformInfo {
+  id: number,
+  application: string;
+  platform: Platform,
+  categories: string | null,
+  age_rating: string | null,
+  _etag: string | null,
+}
+
 export interface Platform {
   id: number;
   name: string | null;

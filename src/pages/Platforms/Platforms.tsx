@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, RouteComponentProps } from "react-router-dom";
-import { Button, Grid, Header, Icon, Image } from "semantic-ui-react";
+import { Button, Grid, Header, Image } from "semantic-ui-react";
 import { API } from "../../api/API";
 import { Platform, PlatformConnectionStatus } from "../../api/DataTypes";
 import { Row, TableCard } from "../../components/Cards/TableCard";
 import { PlatformStatusIndicator } from "../../components/PlatformStatusIndicator";
-import { Paths } from "../../routes";
+// import { Paths } from "../../routes";
 import { getToken } from "../../authentication/Authentication";
 
 const platformDataToRow = (
@@ -68,7 +68,7 @@ export const Platforms = (props: RouteComponentProps) => {
             {t("platforms.connected")})
           </span>
         </Header>
-        <Button
+        {/* <Button
           compact
           positive
           icon
@@ -79,7 +79,7 @@ export const Platforms = (props: RouteComponentProps) => {
         >
           <Icon name="pencil" />
           {t("platforms.editInfo")}
-        </Button>
+        </Button> */}
       </Grid.Row>
       <Grid.Row>
         <TableCard
