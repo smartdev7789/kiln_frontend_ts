@@ -75,7 +75,7 @@ export interface AppPlatform {
 export interface AppInfoPatch extends BasicAppInfo {
   team: string;
   releases: any[] | null;
-  platforms_info: number[] | null;
+  platforms_info: PlatformInfo[] | null;
   leaderboards: any[] | null;
   iaps: IAP[];
   events: Event[];
@@ -102,7 +102,7 @@ export enum PlatformConnectionStatus {
 export interface PlatformInfo {
   id: number,
   application: string;
-  platform: Platform,
+  platform: number | Platform,
   categories: string | null,
   age_rating: string | null,
   _etag: string | null,

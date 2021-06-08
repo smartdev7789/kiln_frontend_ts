@@ -126,6 +126,7 @@ const formFields: FormField[] = [
 // Interfaces
 interface HuaweiFormProps {
   appID: string;
+  platformInfoID: number | null
 }
 
 interface interfaceFormData {
@@ -137,13 +138,17 @@ interface interfaceFormData {
  * @param param0
  * @returns 
  */
-export const HuaweiForm = ( { appID }:HuaweiFormProps ) => {
+export const HuaweiForm = ( { appID, platformInfoID }:HuaweiFormProps ) => {
   const platformID = 1 // maybe this will be a problem at future. 
   const [ token ] = useState( getToken() )
   const [ eTag, setETag ] = useState('')
+  const [ toUpdate, setToUpdate ] = useState(false)
+  const [ error, setError ] = useState(false)
   const [ waitingForResponse, setWaitingForResponse ] = useState(false);
   // const [ platformInfo, setPlatformInfo ] = useState<PlatformInfo>();
   const [ initialFormData, setInitialFormData ] = useState<interfaceFormData>()
+  
+  console.log(platformInfoID)
   
   /**
    * On validate form submit
@@ -160,33 +165,38 @@ export const HuaweiForm = ( { appID }:HuaweiFormProps ) => {
       categories: formData.categories_1
     }
 
-    const info = {
-      "age_rating": '',
-      "categories": ''
-    }
-
+    // If exist eTag... update 
     if ( eTag !== '' ) {
-      const response = await API.updatePlatformInfo(token, appID, platformID, data)
+      const response = await API.updatePlatformInfo(token, appID, platformID, data, eTag)
       console.log("Update")
-      console.log(response)
-      info.age_rating = response?.age_rating! ? response.age_rating : ''
-      info.categories = response?.categories! ? response.categories : '0-0-0'
-      console.log(response?.age_rating)
-      console.log(response?.categories)
+      if (response?._status === 'OK') {
+        setETag(response?._etag!)
+      }  else {
+        setError(true)
+      }
     } else {
       const response = await API.createPlatformInfo(token, appID, platformID, data)
       console.log("Create")
-      console.log(response)
-      info.age_rating = response?.age_rating! ? response.age_rating : ''
-      info.categories = response?.categories! ? response.categories : '0-0-0'
-      console.log(response?.age_rating)
-      console.log(response?.categories)
+      if (response?._status === 'OK') {
+        setETag(response?._etag!)
+      }  else {
+        setError(true)
+      }
     }
 
-    // setPlatformInfo(response)
-    console.log(info)
+    // Remove spiner.
     setWaitingForResponse(false)
   };
+
+  /**
+   * Error popup
+   */
+  useEffect( () => {
+    if (error) {
+      console.log("We need to show the error message")
+    }
+  }, [error])
+
 
   /**
    * Set initial form data 
@@ -196,7 +206,7 @@ export const HuaweiForm = ( { appID }:HuaweiFormProps ) => {
       
       // if (data?._status === 'OK' ) { // TODO.
       if ( Object.keys(data!).length > 2 ) {
-        console.log(data)
+        // console.log(data)
         setETag(data?._etag!)
         // TODO. Pay attention to categories_1
         const gameData = {

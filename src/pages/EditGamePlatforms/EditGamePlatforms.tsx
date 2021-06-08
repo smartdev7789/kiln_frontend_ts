@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Link, RouteComponentProps } from "react-router-dom";
 import { Button, Grid, Header, Accordion, Icon } from "semantic-ui-react";
 import { API } from "../../api/API";
-import { AppInfo, Platform } from "../../api/DataTypes";
+import { AppInfo, Platform, PlatformInfo } from "../../api/DataTypes";
 import { DispatchContext } from "../../App";
 import {
   EditGamePlatformsSteps,
@@ -17,6 +17,7 @@ import { getToken } from "../../authentication/Authentication";
 // Huawei
 import { HuaweiForm } from "../../platforms/HuaweiForm";
 import { DefaultForm } from "../../platforms/Default";
+import { forEachChild } from "typescript";
 
 // Defino algunos estilos
 const styles = {
@@ -38,11 +39,19 @@ const styles = {
 // Recibe:
 //  - ID de la plataforma
 //  - La funcion "t" para traducciones
-const PlatformForm = ( appID:string, platformID:number ) => { 
+const PlatformForm = ( appID:string, platformID:number, platformsInfo:PlatformInfo[] | null  ) => { 
   switch ( platformID ) {
     case 1:
       // Huawei
-      return <HuaweiForm appID={ appID } />
+
+      // Get just platforminfo for this platform
+      const onePlatformInfo = platformsInfo?.filter((element) => {
+        return element.platform === 1 ? element.id : null
+      })
+
+      const platformInfoID = onePlatformInfo![0].platform === 1 ? onePlatformInfo![0].id : null
+
+      return <HuaweiForm appID={ appID } platformInfoID={ platformInfoID } />
     default:
       return <DefaultForm/>
   }
@@ -134,7 +143,7 @@ export const EditGamePlatforms = (props: RouteComponentProps) => {
                     </Accordion.Title>
 
                     <Accordion.Content active={activeIndex === platform.id}>
-                      { PlatformForm( gameData.id, platform.id ) }
+                      { PlatformForm( gameData.id, platform.id, gameData.platforms_info ) }
                     </Accordion.Content>
                   </>
                 )  
