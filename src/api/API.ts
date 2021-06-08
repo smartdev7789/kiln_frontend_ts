@@ -273,7 +273,9 @@ const apps = async (token: string | null) => {
 // Get App.
 const app = async (token: string, id: string) => {
   if ( token !== '' ) {
-    const url = `${API_ENDPOINT}/apps/${id}`
+    const baseUrl = `${API_ENDPOINT}/apps/${id}`
+    const projection = '?projection={"platforms_info":1}&embedded={"platforms_info": 1}'
+    const url = `${baseUrl}/${projection}`
     const bearer = 'Bearer ' + token;
     const response = await fetch(url, {
       method: 'GET',
