@@ -7,7 +7,9 @@ import { FormField, FieldType, ValidatedForm } from "../components/ValidatedForm
 import { getToken } from "../authentication/Authentication";
 import { API } from "../api/API";
 import { FieldValue } from "../hooks/useForm";
+import { Resoruces } from "./Resources"
 
+// Category options
 const stringToCategoryOptions = (string: string) =>
   string.split(", ").map((categoryDisplay, i) => {
     return {
@@ -142,14 +144,13 @@ export const HuaweiForm = ( { appID, platformInfoID }:HuaweiFormProps ) => {
   const platformID = 1 // maybe this will be a problem at future. 
   const [ token ] = useState( getToken() )
   const [ eTag, setETag ] = useState('')
+  const [ pInfoID, SetPInfoID ] = useState(platformInfoID)
   const [ toUpdate, setToUpdate ] = useState(false)
   const [ error, setError ] = useState(false)
   const [ waitingForResponse, setWaitingForResponse ] = useState(false);
   // const [ platformInfo, setPlatformInfo ] = useState<PlatformInfo>();
   const [ initialFormData, setInitialFormData ] = useState<interfaceFormData>()
-  
-  console.log(platformInfoID)
-  
+ 
   /**
    * On validate form submit
    * 
@@ -165,9 +166,8 @@ export const HuaweiForm = ( { appID, platformInfoID }:HuaweiFormProps ) => {
       categories: formData.categories_1
     }
 
-    // If exist eTag... update 
-    if ( eTag !== '' ) {
-      const response = await API.updatePlatformInfo(token, appID, platformID, data, eTag)
+    if ( toUpdate ) {
+      const response = await API.updatePlatformInfo(token, appID, pInfoID!, data, eTag)
       console.log("Update")
       if (response?._status === 'OK') {
         setETag(response?._etag!)
@@ -175,10 +175,11 @@ export const HuaweiForm = ( { appID, platformInfoID }:HuaweiFormProps ) => {
         setError(true)
       }
     } else {
-      const response = await API.createPlatformInfo(token, appID, platformID, data)
+      const response = await API.createPlatformInfo(token, appID, pInfoID!, data)
       console.log("Create")
       if (response?._status === 'OK') {
         setETag(response?._etag!)
+        SetPInfoID(Number(response?.id!))
       }  else {
         setError(true)
       }
@@ -202,44 +203,38 @@ export const HuaweiForm = ( { appID, platformInfoID }:HuaweiFormProps ) => {
    * Set initial form data 
    */
   useEffect( () => {
-    API.getPlatformInfo(token, appID, platformID ).then((data) => {
+    if (pInfoID!) {
       
-      // if (data?._status === 'OK' ) { // TODO.
-      if ( Object.keys(data!).length > 2 ) {
-        // console.log(data)
-        setETag(data?._etag!)
-        // TODO. Pay attention to categories_1
-        const gameData = {
-          categories_1: data?.categories! ? data?.categories : '0-0-0',
-          age_rating: data?.age_rating,
+      API.getPlatformInfo(token, appID, pInfoID! ).then((data) => {
+        
+        // if (data?._status === 'OK' ) { // TODO.
+        if ( Object.keys(data!).length > 2 ) {
+          setETag(data?._etag!)
+          setToUpdate(true)
+          // TODO. Pay attention to categories_1
+          const gameData = {
+            categories_1: data?.categories! ? data?.categories : '0-0-0',
+            age_rating: data?.age_rating,
+          }
+          setInitialFormData(gameData as interfaceFormData)
+        } else {
+          setInitialFormData( 
+            { categories_1: '0-0-0', age_rating: '' } as interfaceFormData
+          )
         }
-        setInitialFormData(gameData as interfaceFormData)
-      } else {
-        setInitialFormData( 
-          { categories_1: '0-0-0', age_rating: '' } as interfaceFormData
-        )
-      }
+      })
       
-      
-      // TODO. This block get keys of form Fields and map with API response.
-      // setPlatformInfo(data)
-      // 
-      // const initData = formFields.reduce(
-      //   (data: { [key: string]: any }, field) => {
-      //     data[field.key] = (gameData as any)[field.key];
-      //     return data as PlatformInfo;
-      //   },
-      //   {}
-      // )
-      // console.log(initData)
-
-    })
-
-  },[token, appID])
+    } else {
+      setInitialFormData( 
+        { categories_1: '0-0-0', age_rating: '' } as interfaceFormData
+      )
+    }
+  },[token, appID, pInfoID])
 
   return (
-        initialFormData!
-        ?
+    initialFormData!
+    ?
+      <>
         <ValidatedForm
           loading={waitingForResponse}
           onSubmit={handleSubmit}
@@ -254,7 +249,9 @@ export const HuaweiForm = ( { appID, platformInfoID }:HuaweiFormProps ) => {
             },
           ]}
         />
-      : 
+        { toUpdate ? <Resoruces platformInfoID={pInfoID!} /> : null }
+      </>
+    : 
       <div></div>
   )
 }

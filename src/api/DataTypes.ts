@@ -18,14 +18,25 @@ export interface APIResponse {
   _issues:  APIErrorIssues | null;
   _error: APIError | null;
   // OK
-  id: string | null;
+  id: string | number | null;
   _items: 
     Platform[] | 
     Account[] | 
     AppInfo[] | 
     GraphData[] | 
     StatData[] | 
+    ResourcesData[] | 
     null;
+}
+
+export interface ResourcesData {
+  platform_info: number;
+  id: number;
+  type: number;
+  width: number;
+  height: number;
+  url: string;
+  file: string;
 }
 
 // APP
@@ -59,7 +70,7 @@ export interface Asset {
 }
 
 export interface BasicAppInfo {
-  id: string;
+  id: string ;
   type: 0 | 1;
   name: string;
   default_language: string;

@@ -19,6 +19,8 @@ import {
   createPlatformInfo
 } from "./PlatformInfo"
 
+import { getAllResources } from "./Resources"
+
 // Endpoint URL.
 const API_ENDPOINT = process.env.REACT_APP_API_URI;
 
@@ -412,10 +414,17 @@ const updateAccountInfo = async (accountData: User) => {
 
 
 export const API = {
+  // Users, account and more
   login,
   account,
   securityCheck,
-  // validate, -> securityCheck
+  resetPassword,
+  resetPasswordValidateToken,
+  changePassword,
+  getTermsOfService,
+  acceptTermsOfService,
+  updateAccountInfo,
+  // Stats and graphs
   stats,
   graphs,
   topStats,
@@ -425,13 +434,10 @@ export const API = {
   games: apps,
   createApp,
   updateApp,
+  // Platforms Info
   getPlatformInfo,
   createPlatformInfo,
   updatePlatformInfo,
-  resetPassword,
-  resetPasswordValidateToken,
-  changePassword,
-  getTermsOfService,
-  acceptTermsOfService,
-  updateAccountInfo,
+  // Resources
+  getAllResources,
 };

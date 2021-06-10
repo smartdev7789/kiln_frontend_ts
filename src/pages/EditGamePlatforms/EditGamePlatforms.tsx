@@ -17,7 +17,7 @@ import { getToken } from "../../authentication/Authentication";
 // Huawei
 import { HuaweiForm } from "../../platforms/HuaweiForm";
 import { DefaultForm } from "../../platforms/Default";
-import { forEachChild } from "typescript";
+
 
 // Defino algunos estilos
 const styles = {
@@ -48,8 +48,12 @@ const PlatformForm = ( appID:string, platformID:number, platformsInfo:PlatformIn
       const onePlatformInfo = platformsInfo?.filter((element) => {
         return element.platform === 1 ? element.id : null
       })
-
-      const platformInfoID = onePlatformInfo![0].platform === 1 ? onePlatformInfo![0].id : null
+      let platformInfoID
+      if ( onePlatformInfo!.length >= 1 ) {
+        platformInfoID = onePlatformInfo![0].platform === 1 ? onePlatformInfo![0].id : null
+      } else {
+        platformInfoID = null
+      }
 
       return <HuaweiForm appID={ appID } platformInfoID={ platformInfoID } />
     default:
@@ -127,22 +131,21 @@ export const EditGamePlatforms = (props: RouteComponentProps) => {
           {/* Platforms accordion */}
           <Grid.Row>
             <Accordion styled style={ styles.accordion.div } >
-              { platforms.map( (platform, key) => {
+              { platforms.map( (platform) => {
                 
                 return (
                   <>
                     <Accordion.Title
-                      key={key}
                       style={ styles.accordion.title }
-                      active={activeIndex === platform.id}
-                      index={0}
+                      active= { activeIndex === platform.id }
+                      index={ platform.id }
                       onClick={ () => { handleClick(platform.id) } }
                     >
                       {platform.name}
                       <Icon name='dropdown' style={ styles.accordion.title.icon }/>
                     </Accordion.Title>
 
-                    <Accordion.Content active={activeIndex === platform.id}>
+                    <Accordion.Content active={ activeIndex === platform.id }>
                       { PlatformForm( gameData.id, platform.id, gameData.platforms_info ) }
                     </Accordion.Content>
                   </>
