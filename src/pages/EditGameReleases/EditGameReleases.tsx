@@ -227,7 +227,8 @@ export const EditGameReleases = (props: RouteComponentProps) => {
                 </Accordion.Title>
 
                 <Accordion.Content active={activeIndex === release.id}>
-                  {ReleaseForm(index, { release: release, onSubmit: onSubmit, onDelete: deleteRelease, error: release.id === error }) }
+                  {/* <ReleaseForm index={index} release={release} onSubmit={onSubmit} onDelete={deleteRelease} error={release.id === error} /> */}
+                  <ReleaseForm index={index} release={release} error={release.id === error} />
                 </Accordion.Content>
               </Fragment>
 

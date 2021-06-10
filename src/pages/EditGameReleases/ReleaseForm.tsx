@@ -3,16 +3,17 @@ import { Release } from "../../api/DataTypes";
 import { FieldType, FormField, ValidatedForm } from "../../components/ValidatedForm/ValidatedForm";
 
 interface Properties {
+  index: number;
   release: Release;
-  onSubmit: (data: Release, index: number) => void;
-  onDelete: (index: number) => void;
+  // onSubmit: {data: Release, index: number} | void;
+  // onDelete: {index: number} | void;
   error: boolean;
 }
 
-export const ReleaseForm = (index: number, props: Properties) => {
+export const ReleaseForm = ({ index, release, error }:Properties) => {
   let waitingForResponse = false;
 
-  // const [ test, setTest ] = useState(false);
+  const [ test, setTest ] = useState(false);
 
   const formFields: FormField[] = [
     // TODO: Regions
@@ -53,14 +54,14 @@ export const ReleaseForm = (index: number, props: Properties) => {
   // }
   
   let initialFormData = {
-    "name": props.release.name || "",
-    "changelog": props.release.changelog || ""
+    "name": release.name || "",
+    "changelog": release.changelog || ""
   };
 
   const handleSubmit = async (formData: object) => {
     waitingForResponse = true;
     
-    props.onSubmit(formData as Release, index)
+    // onSubmit(formData as Release, index)
   
     waitingForResponse = false;
   };
@@ -83,7 +84,7 @@ export const ReleaseForm = (index: number, props: Properties) => {
               text: "editGame.releases.delete",
               positive: false,
               disabled: true,
-              onClick: () => { props.onDelete(index); }
+              // onClick: () => { onDelete(index); }
             },
           ]}
         />
