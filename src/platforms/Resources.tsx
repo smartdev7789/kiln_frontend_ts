@@ -11,7 +11,7 @@ interface ResourceProps { platformInfoID: number }
 export const Resoruces = ( { platformInfoID }:ResourceProps ) => {
 
     const token = getToken() 
-    const [resources, setResouces] = useState<ResourcesData[]>([])
+    const [ resources ] = useState<ResourcesData[]>([])
     const { t } = useTranslation();
 
     // Get resources
