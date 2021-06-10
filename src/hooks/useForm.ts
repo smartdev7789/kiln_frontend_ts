@@ -9,6 +9,7 @@ export type Validation = {
   key: string;
   required?: boolean;
   maxLength?: number;
+  unique?: boolean;
 };
 
 export const addError = (
@@ -40,6 +41,10 @@ export const validateData = (
       if (formData[key]! && (formData[key] as string).length === 0) {
         addError(errors, key, "Required field");
       }
+    }
+    
+    if (validation.unique) {
+      addError(errors, key, "Field must be unique");
     }
 
     if (validation.maxLength) {

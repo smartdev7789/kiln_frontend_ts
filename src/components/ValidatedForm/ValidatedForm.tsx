@@ -1,7 +1,7 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
-import { Button, Dropdown, Form, Label, Radio } from "semantic-ui-react";
+import { Button, Dropdown, Form, Input, Label, Radio } from "semantic-ui-react";
 import { Asset } from "../../api/DataTypes";
 import { FieldValue, useForm, Validation } from "../../hooks/useForm";
 import { MultipleAssetField } from "./MultipleAssetField";
@@ -40,6 +40,7 @@ type ButtonData = {
   text: string;
   positive?: boolean;
   disabled?: boolean;
+  onClick?: () => void;
 };
 
 type ValidatedFormProps = {
@@ -74,13 +75,28 @@ export const ValidatedForm = (props: ValidatedFormProps) => {
     >
       {props.fields.map((field) => {
         return (
+
+    //       <Form.Field
+    //   id='form-input-control-error-email'
+    //   control={Input}
+    //   label='Email'
+    //   placeholder='joe@schmoe.com'
+    //   error={{
+    //     content: 'Please enter a valid email address',
+    //     pointing: 'below',
+    //   }}
+    // />
+          
           <Form.Field
             onBlur={() => addTouchedField(field.key)}
             key={field.key}
             required={field.required}
-            error={
-              !!(formErrors[field.key] && touchedFields.includes(field.key))
-            }
+            // control={Input}
+            error={!!(formErrors[field.key] && touchedFields.includes(field.key))}
+            // error={{
+            //   content: 'Please enter a valid email address',
+            //   pointing: 'below',
+            // }}
           >
             <label>
               {t(field.label || "")}{" "}
@@ -206,13 +222,14 @@ export const ValidatedForm = (props: ValidatedFormProps) => {
         {props.buttons.map((buttonData) => {
           return (
             <Button
-              style={{margin: '5px'}}
+              style={{ margin: '5px' }}
               key={buttonData.text}
               disabled={
                 buttonData.disabled || buttonData.submit ? !isValid : undefined
               }
               positive={buttonData.positive}
-              type={buttonData.submit ? "submit" : undefined}
+              type={buttonData.submit ? "submit" : "button"}
+              onClick={buttonData.onClick ? buttonData.onClick : undefined}
             >
               {t(buttonData.text)}
             </Button>

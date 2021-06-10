@@ -168,9 +168,6 @@
         "save": "Save event"
       }
     },
-    "releases": {
-      "title": "Releases"
-    },
     "info": {
       "title": "Game info",
       "submit": "Submit",
@@ -189,7 +186,17 @@
       }
     }, 
     "releases": {
-      "title": "Releases"
+      "title": "Releases",
+      "new": "Add release",
+      "save": "Save",
+      "delete": "Delete",
+      "form": {
+        "name": "Package Name",
+        "regions": "Regions",
+        "changelog": "Changelog",
+        "package": "Package",
+        "deleteMessage": "Are you sure you want to erase this build ?"
+      }
     }
   },
   "moreInfo": "More info",

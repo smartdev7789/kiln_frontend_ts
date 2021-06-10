@@ -67,7 +67,6 @@ export const ResetPassword = ({ history }: RouteComponentProps) => {
   };
 
   const resetRequestToken = getQueryParam("token");
-
   
   // User should arrive here after requesting a password change and following up on an email that he should receive.
   // 1. He should arrive here with a query string parameter named token with a UUID.
@@ -80,11 +79,6 @@ export const ResetPassword = ({ history }: RouteComponentProps) => {
 
     // Call the API to see if the token we've got is valid and hasn't expired
     async function validateToken(token: string) {
-      // console.log("BEGIN");
-      // console.log(resetRequestToken);
-      // console.log(getQueryParam("token"));
-      // console.log("END");
-      
       try {
         const response = await API.resetPasswordValidateToken(resetRequestToken!);
 

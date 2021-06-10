@@ -10,7 +10,9 @@ import {
   // AppInfoPatch,
   BasicAppInfo,
   APIResponse,
-  Filter
+  Filter,
+  AppInfoPatch,
+  Release
 } from "./DataTypes";
 
 import { yesterday } from "../libs/date"
@@ -374,6 +376,119 @@ const updateApp = async (token: string, id: string, data:AppInfo, etag: string) 
   }
 };
 
+const getAppReleases = async (token: string, appId: string) => {
+  if (token === '') return;
+
+  const baseUrl = `${API_ENDPOINT}/apps/${appId}/releases?sort=-_created`;
+  // const projection = '?embedded={"builds": 1}';
+  const projection = '';
+  const url = baseUrl + projection;
+  
+  const bearer = 'Bearer ' + token;
+  const response = await fetch(url, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json', 
+      'Authorization': bearer,
+    },
+  });
+  
+  if (!response.ok) {
+    throw new Error("HTTP error, status = " + response.status);
+  }
+  
+  return (await response.json()) as APIResponse;
+};
+
+const createAppRelease = async (token: string, appId: string, releaseData: Release) => {
+  if (token !== '') {
+    const url = `${API_ENDPOINT}/apps/${appId}/releases`;
+    
+    const bearer = 'Bearer ' + token;
+    const res = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        'Authorization': bearer,
+        Accept: "application/json",
+      },
+      body: JSON.stringify({ ...releaseData }),
+    });
+
+    return (await res.json()) as APIResponse;
+  } else {
+    let noToken = {
+      "_status": "ERR",
+      "_error": {
+        "message": "No token"
+      }
+    }
+    return noToken as APIResponse;
+  }
+};
+
+const updateAppRelease = async (token: string, appId: string, releaseData: Release, etag: string) => {
+  if (token === '') {
+    return {
+      "_status": "ERR",
+      "_error": {
+        "message": "No token"
+      }
+    } as APIResponse;
+  }
+
+  const url = `${API_ENDPOINT}/apps/${appId}/releases/${releaseData.id}`;
+  const bearer = 'Bearer ' + token;
+
+  const res = await fetch(url, {
+    method: "PATCH",
+    body: JSON.stringify( releaseData ),
+    headers: {
+      'Content-Type': 'application/json',
+      'If-Match': etag,
+      'Authorization': bearer,
+    },
+  });
+
+  return (await res.json()) as APIResponse;
+};
+
+const deleteAppRelease = async (token: string, appId: string, releaseData: Release, etag: string) => {
+  if (token === '') {
+    return {
+      "_status": "ERR",
+      "_error": {
+        "message": "No token"
+      }
+    } as APIResponse;
+  }
+
+  const url = `${API_ENDPOINT}/apps/${appId}/releases/${releaseData.id}`;
+  const bearer = 'Bearer ' + token;
+
+  const res = await fetch(url, {
+    method: "DELETE",
+    headers: {
+      'Content-Type': 'application/json',
+      'If-Match': etag,
+      'Authorization': bearer,
+    },
+    body: JSON.stringify({}),
+  });
+
+  if (res.ok) {
+    return {
+      "_status": "OK",
+      "_error": {
+        "message": ""
+      } 
+    } as APIResponse
+  }
+  else {
+    return (await res.json()) as APIResponse;
+  }  
+};
+
 const resetPassword = async (email: string) => {
   const res = await fetch(`${API_ENDPOINT}/users/forgot_password`, {
     method: "POST",
@@ -439,6 +554,10 @@ export const API = {
   createApp,
   updateApp,
   getPlatformInfo,
+  getAppReleases,
+  createAppRelease,
+  updateAppRelease,
+  deleteAppRelease,
   resetPassword,
   resetPasswordValidateToken,
   changePassword,
