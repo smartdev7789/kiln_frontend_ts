@@ -39,8 +39,6 @@ export const EditGameReleases = (props: RouteComponentProps) => {
   const [drafting, setDrafting] = useState<boolean>( false );
 
   const [activeIndex, setActiveIndex] = useState(0)
-
-  const [error, setError] = useState<number | null>(null);
   
   const handleClick = (index: number) => {
     const newIndex = activeIndex === index ? -1 : index
@@ -60,7 +58,7 @@ export const EditGameReleases = (props: RouteComponentProps) => {
         application_id: gameData.id,
         regions: [],
         build: [],
-        binary: "",
+        package: "",
         id: 0,
         name: "New Draft",
         changelog: "",
@@ -73,39 +71,28 @@ export const EditGameReleases = (props: RouteComponentProps) => {
     setActiveIndex(0);
   };
 
-  const onSubmit = (release: Release, index: number) => {
-    if (releases[index].id === 0) createRelease(release, index)
-    else updateRelease(release, index);
+  const onSubmit = (release: Release, index: number, file?: File) => {
+    if (releases[index].id === 0) return createRelease(release, index, file)
+    else return updateRelease(release, index, file);
   };
   
-  const createRelease = async (newRelease: Release, index: number) => {
+  const createRelease = async (newRelease: Release, index: number, file?: File) => {
     if (gameData === null) return; 
 
-    try {
-      const response = await API.createAppRelease(token, gameData.id, newRelease);
+    const response = await API.createAppRelease(token, gameData.id, newRelease, file);
 
-      if (response._status === "OK") {
-        newRelease.id = parseInt(response.id!);
-        newRelease._etag = response._etag;
-        setReleases(releases.map((r: Release, i: number) => (i === index ? newRelease : r)));
+    if (response._status === "OK") {
+      newRelease.id = parseInt(response.id!);
+      newRelease._etag = response._etag;
+      setReleases(releases.map((r: Release, i: number) => (i === index ? newRelease : r)));
 
-        setDrafting(false);
-      }
-      else {
-        console.log(response);
-        // passwordInput.current!.setCustomValidity(validation.error);
-        // passwordInput.current!.reportValidity();
-        setError(0);
-      }
+      setDrafting(false);
     }
-    catch(err) {
-      console.log(err);
-      
-      setError(0);
-    }
+
+    return response;
   }
   
-  const updateRelease = async (release: Release, index: number) => {
+  const updateRelease = async (release: Release, index: number, file?: File) => {
     if (gameData === null) return;
 
     release.id = releases[index].id;
@@ -119,16 +106,14 @@ export const EditGameReleases = (props: RouteComponentProps) => {
       }
     }
     
-    const response = await API.updateAppRelease(token, gameData.id, release, releases[index]._etag);
+    const response = await API.updateAppRelease(token, gameData.id, release, releases[index]._etag, file);
 
     if (response._status === "OK") {
       apiRelease._etag = response._etag;
       setReleases(releases.map((r: Release, i: number) => (i === index ? apiRelease : r)));
     }
-    else {
-      console.log(response);
-      setError(releases[index].id);
-    }
+
+    return response;
   };
 
   const deleteRelease = async (index: number) => {
@@ -214,6 +199,7 @@ export const EditGameReleases = (props: RouteComponentProps) => {
         <Accordion styled style={styles.accordion.div} >
         
           {releases.map((release, index) => {
+            console.log(release);
             return (
 
               <Fragment key={release.id}>
@@ -228,7 +214,8 @@ export const EditGameReleases = (props: RouteComponentProps) => {
 
                 <Accordion.Content active={activeIndex === release.id}>
                   {/* <ReleaseForm index={index} release={release} onSubmit={onSubmit} onDelete={deleteRelease} error={release.id === error} /> */}
-                  <ReleaseForm index={index} release={release} error={release.id === error} />
+                  <ReleaseForm index={index} release={release} onSubmit={onSubmit} onDelete={deleteRelease} />
+                  {/* <ReleaseForm index={index} release={release} error={release.id === error} /> */}
                 </Accordion.Content>
               </Fragment>
 

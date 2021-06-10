@@ -195,7 +195,8 @@
         "regions": "Regions",
         "changelog": "Changelog",
         "package": "Package",
-        "deleteMessage": "Are you sure you want to erase this build ?"
+        "deleteMessage": "Are you sure you want to erase this build ?",
+        "duplicateName": "Release version name must be unique"
       }
     }
   },

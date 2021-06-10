@@ -234,7 +234,7 @@ export interface Release {
   id: number;
   name: string;
   changelog: string;
-  binary: string;
+  package: string;
   _etag: string;
 }
 

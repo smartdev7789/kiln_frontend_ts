@@ -380,8 +380,7 @@ const getAppReleases = async (token: string, appId: string) => {
   if (token === '') return;
 
   const baseUrl = `${API_ENDPOINT}/apps/${appId}/releases?sort=-_created`;
-  // const projection = '?embedded={"builds": 1}';
-  const projection = '';
+  const projection = '&projection={"regions":1,"builds":1,"package":1}&embedded={"builds":1}';
   const url = baseUrl + projection;
   
   const bearer = 'Bearer ' + token;
@@ -400,22 +399,49 @@ const getAppReleases = async (token: string, appId: string) => {
   return (await response.json()) as APIResponse;
 };
 
-const createAppRelease = async (token: string, appId: string, releaseData: Release) => {
+const createAppRelease = async (token: string, appId: string, releaseData: Release, file?: File) => {
   if (token !== '') {
     const url = `${API_ENDPOINT}/apps/${appId}/releases`;
-    
-    const bearer = 'Bearer ' + token;
-    const res = await fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        'Authorization': bearer,
-        Accept: "application/json",
-      },
-      body: JSON.stringify({ ...releaseData }),
-    });
 
-    return (await res.json()) as APIResponse;
+    const bearer = 'Bearer ' + token;
+    const headers = {
+      'Authorization': bearer,
+      'Accept': "application/json",
+    }
+    
+    const formData = new FormData();
+    if (file) {
+      formData.append('name', releaseData.name);
+      formData.append('changelog', releaseData.changelog);
+      formData.append('package', file)
+    }
+    else {
+      //@ts-ignore
+      headers['Content-Type'] = 'application/json';
+    }
+    
+    try {
+      const res = await fetch(url, {
+        method: "POST",
+        headers: headers,
+        body: file ? formData : JSON.stringify({ ...releaseData }),
+      });
+
+      return (await res.json()) as APIResponse;
+    }
+    catch (err) {
+      console.log(err);
+
+      let noToken = {
+        "_status": "ERR",
+        "_error": {
+          "message": "editGame.releases.form.duplicateName"
+
+        }
+      }
+      return noToken as APIResponse;
+    }
+    
   } else {
     let noToken = {
       "_status": "ERR",
@@ -427,7 +453,7 @@ const createAppRelease = async (token: string, appId: string, releaseData: Relea
   }
 };
 
-const updateAppRelease = async (token: string, appId: string, releaseData: Release, etag: string) => {
+const updateAppRelease = async (token: string, appId: string, releaseData: Release, etag: string, file?: File) => {
   if (token === '') {
     return {
       "_status": "ERR",
@@ -438,16 +464,29 @@ const updateAppRelease = async (token: string, appId: string, releaseData: Relea
   }
 
   const url = `${API_ENDPOINT}/apps/${appId}/releases/${releaseData.id}`;
+  
   const bearer = 'Bearer ' + token;
+  const headers = {
+    'Authorization': bearer,
+    'Accept': "application/json",
+    'If-Match': etag,
+  }
+  
+  const formData = new FormData();
+  if (file) {
+    formData.append('name', releaseData.name);
+    formData.append('changelog', releaseData.changelog);
+    formData.append('package', file)
+  }
+  else {
+    //@ts-ignore
+    headers['Content-Type'] = 'application/json';
+  }
 
   const res = await fetch(url, {
     method: "PATCH",
-    body: JSON.stringify( releaseData ),
-    headers: {
-      'Content-Type': 'application/json',
-      'If-Match': etag,
-      'Authorization': bearer,
-    },
+    headers: headers,
+    body: file ? formData : JSON.stringify(releaseData),
   });
 
   return (await res.json()) as APIResponse;

@@ -1,19 +1,36 @@
 import { useRef, useState } from "react";
-import { Release } from "../../api/DataTypes";
+import { APIResponse, Release } from "../../api/DataTypes";
 import { FieldType, FormField, ValidatedForm } from "../../components/ValidatedForm/ValidatedForm";
+import { useTranslation } from "react-i18next";
 
 interface Properties {
   index: number;
   release: Release;
-  // onSubmit: {data: Release, index: number} | void;
-  // onDelete: {index: number} | void;
-  error: boolean;
+  onSubmit: (data: Release, index: number, file?: File) => Promise<APIResponse | undefined>;
+  onDelete: (index: number) => void;
 }
 
-export const ReleaseForm = ({ index, release, error }:Properties) => {
+export const ReleaseForm = ({ index, release, onSubmit, onDelete }: Properties) => {
+  const { t } = useTranslation();
+
+  const [file, setFile] = useState<File | null>(null);
+
   let waitingForResponse = false;
 
-  const [ test, setTest ] = useState(false);
+  const nameInput = useRef<HTMLInputElement>(null);
+
+  const handlePackageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(event);
+
+    setFile(event.target.files![0]);
+  };
+
+  const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (nameInput.current) {
+      nameInput.current.setCustomValidity("");
+      nameInput.current.reportValidity();
+    }
+  };
 
   const formFields: FormField[] = [
     // TODO: Regions
@@ -34,6 +51,8 @@ export const ReleaseForm = ({ index, release, error }:Properties) => {
       required: true,
       label: "editGame.releases.form.name",
       unique: false,
+      useRef: nameInput,
+      onChange: handleNameChange,
     },
     {
       key: "changelog",
@@ -45,14 +64,10 @@ export const ReleaseForm = ({ index, release, error }:Properties) => {
       key: "package",
       type: FieldType.FileUpload,
       label: "editGame.releases.form.package",
+      onChange: handlePackageChange,
     },
   ];
-  
-  // if (props.error) {
-  //   console.log("ERROR !");
-  //   formFields[0].unique = true;
-  // }
-  
+    
   let initialFormData = {
     "name": release.name || "",
     "changelog": release.changelog || ""
@@ -60,8 +75,17 @@ export const ReleaseForm = ({ index, release, error }:Properties) => {
 
   const handleSubmit = async (formData: object) => {
     waitingForResponse = true;
-    
-    // onSubmit(formData as Release, index)
+
+    const response = file ? await onSubmit(formData as Release, index, file) : await onSubmit(formData as Release, index);
+
+    console.log(response);
+
+    if (response?._status === "ERR") {
+      if (nameInput.current) {
+        nameInput.current.setCustomValidity(t(response?._error?.message!));
+        nameInput.current.reportValidity();
+      }
+    }
   
     waitingForResponse = false;
   };
@@ -84,7 +108,7 @@ export const ReleaseForm = ({ index, release, error }:Properties) => {
               text: "editGame.releases.delete",
               positive: false,
               disabled: true,
-              // onClick: () => { onDelete(index); }
+              onClick: () => { onDelete(index); }
             },
           ]}
         />
