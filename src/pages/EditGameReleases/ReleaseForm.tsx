@@ -1,7 +1,8 @@
-import { useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { APIResponse, Release } from "../../api/DataTypes";
 import { FieldType, FormField, ValidatedForm } from "../../components/ValidatedForm/ValidatedForm";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 
 interface Properties {
   index: number;
@@ -20,8 +21,6 @@ export const ReleaseForm = ({ index, release, onSubmit, onDelete }: Properties) 
   const nameInput = useRef<HTMLInputElement>(null);
 
   const handlePackageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(event);
-
     setFile(event.target.files![0]);
   };
 
@@ -64,6 +63,7 @@ export const ReleaseForm = ({ index, release, onSubmit, onDelete }: Properties) 
       key: "package",
       type: FieldType.FileUpload,
       label: "editGame.releases.form.package",
+      placeholder: "CHUPALA",
       onChange: handlePackageChange,
     },
   ];
@@ -78,8 +78,6 @@ export const ReleaseForm = ({ index, release, onSubmit, onDelete }: Properties) 
 
     const response = file ? await onSubmit(formData as Release, index, file) : await onSubmit(formData as Release, index);
 
-    console.log(response);
-
     if (response?._status === "ERR") {
       if (nameInput.current) {
         nameInput.current.setCustomValidity(t(response?._error?.message!));
@@ -89,29 +87,42 @@ export const ReleaseForm = ({ index, release, onSubmit, onDelete }: Properties) 
   
     waitingForResponse = false;
   };
-  
+
+  const regex = /(.*\/)[^\/]+$/gm;
+  let backendURI = `${process.env.REACT_APP_API_URI}`;
+  backendURI = regex.exec(backendURI)![1];
+
   return (
         initialFormData! && formFields
         ?
-        <ValidatedForm
-          loading={waitingForResponse}
-          onSubmit={handleSubmit}
-          fields={formFields}
-          initialFormData={initialFormData}
-          buttons={[
-            {
-              text: "editGame.releases.save",
-              positive: true,
-              submit: true,
-            },
-            {
-              text: "editGame.releases.delete",
-              positive: false,
-              disabled: true,
-              onClick: () => { onDelete(index); }
-            },
-          ]}
-        />
+        <>
+          <ValidatedForm
+            loading={waitingForResponse}
+            onSubmit={handleSubmit}
+            fields={formFields}
+            initialFormData={initialFormData}
+            buttons={[
+              {
+                text: "editGame.releases.save",
+                positive: true,
+                submit: true,
+              },
+              {
+                text: "editGame.releases.delete",
+                positive: false,
+                disabled: true,
+                onClick: () => { onDelete(index); }
+              },
+            ]}
+          />
+          {release.builds?.length === 0 && release.package.file !== "" &&
+            <div>
+              {/* <Link to={{ pathname: `${backendURI}${release.package.file}` }} target="_blank">Uploaded Build</Link> */}
+              <p>Build Uploaded</p>
+              <p>Platform Builds Processing ...</p>
+            </div>
+          }
+        </>
       : 
       <div></div>
   )

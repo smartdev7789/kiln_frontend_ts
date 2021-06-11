@@ -380,7 +380,7 @@ const getAppReleases = async (token: string, appId: string) => {
   if (token === '') return;
 
   const baseUrl = `${API_ENDPOINT}/apps/${appId}/releases?sort=-_created`;
-  const projection = '&projection={"regions":1,"builds":1,"package":1}&embedded={"builds":1}';
+  const projection = '&projection={"regions":1,"builds":1}&embedded={"builds":1}';
   const url = baseUrl + projection;
   
   const bearer = 'Bearer ' + token;
@@ -400,53 +400,53 @@ const getAppReleases = async (token: string, appId: string) => {
 };
 
 const createAppRelease = async (token: string, appId: string, releaseData: Release, file?: File) => {
-  if (token !== '') {
-    const url = `${API_ENDPOINT}/apps/${appId}/releases`;
-
-    const bearer = 'Bearer ' + token;
-    const headers = {
-      'Authorization': bearer,
-      'Accept': "application/json",
-    }
-    
-    const formData = new FormData();
-    if (file) {
-      formData.append('name', releaseData.name);
-      formData.append('changelog', releaseData.changelog);
-      formData.append('package', file)
-    }
-    else {
-      //@ts-ignore
-      headers['Content-Type'] = 'application/json';
-    }
-    
-    try {
-      const res = await fetch(url, {
-        method: "POST",
-        headers: headers,
-        body: file ? formData : JSON.stringify({ ...releaseData }),
-      });
-
-      return (await res.json()) as APIResponse;
-    }
-    catch (err) {
-      console.log(err);
-
-      let noToken = {
-        "_status": "ERR",
-        "_error": {
-          "message": "editGame.releases.form.duplicateName"
-
-        }
-      }
-      return noToken as APIResponse;
-    }
-    
-  } else {
+  if (token === '') {
     let noToken = {
       "_status": "ERR",
       "_error": {
         "message": "No token"
+      }
+    }
+
+    return noToken as APIResponse;
+  }
+
+  const url = `${API_ENDPOINT}/apps/${appId}/releases`;
+
+  const bearer = 'Bearer ' + token;
+  const headers = {
+    'Authorization': bearer,
+    'Accept': "application/json",
+  }
+  
+  const formData = new FormData();
+  if (file) {
+    formData.append('name', releaseData.name);
+    formData.append('changelog', releaseData.changelog);
+    formData.append('package', file)
+  }
+  else {
+    //@ts-ignore
+    headers['Content-Type'] = 'application/json';
+  }
+  
+  try {
+    const res = await fetch(url, {
+      method: "POST",
+      headers: headers,
+      body: file ? formData : JSON.stringify({ ...releaseData }),
+    });
+
+    return (await res.json()) as APIResponse;
+  }
+  catch (err) {
+    console.log(err);
+
+    let noToken = {
+      "_status": "ERR",
+      "_error": {
+        "message": "editGame.releases.form.duplicateName"
+
       }
     }
     return noToken as APIResponse;
@@ -489,7 +489,10 @@ const updateAppRelease = async (token: string, appId: string, releaseData: Relea
     body: file ? formData : JSON.stringify(releaseData),
   });
 
-  return (await res.json()) as APIResponse;
+  let tete = await res.json();
+  console.log(tete);
+  return (tete) as APIResponse;
+  // return (await res.json()) as APIResponse;
 };
 
 const deleteAppRelease = async (token: string, appId: string, releaseData: Release, etag: string) => {

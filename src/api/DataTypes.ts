@@ -229,13 +229,18 @@ export interface Event {
 
 export interface Release {
   application_id: string;
-  build: Build[] | null;
+  builds: Build[] | null;
   regions: [] | null;
   id: number;
   name: string;
   changelog: string;
-  package: string;
+  package: AssetFile;
   _etag: string;
+}
+
+export interface AssetFile {
+  content_type: string;
+  file: string;
 }
 
 export interface Build {

@@ -57,8 +57,8 @@ export const EditGameReleases = (props: RouteComponentProps) => {
       {
         application_id: gameData.id,
         regions: [],
-        build: [],
-        package: "",
+        builds: [],
+        package: {content_type: "", file: ""},
         id: 0,
         name: "New Draft",
         changelog: "",
@@ -84,6 +84,10 @@ export const EditGameReleases = (props: RouteComponentProps) => {
     if (response._status === "OK") {
       newRelease.id = parseInt(response.id!);
       newRelease._etag = response._etag;
+      
+      // TODO: Do we need actual data on the upload ?
+      if (file) newRelease.package = { file: "true", content_type: "" };
+
       setReleases(releases.map((r: Release, i: number) => (i === index ? newRelease : r)));
 
       setDrafting(false);
@@ -110,6 +114,10 @@ export const EditGameReleases = (props: RouteComponentProps) => {
 
     if (response._status === "OK") {
       apiRelease._etag = response._etag;
+
+      // TODO: Do we need actual data on the upload ?
+      if (file) apiRelease.package = { file: "true", content_type: "" };
+      
       setReleases(releases.map((r: Release, i: number) => (i === index ? apiRelease : r)));
     }
 
@@ -199,7 +207,6 @@ export const EditGameReleases = (props: RouteComponentProps) => {
         <Accordion styled style={styles.accordion.div} >
         
           {releases.map((release, index) => {
-            console.log(release);
             return (
 
               <Fragment key={release.id}>
@@ -213,9 +220,9 @@ export const EditGameReleases = (props: RouteComponentProps) => {
                 </Accordion.Title>
 
                 <Accordion.Content active={activeIndex === release.id}>
-                  {/* <ReleaseForm index={index} release={release} onSubmit={onSubmit} onDelete={deleteRelease} error={release.id === error} /> */}
+
                   <ReleaseForm index={index} release={release} onSubmit={onSubmit} onDelete={deleteRelease} />
-                  {/* <ReleaseForm index={index} release={release} error={release.id === error} /> */}
+
                 </Accordion.Content>
               </Fragment>
 
