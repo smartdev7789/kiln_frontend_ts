@@ -31,10 +31,9 @@
     "web-vitals": "^1.1.1"
   },
   "scripts": {
-    "start": "export REACT_APP_API_URI='http://localhost:5000/v0.01';craco start",
+    "start": "export REACT_APP_API_ADDRESS='http://localhost:5000'; export REACT_APP_API_VERSION='v0.01'; craco start",
     "mock": "concurrently \"craco start\" \"cd mockAPI && json-server --watch db.json --port=3333\"",
     "build": "craco build",
-    "build-staging": "export REACT_APP_API_URI='https://staging.gamebake.io/v0.01';craco build",
     "test": "craco test",
     "eject": "craco eject"
   },

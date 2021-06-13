@@ -243,5 +243,16 @@
     "notConnected": "Not connected",
     "processing": "Processing",
     "connected": "Connected"
+  },
+  "resources": {
+    "title":"Resources",
+    "video":{
+      "text":"Tu navegador no admite el elemento <code>video</code>."
+    },
+    "types":{
+      "icon": "Icon",
+      "screenshot": "Screenshot",
+      "video": "Video"
+    }
   }
 }

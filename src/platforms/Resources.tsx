@@ -1,59 +1,113 @@
 // import React, { useContext, useEffect, useState } from "react";
-
 import { useEffect, useState } from "react"
 import { API } from "../api/API"
 import { ResourcesData } from "../api/DataTypes";
 import { getToken } from "../authentication/Authentication";
-import { Form, Dropdown, Button } from 'semantic-ui-react'
+import { Resource } from "../components/Resources/Resource";
+import { Card } from 'semantic-ui-react'
 import { useTranslation } from "react-i18next";
 
-interface ResourceProps { platformInfoID: number }
-export const Resoruces = ( { platformInfoID }:ResourceProps ) => {
+// import { FieldValue } from "../hooks/useForm";
+// import { FormField, FieldType, ValidatedForm } from "../components/ValidatedForm/ValidatedForm";
 
+// Interfaces
+interface ResourcesProps { 
+  platformInfoID: number 
+}
+
+export const Resoruces = ( { platformInfoID }:ResourcesProps ) => {
+    const { t } = useTranslation()
+    console.log(platformInfoID)
     const token = getToken() 
-    const [ resources ] = useState<ResourcesData[]>([])
-    const { t } = useTranslation();
+    // const [ waitingForResponse, setWaitingForResponse ] = useState(false);
+    // setWaitingForResponse(false);
 
+    const [ resources, setResouces ] = useState<ResourcesData[]>([])
+    // const { t } = useTranslation();
+    
     // Get resources
     useEffect(()=>{
         API.getAllResources(token, platformInfoID).then( (data) => {
-            console.log(data)
-            // setResouces(data?._items)
+            // console.log(data?._items!)
+            data?._items!.forEach((item)=> {
+              console.log(item)
+            })
+            setResouces(data?._items! as ResourcesData[])
         })
 
-    }, [platformInfoID, token])
+    }, [token, platformInfoID] )
+
+    // const initialFormData = {
+    //   id: 1,
+    //   type: 1,
+    // }
+    
+    // const fields = {
+    //     key: 1,
+    //     type: FieldType.MultipleAssets,
+    //     label: "editGame.info.assets.label",
+    // }
+
+    // interface interfaceFormData {
+    //     [key: string]: FieldValue
+    //   }
+
+    // const handleSubmit = async (formData: interfaceFormData) => {
+    //     console.log(formData)
+    // }
+    // const formFields: FormField[] = [
+    //     {
+    //       key: "1",
+    //       type: FieldType.MultipleAssets,
+    //       label: "editGame.info.categories.label",
+    //     }
+    // ]
 
     return (
-        <>
-            <h1>Resources</h1>
+      <>
+        <h1>{t('resources.title')}</h1>
+        {
+          // initialFormData!
+          // ?
+            
+          //   // <>
+          //   //   <ValidatedForm
+          //   //     loading={waitingForResponse}
+          //   //     onSubmit={handleSubmit}
+          //   //     fields={formFields}
+          //   //     initialFormData={initialFormData}
+          //   //     buttons={[
+          //   //       {
+          //   //         text: "editGame.info.submit",
+          //   //         positive: true,
+          //   //         submit: true,
+          //   //       },
+          //   //     ]}
+          //   //   />
+          //   // </>
+          // : 
+          //   <div></div>
+        }
+        {
+          resources!
+          ?
+            <div style={{width:'94%', margin:'1rem auto'}}>
 
-            <Form>
-                <Form.Field styled type="file">
-                    <Dropdown text={`${t("release.type")}`}>
-                        <Dropdown.Menu>
-                        <Dropdown.Item text={`${t("release.type.icon")}`} />
-                        <Dropdown.Item text={`${t("release.type.screenshot")}`} />
-                        <Dropdown.Item text={`${t("release.type.video")}`} />
-                        </Dropdown.Menu>
-                    </Dropdown>
-
-                    <label>Last Name</label>
-                    <input type="file" placeholder='Last Name' />
-                
-                </Form.Field>
-
-                <Button type='submit'>Submit</Button>
-            </Form>
-
-            { resources!
-            ?
-                resources.map( (resource) => {
-                    return (
-                        <>Resource</>
+              <Card.Group centered itemsPerRow='4' >
+                { resources.map((resource) => {
+                  return(
+                    <Resource 
+                    type = { resource.type }
+                    file = { resource.file.file } 
+                    content_type = { resource.file.content_type } />
                     )
-                })
-            : null }
-
-        </>
-    )
+                  } ) }
+              </Card.Group>
+            
+            </div>
+          :
+            null
+        }
+      </>
+      )
 }
