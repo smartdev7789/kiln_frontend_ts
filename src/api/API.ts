@@ -17,15 +17,14 @@ import {
   getPlatformInfo,
   updatePlatformInfo,
   createPlatformInfo
-} from "./PlatformInfo"
+} from "./PlatformInfoAPI"
 
 import { 
   getAllResources,
   getResource,
   addResource,
-  updateResource,
   deleteResource
-} from "./Resources"
+} from "./ResourcesAPI"
 
 // API.
 const API_ADDRESS = process.env.REACT_APP_API_ADDRESS
@@ -451,6 +450,5 @@ export const API = {
   getAllResources,
   getResource,
   addResource,
-  updateResource,
   deleteResource
 };

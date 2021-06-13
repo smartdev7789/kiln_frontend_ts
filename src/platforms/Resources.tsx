@@ -17,7 +17,6 @@ interface ResourcesProps {
 
 export const Resoruces = ( { platformInfoID }:ResourcesProps ) => {
     const { t } = useTranslation()
-    console.log(platformInfoID)
     const token = getToken() 
     // const [ waitingForResponse, setWaitingForResponse ] = useState(false);
     // setWaitingForResponse(false);
@@ -29,10 +28,15 @@ export const Resoruces = ( { platformInfoID }:ResourcesProps ) => {
     useEffect(()=>{
         API.getAllResources(token, platformInfoID).then( (data) => {
             // console.log(data?._items!)
-            data?._items!.forEach((item)=> {
-              console.log(item)
+            // data?._items!.forEach((item)=> {
+            //   console.log(item)
+            // })
+            const sortResources = ( data?._items as ResourcesData[] ).sort(function (a, b) {
+              if (a.type > b.type) { return 1 }
+              if (a.type < b.type) { return -1 }
+              return 0 // a must be equal to b
             })
-            setResouces(data?._items! as ResourcesData[])
+            setResouces( sortResources as ResourcesData[] )
         })
 
     }, [token, platformInfoID] )
@@ -96,10 +100,15 @@ export const Resoruces = ( { platformInfoID }:ResourcesProps ) => {
               <Card.Group centered itemsPerRow='4' >
                 { resources.map((resource) => {
                   return(
-                    <Resource 
-                    type = { resource.type }
-                    file = { resource.file.file } 
-                    content_type = { resource.file.content_type } />
+                    <Resource
+                      key = {resource.id}
+                      platformInfoID = { platformInfoID }
+                      id = { resource.id }
+                      type = { resource.type }
+                      file = { resource.file.file } 
+                      content_type = { resource.file.content_type } 
+                      eTag = { resource._etag }
+                    />
                     )
                   } ) }
               </Card.Group>

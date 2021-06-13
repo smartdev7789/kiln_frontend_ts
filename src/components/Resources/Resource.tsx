@@ -1,16 +1,11 @@
-import { ResourceTypes } from "../../api/DataTypes";
-import { Card, Image, Label, Icon, Container } from 'semantic-ui-react'
-import { useTranslation } from "react-i18next";
-
-
+import { CSSProperties } from "react"
+import { ResourceTypes } from "../../api/DataTypes"
+import { Card, Image, Label, Icon, Button, SemanticCOLORS } from 'semantic-ui-react'
+import { useTranslation } from "react-i18next"
+import { API } from "../../api/API"
+import { getToken } from "../../authentication/Authentication"
 // API.
 const API_ADDRESS = process.env.REACT_APP_API_ADDRESS
-
-interface ResourceProps { 
-    type: number;
-    file: string; 
-    content_type: string
-  }
 
 const styles = {
     card: {
@@ -37,51 +32,97 @@ const styles = {
     },    
     footer: {
         display: 'flex',
-        // flexDirection: 'row',
+        flexDirection: 'row-reverse',
         width: '100%',
         marginTop: '1px',
+    },
+    remove: {
+        margin: '0',
+        padding: '0',
+        width: '1em',
+        height: '1em',
     }
 }
 
-
-const CardFoot = () => {
-    return (
-        <div style={styles.footer}>
-            <span style={{width:'100%'}} ></span>
-            <Icon link name='close' color='red' />
-        </div>
-    )
+interface HeadProps {
+    type: number
 }
 
-const CardHead = ({type}:{type:number}) => {
+/**
+ * CardHead component.
+ * 
+ * @returns CardHead
+ */
+const CardHead = ( { type }:HeadProps ) => {
     const { t } = useTranslation();
-    var color = 'red'
+    let color = 'red'
     const title = t(ResourceTypes[type].title)
     
     switch (type) {
         case 0:
             color = 'olive'
-
             break;
-
+        
         case 1:
             color = 'orange'
             break;
-
+            
         case 2:
-            color = 'tea'
+            color = 'violet'
             break;
-
-        default:
-            color = 'red'
-            break;
-    }
-
-    console.log(color)
-
+        }
+        
     return (
-        <Label style={ styles.label } color="blue" ribbon >{title}</Label>
+        <Label style={ styles.label } color={ color as SemanticCOLORS } ribbon >{title}</Label>
     )
+}
+
+
+interface FootProps {
+    platformInfoID: number
+    id: number
+    eTag: string
+}
+
+/**
+ * CardFoot component.
+ * 
+ * @returns Component
+ */
+const CardFoot = ({platformInfoID, id, eTag }:FootProps ) => {
+    
+    const handleDelete = async() => {
+        // Remove Resouce
+        const token = getToken()
+        const response = await API.deleteResource(token, platformInfoID, id, eTag)
+        if ( response?._status === 'OK' ) {
+            // TODO
+            console.log( "Refresh resources" )
+        } else {
+            // TODO
+            console.log( "Show error" )
+        }
+    }
+    
+    return (
+        <>
+            <span style={{height: '100%', width:'100%', minHeight:'5px'}} ></span>
+            <div style={styles.footer as CSSProperties }  >
+                <Button style={styles.remove as CSSProperties } size="small" onClick={ handleDelete }>
+                    <Icon name='close' color='red' />
+                </Button>
+            </div>
+        </>
+    )
+}
+
+interface ResourceProps { 
+    platformInfoID: number
+    id: number
+    type: number
+    file: string
+    content_type: string
+    eTag: string
 }
 
 /**
@@ -89,23 +130,23 @@ const CardHead = ({type}:{type:number}) => {
  * @param param0 
  * @returns 
  */
-export const Resource = ({ type, file, content_type }:ResourceProps) => {
+export const Resource = ({ platformInfoID, id, type, file, content_type, eTag }:ResourceProps) => {
     const { t } = useTranslation();
-
+    
     switch (type) {
         case 0:
         // Icon
-            return (
+        return (
                 <Card style={ styles.card }>
                     <CardHead type={ 0 } />
                     <Image 
                         sytle={styles.img}
                         src={`${API_ADDRESS}${file}`}
-                        size='medium'
                         centered
+                        rounded
                         fluid
                     />
-                    <CardFoot />
+                    <CardFoot id={ id } eTag={ eTag } platformInfoID={ platformInfoID } />
                 </Card>
             )
 
@@ -117,12 +158,11 @@ export const Resource = ({ type, file, content_type }:ResourceProps) => {
                     <Image 
                         sytle={styles.img} 
                         src={`${API_ADDRESS}${file}`} 
-                        size='medium' 
                         centered 
                         rounded
                         fluid
                         />
-                    <CardFoot />
+                    <CardFoot id={ id } eTag={ eTag } platformInfoID={ platformInfoID } />
                 </Card>
             )
 
@@ -136,8 +176,7 @@ export const Resource = ({ type, file, content_type }:ResourceProps) => {
                     <video style={styles.video} src={video} controls >
                         {t('resources.viedo.text')}
                     </video>
-                    <span style={{height: '100%', width:'100%'}} ></span>
-                    <CardFoot />
+                    <CardFoot id={ id } eTag={ eTag } platformInfoID={ platformInfoID } />
                 </Card>
             )
 

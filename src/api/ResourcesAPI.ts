@@ -93,35 +93,6 @@ const API_ENDPOINT = `${API_ADDRESS}/${API_VERSION}`
   }
 };
 
-
-/**
- * Update resource info.
- * 
- * @param {string} token Security token.
- * @param {number} platformInfoID Platform info ID.
- * @returns Platform info.
- */
- export const updateResource = async (
-  token: string,
-  platformInfoID:number
-) => {
-  if ( token !== '' ) {
-    const url = `${API_ENDPOINT}/platforms_info/${platformInfoID}/resources/`   
-    const bearer = 'Bearer ' + token;
-    const response = await fetch(url, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json', 
-        'Authorization': bearer,
-      },
-    });
-    if (!response.ok) {
-      return ({}) as APIResponse;
-    }
-    return (await response.json()) as APIResponse;
-  }
-};
-
 /**
  * Delete resource.
  * 
@@ -131,21 +102,25 @@ const API_ENDPOINT = `${API_ADDRESS}/${API_VERSION}`
  */
  export const deleteResource = async (
   token: string,
-  platformInfoID:number
+  platformInfoID: number,
+  resourceID: number,
+  eTag: string,
 ) => {
   if ( token !== '' ) {
-    const url = `${API_ENDPOINT}/platforms_info/${platformInfoID}/resources/`   
+    const url = `${API_ENDPOINT}/platforms_info/${platformInfoID}/resources/${resourceID}`
     const bearer = 'Bearer ' + token;
     const response = await fetch(url, {
-      method: 'GET',
+      method: 'DELETE',
       headers: {
-        'Content-Type': 'application/json', 
+        'Content-Type': 'application/json',
+        'If-Match': eTag,
         'Authorization': bearer,
       },
     });
-    if (!response.ok) {
-      return ({}) as APIResponse;
+    if ( response.status !== 404 ) {
+      return ( { _status: 'OK' }) as APIResponse;
+    } else {
+      return ( { _status: 'ERR'} ) as APIResponse;
     }
-    return (await response.json()) as APIResponse;
   }
 };
