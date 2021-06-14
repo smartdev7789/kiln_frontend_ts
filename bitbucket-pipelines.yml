@@ -23,7 +23,7 @@ deploy-to-staging-server-step: &deploy-to-staging-server-step
         image: node:14.1.0
         caches:
           - node
-          - <<: *CommonScript
+        - <<: *CommonScript
 
 # Reusable steps code (by using the '<<: *step-name' operator below)
 deploy-to-production-server-step: &deploy-to-production-server-step
@@ -33,7 +33,7 @@ deploy-to-production-server-step: &deploy-to-production-server-step
         image: node:14.1.0
         caches:
           - node
-          - <<: *CommonScript
+        - <<: *CommonScript
 
 pipelines:
   custom:
