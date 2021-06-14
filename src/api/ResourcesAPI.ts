@@ -19,7 +19,7 @@ const API_ENDPOINT = `${API_ADDRESS}/${API_VERSION}`
   platformInfoID:number
 ) => {
   if ( token !== '' ) {
-    const url = `${API_ENDPOINT}/platforms_info/${platformInfoID}/resources/`   
+    const url = `${API_ENDPOINT}/platforms_info/${platformInfoID}/resources/`
     const bearer = 'Bearer ' + token;
     const response = await fetch(url, {
       method: 'GET',
@@ -48,7 +48,7 @@ const API_ENDPOINT = `${API_ADDRESS}/${API_VERSION}`
   platformInfoID:number
 ) => {
   if ( token !== '' ) {
-    const url = `${API_ENDPOINT}/platforms_info/${platformInfoID}/resources/`   
+    const url = `${API_ENDPOINT}/platforms_info/${platformInfoID}/resources/`
     const bearer = 'Bearer ' + token;
     const response = await fetch(url, {
       method: 'GET',
@@ -76,7 +76,7 @@ const API_ENDPOINT = `${API_ADDRESS}/${API_VERSION}`
   platformInfoID:number
 ) => {
   if ( token !== '' ) {
-    const url = `${API_ENDPOINT}/platforms_info/${platformInfoID}/resources/`   
+    const url = `${API_ENDPOINT}/platforms_info/${platformInfoID}/resources/`
     const bearer = 'Bearer ' + token;
     const id =  Date.now();
     const response = await fetch(url, {
@@ -117,7 +117,7 @@ const API_ENDPOINT = `${API_ADDRESS}/${API_VERSION}`
         'Authorization': bearer,
       },
     });
-    if ( response.status !== 404 ) {
+    if ( response.status === 204 ) {
       return ( { _status: 'OK' }) as APIResponse;
     } else {
       return ( { _status: 'ERR'} ) as APIResponse;

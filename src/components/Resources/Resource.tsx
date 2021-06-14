@@ -79,9 +79,8 @@ const CardHead = ( { type }:HeadProps ) => {
 
 
 interface FootProps {
-    platformInfoID: number
     id: number
-    eTag: string
+    removeResouce: Function
 }
 
 /**
@@ -89,19 +88,10 @@ interface FootProps {
  * 
  * @returns Component
  */
-const CardFoot = ({platformInfoID, id, eTag }:FootProps ) => {
+const CardFoot = ({ id, removeResouce }:FootProps ) => {
     
-    const handleDelete = async() => {
-        // Remove Resouce
-        const token = getToken()
-        const response = await API.deleteResource(token, platformInfoID, id, eTag)
-        if ( response?._status === 'OK' ) {
-            // TODO
-            console.log( "Refresh resources" )
-        } else {
-            // TODO
-            console.log( "Show error" )
-        }
+    const handleDelete = () => {
+        removeResouce(id)
     }
     
     return (
@@ -122,7 +112,7 @@ interface ResourceProps {
     type: number
     file: string
     content_type: string
-    eTag: string
+    removeResouce: Function
 }
 
 /**
@@ -130,9 +120,10 @@ interface ResourceProps {
  * @param param0 
  * @returns 
  */
-export const Resource = ({ platformInfoID, id, type, file, content_type, eTag }:ResourceProps) => {
+export const Resource = ({ platformInfoID, id, type, file, content_type, removeResouce }:ResourceProps) => {
     const { t } = useTranslation();
-    
+    console.log(content_type)
+
     switch (type) {
         case 0:
         // Icon
@@ -146,7 +137,7 @@ export const Resource = ({ platformInfoID, id, type, file, content_type, eTag }:
                         rounded
                         fluid
                     />
-                    <CardFoot id={ id } eTag={ eTag } platformInfoID={ platformInfoID } />
+                    <CardFoot id={ id } removeResouce = { removeResouce } />
                 </Card>
             )
 
@@ -162,7 +153,7 @@ export const Resource = ({ platformInfoID, id, type, file, content_type, eTag }:
                         rounded
                         fluid
                         />
-                    <CardFoot id={ id } eTag={ eTag } platformInfoID={ platformInfoID } />
+                    <CardFoot id={ id } removeResouce = { removeResouce } />
                 </Card>
             )
 
@@ -176,7 +167,7 @@ export const Resource = ({ platformInfoID, id, type, file, content_type, eTag }:
                     <video style={styles.video} src={video} controls >
                         {t('resources.viedo.text')}
                     </video>
-                    <CardFoot id={ id } eTag={ eTag } platformInfoID={ platformInfoID } />
+                    <CardFoot id={ id } removeResouce = { removeResouce } />
                 </Card>
             )
 
