@@ -2,8 +2,7 @@ clone:
   depth: full
   lfs: true
 
-definitions:
-  script: &CommonScript
+CommonScript: &CommonScript
     - export REACT_APP_API_ADDRESS=$API_ADDRESS
     - export REACT_APP_API_VERSION=$API_VERSION
     - npm install
@@ -24,7 +23,7 @@ deploy-to-staging-server-step: &deploy-to-staging-server-step
         caches:
           - node
         script:
-          - *CommonScript
+          - <<: *CommonScript
 
 # Reusable steps code (by using the '<<: *step-name' operator below)
 deploy-to-production-server-step: &deploy-to-production-server-step
@@ -35,7 +34,7 @@ deploy-to-production-server-step: &deploy-to-production-server-step
         caches:
           - node
         script:
-          - *CommonScript
+          - <<: *CommonScript
 
 pipelines:
   custom:
