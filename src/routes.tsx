@@ -177,7 +177,7 @@ export const ROUTES: RouteConfig[] = [
     exact: true,
     hideInMenu: true,
     component: EditGameReleases,
-  },  
+  },
   {
     path: Paths.Account,
     component: RenderRoutes,

@@ -1,5 +1,7 @@
 // API Response
 
+// import { StringMappingType } from "typescript";
+
 // import { Platforms } from "../pages/Platforms/Platforms";
 
 interface APIError {
@@ -18,9 +20,10 @@ export interface APIResponse {
   _issues:  APIErrorIssues | null;
   _error: APIError | null;
   // OK
-  id: string | number | null;
+  id: string | null;
   _items: 
     Platform[] | 
+    Release[] | 
     Account[] | 
     AppInfo[] | 
     GraphData[] | 
@@ -85,7 +88,7 @@ export interface AppPlatform {
 
 export interface AppInfoPatch extends BasicAppInfo {
   team: string;
-  releases: any[] | null;
+  releases: Release[];
   platforms_info: PlatformInfo[] | null;
   leaderboards: any[] | null;
   iaps: IAP[];
@@ -234,6 +237,29 @@ export interface IAP {
 
 export interface Event {
   kiln_id: string;
+}
+
+export interface Release {
+  application_id: string;
+  builds: Build[] | null;
+  regions: [] | null;
+  id: number;
+  name: string;
+  changelog: string;
+  package: AssetFile;
+  _etag: string;
+}
+
+export interface AssetFile {
+  content_type: string;
+  file: string;
+}
+
+export interface Build {
+  release: number;
+  platform: number;
+  id: number;
+  status: number;
 }
 
 // options for dropdowns

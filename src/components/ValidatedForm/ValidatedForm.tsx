@@ -33,6 +33,8 @@ export interface FormField extends Validation {
   delimiter?: string;
   moreInfoLink?: string;
   options?: { key: string; text: string; value: string | number }[];
+  useRef?: React.RefObject<HTMLInputElement>
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 type ButtonData = {
@@ -40,6 +42,7 @@ type ButtonData = {
   text: string;
   positive?: boolean;
   disabled?: boolean;
+  onClick?: () => void;
 };
 
 type ValidatedFormProps = {
@@ -74,13 +77,28 @@ export const ValidatedForm = (props: ValidatedFormProps) => {
     >
       {props.fields.map((field) => {
         return (
+
+    //       <Form.Field
+    //   id='form-input-control-error-email'
+    //   control={Input}
+    //   label='Email'
+    //   placeholder='joe@schmoe.com'
+    //   error={{
+    //     content: 'Please enter a valid email address',
+    //     pointing: 'below',
+    //   }}
+    // />
+          
           <Form.Field
             onBlur={() => addTouchedField(field.key)}
             key={field.key}
             required={field.required}
-            error={
-              !!(formErrors[field.key] && touchedFields.includes(field.key))
-            }
+            // control={Input}
+            error={!!(formErrors[field.key] && touchedFields.includes(field.key))}
+            // error={{
+            //   content: 'Please enter a valid email address',
+            //   pointing: 'below',
+            // }}
           >
             <label>
               {t(field.label || "")}{" "}
@@ -96,12 +114,13 @@ export const ValidatedForm = (props: ValidatedFormProps) => {
             </label>
             {field.type === FieldType.Text && (
               <input
-                onChange={handleInputChange}
+                onChange={field.onChange ? (event: React.ChangeEvent<HTMLInputElement>) => { field.onChange!(event); return handleInputChange(event); } : handleInputChange}
                 name={field.key}
                 value={formData[field.key] as string}
                 type="text"
                 placeholder={field.placeholder || t(field.label || "")}
                 required={field.required}
+                ref={field.useRef}
               />
             )}
             {field.type === FieldType.URL && (
@@ -112,6 +131,7 @@ export const ValidatedForm = (props: ValidatedFormProps) => {
                 type="url"
                 placeholder={field.placeholder || t(field.label || "")}
                 required={field.required}
+                ref={field.useRef}
               />
             )}
             {field.type === FieldType.Email && (
@@ -122,6 +142,7 @@ export const ValidatedForm = (props: ValidatedFormProps) => {
                 type="email"
                 placeholder={field.placeholder || t(field.label || "")}
                 required={field.required}
+                ref={field.useRef}
               />
             )}
             {field.type === FieldType.PhoneNumber && (
@@ -132,15 +153,17 @@ export const ValidatedForm = (props: ValidatedFormProps) => {
                 type="tel"
                 placeholder={field.placeholder || t(field.label || "")}
                 required={field.required}
+                ref={field.useRef}
               />
             )}
             {field.type === FieldType.FileUpload && (
               <input
-                onChange={handleInputChange}
+                onChange={field.onChange ? (event: React.ChangeEvent<HTMLInputElement>) => { field.onChange!(event); return handleInputChange(event); } : handleInputChange}
                 name={field.key}
                 type="file"
                 placeholder={field.placeholder || t(field.label || "")}
                 required={field.required}
+                ref={field.useRef}
               />
             )}
             {(field.type === FieldType.SearchDropdown ||
@@ -189,6 +212,7 @@ export const ValidatedForm = (props: ValidatedFormProps) => {
                     label={t(option.text)}
                     onChange={handleCheckBoxChange}
                     checked={formData[field.key] === option.value}
+                    ref={field.useRef}
                   />
                 );
               })}
@@ -206,13 +230,14 @@ export const ValidatedForm = (props: ValidatedFormProps) => {
         {props.buttons.map((buttonData) => {
           return (
             <Button
-              style={{margin: '5px'}}
+              style={{ margin: '5px' }}
               key={buttonData.text}
               disabled={
                 buttonData.disabled || buttonData.submit ? !isValid : undefined
               }
               positive={buttonData.positive}
-              type={buttonData.submit ? "submit" : undefined}
+              type={buttonData.submit ? "submit" : "button"}
+              onClick={buttonData.onClick}
             >
               {t(buttonData.text)}
             </Button>

@@ -1,23 +1,21 @@
 {
   "login": {
-    "title": "Log in",
-    "header": "Log In",
+    "title": "Iniciar sesión",
+    "header": "Iniciar sesión",
     "email": "E-mail",
-    "username": "Username",
-    "password": "Password",
-    "login": "Login",
-    "forgotPassword": "Forgot password?"
+    "username": "Usuario",
+    "password": "Contraseña",
+    "login": "Acceso",
+    "forgotPassword": "¿Olvidó su contraseña?"
   },
   "analytics": {
     "title": "Analytics",
+    "no_data_yet": "Todavía no hay datos",
     "top_games": {
-      "header": "Top games"
+      "header": "Los mejores juegos"
     },
     "top_platforms": {
-      "header": "Top platforms"
-    },
-    "graphs": {
-      "set-filter": "Set filter to show graphs"
+      "header": "Las mejores plataformas"
     }
   },
   "editAccountInfo": {
@@ -70,8 +68,7 @@
         "actions": "Actions",
         "status": "Status",
         "type": "Type",
-        "default_language":"Language",
-        "releases":"Releases"
+        "default_language":"Language"
       },
       "edit": "Edit",
       "releases": "Releases"
@@ -93,14 +90,12 @@
   },
   "gameCreationSteps": {
     "platforms": "Platforms",
-    "gameInfo": "Info",
+    "gameInfo": "Game info",
     "monetisation": "Monetisation",
-    "analytics": "Analytics",
-    "releases": "Releases"
+    "analytics": "Analytics"
   },
   "editGame": {
     "nextStep": "Next step",
-    "end": "Finish",
     "platforms": {
       "title": "Platforms",
       "table": {
@@ -111,9 +106,6 @@
           "status": "Status"
         },
         "edit": "Edit info"
-      },
-      "accordion":{
-        "comming-soon": "Comming soon"
       }
     },
     "monetisation": {
@@ -170,7 +162,6 @@
     },
     "info": {
       "title": "Game info",
-      "submit": "Submit",
       "screenshots": "Screenshots",
       "age_rating": "Age rating",
       "assets": {
@@ -183,20 +174,6 @@
         "label": "Categories",
         "game": "Game",
         "app": "App"
-      }
-    }, 
-    "releases": {
-      "title": "Releases",
-      "new": "Add release",
-      "save": "Save",
-      "delete": "Delete",
-      "form": {
-        "name": "Package Name",
-        "regions": "Regions",
-        "changelog": "Changelog",
-        "package": "Package",
-        "deleteMessage": "Are you sure you want to erase this build ?",
-        "duplicateName": "Release version name must be unique"
       }
     }
   },
@@ -217,9 +194,7 @@
     "getNewPassword": "Get new password",
     "passwordRequested": {
       "message": "A new password is on the way"
-    }
-  },
-  "resetPassword": {
+    },
     "resetPassword": "Reset Password",
     "confirmPassword": "Confirm Password",
     "validatingToken": "Validating Token",
@@ -230,9 +205,9 @@
   },
   "filters": {
     "filters": "Filters",
-    "application_id": "Game",
+    "app_id": "Game",
     "date": "Date",
-    "platforms_id": "Platforms",
+    "platforms": "Platforms",
     "dateOptions": {
       "yesterday": "Yesterday",
       "last7Days": "Last 7 days",
