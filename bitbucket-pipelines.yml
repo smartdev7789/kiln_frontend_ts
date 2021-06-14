@@ -21,6 +21,7 @@ definitions:
 deploy-to-staging-server-step: &deploy-to-staging-server-step
   - step:
         name: Deploy to staging server
+        deployment: staging
         image: node:14.1.0
         caches:
           - node
