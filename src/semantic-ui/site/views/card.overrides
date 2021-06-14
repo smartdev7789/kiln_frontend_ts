@@ -9,6 +9,16 @@
 .ui.cards > .ui.card {
   margin: 0.5rem auto;
   color: @textColor;
+
+}
+
+.ui.cards > .card, .ui.card {
+  box-shadow: none;
+  border: 1px solid @textColor;
+}
+
+.ui.cards > .card > .content, .ui.card > .content {
+  border: none;
 }
 
 .ui.cards.fixed-margin > .ui.card {

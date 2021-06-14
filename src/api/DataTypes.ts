@@ -1,7 +1,6 @@
 // API Response
 
 // import { StringMappingType } from "typescript";
-
 // import { Platforms } from "../pages/Platforms/Platforms";
 
 interface APIError {
@@ -11,6 +10,12 @@ interface APIError {
 
 interface APIErrorIssues {
   name:string;
+}
+
+interface Meta {
+  max_results: number;
+  page: number;
+  total: number;
 }
 
 export interface APIResponse {
@@ -30,17 +35,26 @@ export interface APIResponse {
     StatData[] | 
     ResourcesData[] | 
     null;
+  _meta: Meta | null;
 }
 
 export interface ResourcesData {
   platform_info: number;
   id: number;
   type: number;
-  width: number;
-  height: number;
-  url: string;
-  file: string;
+  width: number | null;
+  height: number | null;
+  url: string | null;
+  file: { file: string; content_type: string };
+  _etag: string;
 }
+
+// ResourceTypes.
+export const ResourceTypes = [
+  { 'name': 'icon', 'title': 'resources.types.icon' },
+  { 'name': 'screenshot', 'title': 'resources.types.screenshot' },
+  { 'name': 'video', 'title': 'resources.types.video' },
+]
 
 // APP
 export interface AppSummary {

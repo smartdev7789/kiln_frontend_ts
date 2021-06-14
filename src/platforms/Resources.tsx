@@ -1,59 +1,145 @@
 // import React, { useContext, useEffect, useState } from "react";
-
 import { useEffect, useState } from "react"
 import { API } from "../api/API"
 import { ResourcesData } from "../api/DataTypes";
 import { getToken } from "../authentication/Authentication";
-import { Form, Dropdown, Button } from 'semantic-ui-react'
+import { Resource } from "../components/Resources/Resource";
+import { Card } from 'semantic-ui-react'
 import { useTranslation } from "react-i18next";
 
-interface ResourceProps { platformInfoID: number }
-export const Resoruces = ( { platformInfoID }:ResourceProps ) => {
+// import { FieldValue } from "../hooks/useForm";
+// import { FormField, FieldType, ValidatedForm } from "../components/ValidatedForm/ValidatedForm";
 
+// Interfaces
+interface ResourcesProps { 
+  platformInfoID: number 
+}
+
+export const Resoruces = ( { platformInfoID }:ResourcesProps ) => {
+    const { t } = useTranslation()
     const token = getToken() 
-    const [ resources ] = useState<ResourcesData[]>([])
-    const { t } = useTranslation();
+    const [ resources, setResouces ] = useState<ResourcesData[]>([])
+
+    // const [ waitingForResponse, setWaitingForResponse ] = useState(false);
+    // setWaitingForResponse(false);
+    // const { t } = useTranslation();
 
     // Get resources
     useEffect(()=>{
         API.getAllResources(token, platformInfoID).then( (data) => {
-            console.log(data)
-            // setResouces(data?._items)
+            // Sort resources by 'type'
+            const sortResources = ( data?._items as ResourcesData[] ).sort(function (a, b) {
+              if (a.type > b.type) { return 1 }
+              if (a.type < b.type) { return -1 }
+              return 0 // a must be equal to b
+            })
+            setResouces( sortResources as ResourcesData[] )
         })
 
-    }, [platformInfoID, token])
+    }, [token, platformInfoID] )
+
+    /**
+     * Remove resources 
+     * 
+     * @param id 
+     */
+    const removeResouce = async(id:number) => {
+      // Get eTag of ID
+      const eTag = resources.find( (item) => {
+          return item.id === id ? item._etag : null
+      })?._etag
+
+      if ( eTag! ) {
+        const response = await API.deleteResource(token, platformInfoID, id, eTag)
+        if ( response?._status === 'OK' ) {
+            // Remove ID from resources
+            setResouces(resources.filter(( item ) => {
+              return item.id === id ? null : item.id
+            }))
+        } else {
+            // TODO
+            console.log( "Show error" )
+        }
+      }
+     
+    }
+
+    // const initialFormData = {
+    //   id: 1,
+    //   type: 1,
+    // }
+    
+    // const fields = {
+    //     key: 1,
+    //     type: FieldType.MultipleAssets,
+    //     label: "editGame.info.assets.label",
+    // }
+
+    // interface interfaceFormData {
+    //     [key: string]: FieldValue
+    //   }
+
+    // const handleSubmit = async (formData: interfaceFormData) => {
+    //     console.log(formData)
+    // }
+    // const formFields: FormField[] = [
+    //     {
+    //       key: "1",
+    //       type: FieldType.MultipleAssets,
+    //       label: "editGame.info.categories.label",
+    //     }
+    // ]
 
     return (
-        <>
-            <h1>Resources</h1>
+      <>
+        <h1>{t('resources.title')}</h1>
+        {
+          // initialFormData!
+          // ?
+            
+          //   // <>
+          //   //   <ValidatedForm
+          //   //     loading={waitingForResponse}
+          //   //     onSubmit={handleSubmit}
+          //   //     fields={formFields}
+          //   //     initialFormData={initialFormData}
+          //   //     buttons={[
+          //   //       {
+          //   //         text: "editGame.info.submit",
+          //   //         positive: true,
+          //   //         submit: true,
+          //   //       },
+          //   //     ]}
+          //   //   />
+          //   // </>
+          // : 
+          //   <div></div>
+        }
+        {
+          resources!
+          ?
+            <div style={{width:'94%', margin:'1rem auto'}}>
 
-            <Form>
-                <Form.Field styled type="file">
-                    <Dropdown text={`${t("release.type")}`}>
-                        <Dropdown.Menu>
-                        <Dropdown.Item text={`${t("release.type.icon")}`} />
-                        <Dropdown.Item text={`${t("release.type.screenshot")}`} />
-                        <Dropdown.Item text={`${t("release.type.video")}`} />
-                        </Dropdown.Menu>
-                    </Dropdown>
-
-                    <label>Last Name</label>
-                    <input type="file" placeholder='Last Name' />
-                
-                </Form.Field>
-
-                <Button type='submit'>Submit</Button>
-            </Form>
-
-            { resources!
-            ?
-                resources.map( (resource) => {
-                    return (
-                        <>Resource</>
+              <Card.Group centered itemsPerRow='4' >
+                { resources.map((resource) => {
+                  return(
+                    <Resource
+                      key = {resource.id}
+                      platformInfoID = { platformInfoID }
+                      id = { resource.id }
+                      type = { resource.type }
+                      file = { resource.file.file } 
+                      content_type = { resource.file.content_type }
+                      removeResouce = { removeResouce }
+                    />
                     )
-                })
-            : null }
-
-        </>
-    )
+                  } ) }
+              </Card.Group>
+            
+            </div>
+          :
+            null
+        }
+      </>
+      )
 }

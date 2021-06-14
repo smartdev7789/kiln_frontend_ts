@@ -3,11 +3,12 @@ import { APIResponse, PlatformInfo } from "./DataTypes";
 import { FieldValue } from "../hooks/useForm";
 
 
-// Endpoint URL.
-const API_ENDPOINT = process.env.REACT_APP_API_URI;
+// API.
+const API_ADDRESS = process.env.REACT_APP_API_ADDRESS
+const API_VERSION = process.env.REACT_APP_API_VERSION
+const API_ENDPOINT = `${API_ADDRESS}/${API_VERSION}`
 
 // Platform.
-
 
 /**
  * Get all Platform info.
