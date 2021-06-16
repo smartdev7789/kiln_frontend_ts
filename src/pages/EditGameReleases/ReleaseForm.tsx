@@ -63,7 +63,6 @@ export const ReleaseForm = ({ index, release, onSubmit, onDelete }: Properties) 
       key: "package",
       type: FieldType.FileUpload,
       label: "editGame.releases.form.package",
-      placeholder: "CHUPALA",
       onChange: handlePackageChange,
     },
   ];
@@ -91,7 +90,7 @@ export const ReleaseForm = ({ index, release, onSubmit, onDelete }: Properties) 
   // const regex = /(.*\/)[^\/]+$/gm;
   // let backendURI = `${process.env.REACT_APP_API_URI}`;
   // backendURI = regex.exec(backendURI)![1];
-
+  
   return (
         initialFormData! && formFields
         ?
@@ -115,7 +114,7 @@ export const ReleaseForm = ({ index, release, onSubmit, onDelete }: Properties) 
               },
             ]}
           />
-          {release.builds?.length === 0 && release.package.file !== "" &&
+          {release.builds?.length === 0 && release.package &&
             <div>
               {/* <Link to={{ pathname: `${backendURI}${release.package.file}` }} target="_blank">Uploaded Build</Link> */}
               <p>Build Uploaded</p>
