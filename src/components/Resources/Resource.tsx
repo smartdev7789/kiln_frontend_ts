@@ -122,7 +122,7 @@ interface ResourceProps {
 export const Resource = ({ platformInfoID, id, type, file, content_type, removeResouce }:ResourceProps) => {
     const { t } = useTranslation();
     console.log(content_type)
-
+    
     switch (type) {
         case 0:
         // Icon
@@ -134,7 +134,7 @@ export const Resource = ({ platformInfoID, id, type, file, content_type, removeR
                         src={`${API_ADDRESS}${file}`}
                         centered
                         rounded
-                        fluid
+                        size="small"
                     />
                     <CardFoot id={ id } removeResouce = { removeResouce } />
                 </Card>
@@ -150,7 +150,7 @@ export const Resource = ({ platformInfoID, id, type, file, content_type, removeR
                         src={`${API_ADDRESS}${file}`} 
                         centered 
                         rounded
-                        fluid
+                        size="small"
                         />
                     <CardFoot id={ id } removeResouce = { removeResouce } />
                 </Card>
@@ -173,7 +173,7 @@ export const Resource = ({ platformInfoID, id, type, file, content_type, removeR
         default:
         return (
             <div className="resource" style={styles.resource}>
-                <img style={styles.img}  src={`${API_ADDRESS}${file}`} alt="" />
+                <h2>Type unknown ({type}) </h2>
             </div>
         )
     }

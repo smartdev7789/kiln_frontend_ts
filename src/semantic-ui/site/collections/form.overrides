@@ -7,12 +7,14 @@
 
 .ui.form.bordered .field input,
 .ui.form.bordered .field textarea,
+.ui.form.bordered .field select,
 .ui.form.bordered .field .ui.dropdown {
   border: 1px solid #dddddd;
 }
 
 .ui.form.no-shadow .field input,
 .ui.form.no-shadow .field textarea,
+.ui.form.bordered .field select,
 .ui.form.no-shadow .field .ui.dropdown {
   box-shadow: none;
 }
