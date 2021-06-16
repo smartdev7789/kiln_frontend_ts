@@ -71,26 +71,41 @@ const API_ENDPOINT = `${API_ADDRESS}/${API_VERSION}`
  * @param {number} platformInfoID Platform info ID.
  * @returns Platform info.
  */
- export const addResource = async (
-  token: string,
-  platformInfoID:number
-) => {
+export const addResource = async ( token: string, platformInfoID: number, type: string, file: File ) => {
+    console.log(type)
+    console.log(file)
+    console.log(platformInfoID)
+    console.log(token)
+
   if ( token !== '' ) {
     const url = `${API_ENDPOINT}/platforms_info/${platformInfoID}/resources/`
-    const bearer = 'Bearer ' + token;
-    // const id =  Date.now();
+    const bearer = 'Bearer ' + token
+    const id =  `${Date.now()}`
+    
+
+
+    const formData = new FormData();
+    formData.append('id', id)
+    formData.append('type', type)
+    formData.append('file', file)
+
     const response = await fetch(url, {
-      method: 'GET',
+      method: 'POST',
       headers: {
-        'Content-Type': 'application/json', 
-        'Authorization': bearer,
+        'Accept': "application/json",
+        'Authorization': bearer
       },
+      'body': formData
     });
+    
+    console.log(response)
+
     if (!response.ok) {
       return ({}) as APIResponse;
     }
     return (await response.json()) as APIResponse;
   }
+
 };
 
 /**
