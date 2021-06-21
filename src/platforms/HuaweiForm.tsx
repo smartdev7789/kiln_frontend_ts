@@ -117,11 +117,11 @@ const formFields: FormField[] = [
       text: rating,
     })),
   },
-  // {
-  //   key: "assets",
-  //   type: FieldType.MultipleAssets,
-  //   label: "editGame.info.assets.label",
-  // },
+  {
+    key: "assets",
+    type: FieldType.MultipleAssets,
+    label: "editGame.info.assets.label",
+  },
 ];
 
 
@@ -163,7 +163,12 @@ export const HuaweiForm = ( { appID, platformInfoID }:HuaweiFormProps ) => {
     const data = {
       platform: platformID,
       age_rating: formData.age_rating,
-      categories: formData.categories_1
+      categories: formData.categories_1,
+      // assets: [
+      //   { type:0, width:360, height:360, url:"https://play-lh.googleusercontent.com/ecbXmgbcfIE631S3pQmkPxT9B1NBkKqAIWte9dFH37uBwC1hvuDQ2laeeosA7neBvbpl=s360-rw" },
+      //   { type:1, width:1920, height:1080, url:"https://play-lh.googleusercontent.com/4ek-DNeaFzPeFw_24Yy1VlSEgmjmeKw0IGzL2ZOWGwxUD5bJNzOyDgsmGIEEYjNOXJU=w3360-h1942-rw"},
+      //   { type:2, width:1920, height:1080, url:"https://youtu.be/co1wqrGI9tM" }
+      // ]
     }
 
     if ( toUpdate ) {
@@ -215,6 +220,21 @@ export const HuaweiForm = ( { appID, platformInfoID }:HuaweiFormProps ) => {
           const gameData = {
             categories_1: data?.categories! ? data?.categories : '0-0-0',
             age_rating: data?.age_rating,
+            // TODO: Need to finish up how this works to replace the "Bag of Resources" that Lucas put in place
+            // * Icon (Max. size: 2 MB. Resolution: 216 x 216 px or 512 x 512 px. Format: PNG, WEBP.)
+            // * Screenshot and videos
+            // * Screenshots (Upload 3 to 8 screenshots. Resolution: 800 x 450 px or 450 x 800 px. Side length: 320–3840 px. Max. size: 5 MB. Format: PNG, JPG, JPEG, WEBP.)
+            //     Introduction Videos (Max 3)
+            //         Landscape / Portrait
+            //         Upload a video in landscape mode. Format: MOV or MP4. Recommended resolution: 1280 x 720 px. Aspect ratio: 16:9. Max. size: 500 MB. Length: 15 seconds to 2 minutes.
+            //     Promotion Video (Max 1)
+            //         Upload a promotion video. Format: MOV or MP4. Recommended resolution: 1600 x 1200 px or 1200 x 900 px. Aspect ratio: 4:3. Max. size: 500 MB. Length: 15 seconds to 2 minutes.
+            assets: [
+              { type: 0, width: 360, height: 360, url: "https://play-lh.googleusercontent.com/ecbXmgbcfIE631S3pQmkPxT9B1NBkKqAIWte9dFH37uBwC1hvuDQ2laeeosA7neBvbpl=s360-rw" },
+              { type: 0, width: 360, height: 360, url: "https://play-lh.googleusercontent.com/4ek-DNeaFzPeFw_24Yy1VlSEgmjmeKw0IGzL2ZOWGwxUD5bJNzOyDgsmGIEEYjNOXJU=w3360-h1942-rw" },
+              { type: 1, width: 1920, height: 1080, url: "https://play-lh.googleusercontent.com/4ek-DNeaFzPeFw_24Yy1VlSEgmjmeKw0IGzL2ZOWGwxUD5bJNzOyDgsmGIEEYjNOXJU=w3360-h1942-rw"},
+              { type: 2, width: 1920, height: 1080, url: "https://youtu.be/co1wqrGI9tM" }
+            ]
           }
           setInitialFormData(gameData as interfaceFormData)
         } else {
