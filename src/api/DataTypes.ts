@@ -232,9 +232,11 @@ export enum AdStatus {
 }
 
 export interface Ad {
+  id: number | null,
   kiln_id: string;
   type: AdType;
   status: AdStatus;
+  _etag: string | null;
 }
 
 export enum IAPType {

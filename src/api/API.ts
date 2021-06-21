@@ -11,7 +11,8 @@ import {
   APIResponse,
   Filter,
   // AppInfoPatch,
-  Release
+  Release,
+  Ad
 } from "./DataTypes";
 
 import { yesterday } from "../libs/date"
@@ -47,6 +48,13 @@ const API_ENDPOINT = `${API_ADDRESS}/${API_VERSION}`
 //   console.log(requestInit);
 //   return requestInit
 // }
+
+const noTokenResponse = {
+  "_status": "ERR",
+  "_error": {
+    "message": "No token"
+  }
+} as APIResponse;
 
 // Login.
 const login = async (username: string, password: string) => {
@@ -286,7 +294,7 @@ const apps = async (token: string | null) => {
 const app = async (token: string, id: string) => {
   if ( token !== '' ) {
     const baseUrl = `${API_ENDPOINT}/apps/${id}`
-    const projection = '?projection={"platforms_info":1}&embedded={"platforms_info": 1}'
+    const projection = '?projection={"platforms_info":1,"ads":1,"iaps":1}&embedded={"platforms_info":1,"ads":1,"iaps":1}'
     const url = `${baseUrl}/${projection}`
     const bearer = 'Bearer ' + token;
     const response = await fetch(url, {
@@ -348,24 +356,113 @@ const createApp = async (token: string | null, appData: BasicAppInfo) => {
 };
 
 // Update App
-const updateApp = async (token: string, id: string, data:AppInfo, etag: string) => {
+const updateApp = async (token: string, id: string, data: AppInfo, etag: string) => {
+  if (!token) return noTokenResponse;
 
-  if (token !== '') {
-    const url = `${API_ENDPOINT}/apps/${id}`;
-    const bearer = 'Bearer ' + token;
+  const url = `${API_ENDPOINT}/apps/${id}`;
+  const bearer = 'Bearer ' + token;
 
+  try {
     const res = await fetch(url, {
       method: "PATCH",
-      body: JSON.stringify( data ),
+      body: JSON.stringify(data),
       headers: {
         'Content-Type': 'application/json',
         'If-Match': etag,
         'Authorization': bearer,
       },
     });
+  
     return (await res.json()) as APIResponse;
   }
+  catch (err) {
+    console.log(err);
+  }
 };
+
+/**
+ * 
+ * @param token 
+ * @param appId 
+ * @param adData 
+ * @returns 
+ */
+const createAppAd = async (token: string, appId: string, adData: Ad) => {
+  if (!token) return noTokenResponse;
+
+  const url = `${API_ENDPOINT}/apps/${appId}/ads`;
+
+  const res = await fetch(url, {
+    method: "POST",
+    headers: {
+      'Authorization': 'Bearer ' + token,
+      'Accept': "application/json",
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({kiln_id: adData.kiln_id, type: adData.type, status: adData.status}),
+  });
+
+  return (await res.json()) as APIResponse;
+}
+
+/**
+ * 
+ * @param token 
+ * @param appId 
+ * @param adData 
+ * @param etag 
+ * @returns 
+ */
+const updateAppAd = async (token: string, appId: string, adData: Ad, etag: string) => {
+  if (!token) return noTokenResponse;
+
+  const url = `${API_ENDPOINT}/apps/${appId}/ads/${adData.id}`;
+
+  const res = await fetch(url, {
+    method: "PATCH",
+    headers: {
+      'Authorization': 'Bearer ' + token,
+      'Accept': "application/json",
+      'Content-Type': 'application/json',
+      'If-Match': etag,
+    },
+    body: JSON.stringify({ kiln_id: adData.kiln_id, type: adData.type, status: adData.status }),
+  });
+
+  return (await res.json()) as APIResponse;
+}
+
+/**
+ * 
+ * @param token 
+ * @param appId 
+ * @param adId 
+ * @param etag 
+ * @returns 
+ */
+const deleteAppAd = async (token: string, appId: string, adId: number, etag: string) => {
+  if (!token) return noTokenResponse;
+
+  const url = `${API_ENDPOINT}/apps/${appId}/ads/${adId}`;
+  const bearer = 'Bearer ' + token;
+
+  const res = await fetch(url, {
+    method: "DELETE",
+    headers: {
+      'Content-Type': 'application/json',
+      'If-Match': etag,
+      'Authorization': bearer,
+    },
+    body: JSON.stringify({}),
+  });
+
+  if (res.status === 204) {
+    return ({_status: 'OK'}) as APIResponse;
+  }
+  else {
+    return ({_status: 'ERR'}) as APIResponse;
+  }
+}
 
 const getAppReleases = async (token: string, appId: string) => {
   if (token === '') return;
@@ -391,16 +488,7 @@ const getAppReleases = async (token: string, appId: string) => {
 };
 
 const createAppRelease = async (token: string, appId: string, releaseData: Release, file?: File) => {
-  if (token === '') {
-    let noToken = {
-      "_status": "ERR",
-      "_error": {
-        "message": "No token"
-      }
-    }
-
-    return noToken as APIResponse;
-  }
+  if (!token) return noTokenResponse;
 
   const url = `${API_ENDPOINT}/apps/${appId}/releases`;
 
@@ -487,14 +575,7 @@ const updateAppRelease = async (token: string, appId: string, releaseData: Relea
 };
 
 const deleteAppRelease = async (token: string, appId: string, releaseData: Release, etag: string) => {
-  if (token === '') {
-    return {
-      "_status": "ERR",
-      "_error": {
-        "message": "No token"
-      }
-    } as APIResponse;
-  }
+  if (!token) return noTokenResponse;
 
   const url = `${API_ENDPOINT}/apps/${appId}/releases/${releaseData.id}`;
   const bearer = 'Bearer ' + token;
@@ -509,17 +590,12 @@ const deleteAppRelease = async (token: string, appId: string, releaseData: Relea
     body: JSON.stringify({}),
   });
 
-  if (res.ok) {
-    return {
-      "_status": "OK",
-      "_error": {
-        "message": ""
-      } 
-    } as APIResponse
+  if (res.status === 204) {
+    return ({_status: 'OK'}) as APIResponse;
   }
   else {
-    return (await res.json()) as APIResponse;
-  }  
+    return ({_status: 'ERR'}) as APIResponse;
+  }
 };
 
 const resetPassword = async (email: string) => {
@@ -598,6 +674,11 @@ export const API = {
   games: apps,
   createApp,
   updateApp,
+  // Ads
+  createAppAd,
+  deleteAppAd,
+  updateAppAd,
+  // updateAppAd,
   // Platforms Info
   getPlatformInfo,
   createPlatformInfo,

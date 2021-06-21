@@ -7,6 +7,7 @@ import {
   Ad,
   AdStatus,
   AdType,
+  APIResponse,
   AppInfo,
   IAP,
   IAPType,
@@ -21,6 +22,7 @@ import { PagePlaceholder } from "../../components/Placeholders/PagePlaceholder";
 import { AdRow } from "./AdRow";
 import { IAPRow } from "./IAPRow";
 import { getToken } from "../../authentication/Authentication";
+import { isForOfStatement } from "typescript";
 
 export const AdTypeText = {
   [AdType.Interstitial]: "adType.interstitial",
@@ -57,8 +59,15 @@ export const EditGameMonetisation = (props: RouteComponentProps) => {
     });
   };
 
-  const deleteAd = (index: number) => {
+  const deleteAd = async (index: number) => {
     if (gameData === null) return;
+
+    const ad = gameData.ads[index];
+
+    const response = await API.deleteAppAd(token, gameData.id, ad.id!, ad._etag!)
+
+    console.log(response);
+
     setGameData({
       ...gameData,
       ads: gameData.ads.filter((a, i) => i !== index),
@@ -72,16 +81,30 @@ export const EditGameMonetisation = (props: RouteComponentProps) => {
       ...gameData,
       ads: [
         ...gameData.ads,
-        { type: AdType.Banner, kiln_id: "NEW_AD", status: AdStatus.Draft },
+        { id: null, _etag: null, type: AdType.Banner, kiln_id: "NEW_AD", status: AdStatus.Draft },
       ],
     });
 
     enablAdEditing( gameData.ads.length);
   };
 
-  const saveAd = (index: number) => {
-    setAdsBeingEdited(adsBeingEdited.filter((number) => number !== index));
-    saveGame();
+  const saveAd = async (index: number) => {
+    if (!gameData) return;
+
+    const ad = gameData!.ads.filter((ad: Ad, i: number) => (i === index))[0];
+
+    let response: APIResponse;
+    
+    if (!ad.id) response = await API.createAppAd(token, gameData.id, ad);
+    else response = await API.updateAppAd(token, gameData.id, ad, ad._etag!); 
+
+    if (response._status === "OK") {
+      gameData.ads[index]._etag = response._etag;
+
+      setAdsBeingEdited(adsBeingEdited.filter((number) => number !== index));
+    }
+
+    return response;
   };
   const enablAdEditing = (index: number) => {
     setAdsBeingEdited([...adsBeingEdited, index]);
@@ -141,7 +164,7 @@ export const EditGameMonetisation = (props: RouteComponentProps) => {
   // Obtiene y setea gameData.
   useEffect(() => {
     if ( token! && gameID! ){
-      API.app( token, gameID ).then( ( app ) => { 
+      API.app( token, gameID ).then( ( app ) => {
         setGameData( (app as AppInfo ) );
       })
     }

@@ -118,6 +118,7 @@
     },
     "monetisation": {
       "title": "Monetisation",
+      "idError": "ID needs to be unique",
       "adTable": {
         "headers": {
           "type": "Type",
