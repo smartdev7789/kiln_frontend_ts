@@ -12,8 +12,10 @@ import {
   Filter,
   // AppInfoPatch,
   Release,
-  Ad
 } from "./DataTypes";
+
+import { createAd, deleteAd, updateAd } from "./AdAPI";
+import { createIAP, deleteIAP, updateIAP } from "./IapAPI";
 
 import { yesterday } from "../libs/date"
 import {
@@ -30,9 +32,9 @@ import {
 } from "./ResourcesAPI"
 
 // API.
-const API_ADDRESS = process.env.REACT_APP_API_ADDRESS
-const API_VERSION = process.env.REACT_APP_API_VERSION
-const API_ENDPOINT = `${API_ADDRESS}/${API_VERSION}`
+export const API_ADDRESS = process.env.REACT_APP_API_ADDRESS
+export const API_VERSION = process.env.REACT_APP_API_VERSION
+export const API_ENDPOINT = `${API_ADDRESS}/${API_VERSION}`
 
 
 // const makeHead = (method:string, token:string) => {
@@ -49,7 +51,7 @@ const API_ENDPOINT = `${API_ADDRESS}/${API_VERSION}`
 //   return requestInit
 // }
 
-const noTokenResponse = {
+export const noTokenResponse = {
   "_status": "ERR",
   "_error": {
     "message": "No token"
@@ -380,90 +382,6 @@ const updateApp = async (token: string, id: string, data: AppInfo, etag: string)
   }
 };
 
-/**
- * 
- * @param token 
- * @param appId 
- * @param adData 
- * @returns 
- */
-const createAppAd = async (token: string, appId: string, adData: Ad) => {
-  if (!token) return noTokenResponse;
-
-  const url = `${API_ENDPOINT}/apps/${appId}/ads`;
-
-  const res = await fetch(url, {
-    method: "POST",
-    headers: {
-      'Authorization': 'Bearer ' + token,
-      'Accept': "application/json",
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({kiln_id: adData.kiln_id, type: adData.type, status: adData.status}),
-  });
-
-  return (await res.json()) as APIResponse;
-}
-
-/**
- * 
- * @param token 
- * @param appId 
- * @param adData 
- * @param etag 
- * @returns 
- */
-const updateAppAd = async (token: string, appId: string, adData: Ad, etag: string) => {
-  if (!token) return noTokenResponse;
-
-  const url = `${API_ENDPOINT}/apps/${appId}/ads/${adData.id}`;
-
-  const res = await fetch(url, {
-    method: "PATCH",
-    headers: {
-      'Authorization': 'Bearer ' + token,
-      'Accept': "application/json",
-      'Content-Type': 'application/json',
-      'If-Match': etag,
-    },
-    body: JSON.stringify({ kiln_id: adData.kiln_id, type: adData.type, status: adData.status }),
-  });
-
-  return (await res.json()) as APIResponse;
-}
-
-/**
- * 
- * @param token 
- * @param appId 
- * @param adId 
- * @param etag 
- * @returns 
- */
-const deleteAppAd = async (token: string, appId: string, adId: number, etag: string) => {
-  if (!token) return noTokenResponse;
-
-  const url = `${API_ENDPOINT}/apps/${appId}/ads/${adId}`;
-  const bearer = 'Bearer ' + token;
-
-  const res = await fetch(url, {
-    method: "DELETE",
-    headers: {
-      'Content-Type': 'application/json',
-      'If-Match': etag,
-      'Authorization': bearer,
-    },
-    body: JSON.stringify({}),
-  });
-
-  if (res.status === 204) {
-    return ({_status: 'OK'}) as APIResponse;
-  }
-  else {
-    return ({_status: 'ERR'}) as APIResponse;
-  }
-}
-
 const getAppReleases = async (token: string, appId: string) => {
   if (token === '') return;
 
@@ -675,9 +593,13 @@ export const API = {
   createApp,
   updateApp,
   // Ads
-  createAppAd,
-  deleteAppAd,
-  updateAppAd,
+  createAd,
+  deleteAd,
+  updateAd,
+  // IAPs
+  createIAP,
+  deleteIAP,
+  updateIAP,
   // updateAppAd,
   // Platforms Info
   getPlatformInfo,

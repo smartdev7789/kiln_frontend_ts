@@ -245,10 +245,12 @@ export enum IAPType {
 }
 
 export interface IAP {
+  id: number | null,
   kiln_id: string;
   type: IAPType;
   price: number;
   name: string;
+  _etag: string | null;
 }
 
 export interface Event {
