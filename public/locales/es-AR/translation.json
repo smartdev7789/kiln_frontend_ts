@@ -3,7 +3,7 @@
     "title": "Iniciar sesión",
     "header": "Iniciar sesión",
     "email": "E-mail",
-    "username": "Usuario",
+    "user": "Usuario",
     "password": "Contraseña",
     "login": "Acceso",
     "forgotPassword": "¿Olvidó su contraseña?"

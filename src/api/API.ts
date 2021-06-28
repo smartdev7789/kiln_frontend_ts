@@ -59,8 +59,8 @@ export const noTokenResponse = {
 } as APIResponse;
 
 // Login.
-const login = async (username: string, password: string) => {
-  const postData = { username, password };
+const login = async (email: string, password: string) => {
+  const postData = { email, password };
   const url = `${API_ENDPOINT}/login`;
   const res = await fetch( 
     url, 
@@ -71,10 +71,11 @@ const login = async (username: string, password: string) => {
       body: JSON.stringify(postData)  
     }
   );
-
+  console.log(JSON.stringify(postData));
   if (res.status === 200 ) {
     return (await res.json()) as Login;
   } else {
+    console.log(await res.json());
     return ( { "token": null, "account": null } ) as Login;
   }
 };
