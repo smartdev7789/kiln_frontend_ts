@@ -71,11 +71,10 @@ const login = async (email: string, password: string) => {
       body: JSON.stringify(postData)  
     }
   );
-  console.log(JSON.stringify(postData));
+  
   if (res.status === 200 ) {
     return (await res.json()) as Login;
   } else {
-    console.log(await res.json());
     return ( { "token": null, "account": null } ) as Login;
   }
 };
