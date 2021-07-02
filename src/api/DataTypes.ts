@@ -77,6 +77,7 @@ export enum AssetType {
   Icon = 0,
   Screenshot = 1,
   Video = 2,
+  PromoVideo = 3,
 }
 
 export interface Asset {

@@ -5,6 +5,7 @@ import { Button, Dropdown, Form, Label, Radio } from "semantic-ui-react";
 import { Asset } from "../../api/DataTypes";
 import { FieldValue, useForm, Validation } from "../../hooks/useForm";
 import { MultipleAssetField } from "./MultipleAssetField";
+import { FixedAssetList, FixedAssetListOptions } from "./Assets/FixedAssetList";
 import {
   DropdownData,
   MultipleDropdownsToString,
@@ -19,6 +20,7 @@ export enum FieldType {
   Radio = "radio",
   MultipleImages = "MultipleImages",
   MultipleAssets = "MultipleAssets",
+  FixedAssetsList = "FixedAssetsList",
   Email = "email",
   PhoneNumber = "phone",
   FileUpload = "file upload",
@@ -67,7 +69,7 @@ export const ValidatedForm = (props: ValidatedFormProps) => {
     addTouchedField,
   } = useForm(props.initialFormData, props.fields);
   const { t } = useTranslation();
-
+  
   return (
     <Form
       error={!isValid}
@@ -219,6 +221,9 @@ export const ValidatedForm = (props: ValidatedFormProps) => {
             {field.type === FieldType.MultipleImages && "404"}
             {field.type === FieldType.MultipleAssets && (
               <MultipleAssetField assets={formData[field.key] as Asset[]} />
+            )}
+            {field.type === FieldType.FixedAssetsList && (
+              <FixedAssetList assetLists={formData[field.key] as FixedAssetListOptions} />
             )}
             {formErrors[field.key] && touchedFields.includes(field.key) && (
               <Label content={formErrors[field.key]} pointing="above" prompt />

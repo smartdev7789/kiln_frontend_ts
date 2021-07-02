@@ -178,7 +178,8 @@
         "label": "Assets",
         "icons": "Icons",
         "screenshots": "Screenshots",
-        "videos": "Videos"
+        "videos": "Videos",
+        "promoVideo": "Promotional Video"
       },
       "categories": {
         "label": "Categories",
