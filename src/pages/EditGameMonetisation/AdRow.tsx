@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import { useTranslation } from "react-i18next";
 import {
   Button,
@@ -7,7 +8,7 @@ import {
   InputOnChangeData,
   Table,
 } from "semantic-ui-react";
-import { Ad, AdTypeOptions } from "../../api/DataTypes";
+import { Ad, AdTypeOptions, APIResponse } from "../../api/DataTypes";
 import { StatusIndicator } from "../../components/StatusIndicator";
 import { AdTypeText } from "./EditGameMonetisation";
 
@@ -18,7 +19,7 @@ type AdRowProps = {
   onChange: (newAd: Ad, index: number) => void;
   onDelete: (index: number) => void;
   enableEditing: (index: number) => void;
-  onSave: (index: number) => void;
+  onSave: (index: number) => Promise<APIResponse | undefined>;
 };
 
 export const AdRow = ({
@@ -32,11 +33,33 @@ export const AdRow = ({
 }: AdRowProps) => {
   const { t } = useTranslation();
 
+  let kilnIdInput = useRef<Input>(null);
+
+  const handleSubmit = async (index: number) => {
+    const response = await onSave(index);
+
+    if (response?._status === "ERR" && kilnIdInput.current) {
+      //@ts-ignore
+      let input: HTMLInputElement = kilnIdInput.current.inputRef.current;
+
+      input.setCustomValidity(t("editGame.monetisation.idError"));
+      input.reportValidity();
+    }
+  }
+
   const deleteAd = () => {
     onDelete(index);
   };
 
   const handleChange = (_: any, props: InputOnChangeData | DropdownProps) => {
+    if (kilnIdInput.current) {
+      //@ts-ignore
+      let input: HTMLInputElement = kilnIdInput.current.inputRef.current;
+
+      input.setCustomValidity("");
+      input.reportValidity();
+    }
+
     onChange(
       {
         ...ad,
@@ -65,7 +88,7 @@ export const AdRow = ({
       </Table.Cell>
       <Table.Cell>
         {editing ? (
-          <Input onChange={handleChange} name="kiln_id" value={ad.kiln_id} />
+          <Input onChange={handleChange} name="kiln_id" value={ad.kiln_id} ref={kilnIdInput} />
         ) : (
           ad.kiln_id
         )}
@@ -82,7 +105,7 @@ export const AdRow = ({
 
         {editing && (
           <Button.Group>
-            <Button positive onClick={() => onSave(index)}>
+            <Button positive onClick={() => handleSubmit(index)}>
               {t("editGame.monetisation.adTable.save")}
             </Button>
             <Button negative basic onClick={deleteAd}>

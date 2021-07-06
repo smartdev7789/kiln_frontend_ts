@@ -17,6 +17,7 @@ export const MultipleAssetField = ({ assets }: MultipleAssetFieldProps) => {
     [AssetType.Icon]: useRef<HTMLInputElement | null>(null),
     [AssetType.Screenshot]: useRef<HTMLInputElement | null>(null),
     [AssetType.Video]: useRef<HTMLInputElement | null>(null),
+    [AssetType.PromoVideo]: useRef<HTMLInputElement | null>(null),
   });
 
   const [newFiles, setNewFiles] = useState<
@@ -25,6 +26,7 @@ export const MultipleAssetField = ({ assets }: MultipleAssetFieldProps) => {
     [AssetType.Icon]: [],
     [AssetType.Screenshot]: [],
     [AssetType.Video]: [],
+    [AssetType.PromoVideo]: [],
   });
 
   const handleChange = (assetType: AssetType) => (

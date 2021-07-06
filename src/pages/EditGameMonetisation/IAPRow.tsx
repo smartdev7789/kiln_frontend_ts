@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import { useTranslation } from "react-i18next";
 import {
   Button,
@@ -7,7 +8,7 @@ import {
   InputOnChangeData,
   Table,
 } from "semantic-ui-react";
-import { IAP, IAPTypeOptions } from "../../api/DataTypes";
+import { APIResponse, IAP, IAPTypeOptions } from "../../api/DataTypes";
 import { StatusIndicator } from "../../components/StatusIndicator";
 import { IAPTypeText } from "./EditGameMonetisation";
 import { useCurrency } from "../../hooks/useCurrency";
@@ -19,7 +20,7 @@ type IAPRowProps = {
   onChange: (newAd: IAP, index: number) => void;
   onDelete: (index: number) => void;
   enableEditing: (index: number) => void;
-  onSave: (index: number) => void;
+  onSave: (index: number) => Promise<APIResponse | undefined>;
 };
 
 export const IAPRow = ({
@@ -34,11 +35,33 @@ export const IAPRow = ({
   const { t } = useTranslation();
   const currency = useCurrency({ currency: "GBP" });
 
+  let kilnIdInput = useRef<Input>(null);
+
+  const handleSubmit = async (index: number) => {
+    const response = await onSave(index);
+
+    if (response?._status === "ERR" && kilnIdInput.current) {
+      //@ts-ignore
+      let input: HTMLInputElement = kilnIdInput.current.inputRef.current;
+
+      input.setCustomValidity(t("editGame.monetisation.idError"));
+      input.reportValidity();
+    }
+  }
+
   const deleteIAP = () => {
     onDelete(index);
   };
 
   const handleChange = (_: any, props: InputOnChangeData | DropdownProps) => {
+    if (kilnIdInput.current) {
+      //@ts-ignore
+      let input: HTMLInputElement = kilnIdInput.current.inputRef.current;
+
+      input.setCustomValidity("");
+      input.reportValidity();
+    }
+
     onChange(
       {
         ...iap,
@@ -59,7 +82,7 @@ export const IAPRow = ({
       </Table.Cell>
       <Table.Cell>
         {editing ? (
-          <Input onChange={handleChange} name="kiln_id" value={iap.kiln_id} />
+          <Input onChange={handleChange} name="kiln_id" value={iap.kiln_id} ref={kilnIdInput} />
         ) : (
           iap.kiln_id
         )}
@@ -105,7 +128,7 @@ export const IAPRow = ({
 
         {editing && (
           <Button.Group>
-            <Button positive onClick={() => onSave(index)}>
+            <Button positive onClick={() => handleSubmit(index)}>
               {t("editGame.monetisation.iapTable.save")}
             </Button>
             <Button negative basic onClick={deleteIAP}>

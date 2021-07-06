@@ -121,7 +121,6 @@ interface ResourceProps {
  */
 export const Resource = ({ platformInfoID, id, type, file, content_type, removeResouce }:ResourceProps) => {
     const { t } = useTranslation();
-    console.log(content_type)
     
     switch (type) {
         case 0:

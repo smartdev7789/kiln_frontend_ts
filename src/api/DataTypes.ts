@@ -34,6 +34,7 @@ export interface APIResponse {
     GraphData[] | 
     StatData[] | 
     ResourcesData[] | 
+    Build[] | 
     null;
   _meta: Meta | null;
 }
@@ -77,6 +78,7 @@ export enum AssetType {
   Icon = 0,
   Screenshot = 1,
   Video = 2,
+  PromoVideo = 3,
 }
 
 export interface Asset {
@@ -232,9 +234,11 @@ export enum AdStatus {
 }
 
 export interface Ad {
+  id: number | null,
   kiln_id: string;
   type: AdType;
   status: AdStatus;
+  _etag: string | null;
 }
 
 export enum IAPType {
@@ -243,10 +247,12 @@ export enum IAPType {
 }
 
 export interface IAP {
+  id: number | null,
   kiln_id: string;
   type: IAPType;
   price: number;
   name: string;
+  _etag: string | null;
 }
 
 export interface Event {
@@ -274,6 +280,7 @@ export interface Build {
   platform: number;
   id: number;
   status: number;
+  token: string;
 }
 
 // options for dropdowns
