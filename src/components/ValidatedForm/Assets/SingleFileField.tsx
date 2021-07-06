@@ -21,15 +21,6 @@ export const SingleFileField = ({
   onPlusButtonClick,
 }: SingleFileFieldProps) => {
 
-  const styles = {
-    video: {
-        marginTop: '0.5rem',
-        width: '100%',
-        maxWidth: '100%',
-        height: 'auto',
-    }
-  }
-  
   return (
     <>
       {file ?

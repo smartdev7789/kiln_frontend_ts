@@ -1,13 +1,9 @@
 import React, { useState, useEffect } from "react";
-// import { useTranslation } from "react-i18next";
-// import { Platform, PlatformInfo } from "../api/DataTypes";
-// import { PlatformInfo } from "../api/DataTypes";
 import { Option } from "../components/ValidatedForm/MultipleDropdownsToString";
 import { FormField, FieldType, ValidatedForm } from "../components/ValidatedForm/ValidatedForm";
 import { getToken } from "../authentication/Authentication";
 import { API } from "../api/API";
 import { FieldValue } from "../hooks/useForm";
-import { Resoruces } from "./Resources"
 import { AssetType, ResourcesData } from "../api/DataTypes";
 
 // Category options
@@ -147,13 +143,14 @@ interface interfaceFormData {
  * @returns 
  */
 export const HuaweiForm = ( { appID, platformInfoID }:HuaweiFormProps ) => {
-  const platformID = 1 // maybe this will be a problem at future. 
+  // TODO: This shouldn't be hardcoded. But we're just supporting this for the moment.
+  const platformID = 1;
   const [ token ] = useState( getToken() )
   const [ eTag, setETag ] = useState('')
   const [ pInfoID, SetPInfoID ] = useState(platformInfoID)
   const [ error, setError ] = useState(false)
   const [ waitingForResponse, setWaitingForResponse ] = useState(false);
-  // const [ platformInfo, setPlatformInfo ] = useState<PlatformInfo>();
+  const [ toUpdate, setToUpdate ] = useState(false)
   const [ initialFormData, setInitialFormData ] = useState<interfaceFormData>()
  
   /**
@@ -169,12 +166,29 @@ export const HuaweiForm = ( { appID, platformInfoID }:HuaweiFormProps ) => {
       platform: platformID,
       age_rating: formData.age_rating,
       categories: formData.categories_1,
-      // assets: [
-      //   { type:0, width:360, height:360, url:"https://play-lh.googleusercontent.com/ecbXmgbcfIE631S3pQmkPxT9B1NBkKqAIWte9dFH37uBwC1hvuDQ2laeeosA7neBvbpl=s360-rw" },
-      //   { type:1, width:1920, height:1080, url:"https://play-lh.googleusercontent.com/4ek-DNeaFzPeFw_24Yy1VlSEgmjmeKw0IGzL2ZOWGwxUD5bJNzOyDgsmGIEEYjNOXJU=w3360-h1942-rw"},
-      //   { type:2, width:1920, height:1080, url:"https://youtu.be/co1wqrGI9tM" }
-      // ]
     }
+
+    if ( toUpdate ) {
+      const response = await API.updatePlatformInfo(token, appID, pInfoID!, data, eTag)
+      console.log("Update")
+      if (response?._status === 'OK') {
+        setETag(response?._etag!)
+      }  else {
+        setError(true)
+      }
+    } else {
+      const response = await API.createPlatformInfo(token, appID, pInfoID!, data)
+      console.log("Create")
+      if (response?._status === 'OK') {
+        setETag(response?._etag!)
+        SetPInfoID(Number(response?.id!))
+      }  else {
+        setError(true)
+      }
+    }
+
+    // Remove spiner.
+    setWaitingForResponse(false)
   }
 
   /**
@@ -198,7 +212,7 @@ export const HuaweiForm = ( { appID, platformInfoID }:HuaweiFormProps ) => {
         // if (data?._status === 'OK' ) { // TODO.
         if ( Object.keys(data!).length > 2 ) {
           setETag(data?._etag!)
-          
+          setToUpdate(true)
           // TODO. Pay attention to categories_1
           const gameData = {
             categories_1: data?.categories! ? data?.categories : '0-0-0',

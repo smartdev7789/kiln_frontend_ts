@@ -9,7 +9,7 @@ import { Paths } from "../../routes";
 import { Link, RouteComponentProps } from "react-router-dom";
 import { API } from "../../api/API";
 import { getToken } from "../../authentication/Authentication";
-import { AppInfo, Release } from "../../api/DataTypes";
+import { AppInfo, Platform, PlatformInfo, Release } from "../../api/DataTypes";
 import { PagePlaceholder } from "../../components/Placeholders/PagePlaceholder";
 import { ReleaseForm } from "./ReleaseForm";
 
@@ -31,12 +31,14 @@ const styles = {
 
 export const EditGameReleases = (props: RouteComponentProps) => {
   const { t } = useTranslation();
-  const [gameData, setGameData] = useState<AppInfo | null>( null )
-  const [gameID, setGameID] = useState<string | null>( null );
+  const [appData, setAppData] = useState<AppInfo | null>( null )
+  const [appId, setAppId] = useState<string | null>( null );
   const [token, setToken] = useState<string>('');
 
   const [releases, setReleases] = useState<Release[] >( [] );
-  const [drafting, setDrafting] = useState<boolean>( false );
+  const [drafting, setDrafting] = useState<boolean>(false);
+  
+  const [platformInfo, setPlatformInfo] = useState<Platform[]>([])
 
   const [activeIndex, setActiveIndex] = useState(0)
   
@@ -46,7 +48,7 @@ export const EditGameReleases = (props: RouteComponentProps) => {
   }
 
   const addNewRelease = () => {
-    if (gameData === null) return;
+    if (appData === null) return;
 
     // We'll only allow to be editing one new release at a time
     if (drafting) return;
@@ -55,7 +57,7 @@ export const EditGameReleases = (props: RouteComponentProps) => {
     
     let r: Release[] = [
       {
-        application_id: gameData.id,
+        application_id: appData.id,
         regions: [],
         builds: [],
         package: {content_type: "", file: ""},
@@ -77,9 +79,9 @@ export const EditGameReleases = (props: RouteComponentProps) => {
   };
   
   const createRelease = async (newRelease: Release, index: number, file?: File) => {
-    if (gameData === null) return; 
+    if (appData === null) return; 
 
-    const response = await API.createAppRelease(token, gameData.id, newRelease, file);
+    const response = await API.createAppRelease(token, appData.id, newRelease, file);
 
     if (response._status === "OK") {
       newRelease.id = parseInt(response.id!);
@@ -97,7 +99,7 @@ export const EditGameReleases = (props: RouteComponentProps) => {
   }
   
   const updateRelease = async (release: Release, index: number, file?: File) => {
-    if (gameData === null) return;
+    if (appData === null) return;
 
     release.id = releases[index].id;
 
@@ -110,7 +112,7 @@ export const EditGameReleases = (props: RouteComponentProps) => {
       }
     }
     
-    const response = await API.updateAppRelease(token, gameData.id, release, releases[index]._etag, file);
+    const response = await API.updateAppRelease(token, appData.id, release, releases[index]._etag, file);
 
     if (response._status === "OK") {
       apiRelease._etag = response._etag;
@@ -125,21 +127,35 @@ export const EditGameReleases = (props: RouteComponentProps) => {
   };
 
   const deleteRelease = async (index: number) => {
-    if (gameData === null) return;
+    if (appData === null) return;
 
     if (window.confirm(t("editGame.releases.form.deleteMessage"))) {
-      const response = await API.deleteAppRelease(token, gameData.id, releases[index], releases[index]._etag);
+      const response = await API.deleteAppRelease(token, appData.id, releases[index], releases[index]._etag);
       
       if (response._status === "OK") {
         setReleases(releases.filter((r: Release, i: number) => (i !== index)));
       }
     }
-  };  
+  };
+
+  useEffect(() => {
+    // We'll save platform info that we'll need to use on when querying / creating 
+    // platform builds for the different releases
+    const getPlatforms = async () => {
+      const response = await API.getAllPlatformsInfo(token, appId!);
+
+      const platforms = response._items.map((item: PlatformInfo) => item.platform);
+
+      setPlatformInfo(platforms);
+    }
+    if(token) getPlatforms();
+
+  }, [appId, token])
 
   // Get the app id and set the access token
-  useEffect( () => {
+  useEffect(() => {
     if ( props.match.params! ) {
-      setGameID( (props.match.params as { id: string }).id );
+      setAppId( (props.match.params as { id: string }).id );
       const t = getToken();
       if ( t! ) {
         setToken(t);
@@ -148,30 +164,30 @@ export const EditGameReleases = (props: RouteComponentProps) => {
   }, [ props.match.params ]);
 
   // Grab gameData
-  useEffect(() => {
-    if ( token! && gameID! ){
-      API.app(token, gameID).then((app) => {
-        setGameData( (app as AppInfo ) );
+  useEffect(() => { 
+    if ( token! && appId! ){
+      API.app(token, appId).then((app) => {
+        setAppData( (app as AppInfo ) );
       })
     }
-  }, [token, gameID])
+  }, [token, appId])
   
   // Grab the releases
   useEffect(() => {
-    if (gameData) {
-      API.getAppReleases(token, gameID!).then((response) => {
+    if (appData) {
+      API.getAppReleases(token, appId!).then((response) => {
         if(response !== undefined) setReleases(response._items as Release[]);
       })
     }
-  }, [gameData, token, gameID]);
+  }, [appData, token, appId]);
 
-  if (gameData === null) return <PagePlaceholder />;
-
+  if (appData === null) return <PagePlaceholder />;
+  
   return (
     <Grid style={{ marginTop: "1em" }}>
       <Grid.Row style={{ borderBottom: "2px solid #C4C4C4" }}>
         <Header size="huge" style={{ marginBottom: 0 }}>
-          {gameData.name} - {t("editGame.releases.title")}
+          {appData.name} - {t("editGame.releases.title")}
         </Header>
         <Button
           compact
@@ -186,7 +202,7 @@ export const EditGameReleases = (props: RouteComponentProps) => {
       <Grid.Row>
         <GameCreationSteps
           steps={EditGameReleasesSteps}
-          gameId={gameData.id!}
+          gameId={appData.id!}
         />
       </Grid.Row>
 
@@ -221,7 +237,14 @@ export const EditGameReleases = (props: RouteComponentProps) => {
 
                 <Accordion.Content active={activeIndex === release.id}>
 
-                  <ReleaseForm index={index} release={release} onSubmit={onSubmit} onDelete={deleteRelease} />
+                  <ReleaseForm
+                    appId={appId}
+                    platforms={platformInfo}
+                    index={index}
+                    release={release}
+                    onSubmit={onSubmit}
+                    onDelete={deleteRelease}
+                  />
 
                 </Accordion.Content>
               </Fragment>

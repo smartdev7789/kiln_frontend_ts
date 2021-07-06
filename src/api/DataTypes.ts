@@ -34,6 +34,7 @@ export interface APIResponse {
     GraphData[] | 
     StatData[] | 
     ResourcesData[] | 
+    Build[] | 
     null;
   _meta: Meta | null;
 }
@@ -279,6 +280,7 @@ export interface Build {
   platform: number;
   id: number;
   status: number;
+  token: string;
 }
 
 // options for dropdowns

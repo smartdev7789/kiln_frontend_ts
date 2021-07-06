@@ -1,17 +1,11 @@
 import {
   Login,
   TopStats,
-  // GraphData,
   User,
-  // Platform,
-  // AppSummary,
   AppInfo,
-  // AppInfoPatch,
   BasicAppInfo,
   APIResponse,
   Filter,
-  // AppInfoPatch,
-  Release,
 } from "./DataTypes";
 
 import { createAd, deleteAd, updateAd } from "./AdAPI";
@@ -19,6 +13,7 @@ import { createIAP, deleteIAP, updateIAP } from "./IapAPI";
 
 import { yesterday } from "../libs/date"
 import {
+  getAllPlatformsInfo,
   getPlatformInfo,
   updatePlatformInfo,
   createPlatformInfo
@@ -30,6 +25,17 @@ import {
   addResource,
   deleteResource
 } from "./ResourcesAPI"
+
+import {
+  getAppReleases,
+  createAppRelease,
+  updateAppRelease,
+  deleteAppRelease,
+  processReleases,
+  downloadReleaseBuild,
+  publishRelease,
+  deleteReleaseBuild
+} from "./ReleasesAPI";
 
 // API.
 export const API_ADDRESS = process.env.REACT_APP_API_ADDRESS
@@ -382,140 +388,6 @@ const updateApp = async (token: string, id: string, data: AppInfo, etag: string)
   }
 };
 
-const getAppReleases = async (token: string, appId: string) => {
-  if (token === '') return;
-
-  const baseUrl = `${API_ENDPOINT}/apps/${appId}/releases?sort=-_created`;
-  const projection = '&projection={"regions":1,"builds":1}&embedded={"builds":1}';
-  const url = baseUrl + projection;
-  
-  const bearer = 'Bearer ' + token;
-  const response = await fetch(url, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json', 
-      'Authorization': bearer,
-    },
-  });
-  
-  if (!response.ok) {
-    throw new Error("HTTP error, status = " + response.status);
-  }
-  
-  return (await response.json()) as APIResponse;
-};
-
-const createAppRelease = async (token: string, appId: string, releaseData: Release, file?: File) => {
-  if (!token) return noTokenResponse;
-
-  const url = `${API_ENDPOINT}/apps/${appId}/releases`;
-
-  const bearer = 'Bearer ' + token;
-  const headers = {
-    'Authorization': bearer,
-    'Accept': "application/json",
-  }
-  
-  const formData = new FormData();
-  if (file) {
-    formData.append('name', releaseData.name);
-    formData.append('changelog', releaseData.changelog);
-    formData.append('package', file)
-  }
-  else {
-    //@ts-ignore
-    headers['Content-Type'] = 'application/json';
-  }
-  
-  try {
-    const res = await fetch(url, {
-      method: "POST",
-      headers: headers,
-      body: file ? formData : JSON.stringify({ ...releaseData }),
-    });
-
-    return (await res.json()) as APIResponse;
-  }
-  catch (err) {
-    console.log(err);
-
-    let noToken = {
-      "_status": "ERR",
-      "_error": {
-        "message": "editGame.releases.form.duplicateName"
-
-      }
-    }
-    return noToken as APIResponse;
-  }
-};
-
-const updateAppRelease = async (token: string, appId: string, releaseData: Release, etag: string, file?: File) => {
-  if (token === '') {
-    return {
-      "_status": "ERR",
-      "_error": {
-        "message": "No token"
-      }
-    } as APIResponse;
-  }
-
-  const url = `${API_ENDPOINT}/apps/${appId}/releases/${releaseData.id}`;
-  
-  const bearer = 'Bearer ' + token;
-  const headers = {
-    'Authorization': bearer,
-    'Accept': "application/json",
-    'If-Match': etag,
-  }
-  
-  const formData = new FormData();
-  if (file) {
-    formData.append('name', releaseData.name);
-    formData.append('changelog', releaseData.changelog);
-    formData.append('package', file)
-  }
-  else {
-    //@ts-ignore
-    headers['Content-Type'] = 'application/json';
-  }
-
-  const res = await fetch(url, {
-    method: "PATCH",
-    headers: headers,
-    body: file ? formData : JSON.stringify(releaseData),
-  });
-
-  let tete = await res.json();
-  console.log(tete);
-  return (tete) as APIResponse;
-  // return (await res.json()) as APIResponse;
-};
-
-const deleteAppRelease = async (token: string, appId: string, releaseData: Release, etag: string) => {
-  if (!token) return noTokenResponse;
-
-  const url = `${API_ENDPOINT}/apps/${appId}/releases/${releaseData.id}`;
-  const bearer = 'Bearer ' + token;
-
-  const res = await fetch(url, {
-    method: "DELETE",
-    headers: {
-      'Content-Type': 'application/json',
-      'If-Match': etag,
-      'Authorization': bearer,
-    },
-    body: JSON.stringify({}),
-  });
-
-  if (res.status === 204) {
-    return ({_status: 'OK'}) as APIResponse;
-  }
-  else {
-    return ({_status: 'ERR'}) as APIResponse;
-  }
-};
-
 const resetPassword = async (email: string) => {
   const res = await fetch(`${API_ENDPOINT}/users/forgot_password`, {
     method: "POST",
@@ -602,6 +474,7 @@ export const API = {
   updateIAP,
   // updateAppAd,
   // Platforms Info
+  getAllPlatformsInfo,
   getPlatformInfo,
   createPlatformInfo,
   updatePlatformInfo,
@@ -615,4 +488,8 @@ export const API = {
   createAppRelease,
   updateAppRelease,
   deleteAppRelease,
+  processReleases,
+  downloadReleaseBuild,
+  publishRelease,
+  deleteReleaseBuild,
 };
