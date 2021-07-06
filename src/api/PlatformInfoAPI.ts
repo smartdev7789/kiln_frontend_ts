@@ -1,6 +1,7 @@
 // import { PlatformInfo, APIResponse, } from "./DataTypes";
 import { APIResponse, PlatformInfo } from "./DataTypes";
 import { FieldValue } from "../hooks/useForm";
+import { noTokenResponse } from "./API";
 
 
 // API.
@@ -18,30 +19,27 @@ const API_ENDPOINT = `${API_ADDRESS}/${API_VERSION}`
  * @param {number} platformID Platorm ID.
  * @returns Platform info.
  */
- export const getAllPlatforsmInfo = async (
-  token: string,
-  appID:string, 
-  platformID:number
-) => {
-  if ( token !== '' ) {
-    const baseURL = `${API_ENDPOINT}/apps/${appID}/platforms_info/${platformID}/`
-    const projection = '?projection={"platform":1}&embedded={"platform": 1}'
-    const url = baseURL+projection
-    const bearer = 'Bearer ' + token;
-    const response = await fetch(url, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json', 
-        'Authorization': bearer,
-      },
-    });
-    if (!response.ok) {
-      // throw new Error("HTTP error, status = " + response.status);
-      // TODO ... as APIResponse.
-      return ({}) as PlatformInfo;
-    }
-    return (await response.json()) as PlatformInfo;
+export const getAllPlatformsInfo = async (token: string, appID: string) => {
+  if (!token) return noTokenResponse;
+
+  const baseURL = `${API_ENDPOINT}/apps/${appID}/platforms_info/`
+  const projection = '?projection={"platform":1}&embedded={"platform":1}'
+  const url = baseURL+projection
+  const bearer = 'Bearer ' + token;
+  const response = await fetch(url, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json', 
+      'Authorization': bearer,
+    },
+  });
+  if (!response.ok) {
+    // throw new Error("HTTP error, status = " + response.status);
+    // TODO ... as APIResponse.
+    return ({}) as PlatformInfo;
   }
+  // return (await response.json()) as PlatformInfo;
+  return (await response.json());
 };
 
 /**

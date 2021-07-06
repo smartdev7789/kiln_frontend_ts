@@ -3,7 +3,7 @@
     "title": "Log in",
     "header": "Log In",
     "email": "E-mail",
-    "username": "Username",
+    "user": "User",
     "password": "Password",
     "login": "Login",
     "forgotPassword": "Forgot password?"
@@ -118,6 +118,7 @@
     },
     "monetisation": {
       "title": "Monetisation",
+      "idError": "ID needs to be unique",
       "adTable": {
         "headers": {
           "type": "Type",
@@ -177,7 +178,8 @@
         "label": "Assets",
         "icons": "Icons",
         "screenshots": "Screenshots",
-        "videos": "Videos"
+        "videos": "Videos",
+        "promoVideo": "Promotional Video"
       },
       "categories": {
         "label": "Categories",
@@ -190,13 +192,38 @@
       "new": "Add release",
       "save": "Save",
       "delete": "Delete",
+      "table": {
+        "headers": {
+          "platform": "Platform",
+          "status": "Status",
+          "actions": "Actions"
+        },
+        "status": {
+          "standby": "Queued",
+          "processing": "Processing",
+          "ready": "Ready",
+          "testing": "Testing",
+          "publishing": "Publishing",
+          "published": "Published",
+          "processingFailed": "Processing Failed",
+          "testingFailed": "Testing Failed",
+          "publishFailed": "Publish Failed"
+        },
+        "process": "Process",
+        "download": "Download",
+        "publish": "Publish",
+        "unpublish": "Unpublish",
+        "delete": "Delete"
+      },
       "form": {
         "name": "Package Name",
         "regions": "Regions",
         "changelog": "Changelog",
         "package": "Package",
         "deleteMessage": "Are you sure you want to erase this build ?",
-        "duplicateName": "Release version name must be unique"
+        "duplicateName": "Release version name must be unique",
+        "processAll": "Process for all Platforms",
+        "unpublishMessage": "The build will be erased as well. If you need to re-publish, you can re-process the build."
       }
     }
   },

@@ -12,7 +12,7 @@ import { Authentication } from "../../authentication/Authentication";
 export const LogIn = ({ history }: RouteComponentProps) => {
   const { t } = useTranslation();
   const [waitingForResponse, setWaitingForResponse] = useState(false);
-  const [formData, setFormData] = useState({ username: "", password: "" });
+  const [formData, setFormData] = useState({ email: "", password: "" });
   const { dispatch } = useContext(DispatchContext);
 
   const handleSubmit = async () => {
@@ -20,7 +20,7 @@ export const LogIn = ({ history }: RouteComponentProps) => {
     setWaitingForResponse(true);
 
     // Get login data { token, account }
-    const { token, account } = await API.login(formData.username, formData.password);   
+    const { token, account } = await API.login(formData.email, formData.password);   
   
     // Set context account.
     if ( account ) {
@@ -63,11 +63,11 @@ export const LogIn = ({ history }: RouteComponentProps) => {
           <Image src={Logo} />
           <Form.Field>
             <input
-              name="username"
-              value={formData.username}
+              name="email"
+              value={formData.email}
               type="text"
-              autoComplete="username"
-              placeholder={t("login.username")}
+              autoComplete="email"
+              placeholder={t("login.email")}
               onChange={handleInputChange}
             />
           </Form.Field>

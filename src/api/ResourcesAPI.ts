@@ -1,3 +1,4 @@
+import { noTokenResponse } from "./API";
 import { APIResponse } from "./DataTypes";
 
 // API.
@@ -40,15 +41,14 @@ const API_ENDPOINT = `${API_ADDRESS}/${API_VERSION}`
  * Get resource info.
  * 
  * @param {string} token Security token.
- * @param {number} platformInfoID Platform info ID.
+ * @param {number} platformInfoID App Platform Info ID.
+ * @param {number} id Resources ID.
  * @returns Platform info.
  */
- export const getResource = async (
-  token: string,
-  platformInfoID:number
-) => {
-  if ( token !== '' ) {
-    const url = `${API_ENDPOINT}/platforms_info/${platformInfoID}/resources/`
+  export const getResource = async (token: string, appPlatformInfoID: number, id: string) => {
+    if (!token) return noTokenResponse;
+    
+    const url = `${API_ENDPOINT}/platforms_info/${appPlatformInfoID}/resources/${id}`
     const bearer = 'Bearer ' + token;
     const response = await fetch(url, {
       method: 'GET',
@@ -57,11 +57,12 @@ const API_ENDPOINT = `${API_ADDRESS}/${API_VERSION}`
         'Authorization': bearer,
       },
     });
+    
     if (!response.ok) {
       return ({}) as APIResponse;
     }
+    
     return (await response.json()) as APIResponse;
-  }
 };
 
 /**
@@ -72,10 +73,10 @@ const API_ENDPOINT = `${API_ADDRESS}/${API_VERSION}`
  * @returns Platform info.
  */
 export const addResource = async ( token: string, platformInfoID: number, type: string, file: File ) => {
-    console.log(type)
-    console.log(file)
-    console.log(platformInfoID)
-    console.log(token)
+    // console.log(type)
+    // console.log(file)
+    // console.log(platformInfoID)
+    // console.log(token)
 
   if ( token !== '' ) {
     const url = `${API_ENDPOINT}/platforms_info/${platformInfoID}/resources/`
@@ -97,8 +98,6 @@ export const addResource = async ( token: string, platformInfoID: number, type: 
       },
       'body': formData
     });
-    
-    console.log(response)
 
     if (!response.ok) {
       return ({}) as APIResponse;

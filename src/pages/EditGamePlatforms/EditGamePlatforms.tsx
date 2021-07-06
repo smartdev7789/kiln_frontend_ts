@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { Fragment, useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, RouteComponentProps } from "react-router-dom";
 import { Button, Grid, Header, Accordion, Icon } from "semantic-ui-react";
@@ -134,7 +134,7 @@ export const EditGamePlatforms = (props: RouteComponentProps) => {
               { platforms.map( (platform) => {
                 
                 return (
-                  <>
+                  <Fragment key={platform.id}>
                     <Accordion.Title
                       style={ styles.accordion.title }
                       active= { activeIndex === platform.id }
@@ -148,7 +148,7 @@ export const EditGamePlatforms = (props: RouteComponentProps) => {
                     <Accordion.Content active={ activeIndex === platform.id }>
                       { PlatformForm( gameData.id, platform.id, gameData.platforms_info ) }
                     </Accordion.Content>
-                  </>
+                  </Fragment>
                 )  
               })}
 
