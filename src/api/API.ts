@@ -11,7 +11,7 @@ import { createAd, deleteAd, updateAd } from "./AdAPI";
 import { createIAP, deleteIAP, updateIAP } from "./IapAPI";
 import { createLeaderboard, deleteLeaderboard, updateLeaderboard } from "./LeaderboardAPI";
 import { createEvent, deleteEvent, updateEvent } from "./AnalyticsAPI";
-import { getAccount, updateAccount, getTeam } from "./AccountAPI";
+import { getAccount, updateAccount, getTeam, updateTeam } from "./AccountAPI";
 
 import { yesterday } from "../libs/date"
 import {
@@ -392,6 +392,7 @@ export const API = {
   getAccount,
   updateAccount,
   getTeam,
+  updateTeam,
   // Stats and graphs
   stats,
   graphs,

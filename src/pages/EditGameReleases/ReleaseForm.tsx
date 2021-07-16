@@ -89,7 +89,7 @@ export const ReleaseForm = ({ appId, platforms, index, release, onSubmit, onDele
     waitingForResponse = true;
 
     const response = file ? await onSubmit(formData as Release, index, file) : await onSubmit(formData as Release, index);
-console.log(response)
+
     if (response?._status === "ERR") {
       setError(true);
     }

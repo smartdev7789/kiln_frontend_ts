@@ -11,7 +11,7 @@ import {
 } from "../../components/ValidatedForm/ValidatedForm";
 import { DispatchContext } from "../../App";
 import { EditTeamInfo } from "./EditTeamInfo"
-import { Account } from "../../api/DataTypes";
+import { Account, FormDataInterface } from "../../api/DataTypes";
 import { getToken, handleAccountUpdate } from "../../authentication/Authentication";
 
 const formFields: FormField[] = [
@@ -35,6 +35,7 @@ export const EditAccountInfo = ({ history }: RouteComponentProps) => {
   const { t } = useTranslation();
   const [waitingForResponse, setWaitingForResponse] = useState(false);
   const [token, setToken] = useState<string>('');
+  const [initialFormData, setInitialFormData] = useState<FormDataInterface>()
   const { state } = useContext(DispatchContext);
 
   /**
@@ -61,11 +62,14 @@ export const EditAccountInfo = ({ history }: RouteComponentProps) => {
     history.push(Paths.EditAccountInfo);
   };
 
-  /**
-   * Return initial form data.
-   * @returns 
-   */
-  const initialFormData = () => {
+  // Set the Token
+  useEffect(() => {
+    setToken(getToken());
+  }, []);
+
+  useEffect(() => {
+    if (!state.account) return;
+
     const data: { [key: string]: any } = {};
     
     formFields.map((field) => {
@@ -73,14 +77,9 @@ export const EditAccountInfo = ({ history }: RouteComponentProps) => {
       data[field.key] = value || "";
       return field
     });
-    
-    return data
-  }
 
-  // Set the Token
-  useEffect(() => {
-    setToken(getToken());
-  }, []);
+    setInitialFormData(data);
+  }, [state]);
   
   return (
     <Grid>
@@ -92,19 +91,21 @@ export const EditAccountInfo = ({ history }: RouteComponentProps) => {
       
       <Grid.Row>
         <Segment className="full-width">
-          <ValidatedForm
-            loading={waitingForResponse}
-            onSubmit={handleSubmit}
-            fields={formFields}
-            initialFormData={initialFormData()}
-            buttons={[
-              {
-                text: "editAccountInfo.submit",
-                positive: true,
-                submit: true,
-              },
-            ]}
-          />
+          {initialFormData &&
+            <ValidatedForm
+              loading={waitingForResponse}
+              onSubmit={handleSubmit}
+              fields={formFields}
+              initialFormData={initialFormData}
+              buttons={[
+                {
+                  text: "editAccountInfo.submit",
+                  positive: true,
+                  submit: true,
+                },
+              ]}
+            />
+          }
         </Segment>
       </Grid.Row>
     

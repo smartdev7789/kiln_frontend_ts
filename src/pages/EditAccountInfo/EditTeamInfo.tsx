@@ -8,9 +8,8 @@ import {
   ValidatedForm,
 } from "../../components/ValidatedForm/ValidatedForm";
 import { DispatchContext } from "../../App";
-import { Team } from "../../api/DataTypes";
+import { FormDataInterface, Team } from "../../api/DataTypes";
 import { getToken } from "../../authentication/Authentication";
-import { FieldValue } from "../../hooks/useForm";
 
 export type LangCode = {
   name: string;
@@ -20,58 +19,74 @@ export type LangCode = {
   iso639_2B: string;
 };
 
-const formFields: FormField[] = [
-  {
-    key: "team_name",
-    label: "editTeamInfo.team_name",
-    type: FieldType.Text,
-    required: true,
-    maxLength: 100,
-  },
-  {
-    key: "company_name",
-    label: "editTeamInfo.company_name",
-    type: FieldType.Text,
-    required: true,
-    maxLength: 100,
-  },
-  {
-    key: "contact_number",
-    label: "editTeamInfo.contact_number",
-    type: FieldType.PhoneNumber,
-    required: true,
-    maxLength: 100,
-  },
-  {
-    key: "contact_email",
-    label: "editTeamInfo.contact_email",
-    type: FieldType.Email,
-    required: true,
-    maxLength: 100,
-  },
-  {
-    key: "business_license",
-    label: "editTeamInfo.business_license",
-    type: FieldType.FileUpload,
-    required: true,
-  },
-];
-
-interface FormDataInterface {
-  [key: string]: FieldValue
-}
-
 export const EditTeamInfo = () => {
   const { t } = useTranslation();
+  const {state} = useContext(DispatchContext);
   const [waitingForResponse, setWaitingForResponse] = useState(false);
   const [token, setToken] = useState<string>('');
-  const { state } = useContext(DispatchContext);
   const [initialFormData, setInitialFormData] = useState<FormDataInterface>()
+  const [file, setFile] = useState<File | null>(null);
+  const [team, setTeam] = useState<Team>();
+
+  const handleLicenseChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setFile(event.target.files![0]);
+  };
+
+  const formFields: FormField[] = [
+    {
+      key: "team_name",
+      label: "editTeamInfo.team_name",
+      type: FieldType.Text,
+      required: true,
+      maxLength: 100,
+    },
+    {
+      key: "company_name",
+      label: "editTeamInfo.company_name",
+      type: FieldType.Text,
+      required: true,
+      maxLength: 100,
+    },
+    {
+      key: "company_number",
+      label: "editTeamInfo.company_number",
+      type: FieldType.Text,
+      required: true,
+      maxLength: 100,
+    },
+    {
+      key: "contact_number",
+      label: "editTeamInfo.contact_number",
+      type: FieldType.PhoneNumber,
+      required: true,
+      maxLength: 100,
+    },
+    {
+      key: "contact_email",
+      label: "editTeamInfo.contact_email",
+      type: FieldType.Email,
+      required: true,
+      maxLength: 100,
+    },
+    {
+      key: "business_license",
+      label: "editTeamInfo.business_license",
+      type: FieldType.FileUpload,
+      required: false,
+      onChange: handleLicenseChange,
+    },
+  ];
 
   const handleSubmit = async (formData: object) => {
+    if (!team) return;
+    
     setWaitingForResponse(true);
+    
+    const response = await API.updateTeam(token, team.id, formData as Team, team._etag, file || undefined);
 
-    // await API.updateAccount(formData as Account);
+    if (response._status === "OK") {
+      team._etag = response._etag;
+    }
 
     setWaitingForResponse(false);
   };
@@ -86,20 +101,16 @@ export const EditTeamInfo = () => {
     if (!token) return;
     
     API.getTeam(token, state.account!.team_id).then(response => {
-      // TODO: Do the real stuff once I get Saul's endpoint. For debugging atm.
-      (response as Team).team_name = "tete";
-      (response as Team).company_name = "tete corp";
-      (response as Team).contact_number = "01234567";
-      (response as Team).contact_email = "tete@tete.tete";
-
+      const t = response as Team;
       const data: FormDataInterface = {};
 
       formFields.map((field) => {
-        const value = (response as Team as any)[field.key];
+        const value = (t as any)[field.key];
         data[field.key] = value || "";
         return field
       }); 
       
+      setTeam(t);
       setInitialFormData(data as FormDataInterface);
     });
   }, [token, state.account]);

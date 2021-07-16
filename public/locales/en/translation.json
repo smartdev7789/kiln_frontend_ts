@@ -31,6 +31,7 @@
     "team_name": "Team Name",
     "contact_number": "Contact number",
     "company_name": "Company name",
+    "company_number": "Company number",
     "contact_email": "Contact e-mail",
     "business_license": "Business license",
     "submit": "Submit"

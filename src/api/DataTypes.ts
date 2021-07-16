@@ -1,5 +1,7 @@
 // API Response
 
+import { FieldValue } from "../hooks/useForm";
+
 // import { StringMappingType } from "typescript";
 // import { Platforms } from "../pages/Platforms/Platforms";
 
@@ -152,11 +154,12 @@ export interface Platform {
   graphs: []  | null;
 }
 export interface Team {
-  id: string | number;
+  id: string;
   team_name: string;
   contact_number: string;
   company_name: string;
   contact_email: string;
+  company_number: string;
   business_license: string;
   _etag: string,
 }
@@ -340,4 +343,8 @@ export interface Filter {
   application_id: string | null,
   platform_id: number | null,
   date: string | null
+}
+
+export interface FormDataInterface {
+  [key: string]: FieldValue
 }

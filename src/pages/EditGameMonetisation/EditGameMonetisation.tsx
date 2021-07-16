@@ -271,7 +271,7 @@ export const EditGameMonetisation = (props: RouteComponentProps) => {
    * @param index 
    */
   const removeIAPEditing = (index: number) => {
-    setAdsBeingEdited(
+    setIAPsBeingEdited(
       IAPsBeingEdited.filter((number) => number !== index).map((n) => {
         if (n > index) return n - 1;
 
