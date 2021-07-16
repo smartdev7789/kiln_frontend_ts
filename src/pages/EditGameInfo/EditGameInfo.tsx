@@ -129,14 +129,15 @@ export const EditGameInfo = ({ history, match }: RouteComponentProps) => {
 
   // Return initial form data.
   const initialFormData = () => {
-      const data: { [key: string]: any } = {};
-      formFields.map( (field) => {
-        const value = (gameData as any)[field.key];
-        data[field.key] = value || "";
-        return field
-      })
-      console.log(data)
-      return data
+    const data: { [key: string]: any } = {};
+    
+    formFields.map((field) => {
+      const value = (gameData as any)[field.key];
+      data[field.key] = value || "";
+      return field
+    });
+    
+    return data
   }
   
   return (

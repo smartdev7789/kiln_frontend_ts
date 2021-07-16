@@ -62,7 +62,7 @@ export const EditGameReleases = (props: RouteComponentProps) => {
         builds: [],
         package: {content_type: "", file: ""},
         id: 0,
-        name: "New Draft",
+        name: "",
         changelog: "",
         _etag: ""
       },

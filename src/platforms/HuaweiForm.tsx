@@ -5,6 +5,7 @@ import { getToken } from "../authentication/Authentication";
 import { API } from "../api/API";
 import { FieldValue } from "../hooks/useForm";
 import { AssetType, ResourcesData } from "../api/DataTypes";
+import { FixedAssetList, FixedAssetListOptions } from "../components/ValidatedForm/Assets/FixedAssetList";
 
 // Category options
 const stringToCategoryOptions = (string: string) =>
@@ -107,6 +108,7 @@ const formFields: FormField[] = [
     key: 'age_rating',
     type: FieldType.Dropdown,
     label: "editGame.info.age_rating",
+    required: true,
     moreInfoLink: "https://developer.huawei.com/consumer/en/doc/50125",
     options: ["3+", "7+", "12+", "16+", "18+"].map((rating) => ({
       key: rating,
@@ -119,13 +121,12 @@ const formFields: FormField[] = [
   //   type: FieldType.MultipleAssets,
   //   label: "editGame.info.assets.label",
   // },
-  {
-    key: "assetLists",
-    type: FieldType.FixedAssetsList,
-    label: "editGame.info.assets.label",
-  },
+  // {
+  //   key: "assetLists",
+  //   type: FieldType.FixedAssetsList,
+  //   label: "editGame.info.assets.label",
+  // },
 ];
-
 
 // Interfaces
 interface HuaweiFormProps {
@@ -152,6 +153,8 @@ export const HuaweiForm = ( { appID, platformInfoID }:HuaweiFormProps ) => {
   const [ waitingForResponse, setWaitingForResponse ] = useState(false);
   const [ toUpdate, setToUpdate ] = useState(false)
   const [ initialFormData, setInitialFormData ] = useState<interfaceFormData>()
+  const [ assetsFormData, setAssetsFormData ] = useState<FixedAssetListOptions>()
+  const [ resources, setResources ] = useState<ResourcesData[]>()
  
   /**
    * On validate form submit
@@ -168,17 +171,18 @@ export const HuaweiForm = ( { appID, platformInfoID }:HuaweiFormProps ) => {
       categories: formData.categories_1,
     }
 
-    if ( toUpdate ) {
+    if (toUpdate) {
       const response = await API.updatePlatformInfo(token, appID, pInfoID!, data, eTag)
-      console.log("Update")
+
       if (response?._status === 'OK') {
         setETag(response?._etag!)
-      }  else {
+      } else {
+        console.log(response);
         setError(true)
       }
     } else {
       const response = await API.createPlatformInfo(token, appID, pInfoID!, data)
-      console.log("Create")
+
       if (response?._status === 'OK') {
         setETag(response?._etag!)
         SetPInfoID(Number(response?.id!))
@@ -205,80 +209,67 @@ export const HuaweiForm = ( { appID, platformInfoID }:HuaweiFormProps ) => {
    * Set initial form data 
    */
   useEffect( () => {
-    if (pInfoID!) {
-      
-      API.getPlatformInfo(token, appID, pInfoID! ).then((data) => {
+    if (pInfoID) {
+      API.getPlatformInfo(token, appID, pInfoID).then((data) => {
+        setETag(data?._etag!)
+        setToUpdate(true)
+
+        // TODO. Pay attention to categories_1
+        const gameData = {
+          categories_1: data?.categories! ? data?.categories : '0-0-0',
+          age_rating: data?.age_rating,
+        }
+
+        setInitialFormData(gameData as interfaceFormData);
         
-        // if (data?._status === 'OK' ) { // TODO.
-        if ( Object.keys(data!).length > 2 ) {
-          setETag(data?._etag!)
-          setToUpdate(true)
-          // TODO. Pay attention to categories_1
-          const gameData = {
-            categories_1: data?.categories! ? data?.categories : '0-0-0',
-            age_rating: data?.age_rating,
-            
-            // * Icon (Max. size: 2 MB. Resolution: 216 x 216 px or 512 x 512 px. Format: PNG, WEBP.)
-            // * Screenshot and videos
-            // * Screenshots (Upload 3 to 8 screenshots. Resolution: 800 x 450 px or 450 x 800 px. Side length: 320–3840 px. Max. size: 5 MB. Format: PNG, JPG, JPEG, WEBP.)
-            //     Introduction Videos (Max 3)
-            //         Landscape / Portrait
-            //         Upload a video in landscape mode. Format: MOV or MP4. Recommended resolution: 1280 x 720 px. Aspect ratio: 16:9. Max. size: 500 MB. Length: 15 seconds to 2 minutes.
-            //     Promotion Video (Max 1)
-            //         Upload a promotion video. Format: MOV or MP4. Recommended resolution: 1600 x 1200 px or 1200 x 900 px. Aspect ratio: 4:3. Max. size: 500 MB. Length: 15 seconds to 2 minutes.
-            assetLists: {
-              appPlatformInfoId: data?.id,
-              groups: [] as any,
+        // Get resources
+        if (!resources) {
+          API.getAllResources(token, data!.id).then((resourceData) => {
+            setResources(resourceData?._items as ResourcesData[]);
+          })
+        }
+        else {
+          const getResourcesByType = (type: AssetType, resources: ResourcesData[]) => {
+            return resources.filter((r) => r.type === type)
+          };
+
+          const getAssetsData = (title: string, type: AssetType, amount: number, resources: ResourcesData[]) => {
+            return {
+              title: title,
+              type: type,
+              amount: amount,
+              assets: getResourcesByType(type, resources)
             }
-          }
-          
-          // Get resources
-          API.getAllResources(token, data!.id).then( (resourceData) => {
-            const resources = resourceData?._items as ResourcesData[];
+          };
 
-            const getResourcesByType = (type: AssetType, resources: ResourcesData[]) => {
-              return resources.filter((r) => r.type === type)
-            };
-
-            const getAssetsData = (title: string, type: AssetType, amount: number, resources: ResourcesData[]) => {
-              return {
-                title: title,
-                type: type,
-                amount: amount,
-                assets: getResourcesByType(type, resources)
-              }
-            };
-
-            gameData.assetLists.groups = [
+          setAssetsFormData({
+            appPlatformInfoId: data!.id,
+            groups: [
               getAssetsData("editGame.info.assets.icons", AssetType.Icon, 1, resources),
               getAssetsData("editGame.info.assets.screenshots", AssetType.Screenshot, 8, resources),
               getAssetsData("editGame.info.assets.videos", AssetType.Video, 3, resources),
               getAssetsData("editGame.info.assets.promoVideo", AssetType.PromoVideo, 1, resources),
             ]
-            
-            setInitialFormData(gameData as interfaceFormData)
           })
-
-
-
-        } else {
-          setInitialFormData( 
-            { categories_1: '0-0-0', age_rating: '' } as interfaceFormData
-          )
         }
       })
-      
     } else {
       setInitialFormData( 
-        { categories_1: '0-0-0', age_rating: '' } as interfaceFormData
+        {
+          categories_1: '0-0-0',
+          age_rating: '',
+          assetLists: {
+            appPlatformInfoId: 0,
+            groups: [] as any,
+          }
+        } as interfaceFormData
       )
     }
-  },[token, appID, pInfoID])
+  },[token, appID, pInfoID, resources])
 
   return (
-    initialFormData!
-    ?
-      <>
+    <>
+      {initialFormData &&
         <ValidatedForm
           loading={waitingForResponse}
           onSubmit={handleSubmit}
@@ -293,8 +284,10 @@ export const HuaweiForm = ( { appID, platformInfoID }:HuaweiFormProps ) => {
             },
           ]}
         />
-      </>
-    : 
-      <div></div>
+      }
+      {assetsFormData &&
+        <FixedAssetList assetLists={assetsFormData} />
+      }
+    </>
   )
 }

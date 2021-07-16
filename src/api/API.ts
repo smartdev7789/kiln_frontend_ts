@@ -1,7 +1,6 @@
 import {
   Login,
   TopStats,
-  User,
   AppInfo,
   BasicAppInfo,
   APIResponse,
@@ -10,6 +9,9 @@ import {
 
 import { createAd, deleteAd, updateAd } from "./AdAPI";
 import { createIAP, deleteIAP, updateIAP } from "./IapAPI";
+import { createLeaderboard, deleteLeaderboard, updateLeaderboard } from "./LeaderboardAPI";
+import { createEvent, deleteEvent, updateEvent } from "./AnalyticsAPI";
+import { getAccount, updateAccount, getTeam } from "./AccountAPI";
 
 import { yesterday } from "../libs/date"
 import {
@@ -42,21 +44,6 @@ export const API_ADDRESS = process.env.REACT_APP_API_ADDRESS
 export const API_VERSION = process.env.REACT_APP_API_VERSION
 export const API_ENDPOINT = `${API_ADDRESS}/${API_VERSION}`
 
-
-// const makeHead = (method:string, token:string) => {
-//   const bearer = 'Bearer ' + token;
-//   const requestInit = { 
-//     method: method,
-//     mode: 'cors',
-//     headers: { 
-//       'Content-Type': 'application/json', 
-//       'Authorization': bearer,
-//     },
-//   }
-//   console.log(requestInit);
-//   return requestInit
-// }
-
 export const noTokenResponse = {
   "_status": "ERR",
   "_error": {
@@ -79,7 +66,7 @@ const login = async (email: string, password: string) => {
   );
   
   if (res.status === 200 ) {
-    return (await res.json()) as Login;
+     return (await res.json()) as Login;
   } else {
     return ( { "token": null, "account": null } ) as Login;
   }
@@ -107,33 +94,10 @@ const securityCheck = async (token: string) => {
   }
 };
 
-// Security Check.
-const account = async (token: string, accouut_ID: string) => {
-  const url = `${API_ENDPOINT}/accounts/${accouut_ID}`;
-  const bearer = 'Bearer ' + token;
-  const res = await fetch( url, 
-    { 
-      method: 'GET',
-      headers: { 
-        'Content-Type': 'application/json', 
-        'Authorization': bearer,
-      },
-    }
-  );
-  
-  if (res.status === 200 ) {
-    // { "response": "success" }
-    return (await res.json());
-  } else {
-    return ( { "response": "fail" } );
-  }
-};
-
 // TODO
 const stats = async ( filters:Filter, token:string | null ) => {
   // http://localhost:5000/v0.01/stats?where={"application_id":"b0ca2dae-836a-422c-98e0-858526651edf","platform_id":1}
   const url = `${API_ENDPOINT}/stats/`;
-  // const res = await fetch( url, makeHead('GET', token) );
 
   let where = ''
   switch (filters.date) {
@@ -300,23 +264,21 @@ const apps = async (token: string | null) => {
 
 // Get App.
 const app = async (token: string, id: string) => {
-  if ( token !== '' ) {
-    const baseUrl = `${API_ENDPOINT}/apps/${id}`
-    const projection = '?projection={"platforms_info":1,"ads":1,"iaps":1}&embedded={"platforms_info":1,"ads":1,"iaps":1}'
-    const url = `${baseUrl}/${projection}`
-    const bearer = 'Bearer ' + token;
-    const response = await fetch(url, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json', 
-        'Authorization': bearer,
-      },
-    });
-    if (!response.ok) {
-      throw new Error("HTTP error, status = " + response.status);
-    }
-    return (await response.json()) as AppInfo;
-  }
+  if (!token) return noTokenResponse;
+
+  const baseUrl = `${API_ENDPOINT}/apps/${id}`
+  const projection = '?projection={"platforms_info":1,"ads":1,"iaps":1,"events":1,"leaderboards":1}&embedded={"platforms_info":1,"ads":1,"iaps":1,"events":1,"leaderboards":1}'
+  const url = `${baseUrl}/${projection}`
+  const bearer = 'Bearer ' + token;
+  const response = await fetch(url, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json', 
+      'Authorization': bearer,
+    },
+  });
+
+  return (await response.json()) as AppInfo;
 };
 
 
@@ -333,34 +295,21 @@ const additionalAppInfo = {
 
 // Create App
 const createApp = async (token: string | null, appData: BasicAppInfo) => {
-  if ( token ) {
-    const url = `${API_ENDPOINT}/apps`;
-    const bearer = 'Bearer ' + token;
-    const res = await fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        'Authorization': bearer,
-        Accept: "application/json",
-      },
-      body: JSON.stringify({ ...appData, ...additionalAppInfo }),
-    });
-    if (res.status === 200 ) {
-      return ( await res.json() ) as APIResponse;
-    } else {
-      return ( await res.json() ) as APIResponse;
-    }
-    
-  } else {
-    let noToken = {
-      "_status" : "ERR",
-      "_error": {
-        "message": "No token"
-      }
-    }
-    return noToken as APIResponse;
-  }
+  if (!token) return noTokenResponse;
 
+  const url = `${API_ENDPOINT}/apps`;
+  const bearer = 'Bearer ' + token;
+  const res = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      'Authorization': bearer,
+      Accept: "application/json",
+    },
+    body: JSON.stringify({ ...appData, ...additionalAppInfo }),
+  });
+
+  return (await res.json()) as APIResponse;
 };
 
 // Update App
@@ -369,23 +318,18 @@ const updateApp = async (token: string, id: string, data: AppInfo, etag: string)
 
   const url = `${API_ENDPOINT}/apps/${id}`;
   const bearer = 'Bearer ' + token;
+  console.log(data);
+  const res = await fetch(url, {
+    method: "PATCH",
+    body: JSON.stringify(data),
+    headers: {
+      'Content-Type': 'application/json',
+      'If-Match': etag,
+      'Authorization': bearer,
+    },
+  });
 
-  try {
-    const res = await fetch(url, {
-      method: "PATCH",
-      body: JSON.stringify(data),
-      headers: {
-        'Content-Type': 'application/json',
-        'If-Match': etag,
-        'Authorization': bearer,
-      },
-    });
-  
-    return (await res.json()) as APIResponse;
-  }
-  catch (err) {
-    console.log(err);
-  }
+  return (await res.json()) as APIResponse;
 };
 
 const resetPassword = async (email: string) => {
@@ -436,24 +380,18 @@ const acceptTermsOfService = async (lang = "en") => {
   return await res.json();
 };
 
-// Update account info.
-const updateAccountInfo = async (accountData: User) => {
-  const res = await fetch(`${API_ENDPOINT}/users/${accountData.id}`);
-  return await res.json();
-};
-
-
 export const API = {
-  // Users, account and more
+  // Accounts and more
   login,
-  account,
   securityCheck,
   resetPassword,
   resetPasswordValidateToken,
   changePassword,
   getTermsOfService,
   acceptTermsOfService,
-  updateAccountInfo,
+  getAccount,
+  updateAccount,
+  getTeam,
   // Stats and graphs
   stats,
   graphs,
@@ -472,7 +410,14 @@ export const API = {
   createIAP,
   deleteIAP,
   updateIAP,
-  // updateAppAd,
+  // Leaderboards
+  createLeaderboard,
+  deleteLeaderboard,
+  updateLeaderboard,
+  // Analytics
+  createEvent,
+  deleteEvent,
+  updateEvent,
   // Platforms Info
   getAllPlatformsInfo,
   getPlatformInfo,

@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Link, RouteComponentProps } from "react-router-dom";
 import { Button, Grid, Header, Table } from "semantic-ui-react";
 import { API } from "../../api/API";
-import { AdType, AppInfo, Event, IAPType } from "../../api/DataTypes";
+import { APIResponse, AppInfo, Event } from "../../api/DataTypes";
 import { TableCard } from "../../components/Cards/TableCard";
 import {
   EditGameAnalyticsSteps,
@@ -14,17 +14,6 @@ import { PagePlaceholder } from "../../components/Placeholders/PagePlaceholder";
 import { EventRow } from "./EventRow";
 import { getToken } from "../../authentication/Authentication";
 
-export const AdTypeText = {
-  [AdType.Interstitial]: "adType.interstitial",
-  [AdType.Banner]: "adType.banner",
-  [AdType.RewardedVideo]: "adType.rewardedVideo",
-};
-
-export const IAPTypeText = {
-  [IAPType.Consumable]: "iapType.consumable",
-  [IAPType.NonConsumable]: "iapType.nonconsumable",
-};
-
 export const EditGameAnalytics = (props: RouteComponentProps) => {
   const { t } = useTranslation();
 
@@ -33,11 +22,11 @@ export const EditGameAnalytics = (props: RouteComponentProps) => {
   const [gameID, setGameID] = useState<string | null>(null);
   const [token, setToken] = useState<string>('');
 
-  const saveGame = () => {
-    if (gameData === null) return;
-    API.updateApp(token, gameData.id!, gameData, gameData._etag);
-  };
-
+  /**
+   * 
+   * @param events 
+   * @returns 
+   */
   const setEvents = (events: Event[]) => {
     if (gameData === null) return;
 
@@ -47,6 +36,12 @@ export const EditGameAnalytics = (props: RouteComponentProps) => {
     });
   };
 
+  /**
+   * 
+   * @param newEvent 
+   * @param index 
+   * @returns 
+   */
   const handleEventChange = (newEvent: Event, index: number) => {
     if (gameData === null) return;
 
@@ -55,28 +50,101 @@ export const EditGameAnalytics = (props: RouteComponentProps) => {
     );
   };
 
-  const deleteEvent = (index: number) => {
+  /**
+   * 
+   * @param index 
+   * @returns 
+   */
+   const deleteEvent = async (index: number) => {
     if (gameData === null) return;
 
-    setEvents(gameData.events.filter((e, i) => i !== index));
-  };
+    const event = gameData.events[index];
 
+    const removeEvent = () => {
+      setGameData({
+        ...gameData,
+        events: gameData.events.filter((a, i) => i !== index),
+      });
+
+      removeEventEditing(index);
+    };
+
+    // If this is a new, non saved ad
+    if (!event.id) {
+      removeEvent();
+    }
+    else {
+      const response = await API.deleteEvent(token, gameData.id, event.id!, event._etag!)
+
+      if (response._status === "OK") {
+        removeEvent();
+      }
+      else {
+        // Error
+        console.log(response);
+      }
+    }
+   };
+
+  /**
+   * 
+   * @returns 
+   */
   const addNewEvent = () => {
     if (gameData === null) return;
 
-    setEvents([...gameData.events, { kiln_id: "NEW_EVENT" }]);
+    setEvents([...gameData.events, { id: null, kiln_id: "NEW_EVENT", _etag: null }]);
 
-    // enablEventEditing(gameData.events.length);
+    enableEventEditing(gameData.events.length);
   };
 
-  const saveEvent = (index: number) => {
-    setEventsBeingEdited(
-      eventsBeingEdited.filter((number) => number !== index)
-    );
-    saveGame();
+  /**
+   * 
+   * @param index 
+   * @returns 
+   */
+  const saveEvent = async (index: number) => {
+    if (!gameData) return;
+
+    const event = gameData!.events.filter((event: Event, i: number) => (i === index))[0];
+
+    let response: APIResponse;
+    
+    if (!event.id) response = await API.createEvent(token, gameData.id, event);
+    else response = await API.updateEvent(token, gameData.id, event, event._etag!); 
+
+    if (response._status === "OK") {
+      gameData.events[index]._etag = response._etag;
+      if (!gameData.events[index].id && response.id) {
+        gameData.events[index].id = parseInt(response.id);
+      }
+
+      setEventsBeingEdited(eventsBeingEdited.filter((number) => number !== index));
+    }
+
+    return response;
   };
-  const enablEventEditing = (index: number) => {
+  
+  /**
+   * 
+   * @param index 
+   */
+  const enableEventEditing = (index: number) => {
     setEventsBeingEdited([...eventsBeingEdited, index]);
+  };
+
+  /**
+   * 
+   * @param index 
+   */
+   const removeEventEditing = (index: number) => {
+    setEventsBeingEdited(
+      eventsBeingEdited.filter((number) => number !== index).map((n) => {
+        if (n > index) return n - 1;
+
+        return n;
+      })
+    );
   };
 
   // obtiene el ID de la app y setea el token
@@ -94,13 +162,13 @@ export const EditGameAnalytics = (props: RouteComponentProps) => {
   useEffect(() => {
     if ( token! && gameID! ){
       API.app( token, gameID ).then( ( app ) => { 
-        console.log(app)
+        
         // TODO
-        const appEvent = {
-          ...app,
-          events: [] 
-        }
-        setGameData( (appEvent as AppInfo ) );
+        // const appEvent = {
+        //   ...app,
+        //   events: [] 
+        // }
+        setGameData( (app as AppInfo ) );
       })
     }
   },[token, gameID])
@@ -145,7 +213,7 @@ export const EditGameAnalytics = (props: RouteComponentProps) => {
               editing={eventsBeingEdited.includes(i)}
               onChange={handleEventChange}
               onDelete={deleteEvent}
-              enableEditing={enablEventEditing}
+              enableEditing={enableEventEditing}
               onSave={saveEvent}
             />
           ))}

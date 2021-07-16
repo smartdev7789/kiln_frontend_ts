@@ -1,24 +1,18 @@
 import { Grid, Header, Segment } from "semantic-ui-react";
 import { useTranslation } from "react-i18next";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { API } from "../../api/API";
 import { RouteComponentProps } from "react-router-dom";
 import { Paths } from "../../routes";
-import { User } from "../../api/DataTypes";
 import {
   FormField,
   FieldType,
   ValidatedForm,
 } from "../../components/ValidatedForm/ValidatedForm";
 import { DispatchContext } from "../../App";
-
-export type LangCode = {
-  name: string;
-  nativeName: string;
-  iso639_1: string;
-  iso639_2T: string;
-  iso639_2B: string;
-};
+import { EditTeamInfo } from "./EditTeamInfo"
+import { Account } from "../../api/DataTypes";
+import { getToken, handleAccountUpdate } from "../../authentication/Authentication";
 
 const formFields: FormField[] = [
   {
@@ -35,51 +29,59 @@ const formFields: FormField[] = [
     required: true,
     maxLength: 100,
   },
-  {
-    key: "company_name",
-    label: "editAccountInfo.company_name",
-    type: FieldType.Text,
-    required: true,
-    maxLength: 100,
-  },
-  {
-    key: "contact_number",
-    label: "editAccountInfo.contact_number",
-    type: FieldType.PhoneNumber,
-    required: true,
-    maxLength: 100,
-  },
-  {
-    key: "contact_email",
-    label: "editAccountInfo.contact_email",
-    type: FieldType.Email,
-    required: true,
-    maxLength: 100,
-  },
-  {
-    key: "business_license",
-    label: "editAccountInfo.business_license",
-    type: FieldType.FileUpload,
-    required: true,
-  },
 ];
 
 export const EditAccountInfo = ({ history }: RouteComponentProps) => {
   const { t } = useTranslation();
   const [waitingForResponse, setWaitingForResponse] = useState(false);
-
+  const [token, setToken] = useState<string>('');
   const { state } = useContext(DispatchContext);
 
+  /**
+   * 
+   * @param formData 
+   */
   const handleSubmit = async (formData: object) => {
     setWaitingForResponse(true);
 
-    await API.updateAccountInfo(formData as User);
+    const auxAccount = state.account!;
+
+    auxAccount.name = (formData as Account).name;
+    auxAccount.email = (formData as Account).email;
+
+    const response = await API.updateAccount(token, auxAccount, state.account!._etag);
+
+    if (response._status === "OK") {
+      auxAccount._etag = response._etag;
+      handleAccountUpdate(auxAccount);
+    }
 
     setWaitingForResponse(false);
 
-    history.push(Paths.Platforms);
+    history.push(Paths.EditAccountInfo);
   };
 
+  /**
+   * Return initial form data.
+   * @returns 
+   */
+  const initialFormData = () => {
+    const data: { [key: string]: any } = {};
+    
+    formFields.map((field) => {
+      const value = (state.account as any)[field.key];
+      data[field.key] = value || "";
+      return field
+    });
+    
+    return data
+  }
+
+  // Set the Token
+  useEffect(() => {
+    setToken(getToken());
+  }, []);
+  
   return (
     <Grid>
       <Grid.Row style={{ borderBottom: "2px solid #C4C4C4" }}>
@@ -87,13 +89,14 @@ export const EditAccountInfo = ({ history }: RouteComponentProps) => {
           {t("editAccountInfo.title")}
         </Header>
       </Grid.Row>
+      
       <Grid.Row>
         <Segment className="full-width">
           <ValidatedForm
             loading={waitingForResponse}
             onSubmit={handleSubmit}
             fields={formFields}
-            initialFormData={{ ...(state.user || {}) }}
+            initialFormData={initialFormData()}
             buttons={[
               {
                 text: "editAccountInfo.submit",
@@ -104,6 +107,11 @@ export const EditAccountInfo = ({ history }: RouteComponentProps) => {
           />
         </Segment>
       </Grid.Row>
+    
+      <EditTeamInfo />
+    
     </Grid>
+    
+    
   );
 };

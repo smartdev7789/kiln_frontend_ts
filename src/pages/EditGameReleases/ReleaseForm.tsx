@@ -22,9 +22,11 @@ export const ReleaseForm = ({ appId, platforms, index, release, onSubmit, onDele
   const [token, setToken] = useState<string>(''); 
   const [file, setFile] = useState<File | null>(null);
   const [builds, setBuilds] = useState<Build[]>([]);
+  const [formFields, setFormFields] = useState<FormField[]>([]);
+  const [error, setError] = useState(false);
 
   let waitingForResponse = false;
-
+  
   const nameInput = useRef<HTMLInputElement>(null);
 
   const handlePackageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -32,13 +34,10 @@ export const ReleaseForm = ({ appId, platforms, index, release, onSubmit, onDele
   };
 
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (nameInput.current) {
-      nameInput.current.setCustomValidity("");
-      nameInput.current.reportValidity();
-    }
+    if(error) setError(false);
   };
 
-  const formFields: FormField[] = [
+  const fields: FormField[] = [
     // TODO: Regions
     // {
     //   key: 'age_rating',
@@ -67,11 +66,11 @@ export const ReleaseForm = ({ appId, platforms, index, release, onSubmit, onDele
       label: "editGame.releases.form.changelog",
     },
   ];
-
+  
   // If we don't have a package uploaded, we'll add that bit to the form.
   // Otherwise, we'll just let them know that they can't replace the APK
   if (!release.package || !release.package.file) {
-    formFields.push(
+    fields.push(
       {
         key: "package",
         type: FieldType.FileUpload,
@@ -90,12 +89,9 @@ export const ReleaseForm = ({ appId, platforms, index, release, onSubmit, onDele
     waitingForResponse = true;
 
     const response = file ? await onSubmit(formData as Release, index, file) : await onSubmit(formData as Release, index);
-
+console.log(response)
     if (response?._status === "ERR") {
-      if (nameInput.current) {
-        nameInput.current.setCustomValidity(t(response?._error?.message!));
-        nameInput.current.reportValidity();
-      }
+      setError(true);
     }
   
     waitingForResponse = false;
@@ -168,6 +164,17 @@ export const ReleaseForm = ({ appId, platforms, index, release, onSubmit, onDele
       }
     }
   }
+
+  useEffect(() => {
+    fields[0].unique = error;     
+    setFormFields(fields);
+
+   // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [error])
+  
+  useEffect(() => {
+    
+  }, [formFields]);
 
   useEffect(() => {
     if (builds.length === 0 && release.builds && release.builds?.length > 0) {
