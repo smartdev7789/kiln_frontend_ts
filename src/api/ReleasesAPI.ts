@@ -51,8 +51,8 @@ export const createAppRelease = async (token: string, appId: string, releaseData
   
   const formData = new FormData();
   if (file) {
-    formData.append('name', releaseData.name);
-    formData.append('changelog', releaseData.changelog);
+    formData.append('name', `"${releaseData.name}"`);
+    formData.append('changelog', `"${releaseData.changelog}"`);
     formData.append('package', file)
   }
   else {
@@ -60,27 +60,13 @@ export const createAppRelease = async (token: string, appId: string, releaseData
     headers['Content-Type'] = 'application/json';
   }
   
-  try {
-    const res = await fetch(url, {
-      method: "POST",
-      headers: headers,
-      body: file ? formData : JSON.stringify({ ...releaseData }),
-    });
+  const res = await fetch(url, {
+    method: "POST",
+    headers: headers,
+    body: file ? formData : JSON.stringify({ ...releaseData }),
+  });
 
-    return (await res.json()) as APIResponse;
-  }
-  catch (err) {
-    console.log(err);
-
-    let noToken = {
-      "_status": "ERR",
-      "_error": {
-        "message": "editGame.releases.form.duplicateName"
-
-      }
-    }
-    return noToken as APIResponse;
-  }
+  return (await res.json()) as APIResponse;
 };
 
 /**

@@ -27,6 +27,10 @@ export const handleSuccessfulLogin = (token: string, account: Account | null) =>
   storeAccount(account);
 };
 
+export const handleAccountUpdate = (account: Account | null) => {
+  storeAccount(account);
+};
+
 export const validateToken = () => {
   const token = getToken();
   if (typeof token === "string" && token.length > 0 ) {

@@ -8,9 +8,9 @@ export const LogOut = () => {
 
   useEffect(() => {
     dispatch({
-      type: ActionType.SetUser,
+      type: ActionType.SetAccount,
       payload: {
-        user: undefined,
+        account: undefined,
       },
     });
   }, [dispatch]);

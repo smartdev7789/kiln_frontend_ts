@@ -44,6 +44,12 @@ export const EditGameMonetisation = (props: RouteComponentProps) => {
   const [gameID, setGameID] = useState<string | null>(null);
   const [token, setToken] = useState<string>('');
 
+  /**
+   * 
+   * @param newAd 
+   * @param index 
+   * @returns 
+   */
   const handleAdChange = (newAd: Ad, index: number) => {
     if (gameData === null) return;
 
@@ -53,6 +59,10 @@ export const EditGameMonetisation = (props: RouteComponentProps) => {
     });
   };
 
+  /**
+   * 
+   * @returns 
+   */
   const addNewAd = () => {
     if (gameData === null) return;
 
@@ -67,27 +77,47 @@ export const EditGameMonetisation = (props: RouteComponentProps) => {
     enablAdEditing( gameData.ads.length);
   };
 
+  /**
+   * 
+   * @param index 
+   * @returns 
+   */
   const deleteAd = async (index: number) => {
     if (gameData === null) return;
 
     const ad = gameData.ads[index];
 
-    const response = await API.deleteAd(token, gameData.id, ad.id!, ad._etag!)
-
-    if (response._status === "OK") {
+    const removeAd = () => {
       setGameData({
         ...gameData,
         ads: gameData.ads.filter((a, i) => i !== index),
       });
 
-      setAdsBeingEdited(adsBeingEdited.filter((number) => number !== index));
+      removeAdEditing(index);
+    };
+
+    // If this is a new, non saved ad
+    if (!ad.id) {
+      removeAd();
     }
     else {
-      // Error
-      console.log(response);
+      const response = await API.deleteAd(token, gameData.id, ad.id!, ad._etag!)
+
+      if (response._status === "OK") {
+        removeAd();
+      }
+      else {
+        // Error
+        console.log(response);
+      }
     }
   };
 
+  /**
+   * 
+   * @param index 
+   * @returns 
+   */
   const saveAd = async (index: number) => {
     if (!gameData) return;
 
@@ -106,17 +136,38 @@ export const EditGameMonetisation = (props: RouteComponentProps) => {
 
       setAdsBeingEdited(adsBeingEdited.filter((number) => number !== index));
     }
-    else {
-      // Error
-      console.log(response);
-    }
 
     return response;
   };
+  
+  /**
+   * 
+   * @param index 
+   */
   const enablAdEditing = (index: number) => {
     setAdsBeingEdited([...adsBeingEdited, index]);
   };
 
+  /**
+   * 
+   * @param index 
+   */
+  const removeAdEditing = (index: number) => {
+    setAdsBeingEdited(
+      adsBeingEdited.filter((number) => number !== index).map((n) => {
+        if (n > index) return n - 1;
+
+        return n;
+      })
+    );
+  };
+
+  /**
+   * 
+   * @param newIAP 
+   * @param index 
+   * @returns 
+   */
   const handleIAPChange = (newIAP: IAP, index: number) => {
     if (gameData === null) return;
 
@@ -126,6 +177,10 @@ export const EditGameMonetisation = (props: RouteComponentProps) => {
     });
   };
 
+  /**
+   * 
+   * @returns 
+   */
   const addNewIAP = () => {
     if (!gameData) return;
 
@@ -140,27 +195,47 @@ export const EditGameMonetisation = (props: RouteComponentProps) => {
     enablIAPEditing( gameData.iaps.length);
   };
   
+  /**
+   * 
+   * @param index 
+   * @returns 
+   */
   const deleteIAP = async (index: number) => {
     if (!gameData) return;
 
     const iap = gameData.iaps[index];
 
-    const response = await API.deleteIAP(token, gameData.id, iap.id!, iap._etag!)
-
-    if (response._status === "OK") {
+    const removeIap = () => {
       setGameData({
         ...gameData,
         iaps: gameData.iaps.filter((a, i) => i !== index),
       });
 
-      setIAPsBeingEdited(IAPsBeingEdited.filter((number) => number !== index));
+      removeIAPEditing(index);
+    }
+
+    // If this is a non saved IAP
+    if (!iap.id) {
+      removeIap();
     }
     else {
-      // Error
-      console.log(response);
+      const response = await API.deleteIAP(token, gameData.id, iap.id!, iap._etag!)
+
+      if (response._status === "OK") {
+        removeIap();
+      }
+      else {
+        // Error
+        console.log(response);
+      }
     }
   };
 
+  /**
+   * 
+   * @param index 
+   * @returns 
+   */
   const saveIAP = async (index: number) => {
     if (!gameData) return;
 
@@ -179,16 +254,30 @@ export const EditGameMonetisation = (props: RouteComponentProps) => {
 
       setIAPsBeingEdited(IAPsBeingEdited.filter((number) => number !== index));
     }
-    else {
-      // Error
-      console.log(response);
-    }
-
+    
     return response;
   };
   
+  /**
+   * 
+   * @param index 
+   */
   const enablIAPEditing = (index: number) => {
     setIAPsBeingEdited([...IAPsBeingEdited, index]);
+  };
+
+  /**
+   * 
+   * @param index 
+   */
+  const removeIAPEditing = (index: number) => {
+    setIAPsBeingEdited(
+      IAPsBeingEdited.filter((number) => number !== index).map((n) => {
+        if (n > index) return n - 1;
+
+        return n;
+      })
+    );
   };
   
   // obtiene el ID de la app y setea el token
@@ -227,7 +316,7 @@ export const EditGameMonetisation = (props: RouteComponentProps) => {
           positive
           style={{ marginBottom: 0, marginLeft: "auto", padding: "0.5em" }}
           as={Link}
-          to={PathHelpers.EditGameAnalytics({ id: gameData.id })}
+          to={PathHelpers.EditGameLeaderboards({ id: gameData.id })}
         >
           {t("editGame.nextStep")}
         </Button>

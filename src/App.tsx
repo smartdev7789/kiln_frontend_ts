@@ -24,7 +24,6 @@ export const App = (props: RouteComponentProps) => {
     reducer,
     initialState
   );
-
   
   // Get and set context (platforms, apps and releases).
   // Only if user is login
@@ -72,15 +71,9 @@ export const App = (props: RouteComponentProps) => {
       // console.log("Private page")
       
       Authentication.validateToken()
-        .then((user) => {
+        .then((response) => {
           setToken( getToken() );
-          dispatch({
-            type: ActionType.SetUser,
-            payload: {
-              user,
-            },
-          });
-
+          
           if ( location.pathname === Paths.LogIn || location.pathname === Paths.Root ) {
             history.push(Paths.Analytics);
           }
@@ -94,11 +87,11 @@ export const App = (props: RouteComponentProps) => {
   return (
     <Suspense fallback={<Placeholder></Placeholder>}>
       <DispatchContext.Provider value={{ state, dispatch }}>
-        {state.user && <Menu {...props} routes={ROUTES} />}
+        {state.account && <Menu {...props} routes={ROUTES} />}
         <Container>
           <RenderRoutes routes={ROUTES} />
         </Container>
-        {state.user && <Footer />}
+        {state.account && <Footer />}
       </DispatchContext.Provider>
     </Suspense>
   );

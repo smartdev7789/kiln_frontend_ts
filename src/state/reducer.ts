@@ -30,14 +30,6 @@ export const reducer: (state: State, action: Action) => State = (
     };
   }
 
-  // User context.
-  if (type === ActionType.SetUser) {
-    return {
-      ...state,
-      user: payload.user,
-    };
-  }
-
   // Platforms context.
   if (type === ActionType.SetPlatforms) {
     return {

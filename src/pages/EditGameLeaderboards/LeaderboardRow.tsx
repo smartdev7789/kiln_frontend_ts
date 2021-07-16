@@ -2,32 +2,34 @@ import { useRef } from "react";
 import { useTranslation } from "react-i18next";
 import {
   Button,
+  Dropdown,
   DropdownProps,
   Input,
   InputOnChangeData,
   Table,
 } from "semantic-ui-react";
-import { APIResponse, Event } from "../../api/DataTypes";
+import { APIResponse, Leaderboard, LeaderboardTypeOptions } from "../../api/DataTypes";
+import { LeaderboardOrderText } from "./EditGameLeaderboards";
 
-type EventRowProps = {
-  event: Event;
+type LeaderboardRowProps = {
+  leaderboard: Leaderboard;
   index: number;
   editing: boolean;
-  onChange: (newAd: Event, index: number) => void;
+  onChange: (newLeaderboard: Leaderboard, index: number) => void;
   onDelete: (index: number) => void;
   enableEditing: (index: number) => void;
   onSave: (index: number) => Promise<APIResponse | undefined>;
 };
 
-export const EventRow = ({
+export const LeaderboardRow = ({
   index,
-  event,
+  leaderboard,
   editing,
   onChange,
   onDelete,
   enableEditing,
   onSave,
-}: EventRowProps) => {
+}: LeaderboardRowProps) => {
   const { t } = useTranslation();
 
   let kilnIdInput = useRef<Input>(null);
@@ -56,10 +58,10 @@ export const EventRow = ({
       input.setCustomValidity("");
       input.reportValidity();
     }
-    
+
     onChange(
       {
-        ...event,
+        ...leaderboard,
         [props.name]: props.value,
       },
       index
@@ -70,25 +72,40 @@ export const EventRow = ({
     <Table.Row>
       <Table.Cell>
         {editing ? (
-          <Input onChange={handleChange} name="kiln_id" value={event.kiln_id} ref={kilnIdInput} />
+          <Input onChange={handleChange} name="kiln_id" value={leaderboard.kiln_id} ref={kilnIdInput} />
         ) : (
-          event.kiln_id
+          leaderboard.kiln_id
+        )}
+      </Table.Cell>
+      <Table.Cell>
+        {editing ? (
+          <Dropdown
+            onChange={handleChange}
+            name="order"
+            value={leaderboard.order}
+            options={LeaderboardTypeOptions.map((option) => ({
+              ...option,
+              text: t(option.text),
+            }))}
+          />
+        ) : (
+          t(LeaderboardOrderText[leaderboard.order])
         )}
       </Table.Cell>
       <Table.Cell>
         {!editing && (
           <Button onClick={() => enableEditing(index)}>
-            {t("editGame.analytics.eventTable.edit")}
+            {t("editGame.leaderboards.leaderboardTable.edit")}
           </Button>
         )}
 
         {editing && (
           <Button.Group>
             <Button positive onClick={() => handleSubmit(index)}>
-              {t("editGame.analytics.eventTable.save")}
+              {t("editGame.leaderboards.leaderboardTable.save")}
             </Button>
             <Button negative basic onClick={deleteAd}>
-              {t("editGame.analytics.eventTable.delete")}
+              {t("editGame.leaderboards.leaderboardTable.delete")}
             </Button>
           </Button.Group>
         )}
