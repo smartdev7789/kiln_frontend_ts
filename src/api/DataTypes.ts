@@ -1,5 +1,7 @@
 // API Response
 
+import { FieldValue } from "../hooks/useForm";
+
 // import { StringMappingType } from "typescript";
 // import { Platforms } from "../pages/Platforms/Platforms";
 
@@ -106,7 +108,7 @@ export interface AppInfoPatch extends BasicAppInfo {
   team: string;
   releases: Release[];
   platforms_info: PlatformInfo[] | null;
-  leaderboards: any[] | null;
+  leaderboards: Leaderboard[];
   iaps: IAP[];
   events: Event[];
   ads: Ad[];
@@ -151,15 +153,15 @@ export interface Platform {
   stats: []  | null;
   graphs: []  | null;
 }
-
-export interface User {
-  id: string | number;
-  name: string;
-  email: string;
+export interface Team {
+  id: string;
+  team_name: string;
   contact_number: string;
   company_name: string;
   contact_email: string;
+  company_number: string;
   business_license: string;
+  _etag: string,
 }
 
 export interface Account {
@@ -167,15 +169,10 @@ export interface Account {
   team_id: string;
   _created: Date,
   _updated: Date,
-  _etag: string[],
+  _etag: string,
   name: string,
   email: string,
   _password: string,
-  contact_number: string,
-  company_name: string,
-  contact_email: string,
-  company_number: string,
-  business_licence: string
 }
 
 // Login response.
@@ -234,7 +231,7 @@ export enum AdStatus {
 }
 
 export interface Ad {
-  id: number | null,
+  id: number | null;
   kiln_id: string;
   type: AdType;
   status: AdStatus;
@@ -247,7 +244,7 @@ export enum IAPType {
 }
 
 export interface IAP {
-  id: number | null,
+  id: number | null;
   kiln_id: string;
   type: IAPType;
   price: number;
@@ -255,8 +252,22 @@ export interface IAP {
   _etag: string | null;
 }
 
-export interface Event {
+export enum LeaderboardOrder {
+  Ascending = 0,
+  Descending = 1
+}
+
+export interface Leaderboard {
+  id: number | null;
   kiln_id: string;
+  order: LeaderboardOrder;
+  _etag: string | null;
+}
+
+export interface Event {
+  id: number | null;
+  kiln_id: string;
+  _etag: string | null;
 }
 
 export interface Release {
@@ -315,8 +326,25 @@ export const IAPTypeOptions = [
   },
 ];
 
+export const LeaderboardTypeOptions = [
+  {
+    value: LeaderboardOrder.Ascending,
+    text: "leaderboardOrder.ascending",
+    key: LeaderboardOrder.Ascending,
+  },
+  {
+    value: LeaderboardOrder.Descending,
+    text: "leaderboardOrder.descending",
+    key: LeaderboardOrder.Descending,
+  },
+];
+
 export interface Filter {
   application_id: string | null,
   platform_id: number | null,
   date: string | null
+}
+
+export interface FormDataInterface {
+  [key: string]: FieldValue
 }

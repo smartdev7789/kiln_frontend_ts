@@ -91,7 +91,6 @@ export const getAllPlatformsInfo = async (token: string, appID: string) => {
     platformID:number, 
     platformInfo:{ [key: string]: FieldValue } //
   ) => {
-  console.log(platformInfo)
   if ( token !== '' ) {
     const url = `${API_ENDPOINT}/apps/${appID}/platforms_info`
     const bearer = 'Bearer ' + token;
@@ -127,23 +126,20 @@ export const updatePlatformInfo = async (
   platformInfo:{ [key: string]: FieldValue }, //
   etag: string
   ) => {
-  console.log(platformInfo)
-  if ( token !== '' ) {
-    const url = `${API_ENDPOINT}/apps/${appID}/platforms_info/${platformID}/`
-    const bearer = 'Bearer ' + token;
-    const response = await fetch(url, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json', 
-        'If-Match': etag,
-        'Authorization': bearer,
-      },
-      body: JSON.stringify({ resources: [], ...platformInfo }),
-    });
-    if (!response.ok) {
-      // throw new Error("HTTP error, status = " + response.status);
-      return ({}) as APIResponse;
-    }
-    return (await response.json()) as APIResponse;
-  }
+  
+  if (!token) return noTokenResponse;
+  
+  const url = `${API_ENDPOINT}/apps/${appID}/platforms_info/${platformID}/`
+  const bearer = 'Bearer ' + token;
+  const response = await fetch(url, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json', 
+      'If-Match': etag,
+      'Authorization': bearer,
+    },
+    body: JSON.stringify({ ...platformInfo }),
+  });
+  
+  return (await response.json()) as APIResponse;
 };

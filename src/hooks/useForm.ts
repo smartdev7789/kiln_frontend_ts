@@ -47,6 +47,20 @@ export const validateData = (
     if (validation.unique) {
       addError(errors, key, "Field must be unique");
     }
+    // else {
+    //   if (errors[key]) {
+    //     console.log(errors[key]);
+    //     const index = errors[key].indexOf("Field must be unique");
+    //     if (index !== -1) errors[key].splice(index, 1);
+    //     console.log(errors[key]);
+    //   }
+    //   else {
+    //     console.log(errors);
+    //     console.log(errors["name"]);
+    //     console.log(key);
+    //     console.log(errors[key]);
+    //   }
+    // }
 
     if (validation.maxLength) {
       if (typeof formData[key] !== "string") {

@@ -24,8 +24,14 @@
     "title": "Edit account info",
     "name": "Name",
     "email": "E-mail",
+    "submit": "Submit"
+  },
+  "editTeamInfo": {
+    "title": "Edit team info",
+    "team_name": "Team Name",
     "contact_number": "Contact number",
     "company_name": "Company name",
+    "company_number": "Company number",
     "contact_email": "Contact e-mail",
     "business_license": "Business license",
     "submit": "Submit"
@@ -95,6 +101,7 @@
     "platforms": "Platforms",
     "gameInfo": "Info",
     "monetisation": "Monetisation",
+    "leaderboards": "Leaderboards",
     "analytics": "Analytics",
     "releases": "Releases"
   },
@@ -144,16 +151,20 @@
         "delete": "Delete",
         "edit": "Edit IAP",
         "save": "Save IAP"
-      },
-      "analytics": {
+      }
+    },
+    "leaderboards": {
+      "title": "Leaderboards",
+      "leaderboardTable": {
         "headers": {
           "id": "ID",
+          "order": "Order",
           "actions": "Actions"
         },
-        "new": "New event",
+        "new": "New leaderboard",
         "delete": "Delete",
-        "edit": "Edit event",
-        "save": "Save event"
+        "edit": "Edit leaderboard",
+        "save": "Save leaderboard"
       }
     },
     "analytics": {
@@ -276,6 +287,10 @@
   "iapType": {
     "consumable": "Consumable",
     "nonconsumable": "Non-consumable"
+  },
+  "leaderboardOrder": {
+    "ascending": "Ascending",
+    "descending": "Descending"
   },
   "platformConnectionStatus": {
     "notConnected": "Not connected",

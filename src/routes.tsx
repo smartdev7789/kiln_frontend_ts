@@ -14,6 +14,7 @@ import { TermsOfService } from "./pages/TermsOfService/TermsOfService";
 import { EditGamePlatforms } from "./pages/EditGamePlatforms/EditGamePlatforms";
 import { EditGameInfo } from "./pages/EditGameInfo/EditGameInfo";
 import { EditGameMonetisation } from "./pages/EditGameMonetisation/EditGameMonetisation";
+import { EditGameLeaderboards } from "./pages/EditGameLeaderboards/EditGameLeaderboards";
 import { EditGameAnalytics } from "./pages/EditGameAnalytics/EditGameAnalytics";
 import { EditGameReleases } from "./pages/EditGameReleases/EditGameReleases";
 import { Platforms } from "./pages/Platforms/Platforms";
@@ -63,6 +64,7 @@ export enum Paths {
   EditGamePlatforms = "/games/:id/edit/platforms",
   EditGameInfo = "/games/:id/edit/info",
   EditGameMonetisation = "/games/:id/edit/monetisation",
+  EditGameLeaderboards = "/games/:id/edit/leaderboards",
   EditGameAnalytics = "/games/:id/edit/analytics",
   EditGameReleases = "/games/:id/edit/releases",
   ForgotPassword = `/account/forgot-password`,
@@ -86,6 +88,7 @@ export const PathHelpers = {
   EditGamePlatforms: createPathHelper(Paths.EditGamePlatforms),
   EditGameInfo: createPathHelper(Paths.EditGameInfo),
   EditGameMonetisation: createPathHelper(Paths.EditGameMonetisation),
+  EditGameLeaderboards: createPathHelper(Paths.EditGameLeaderboards),
   EditGameAnalytics: createPathHelper(Paths.EditGameAnalytics),
   EditGameReleases: createPathHelper(Paths.EditGameReleases),
   Analytics: (app_id: string) => `${Paths.Analytics}?app_id=${app_id}`,
@@ -165,6 +168,12 @@ export const ROUTES: RouteConfig[] = [
     exact: true,
     hideInMenu: true,
     component: EditGameMonetisation,
+  },
+  {
+    path: Paths.EditGameLeaderboards,
+    exact: true,
+    hideInMenu: true,
+    component: EditGameLeaderboards,
   },
   {
     path: Paths.EditGameAnalytics,

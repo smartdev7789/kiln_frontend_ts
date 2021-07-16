@@ -222,7 +222,7 @@ export const ValidatedForm = (props: ValidatedFormProps) => {
             {field.type === FieldType.MultipleAssets && (
               <MultipleAssetField assets={formData[field.key] as Asset[]} />
             )}
-            {field.type === FieldType.FixedAssetsList && (
+            {field.type === FieldType.FixedAssetsList &&  (
               <FixedAssetList assetLists={formData[field.key] as FixedAssetListOptions} />
             )}
             {formErrors[field.key] && touchedFields.includes(field.key) && (

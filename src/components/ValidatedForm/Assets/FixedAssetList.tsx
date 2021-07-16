@@ -98,37 +98,40 @@ export const FixedAssetList = ({ assetLists }: FixedAssetListProps) => {
   }, [assets]);
 
   return (
-    <Segment>
-      {assets.groups.map((assetList, groupIndex) => {
-        return (
-          <Segment key={groupIndex}>
-            <Header size="tiny">{t(assetList.title)}</Header>
-            <Card.Group className="fixed-margin">
-              {[...Array(assetList.amount)].map((e, assetIndex) =>
-                <SingleFileField
-                  inputRef={inputRefs.current[groupIndex][assetIndex]}
-                  file={
-                    assetList.assets[assetIndex] ?
-                      
-                      {
-                        type: assetList.type,
-                        url: `${API_ADDRESS}${assetList.assets[assetIndex].file?.file}`
-                      } as Asset
-                      
-                    :
-                      null
-                  }
-                  onChange={handleChange(groupIndex, assetIndex)}
-                  onCloseClick={handleCloseClick(groupIndex, assetIndex)}
-                  onPlusButtonClick={handlePlusButtonClick(groupIndex, assetIndex)}
-                  accept={(assetList.type === AssetType.Video || assetList.type === AssetType.PromoVideo) ? "video/mp4,video/x-m4v,video/*" : "image/png, image/jpeg"}
-                  key={assetIndex}
-                />
-              )}
-            </Card.Group>
-          </Segment>
-        )
-      })}
+    (assets.groups ?
+      <Segment>
+        {assets.groups.map((assetList, groupIndex) => {
+          return (
+            <Segment key={groupIndex}>
+              <Header size="tiny">{t(assetList.title)}</Header>
+              <Card.Group className="fixed-margin">
+                {[...Array(assetList.amount)].map((e, assetIndex) =>
+                  <SingleFileField
+                    inputRef={inputRefs.current[groupIndex][assetIndex]}
+                    file={
+                      assetList.assets[assetIndex] ?
+                        
+                        {
+                          type: assetList.type,
+                          url: `${API_ADDRESS}${assetList.assets[assetIndex].file?.file}`
+                        } as Asset
+                        
+                      :
+                        null
+                    }
+                    onChange={handleChange(groupIndex, assetIndex)}
+                    onCloseClick={handleCloseClick(groupIndex, assetIndex)}
+                    onPlusButtonClick={handlePlusButtonClick(groupIndex, assetIndex)}
+                    accept={(assetList.type === AssetType.Video || assetList.type === AssetType.PromoVideo) ? "video/mp4,video/x-m4v,video/*" : "image/png, image/jpeg"}
+                    key={assetIndex}
+                  />
+                )}
+              </Card.Group>
+            </Segment>
+          )
+        })}
     </Segment>
+      :
+      <div></div>)
   );
 };
