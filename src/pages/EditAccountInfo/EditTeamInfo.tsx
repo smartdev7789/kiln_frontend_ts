@@ -113,6 +113,7 @@ export const EditTeamInfo = () => {
       setTeam(t);
       setInitialFormData(data as FormDataInterface);
     });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token, state.account]);
   
   return (
