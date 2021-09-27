@@ -5,7 +5,7 @@ import { Button, Grid, Header, Table } from "semantic-ui-react";
 import { API } from "../../api/API";
 import { APIResponse, AppInfo, Leaderboard, LeaderboardOrder } from "../../api/DataTypes";
 import { TableCard } from "../../components/Cards/TableCard";
-import { EditGameLeaderboardsSteps, GameCreationSteps } from "../../components/GameCreationSteps";
+// import { EditGameLeaderboardsSteps, GameCreationSteps } from "../../components/GameCreationSteps";
 import { PathHelpers } from "../../routes";
 import { PagePlaceholder } from "../../components/Placeholders/PagePlaceholder";
 import { LeaderboardRow } from "./LeaderboardRow";
@@ -190,10 +190,10 @@ export const EditGameLeaderboards = (props: RouteComponentProps) => {
         </Button>
       </Grid.Row>
       <Grid.Row>
-        <GameCreationSteps
+        {/* <GameCreationSteps
           steps={EditGameLeaderboardsSteps}
           gameId={gameData.id!}
-        />
+        /> */}
       </Grid.Row>
       <Grid.Row>
         <TableCard
