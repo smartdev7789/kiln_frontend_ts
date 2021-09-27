@@ -10,7 +10,6 @@ import {
 import { createAd, deleteAd, updateAd } from "./AdAPI";
 import { createIAP, deleteIAP, updateIAP } from "./IapAPI";
 import { createLeaderboard, deleteLeaderboard, updateLeaderboard } from "./LeaderboardAPI";
-import { createEvent, deleteEvent, updateEvent } from "./AnalyticsAPI";
 import { getAccount, updateAccount, getTeam, updateTeam } from "./AccountAPI";
 
 import { yesterday } from "../libs/date"
@@ -415,10 +414,6 @@ export const API = {
   createLeaderboard,
   deleteLeaderboard,
   updateLeaderboard,
-  // Analytics
-  createEvent,
-  deleteEvent,
-  updateEvent,
   // Platforms Info
   getAllPlatformsInfo,
   getPlatformInfo,
