@@ -25,9 +25,9 @@ export const GameCreationStepData = [
   {
     text: "monetisation",
   },
-  {
-    text: "leaderboards",
-  },
+  // {
+  //   text: "leaderboards",
+  // },
   {
     text: "releases",
   },
@@ -48,8 +48,8 @@ GameCreationStepData.map((step, i) => {
 export const EditGameInfoSteps = createSteps(0);
 export const EditGamePlatformsSteps = createSteps(1);
 export const EditGameMonetisationSteps = createSteps(2);
-export const EditGameLeaderboardsSteps = createSteps(3);
-export const EditGameReleasesSteps = createSteps(4);
+// export const EditGameLeaderboardsSteps = createSteps(3);
+export const EditGameReleasesSteps = createSteps(3);
 
 export const GameCreationSteps = (props: GameCreationStepsProps) => {
   const { t } = useTranslation();
@@ -59,12 +59,12 @@ export const GameCreationSteps = (props: GameCreationStepsProps) => {
     gameInfo: PathHelpers.EditGameInfo,
     platforms: PathHelpers.EditGamePlatforms,
     monetisation: PathHelpers.EditGameMonetisation,
-    leaderboards: PathHelpers.EditGameLeaderboards,
+    // leaderboards: PathHelpers.EditGameLeaderboards,
     releases: PathHelpers.EditGameReleases,
   };
 
   return (
-    <Step.Group fluid widths={5}>
+    <Step.Group fluid widths={4}>
       {props.steps.map((step, i) => {
         return (
           <Step
