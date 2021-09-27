@@ -184,7 +184,7 @@ export const EditGameLeaderboards = (props: RouteComponentProps) => {
           positive
           style={{ marginBottom: 0, marginLeft: "auto", padding: "0.5em" }}
           as={Link}
-          to={PathHelpers.EditGameAnalytics({ id: gameData.id })}
+          to={PathHelpers.EditGameReleases({ id: gameData.id })}
         >
           {t("editGame.nextStep")}
         </Button>
