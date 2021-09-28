@@ -43,6 +43,17 @@ export const NewGame = ({ history }: RouteComponentProps) => {
       onChange: handleNameChange,
     },
     {
+      key: "service_type",
+      type: FieldType.SearchDropdown,
+      label: "newGame.service_type.title",
+      options: [
+        { key: "self_serve", text: t("newGame.service_type.self_serve"), value: "1"},
+        { key: "tag_team", text: t("newGame.service_type.tag_team"), value: "2"},
+        { key: "hands_off", text: t("newGame.service_type.hands_off"), value: "3"},
+      ],
+      required: true,
+    },
+    {
       key: "default_language",
       type: FieldType.SearchDropdown,
       label: "newGame.default_language",
