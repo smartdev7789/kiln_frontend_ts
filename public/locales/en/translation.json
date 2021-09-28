@@ -100,7 +100,7 @@
   "gameCreationSteps": {
     "platforms": "Platforms",
     "gameInfo": "Info",
-    "monetisation": "Monetisation",
+    "iap": "In App Purchases",
     "leaderboards": "Leaderboards",
     "analytics": "Analytics",
     "releases": "Releases"

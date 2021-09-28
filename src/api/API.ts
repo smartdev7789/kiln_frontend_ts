@@ -7,7 +7,6 @@ import {
   Filter,
 } from "./DataTypes";
 
-import { createAd, deleteAd, updateAd } from "./AdAPI";
 import { createIAP, deleteIAP, updateIAP } from "./IapAPI";
 import { createLeaderboard, deleteLeaderboard, updateLeaderboard } from "./LeaderboardAPI";
 import { getAccount, updateAccount, getTeam, updateTeam } from "./AccountAPI";
@@ -402,10 +401,6 @@ export const API = {
   games: apps,
   createApp,
   updateApp,
-  // Ads
-  createAd,
-  deleteAd,
-  updateAd,
   // IAPs
   createIAP,
   deleteIAP,

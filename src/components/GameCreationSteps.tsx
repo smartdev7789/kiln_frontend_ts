@@ -23,7 +23,7 @@ export const GameCreationStepData = [
     text: "platforms",
   },
   {
-    text: "monetisation",
+    text: "iap",
   },
   // {
   //   text: "leaderboards",
@@ -58,7 +58,7 @@ export const GameCreationSteps = (props: GameCreationStepsProps) => {
   const pathHelpers: { [key: string]: (object: object) => string } = {
     gameInfo: PathHelpers.EditGameInfo,
     platforms: PathHelpers.EditGamePlatforms,
-    monetisation: PathHelpers.EditGameMonetisation,
+    iap: PathHelpers.EditGameMonetisation,
     // leaderboards: PathHelpers.EditGameLeaderboards,
     releases: PathHelpers.EditGameReleases,
   };
