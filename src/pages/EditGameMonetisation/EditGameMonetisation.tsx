@@ -4,9 +4,6 @@ import { Link, RouteComponentProps } from "react-router-dom";
 import { Button, Grid, Header, Table } from "semantic-ui-react";
 import { API } from "../../api/API";
 import {
-  Ad,
-  AdStatus,
-  AdType,
   APIResponse,
   AppInfo,
   IAP,
@@ -19,15 +16,8 @@ import {
 } from "../../components/GameCreationSteps";
 import { PathHelpers } from "../../routes";
 import { PagePlaceholder } from "../../components/Placeholders/PagePlaceholder";
-import { AdRow } from "./AdRow";
 import { IAPRow } from "./IAPRow";
 import { getToken } from "../../authentication/Authentication";
-
-export const AdTypeText = {
-  [AdType.Interstitial]: "adType.interstitial",
-  [AdType.Banner]: "adType.banner",
-  [AdType.RewardedVideo]: "adType.rewardedVideo",
-};
 
 export const IAPTypeText = {
   [IAPType.Consumable]: "iapType.consumable",
@@ -38,129 +28,10 @@ export const IAPTypeText = {
 export const EditGameMonetisation = (props: RouteComponentProps) => {
   const { t } = useTranslation();
 
-  const [adsBeingEdited, setAdsBeingEdited] = useState<number[]>([]);
   const [IAPsBeingEdited, setIAPsBeingEdited] = useState<number[]>([]);
   const [gameData, setGameData] = useState<AppInfo | null>( null )
   const [gameID, setGameID] = useState<string | null>(null);
   const [token, setToken] = useState<string>('');
-
-  /**
-   * 
-   * @param newAd 
-   * @param index 
-   * @returns 
-   */
-  const handleAdChange = (newAd: Ad, index: number) => {
-    if (gameData === null) return;
-
-    setGameData({
-      ...gameData,
-      ads: gameData.ads.map((ad: Ad, i:number) => (i === index ? newAd : ad)),
-    });
-  };
-
-  /**
-   * 
-   * @returns 
-   */
-  const addNewAd = () => {
-    if (gameData === null) return;
-
-    setGameData({
-      ...gameData,
-      ads: [
-        ...gameData.ads,
-        { id: null, _etag: null, type: AdType.Banner, kiln_id: "NEW_AD", status: AdStatus.Draft },
-      ],
-    });
-
-    enablAdEditing( gameData.ads.length);
-  };
-
-  /**
-   * 
-   * @param index 
-   * @returns 
-   */
-  const deleteAd = async (index: number) => {
-    if (gameData === null) return;
-
-    const ad = gameData.ads[index];
-
-    const removeAd = () => {
-      setGameData({
-        ...gameData,
-        ads: gameData.ads.filter((a, i) => i !== index),
-      });
-
-      removeAdEditing(index);
-    };
-
-    // If this is a new, non saved ad
-    if (!ad.id) {
-      removeAd();
-    }
-    else {
-      const response = await API.deleteAd(token, gameData.id, ad.id!, ad._etag!)
-
-      if (response._status === "OK") {
-        removeAd();
-      }
-      else {
-        // Error
-        console.log(response);
-      }
-    }
-  };
-
-  /**
-   * 
-   * @param index 
-   * @returns 
-   */
-  const saveAd = async (index: number) => {
-    if (!gameData) return;
-
-    const ad = gameData!.ads.filter((ad: Ad, i: number) => (i === index))[0];
-
-    let response: APIResponse;
-    
-    if (!ad.id) response = await API.createAd(token, gameData.id, ad);
-    else response = await API.updateAd(token, gameData.id, ad, ad._etag!); 
-
-    if (response._status === "OK") {
-      gameData.ads[index]._etag = response._etag;
-      if (!gameData.ads[index].id && response.id) {
-        gameData.ads[index].id = parseInt(response.id);
-      }
-
-      setAdsBeingEdited(adsBeingEdited.filter((number) => number !== index));
-    }
-
-    return response;
-  };
-  
-  /**
-   * 
-   * @param index 
-   */
-  const enablAdEditing = (index: number) => {
-    setAdsBeingEdited([...adsBeingEdited, index]);
-  };
-
-  /**
-   * 
-   * @param index 
-   */
-  const removeAdEditing = (index: number) => {
-    setAdsBeingEdited(
-      adsBeingEdited.filter((number) => number !== index).map((n) => {
-        if (n > index) return n - 1;
-
-        return n;
-      })
-    );
-  };
 
   /**
    * 
@@ -302,7 +173,6 @@ export const EditGameMonetisation = (props: RouteComponentProps) => {
 
   if (gameData === null) return <PagePlaceholder />;
 
-  const gameAds = gameData.ads || [];
   const gameIAPs = gameData.iaps || [];
 
   return (
@@ -326,41 +196,6 @@ export const EditGameMonetisation = (props: RouteComponentProps) => {
           steps={EditGameMonetisationSteps}
           gameId={gameData.id!}
         />
-      </Grid.Row>
-      <Grid.Row>
-        <TableCard
-          headers={["type", "id", "status", "actions"].map((string) =>
-            t(`editGame.monetisation.adTable.headers.${string}`)
-          )}
-        >
-          {gameAds.map((adData, i) => (
-            <AdRow
-              key={i}
-              index={i}
-              ad={adData}
-              editing={adsBeingEdited.includes(i)}
-              onChange={handleAdChange}
-              onDelete={deleteAd}
-              enableEditing={enablAdEditing}
-              onSave={saveAd}
-            />
-          ))}
-          <Table.Row>
-            <Table.Cell></Table.Cell>
-            <Table.Cell></Table.Cell>
-            <Table.Cell></Table.Cell>
-            <Table.Cell>
-              <Button
-                floated="right"
-                icon="plus"
-                labelPosition="left"
-                positive
-                content={t("editGame.monetisation.adTable.new")}
-                onClick={addNewAd}
-              />
-            </Table.Cell>
-          </Table.Row>
-        </TableCard>
       </Grid.Row>
       <Grid.Row>
         <TableCard
