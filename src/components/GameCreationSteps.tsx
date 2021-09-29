@@ -29,6 +29,9 @@ export const GameCreationStepData = [
   //   text: "leaderboards",
   // },
   {
+    text: "services",
+  },
+  {
     text: "releases",
   },
 
@@ -49,7 +52,8 @@ export const EditGameInfoSteps = createSteps(0);
 export const EditGamePlatformsSteps = createSteps(1);
 export const EditGameMonetisationSteps = createSteps(2);
 // export const EditGameLeaderboardsSteps = createSteps(3);
-export const EditGameReleasesSteps = createSteps(3);
+export const EditGameServicesSteps = createSteps(3);
+export const EditGameReleasesSteps = createSteps(4);
 
 export const GameCreationSteps = (props: GameCreationStepsProps) => {
   const { t } = useTranslation();
@@ -60,11 +64,12 @@ export const GameCreationSteps = (props: GameCreationStepsProps) => {
     platforms: PathHelpers.EditGamePlatforms,
     iap: PathHelpers.EditGameMonetisation,
     // leaderboards: PathHelpers.EditGameLeaderboards,
+    services: PathHelpers.EditGameServices,
     releases: PathHelpers.EditGameReleases,
   };
 
   return (
-    <Step.Group fluid widths={4}>
+    <Step.Group fluid widths={5}>
       {props.steps.map((step, i) => {
         return (
           <Step
