@@ -1,13 +1,6 @@
-// import { PlatformInfo, APIResponse, } from "./DataTypes";
 import { APIResponse, PlatformInfo } from "./DataTypes";
 import { FieldValue } from "../hooks/useForm";
-import { noTokenResponse } from "./API";
-
-
-// API.
-const API_ADDRESS = process.env.REACT_APP_API_ADDRESS
-const API_VERSION = process.env.REACT_APP_API_VERSION
-const API_ENDPOINT = `${API_ADDRESS}/${API_VERSION}`
+import { noTokenResponse, API_ENDPOINT } from "./API";
 
 // Platform.
 
