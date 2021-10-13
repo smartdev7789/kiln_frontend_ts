@@ -76,6 +76,12 @@
     "title": "New Game",
     "submit": "Create game",
     "name": "Game name",
+    "service_type": {
+      "title": "Service Type",
+      "self_serve": "Self Serve",
+      "tag_team": "Tag Team",
+      "hands_off": "Hands Off"
+    },
     "default_language": "Default language",
     "privacy_policy": "Privacy policy URL",
     "summary": "Summary",

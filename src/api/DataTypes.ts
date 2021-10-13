@@ -36,7 +36,8 @@ export interface APIResponse {
     GraphData[] | 
     StatData[] | 
     ResourcesData[] | 
-    Build[] | 
+    Build[] |
+    TeamPlatform[] | 
     null;
   _meta: Meta | null;
 }
@@ -94,6 +95,7 @@ export interface BasicAppInfo {
   id: string ;
   type: 0 | 1;
   name: string;
+  service_type: number;
   default_language: string;
   description: string | null;
   summary: string | null;
@@ -161,6 +163,16 @@ export interface Team {
   contact_email: string;
   company_number: string;
   business_license: string;
+  _etag: string,
+}
+
+export interface TeamPlatform {
+  id: string;
+  team_name: string;
+  team_account_id: string;
+  platform: number;
+  extras: string;
+  connection_status: number;
   _etag: string,
 }
 

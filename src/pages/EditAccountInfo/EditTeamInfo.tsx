@@ -98,7 +98,7 @@ export const EditTeamInfo = () => {
 
   // Set the Team
   useEffect(() => {
-    if (!token) return;
+    if (!token || !state.account) return;
     
     API.getTeam(token, state.account!.team_id).then(response => {
       const t = response as Team;

@@ -121,6 +121,83 @@ export const getTeam = async (token: string, teamId: string) => {
     method: "PATCH",
     headers: headers,
     body: file ? formData : JSON.stringify(jsonBody),
+  }); 
+
+  return (await res.json()) as APIResponse;
+ }
+
+ // Team Platforms
+
+/**
+ * 
+ * @param token 
+ * @param teamId 
+ * @returns 
+ */
+export const getTeamPlatforms = async (token: string, teamId: string) => {
+  if (!token) return noTokenResponse;
+
+  const url = `${API_ENDPOINT}/teams/${teamId}/team_platforms`;
+  const bearer = 'Bearer ' + token;
+  
+  const res = await fetch(url, {
+    method: "GET",
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': bearer,
+    },
+  });
+
+  return (await res.json()) as APIResponse;
+}
+
+
+/**
+ * 
+ * @param token 
+ * @param teamId 
+ * @param platformId 
+ * @returns 
+ */
+export const getTeamPlatform = async (token: string, teamId: string, platformId: number) => {
+  if (!token) return noTokenResponse;
+
+  const url = `${API_ENDPOINT}/teams/${teamId}/team_platforms/${platformId}`;
+  const bearer = 'Bearer ' + token;
+  
+  const res = await fetch(url, {
+    method: "GET",
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': bearer,
+    },
+  });
+
+  return (await res.json()) as APIResponse;
+}
+
+/**
+ * 
+ * @param token 
+ * @param teamId 
+ * @param platformId 
+ * @param extraData 
+ * @returns 
+ */
+export const connectPlatform = async (token: string, teamId: string, platformId: number, extraData: string) => {
+  if (!token) return noTokenResponse;
+
+  const url = `${API_ENDPOINT}/teams/${teamId}/team_platforms`;
+  const bearer = 'Bearer ' + token;
+  
+  const res = await fetch(url, {
+    method: "POST",
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': bearer,
+      Accept: "application/json",
+    },
+    body: JSON.stringify({ platform: platformId, extras: extraData, connection_status: 1 }),
   });
 
   return (await res.json()) as APIResponse;
