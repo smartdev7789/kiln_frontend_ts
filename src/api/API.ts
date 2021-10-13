@@ -285,8 +285,6 @@ const additionalAppInfo = {
   platforms_info: [],
   leaderboards: [],
   iaps: [],
-  events: [],
-  ads: [],
   stats: [],
   graphs: [],
 };
@@ -316,7 +314,6 @@ const updateApp = async (token: string, id: string, data: AppInfo, etag: string)
 
   const url = `${API_ENDPOINT}/apps/${id}`;
   const bearer = 'Bearer ' + token;
-  console.log(data);
   const res = await fetch(url, {
     method: "PATCH",
     body: JSON.stringify(data),

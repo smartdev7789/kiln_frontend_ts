@@ -94,6 +94,7 @@ export interface BasicAppInfo {
   id: string ;
   type: 0 | 1;
   name: string;
+  service_type: number;
   default_language: string;
   description: string | null;
   summary: string | null;
