@@ -97,6 +97,7 @@ export const EditGameInfo = ({ history, match }: RouteComponentProps) => {
   const [gameID, setGameID] = useState<string | null>(null);
   const [token, setToken] = useState<string>('');
   const [gameData, setGameData] = useState<AppInfo | null>( null );
+  
   // Submit.
   const handleSubmit = async (formData: object) => {   
     // Start sniper
@@ -118,7 +119,7 @@ export const EditGameInfo = ({ history, match }: RouteComponentProps) => {
   // Obtiene y setea gameData.
   useEffect(() => {
     if ( token! && gameID! ){
-      API.app( token, gameID ).then( ( app ) => {
+      API.app(token, gameID).then((app) => {
         setGameData( (app as AppInfo ) );
       })
     }
