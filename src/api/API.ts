@@ -9,7 +9,15 @@ import {
 
 import { createIAP, deleteIAP, updateIAP } from "./IapAPI";
 import { createLeaderboard, deleteLeaderboard, updateLeaderboard } from "./LeaderboardAPI";
-import { getAccount, updateAccount, getTeam, updateTeam } from "./AccountAPI";
+import {
+  getAccount,
+  updateAccount,
+  getTeam,
+  updateTeam,
+  getTeamPlatforms,
+  getTeamPlatform,
+  connectPlatform
+} from "./AccountAPI";
 
 import { yesterday } from "../libs/date"
 import {
@@ -38,10 +46,9 @@ import {
 } from "./ReleasesAPI";
 
 // API.
+const API_VERSION = process.env.REACT_APP_API_VERSION
 export const API_ADDRESS = process.env.REACT_APP_API_ADDRESS
-export const API_VERSION = process.env.REACT_APP_API_VERSION
 export const API_ENDPOINT = `${API_ADDRESS}/${API_VERSION}`
-
 export const noTokenResponse = {
   "_status": "ERR",
   "_error": {
@@ -184,8 +191,6 @@ const graphs = async (token: string | null, filters:Filter) => {
       where = `?where={"application_id":"${filters.application_id}","platform_id":${filters.platform_id}}`;
   }
   
-  // console.log(url.concat(where))
-  
   if ( token ) {
     const bearer = 'Bearer ' + token;
     const res = await fetch( url.concat(where),
@@ -237,7 +242,6 @@ const platforms = async ( token: string | null ) => {
 const apps = async (token: string | null) => {
  
   if ( token !== '' ) {
-    // const url = `${API_ENDPOINT}/apps`;
     const url = `${API_ENDPOINT}/apps`;
     const bearer = 'Bearer ' + token;
     const res = await fetch( url, 
@@ -391,6 +395,9 @@ export const API = {
   updateAccount,
   getTeam,
   updateTeam,
+  getTeamPlatforms,
+  getTeamPlatform,
+  connectPlatform,
   // Stats and graphs
   stats,
   graphs,

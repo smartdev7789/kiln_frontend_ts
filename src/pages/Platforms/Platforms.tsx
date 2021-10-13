@@ -1,57 +1,90 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, RouteComponentProps } from "react-router-dom";
 import { Button, Grid, Header, Image } from "semantic-ui-react";
 import { API } from "../../api/API";
-import { Platform, PlatformConnectionStatus } from "../../api/DataTypes";
+import { Platform, PlatformConnectionStatus, TeamPlatform } from "../../api/DataTypes";
 import { Row, TableCard } from "../../components/Cards/TableCard";
 import { PlatformStatusIndicator } from "../../components/PlatformStatusIndicator";
-// import { Paths } from "../../routes";
 import { getToken } from "../../authentication/Authentication";
-
-const platformDataToRow = (
-  platformData: Platform,
-  {
-    connectText,
-    moreInfoText,
-  }: {
-    connectText: string;
-    moreInfoText: string;
-  }
-) => {
-  return {
-    id: platformData.id,
-    cellContents: [
-      <Header size="small">
-        <Image avatar src={platformData.icon} />
-        {platformData.name}
-      </Header>,
-      platformData.market,
-      <PlatformStatusIndicator status={platformData.connection_status} />,
-      <Button.Group>
-        <Button>{connectText}</Button>
-        <Button
-          as={Link}
-          to={{ pathname: platformData.more_info }}
-          target="_blank"
-        >
-          {moreInfoText}
-        </Button>
-      </Button.Group>,
-    ],
-  } as Row;
-};
+import { DispatchContext } from "../../App";
 
 export const Platforms = (props: RouteComponentProps) => {
   const { t } = useTranslation();
   const token = getToken();
   const [platforms, setPlatforms] = useState<Platform[]>([]);
+  const [teamPlatforms, setTeamPlatforms] = useState<TeamPlatform[]>([]);
+  const { state } = useContext(DispatchContext);
+
+  const connectPlatform = async (id: number) => {
+    if (!token || !state.account) return;
+
+    const response = await API.connectPlatform(token, state.account!.team_id, id, "");
+
+    if (response?._status !== "ERR") {
+      API.getTeamPlatforms(token, state.account!.team_id).then(response => {
+        setTeamPlatforms([
+          ...teamPlatforms,
+          (response._items! as TeamPlatform[]).filter(tp => tp.platform === id)[0]
+        ]);
+      });
+    }
+  }
+  
+  const platformDataToRow = (
+    platformData: Platform,
+    {
+      connectText,
+      moreInfoText,
+    }: {
+      connectText: string;
+      moreInfoText: string;
+    }
+  ) => {
+    const tp = teamPlatforms.filter((teamPlatform) => teamPlatform.platform === platformData.id);
+    const connectionStatus = (tp.length === 1)  ? tp[0].connection_status : 0;
+    const props = { disabled: false};
+    if (connectionStatus !== 0) props.disabled = true;
+
+    return {
+      id: platformData.id,
+      cellContents: [
+        <Header size="small">
+          <Image avatar src={platformData.icon} />
+          {platformData.name}
+        </Header>,
+        platformData.market,
+        <PlatformStatusIndicator status={connectionStatus} />,
+        <Button.Group>
+          <Button {...props} onClick={() => connectPlatform(platformData.id)}>{connectText}</Button>
+          <Button
+            as={Link}
+            to={{ pathname: platformData.more_info }}
+            target="_blank"
+          >
+            {moreInfoText}
+          </Button>
+        </Button.Group>,
+      ],
+    } as Row;
+  };
 
   useEffect(() => {
-    API.platforms(token).then( ( data ) => {
-      setPlatforms(data._items);
+    if (!token || !state.account) return;
+
+    API.platforms(token).then((data) => {
+      
+      API.getTeamPlatforms(token, state.account!.team_id).then(response => {
+        if (response._items) {
+          setTeamPlatforms(response._items as TeamPlatform[]);
+        }
+
+        setPlatforms(data._items);
+      });
+
     });
-  }, [token]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [token, state.account]);
 
   const connectedPlatforms = platforms.filter(
     (platform) =>
@@ -68,18 +101,6 @@ export const Platforms = (props: RouteComponentProps) => {
             {t("platforms.connected")})
           </span>
         </Header>
-        {/* <Button
-          compact
-          positive
-          icon
-          labelPosition="left"
-          style={{ marginBottom: 0, marginLeft: "auto", padding: "0.5em" }}
-          as={Link}
-          to={Paths.EditAccountInfo}
-        >
-          <Icon name="pencil" />
-          {t("platforms.editInfo")}
-        </Button> */}
       </Grid.Row>
       <Grid.Row>
         <TableCard

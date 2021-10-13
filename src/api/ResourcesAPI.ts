@@ -1,10 +1,5 @@
-import { noTokenResponse } from "./API";
+import { noTokenResponse, API_ENDPOINT } from "./API";
 import { APIResponse } from "./DataTypes";
-
-// API.
-const API_ADDRESS = process.env.REACT_APP_API_ADDRESS
-const API_VERSION = process.env.REACT_APP_API_VERSION
-const API_ENDPOINT = `${API_ADDRESS}/${API_VERSION}`
 
 // Resources.
 
