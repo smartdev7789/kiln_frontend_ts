@@ -19,7 +19,6 @@ import { EditGameServices } from "./pages/EditGameServices/EditGameServices";
 import { EditGameReleases } from "./pages/EditGameReleases/EditGameReleases";
 import { Platforms } from "./pages/Platforms/Platforms";
 import { EditAccountInfo } from "./pages/EditAccountInfo/EditAccountInfo";
-import { Documentation } from "./pages/Documentation/Documentation";
 
 export interface RouteConfig {
   path: string;
@@ -133,12 +132,12 @@ export const ROUTES: RouteConfig[] = [
     component: Platforms,
     text: "platforms.title",
   },
-  {
-    path: "https://gamebake.github.io/kiln-unity/",
-    external: true,
-    component: Documentation,
-    text: "documentation.title",
-  },
+  // {
+  //   path: "https://gamebake.github.io/kiln-unity/",
+  //   external: true,
+  //   component: Documentation,
+  //   text: "documentation.title",
+  // },
   {
     path: Paths.NewGame,
     exact: true,

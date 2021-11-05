@@ -80,9 +80,9 @@ export const getAllPlatformsInfo = async (token: string, appID: string) => {
  */
  export const createPlatformInfo = async (
     token: string, 
-    appID:string, 
-    platformID:number, 
-    platformInfo:{ [key: string]: FieldValue } //
+    appID: string, 
+    platformID: number, 
+    platformInfo: { [key: string]: FieldValue }
   ) => {
   if ( token !== '' ) {
     const url = `${API_ENDPOINT}/apps/${appID}/platforms_info`

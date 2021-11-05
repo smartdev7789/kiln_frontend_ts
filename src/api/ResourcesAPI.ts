@@ -68,17 +68,10 @@ import { APIResponse } from "./DataTypes";
  * @returns Platform info.
  */
 export const addResource = async ( token: string, platformInfoID: number, type: string, file: File ) => {
-    // console.log(type)
-    // console.log(file)
-    // console.log(platformInfoID)
-    // console.log(token)
-
   if ( token !== '' ) {
     const url = `${API_ENDPOINT}/platforms_info/${platformInfoID}/resources/`
     const bearer = 'Bearer ' + token
     const id =  `${Date.now()}`
-    
-
 
     const formData = new FormData();
     formData.append('id', id)

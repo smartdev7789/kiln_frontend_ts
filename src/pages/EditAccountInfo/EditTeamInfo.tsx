@@ -1,7 +1,7 @@
 import { Grid, Header, Segment } from "semantic-ui-react";
 import { useTranslation } from "react-i18next";
 import React, { useContext, useEffect, useState } from "react";
-import { API } from "../../api/API";
+import { API, API_ADDRESS } from "../../api/API";
 import {
   FormField,
   FieldType,
@@ -10,6 +10,7 @@ import {
 import { DispatchContext } from "../../App";
 import { FormDataInterface, Team } from "../../api/DataTypes";
 import { getToken } from "../../authentication/Authentication";
+import { Link } from "react-router-dom";
 
 export type LangCode = {
   name: string;
@@ -69,8 +70,8 @@ export const EditTeamInfo = () => {
       maxLength: 100,
     },
     {
-      key: "business_license",
-      label: "editTeamInfo.business_license",
+      key: "business_licence",
+      label: "editTeamInfo.business_licence",
       type: FieldType.FileUpload,
       required: false,
       onChange: handleLicenseChange,
@@ -140,7 +141,12 @@ export const EditTeamInfo = () => {
                 },
               ]}
           />
-        }
+          }
+          {team?.business_licence &&
+            <a href={`${API_ADDRESS}${team?.business_licence.file}`} target="_blank" rel="noreferrer">
+              Uploaded Business Licence
+            </a>
+          }
         </Segment>
       </Grid.Row>
     </>

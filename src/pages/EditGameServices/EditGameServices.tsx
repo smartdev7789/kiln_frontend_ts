@@ -1,157 +1,147 @@
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, RouteComponentProps } from "react-router-dom";
-import { Button, Grid, Header, Table } from "semantic-ui-react";
+import { Accordion, Button, Grid, Header, Icon } from "semantic-ui-react";
 import { API } from "../../api/API";
-import {
-  APIResponse,
-  AppInfo,
-  IAP,
-  IAPType,
-} from "../../api/DataTypes";
-import { TableCard } from "../../components/Cards/TableCard";
-import {
-  EditGameServicesSteps,
-  GameCreationSteps,
-} from "../../components/GameCreationSteps";
+import { Ad, APIResponse, AppInfo, AppService, Service, ServiceCategory } from "../../api/DataTypes";
+import { AdsService } from "../../components/Services/AdsService";
+import { EditGameServicesSteps, GameCreationSteps, } from "../../components/GameCreationSteps";
 import { PathHelpers } from "../../routes";
 import { PagePlaceholder } from "../../components/Placeholders/PagePlaceholder";
-// import { IAPRow } from "./IAPRow";
 import { getToken } from "../../authentication/Authentication";
 
-export const IAPTypeText = {
-  [IAPType.Consumable]: "iapType.consumable",
-  [IAPType.NonConsumable]: "iapType.nonconsumable",
-};
+const styles = {
+  accordion: {
+    div: { width: '100%' },
+    title: {
+      fontSize: '1.2rem',
+      color: '#7a7a7a',
+      icon: {
+        position: 'absolute',
+        right: '0',
+      },
+    },
+  } 
+}
 
-// Componente
+// Component
 export const EditGameServices = (props: RouteComponentProps) => {
   const { t } = useTranslation();
-
-  const [IAPsBeingEdited, setIAPsBeingEdited] = useState<number[]>([]);
-  const [gameData, setGameData] = useState<AppInfo | null>( null )
+  const [gameData, setGameData] = useState<AppInfo | null>(null)
   const [gameID, setGameID] = useState<string | null>(null);
+  const [activeIndex, setActiveIndex] = useState(-1)
   const [token, setToken] = useState<string>('');
+  const [services, setServices] = useState<Service[]>([]);
+  const [appServices, setAppServices] = useState<AppService[]>([]);
 
   /**
    * 
-   * @param newIAP 
-   * @param index 
+   * @param type 
+   * @param data 
    * @returns 
    */
-  const handleIAPChange = (newIAP: IAP, index: number) => {
-    if (gameData === null) return;
-
-    setGameData({
-      ...gameData,
-      iaps: gameData.iaps.map((iap, i) => (i === index ? newIAP : iap)),
-    });
-  };
-
-  /**
-   * 
-   * @returns 
-   */
-  const addNewIAP = () => {
-    if (!gameData) return;
-
-    setGameData({
-      ...gameData,
-      iaps: [
-        ...gameData.iaps,
-        { id: null, type: 0, kiln_id: "NEW_IAP", price: 1, name: "New item", _etag: null },
-      ],
-    });
-
-    enablIAPEditing( gameData.iaps.length);
-  };
-  
-  /**
-   * 
-   * @param index 
-   * @returns 
-   */
-  const deleteIAP = async (index: number) => {
-    if (!gameData) return;
-
-    const iap = gameData.iaps[index];
-
-    const removeIap = () => {
-      setGameData({
-        ...gameData,
-        iaps: gameData.iaps.filter((a, i) => i !== index),
-      });
-
-      removeIAPEditing(index);
-    }
-
-    // If this is a non saved IAP
-    if (!iap.id) {
-      removeIap();
-    }
-    else {
-      const response = await API.deleteIAP(token, gameData.id, iap.id!, iap._etag!)
-
-      if (response._status === "OK") {
-        removeIap();
-      }
-      else {
-        // Error
-        console.log(response);
-      }
-    }
-  };
-
-  /**
-   * 
-   * @param index 
-   * @returns 
-   */
-  const saveIAP = async (index: number) => {
-    if (!gameData) return;
-
-    const iap = gameData!.iaps.filter((iap: IAP, i: number) => (i === index))[0];
-
-    let response: APIResponse;
+  const ServiceForm = (type: string, serviceProviders: Service[], selectedProvider: number | undefined, data: Ad[]) => {
     
-    if (!iap.id) response = await API.createIAP(token, gameData.id, iap);
-    else response = await API.updateIAP(token, gameData.id, iap, iap._etag!); 
+    /**
+     * 
+     * @param service_id 
+     * @param extras 
+     */
+    const saveService = async (service_id: number, extras: string): Promise<boolean> => {
+      const service_category = services.find(service => service.id === service_id)?.category;
 
-    if (response._status === "OK") {
-      gameData.iaps[index]._etag = response._etag;
-      if (!gameData.iaps[index].id && response.id) {
-        gameData.iaps[index].id = parseInt(response.id);
+      // TODO: Throw error if service_category is undefined
+      if (service_category === undefined) return false;
+
+      let service = appServices.filter(service => service.category === service_category)[0];
+
+      let response: APIResponse;
+
+      if (service === undefined) response = await API.createAppService(token, gameData!.id, service_id, service_category, extras);
+      else response = await API.updateAppService(token, gameData!.id,
+        { ...service, service: service_id, extras: extras },
+        service._etag
+      );
+
+      if (response._status === 'OK') {
+        const index = appServices.findIndex(s => service.id === s.id);
+        if (index === -1) {
+          setAppServices([
+            ...appServices,
+            {
+              id: parseInt(response.id!),
+              application: gameData!.id,
+              service: service_id,
+              category: service_category,
+              extras: extras,
+              _etag: response._etag,
+            }
+          ]);
+        }
+        else {
+          setAppServices(
+            appServices.map((service, i) => i === index ? { ...service, service: service_id, extras: extras, _etag: response._etag } : service)
+          );
+        }
+
+        return true;
+      }
+      
+      return false;
+    };
+
+    /**
+     * 
+     */
+    const deleteService = async (service_id: number): Promise<boolean> => {
+      const service_category = services.find(service => service.id === service_id)?.category;
+
+      // TODO: Throw error if service_category is undefined
+      if (service_category === undefined) return false;
+
+      let service = appServices.filter(service => service.category === service_category)[0];
+
+      if (service !== undefined) {
+        const response = await API.deleteAppService(token, gameData!.id, service.id, service._etag);
+        
+        if (response._status === 'OK') {
+          setAppServices(appServices.filter(s => service.id !== s.id));
+          return true;
+        }
       }
 
-      setIAPsBeingEdited(IAPsBeingEdited.filter((number) => number !== index));
+      return true;
+    };
+
+    switch (type) {
+      case "Ads":
+        return (
+          <AdsService
+            serviceProviders={serviceProviders}
+            provider={selectedProvider}
+            ads={data}
+            onDelete={deleteService}
+            onSave={saveService}
+          />
+        );
+        
+      case "Attribution":
+      case "Analytics":
+      default:
+        return null;
     }
-    
-    return response;
-  };
+  }
   
   /**
-   * 
+   * Handles accordeon clicking
    * @param index 
    */
-  const enablIAPEditing = (index: number) => {
-    setIAPsBeingEdited([...IAPsBeingEdited, index]);
-  };
+  const handleClick = (index: number) => {
+    const newIndex = activeIndex === index ? -1 : index
+    setActiveIndex( newIndex )
+  }
 
-  /**
-   * 
-   * @param index 
-   */
-  const removeIAPEditing = (index: number) => {
-    setIAPsBeingEdited(
-      IAPsBeingEdited.filter((number) => number !== index).map((n) => {
-        if (n > index) return n - 1;
-
-        return n;
-      })
-    );
-  };
-  
-  // obtiene el ID de la app y setea el token
+  // Gets app id and sets the auth token
   useEffect( () => {
     if ( props.match.params! ) {
       setGameID( (props.match.params as { id: string }).id );
@@ -162,24 +152,51 @@ export const EditGameServices = (props: RouteComponentProps) => {
     }
   }, [ props.match.params ]);
   
-  // Obtiene y setea gameData.
+  // Gets gameData
   useEffect(() => {
-    if ( token! && gameID! ){
-      API.app( token, gameID ).then( ( app ) => {
-        setGameData( (app as AppInfo ) );
+    if (token! && gameID!) {
+      API.app(token, gameID).then((app) => {
+        setGameData((app as AppInfo));
+
+        // Get the app services
+        API.getAppServices(token, app.id!).then((services) => {
+          setAppServices(services._items as AppService[]);
+        });
+      });
+
+      // Get supported service
+      API.getSupportedServices(token).then((r) => {
+        setServices(r._items as Service[]);
       })
     }
-  },[token, gameID])
+  }, [token, gameID])
 
   if (gameData === null) return <PagePlaceholder />;
 
-  const gameIAPs = gameData.iaps || [];
+  const servicesTypes: string[] = [];
+  ["Ads", "Attribution", "Analytics", "Attribution"].forEach((type) => {
+    if (services.filter(service => service.category === (ServiceCategory as any)[type.toUpperCase()]).length > 0) {
+      servicesTypes.push(type);
+    }
+  });
+
+
+  let adsData: AppService | { service: undefined, extras: string | undefined, _etag: string | undefined };
+  
+  adsData = appServices.filter(service => service.category === ServiceCategory.ADS)[0];
+
+  if(adsData === undefined) adsData = {
+    service: undefined,
+    extras: undefined,
+    _etag: undefined,
+  };
 
   return (
     <Grid style={{ marginTop: "1em" }}>
+
       <Grid.Row style={{ borderBottom: "2px solid #C4C4C4" }}>
         <Header size="huge" style={{ marginBottom: 0 }}>
-          {gameData.name} - {t("editGame.monetisation.title")}
+          {gameData.name} - {t("editGame.services.title")}
         </Header>
         <Button
           compact
@@ -197,50 +214,39 @@ export const EditGameServices = (props: RouteComponentProps) => {
           gameId={gameData.id!}
         />
       </Grid.Row>
+
+      {/* Services Types */}
       <Grid.Row>
-        <TableCard
-          headers={[
-            "itemName",
-            "id",
-            "type",
-            "price",
-            "status",
-            "actions",
-          ].map((string) =>
-            t(`editGame.monetisation.iapTable.headers.${string}`)
-          )}
-        >
-          {/* {gameIAPs.map((iapData, i) => (
-            <IAPRow
-              key={i}
-              index={i}
-              iap={iapData}
-              editing={IAPsBeingEdited.includes(i)}
-              onChange={handleIAPChange}
-              onDelete={deleteIAP}
-              enableEditing={enablIAPEditing}
-              onSave={saveIAP}
-            />
-          ))} */}
-          <Table.Row>
-            <Table.Cell></Table.Cell>
-            <Table.Cell></Table.Cell>
-            <Table.Cell></Table.Cell>
-            <Table.Cell></Table.Cell>
-            <Table.Cell></Table.Cell>
-            <Table.Cell>
-              <Button
-                floated="right"
-                icon="plus"
-                labelPosition="left"
-                positive
-                content={t("editGame.monetisation.iapTable.new")}
-                onClick={addNewIAP}
-              />
-            </Table.Cell>
-          </Table.Row>
-        </TableCard>
+  
+        <Accordion styled style={styles.accordion.div} >
+          {servicesTypes.map((service, i) => {
+            
+            return (
+              <Fragment key={i}>
+                <Accordion.Title
+                  style={styles.accordion.title}
+                  active={activeIndex === i}
+                  index={i}
+                  onClick={() => { handleClick(i) }}
+                >
+                  {service}
+                  <Icon name='dropdown' style={styles.accordion.title.icon} />
+                </Accordion.Title>
+
+                <Accordion.Content active={activeIndex === i}>
+                  {ServiceForm(
+                    service,
+                    services.filter((v) => { return v.category === ServiceCategory.ADS }),
+                    adsData.service,
+                    adsData.extras ? JSON.parse(adsData.extras) : [])}
+                </Accordion.Content>
+              </Fragment>
+            )
+          })}
+        </Accordion>
+  
       </Grid.Row>
+
     </Grid>
   );
 };

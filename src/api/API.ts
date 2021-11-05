@@ -45,6 +45,15 @@ import {
   deleteReleaseBuild
 } from "./ReleasesAPI";
 
+import {
+  getSupportedAdServices,
+  getSupportedServices,
+  getAppServices,
+  createAppService,
+  updateAppService,
+  deleteAppService
+} from "./ServicesAPI"
+
 // API.
 const API_VERSION = process.env.REACT_APP_API_VERSION
 export const API_ADDRESS = process.env.REACT_APP_API_ADDRESS
@@ -432,4 +441,11 @@ export const API = {
   downloadReleaseBuild,
   publishRelease,
   deleteReleaseBuild,
+  // Services
+  getSupportedAdServices,
+  getSupportedServices,
+  getAppServices,
+  createAppService,
+  updateAppService,
+  deleteAppService,
 };

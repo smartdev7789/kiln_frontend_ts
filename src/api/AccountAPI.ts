@@ -81,49 +81,51 @@ export const getTeam = async (token: string, teamId: string) => {
  * @param etag 
  * @returns 
  */
- export const updateTeam = async (token: string, teamId: string, teamData: Team, etag: string, file?: File) => {
-  if (!token) return noTokenResponse;
+  export const updateTeam = async (token: string, teamId: string, teamData: Team, etag: string, file?: File) => {
+    if (!token) return noTokenResponse;
    
-  const url = `${API_ENDPOINT}/teams/${teamId}`;
+    const url = `${API_ENDPOINT}/teams/${teamId}`;
    
-  const bearer = 'Bearer ' + token;
-  const headers = {
-    'Authorization': bearer,
-    'Accept': "application/json",
-    'Content-Type': 'application/json',
-    'If-Match': etag,
-  }
-   
-   const formData = new FormData();
-   let jsonBody;
-  if (file) {
-    formData.append('team_name', `"${teamData.team_name}"`);
-    formData.append('contact_email', `"${teamData.contact_email}"`);
-    formData.append('contact_number', `"${teamData.contact_number}"`);
-    formData.append('company_name', `"${teamData.company_name}"`);
-    formData.append('company_number', `"${teamData.company_number}"`);
-    formData.append('package', file)
-  }
-  else {
-    //@ts-ignore
-    headers['Content-Type'] = 'application/json';
-
-    jsonBody = {
-      team_name: teamData.team_name,
-      contact_email: teamData.contact_email,
-      contact_number: teamData.contact_number,
-      company_name: teamData.company_name,
-      company_number: teamData.company_number,
+    const bearer = 'Bearer ' + token;
+    const headers = {
+      'Authorization': bearer,
+      'Accept': "application/json",
+      'If-Match': etag,
+    };
+    
+    let jsonBody;
+    const formData = new FormData();
+    
+    if (file) {
+      // We need to pass the values like this so they're not interpreted as a potential
+      // invalid type on the backend
+      formData.append('team_name', `"${teamData.team_name}"`);
+      formData.append('contact_email', `"${teamData.contact_email}"`);
+      formData.append('contact_number', `"${teamData.contact_number}"`);
+      formData.append('company_name', `"${teamData.company_name}"`);
+      formData.append('company_number', `"${teamData.company_number}"`);
+      formData.append('business_licence', file);
     }
-  }
-  
-  const res = await fetch(url, {
-    method: "PATCH",
-    headers: headers,
-    body: file ? formData : JSON.stringify(jsonBody),
-  }); 
+    else {
+      //@ts-ignore
+      headers['Content-Type'] = 'application/json';
 
-  return (await res.json()) as APIResponse;
+      jsonBody = {
+        team_name: teamData.team_name,
+        contact_email: teamData.contact_email,
+        contact_number: teamData.contact_number,
+        company_name: teamData.company_name,
+        company_number: teamData.company_number,
+      }
+    }
+    
+    const res = await fetch(url, {
+      method: "PATCH",
+      headers: headers,
+      body: file ? formData : JSON.stringify(jsonBody),
+    }); 
+    
+    return (await res.json()) as APIResponse;
  }
 
  // Team Platforms

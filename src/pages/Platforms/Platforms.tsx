@@ -1,6 +1,6 @@
 import { useEffect, useState, useContext } from "react";
 import { useTranslation } from "react-i18next";
-import { Link, RouteComponentProps } from "react-router-dom";
+import { RouteComponentProps } from "react-router-dom";
 import { Button, Grid, Header, Image } from "semantic-ui-react";
 import { API } from "../../api/API";
 import { Platform, PlatformConnectionStatus, TeamPlatform } from "../../api/DataTypes";
@@ -12,9 +12,11 @@ import { DispatchContext } from "../../App";
 export const Platforms = (props: RouteComponentProps) => {
   const { t } = useTranslation();
   const token = getToken();
-  const [platforms, setPlatforms] = useState<Platform[]>([]);
   const [teamPlatforms, setTeamPlatforms] = useState<TeamPlatform[]>([]);
   const { state } = useContext(DispatchContext);
+
+  // All supported platforms
+  const platforms = state.platforms || []
 
   const connectPlatform = async (id: number) => {
     if (!token || !state.account) return;
@@ -57,13 +59,13 @@ export const Platforms = (props: RouteComponentProps) => {
         <PlatformStatusIndicator status={connectionStatus} />,
         <Button.Group>
           <Button {...props} onClick={() => connectPlatform(platformData.id)}>{connectText}</Button>
-          <Button
+          {/* <Button
             as={Link}
             to={{ pathname: platformData.more_info }}
             target="_blank"
           >
             {moreInfoText}
-          </Button>
+          </Button> */}
         </Button.Group>,
       ],
     } as Row;
@@ -71,19 +73,12 @@ export const Platforms = (props: RouteComponentProps) => {
 
   useEffect(() => {
     if (!token || !state.account) return;
-
-    API.platforms(token).then((data) => {
       
-      API.getTeamPlatforms(token, state.account!.team_id).then(response => {
-        if (response._items) {
-          setTeamPlatforms(response._items as TeamPlatform[]);
-        }
-
-        setPlatforms(data._items);
-      });
-
+    API.getTeamPlatforms(token, state.account!.team_id).then(response => {
+      if (response._items) {
+        setTeamPlatforms(response._items as TeamPlatform[]);
+      }
     });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token, state.account]);
 
   const connectedPlatforms = platforms.filter(
