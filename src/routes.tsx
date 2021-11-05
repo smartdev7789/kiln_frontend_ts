@@ -15,10 +15,10 @@ import { EditGamePlatforms } from "./pages/EditGamePlatforms/EditGamePlatforms";
 import { EditGameInfo } from "./pages/EditGameInfo/EditGameInfo";
 import { EditGameMonetisation } from "./pages/EditGameMonetisation/EditGameMonetisation";
 import { EditGameLeaderboards } from "./pages/EditGameLeaderboards/EditGameLeaderboards";
+import { EditGameServices } from "./pages/EditGameServices/EditGameServices";
 import { EditGameReleases } from "./pages/EditGameReleases/EditGameReleases";
 import { Platforms } from "./pages/Platforms/Platforms";
 import { EditAccountInfo } from "./pages/EditAccountInfo/EditAccountInfo";
-import { Documentation } from "./pages/Documentation/Documentation";
 
 export interface RouteConfig {
   path: string;
@@ -64,6 +64,7 @@ export enum Paths {
   EditGameInfo = "/games/:id/edit/info",
   EditGameMonetisation = "/games/:id/edit/monetisation",
   EditGameLeaderboards = "/games/:id/edit/leaderboards",
+  EditGameServices = "/games/:id/edit/services",
   EditGameReleases = "/games/:id/edit/releases",
   ForgotPassword = `/account/forgot-password`,
   ResetPassword = `/account/reset-password`,
@@ -87,6 +88,7 @@ export const PathHelpers = {
   EditGameInfo: createPathHelper(Paths.EditGameInfo),
   EditGameMonetisation: createPathHelper(Paths.EditGameMonetisation),
   EditGameLeaderboards: createPathHelper(Paths.EditGameLeaderboards),
+  EditGameServices: createPathHelper(Paths.EditGameServices),
   EditGameReleases: createPathHelper(Paths.EditGameReleases),
   Analytics: (app_id: string) => `${Paths.Analytics}?app_id=${app_id}`,
 };
@@ -130,12 +132,12 @@ export const ROUTES: RouteConfig[] = [
     component: Platforms,
     text: "platforms.title",
   },
-  {
-    path: "https://gamebake.github.io/kiln-unity/",
-    external: true,
-    component: Documentation,
-    text: "documentation.title",
-  },
+  // {
+  //   path: "https://gamebake.github.io/kiln-unity/",
+  //   external: true,
+  //   component: Documentation,
+  //   text: "documentation.title",
+  // },
   {
     path: Paths.NewGame,
     exact: true,
@@ -171,6 +173,12 @@ export const ROUTES: RouteConfig[] = [
     exact: true,
     hideInMenu: true,
     component: EditGameLeaderboards,
+  },
+  {
+    path: Paths.EditGameServices,
+    exact: true,
+    hideInMenu: true,
+    component: EditGameServices,
   },
   {
     path: Paths.EditGameReleases,

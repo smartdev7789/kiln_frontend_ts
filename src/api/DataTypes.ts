@@ -38,6 +38,8 @@ export interface APIResponse {
     ResourcesData[] | 
     Build[] |
     TeamPlatform[] | 
+    Service[] |
+    AppService[] |
     null;
   _meta: Meta | null;
 }
@@ -95,6 +97,7 @@ export interface BasicAppInfo {
   id: string ;
   type: 0 | 1;
   name: string;
+  pkg_name: string | null;
   service_type: number;
   default_language: string;
   description: string | null;
@@ -162,7 +165,7 @@ export interface Team {
   company_name: string;
   contact_email: string;
   company_number: string;
-  business_license: string;
+  business_licence: AssetFile | null;
   _etag: string,
 }
 
@@ -243,11 +246,11 @@ export enum AdStatus {
 }
 
 export interface Ad {
-  id: number | null;
+  // id: number | null;
   kiln_id: string;
   type: AdType;
   status: AdStatus;
-  _etag: string | null;
+  // _etag: string | null;
 }
 
 export enum IAPType {
@@ -359,4 +362,26 @@ export interface Filter {
 
 export interface FormDataInterface {
   [key: string]: FieldValue
+}
+
+export enum ServiceCategory {
+  CORE = 0,
+  ANALYTICS = 1,
+  ADS = 2,
+  ATTRIBUTION = 3,
+}
+
+export interface Service {
+  id: number;
+  name: string;
+  category: number;
+}
+
+export interface AppService {
+  id: number;
+  application: string;
+  service: number;
+  category: number;
+  extras: string;
+  _etag: string;
 }

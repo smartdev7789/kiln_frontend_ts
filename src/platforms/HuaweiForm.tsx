@@ -107,7 +107,7 @@ const formFields: FormField[] = [
   {
     key: 'age_rating',
     type: FieldType.Dropdown,
-    label: "editGame.info.age_rating",
+    label: "editGame.info.ageRating",
     required: true,
     moreInfoLink: "https://developer.huawei.com/consumer/en/doc/50125",
     options: ["3+", "7+", "12+", "16+", "18+"].map((rating) => ({
@@ -115,17 +115,7 @@ const formFields: FormField[] = [
       value: rating,
       text: rating,
     })),
-  },
-  // {
-  //   key: "assets",
-  //   type: FieldType.MultipleAssets,
-  //   label: "editGame.info.assets.label",
-  // },
-  // {
-  //   key: "assetLists",
-  //   type: FieldType.FixedAssetsList,
-  //   label: "editGame.info.assets.label",
-  // },
+  }
 ];
 
 // Interfaces
@@ -143,7 +133,7 @@ interface interfaceFormData {
  * @param param0
  * @returns 
  */
-export const HuaweiForm = ( { appID, platformInfoID }:HuaweiFormProps ) => {
+export const HuaweiForm = ( { appID, platformInfoID }: HuaweiFormProps ) => {
   // TODO: This shouldn't be hardcoded. But we're just supporting this for the moment.
   const platformID = 1;
   const [ token ] = useState( getToken() )
@@ -169,6 +159,7 @@ export const HuaweiForm = ( { appID, platformInfoID }:HuaweiFormProps ) => {
       platform: platformID,
       age_rating: formData.age_rating,
       categories: formData.categories_1,
+      // pkg_name: formData.package_name,
     }
 
     if (toUpdate) {

@@ -43,6 +43,7 @@ type ButtonData = {
   submit?: boolean;
   text: string;
   positive?: boolean;
+  negative?: boolean;
   disabled?: boolean;
   onClick?: () => void;
 };
@@ -238,9 +239,10 @@ export const ValidatedForm = (props: ValidatedFormProps) => {
               style={{ margin: '5px' }}
               key={buttonData.text}
               disabled={
-                buttonData.disabled || buttonData.submit ? !isValid : undefined
+                buttonData.disabled || (buttonData.submit ? !isValid : undefined)
               }
               positive={buttonData.positive}
+              negative={buttonData.negative}
               type={buttonData.submit ? "submit" : "button"}
               onClick={buttonData.onClick}
             >

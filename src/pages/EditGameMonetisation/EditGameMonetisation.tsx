@@ -118,10 +118,10 @@ export const EditGameMonetisation = (props: RouteComponentProps) => {
     else response = await API.updateIAP(token, gameData.id, iap, iap._etag!); 
 
     if (response._status === "OK") {
-      gameData.iaps[index]._etag = response._etag;
-      if (!gameData.iaps[index].id && response.id) {
-        gameData.iaps[index].id = parseInt(response.id);
-      }
+      setGameData({
+        ...gameData,
+        iaps: gameData.iaps.map((iap, i) => (i === index ? {...gameData.iaps[i], _etag: response._etag, id: parseInt(response.id!)} : iap)),
+      });
 
       setIAPsBeingEdited(IAPsBeingEdited.filter((number) => number !== index));
     }
@@ -186,7 +186,7 @@ export const EditGameMonetisation = (props: RouteComponentProps) => {
           positive
           style={{ marginBottom: 0, marginLeft: "auto", padding: "0.5em" }}
           as={Link}
-          to={PathHelpers.EditGameLeaderboards({ id: gameData.id })}
+          to={PathHelpers.EditGameServices({ id: gameData.id })}
         >
           {t("editGame.nextStep")}
         </Button>

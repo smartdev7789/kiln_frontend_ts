@@ -151,14 +151,14 @@ export const ReleaseForm = ({ appId, platforms, index, release, onSubmit, onDele
    * Erase and unpublish build
    * @param id Id of build to erase and unpublish
    */
-  // const deleteBuild = (id: number, index: number) => async (event: any) => {
   const deleteBuild = (build: Build) => async (event: any) => {
+
     if (window.confirm(t("editGame.releases.form.unpublishMessage"))) {
       const response = await API.deleteReleaseBuild(token, appId!, release.id, build.platform);
       
       if (response._status === "OK") {
         if (release.builds) {
-          release.builds = release.builds.filter((b) => b !== build); 
+          release.builds = release.builds.filter((b) => b !== build);
         }
         setBuilds(builds.filter((b: Build) => (b !== build)));
       }
@@ -206,8 +206,7 @@ export const ReleaseForm = ({ appId, platforms, index, release, onSubmit, onDele
               },
               {
                 text: "editGame.releases.delete",
-                positive: false,
-                disabled: true,
+                disabled: release.id === 0 ? true : false,
                 onClick: () => { onDelete(index); }
               },
             ]}
