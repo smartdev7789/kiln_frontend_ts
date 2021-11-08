@@ -34,6 +34,7 @@
     "company_number": "Company number",
     "contact_email": "Contact e-mail",
     "business_licence": "Business licence",
+    "uploaded_licence": "Uploaded Business Licence",
     "submit": "Submit"
   },
   "platforms": {
@@ -128,7 +129,8 @@
       },
       "accordion":{
         "comming-soon": "Comming soon"
-      }
+      },
+      "noPlatforms": "You need to connect your team to at least one platform first."
     },
     "monetisation": {
       "title": "Monetisation",

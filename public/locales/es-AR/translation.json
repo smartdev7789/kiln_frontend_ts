@@ -1,31 +1,40 @@
 {
   "login": {
-    "title": "Iniciar sesión",
-    "header": "Iniciar sesión",
+    "title": "Log in",
+    "header": "Log In",
     "email": "E-mail",
-    "user": "Usuario",
-    "password": "Contraseña",
-    "login": "Acceso",
-    "forgotPassword": "¿Olvidó su contraseña?"
+    "user": "User",
+    "password": "Password",
+    "login": "Login",
+    "forgotPassword": "Forgot password?"
   },
   "analytics": {
     "title": "Analytics",
-    "no_data_yet": "Todavía no hay datos",
     "top_games": {
-      "header": "Los mejores juegos"
+      "header": "Top games"
     },
     "top_platforms": {
-      "header": "Las mejores plataformas"
+      "header": "Top platforms"
+    },
+    "graphs": {
+      "set-filter": "Set filter to show graphs"
     }
   },
   "editAccountInfo": {
     "title": "Edit account info",
     "name": "Name",
     "email": "E-mail",
+    "submit": "Submit"
+  },
+  "editTeamInfo": {
+    "title": "Edit team info",
+    "team_name": "Team Name",
     "contact_number": "Contact number",
     "company_name": "Company name",
+    "company_number": "Company number",
     "contact_email": "Contact e-mail",
     "business_licence": "Business licence",
+    "uploaded_licence": "Uploaded Business Licence",
     "submit": "Submit"
   },
   "platforms": {
@@ -68,7 +77,8 @@
         "actions": "Actions",
         "status": "Status",
         "type": "Type",
-        "default_language":"Language"
+        "default_language":"Language",
+        "releases":"Releases"
       },
       "edit": "Edit",
       "releases": "Releases"
@@ -96,12 +106,16 @@
   },
   "gameCreationSteps": {
     "platforms": "Platforms",
-    "gameInfo": "Game info",
-    "monetisation": "Monetisation",
-    "analytics": "Analytics"
+    "gameInfo": "Info",
+    "iap": "In App Purchases",
+    "leaderboards": "Leaderboards",
+    "services": "Services",
+    "analytics": "Analytics",
+    "releases": "Releases"
   },
   "editGame": {
     "nextStep": "Next step",
+    "end": "Finish",
     "platforms": {
       "title": "Platforms",
       "table": {
@@ -112,10 +126,15 @@
           "status": "Status"
         },
         "edit": "Edit info"
-      }
+      },
+      "accordion":{
+        "comming-soon": "Comming soon"
+      },
+      "noPlatforms": "You need to connect your team to at least one platform first."
     },
     "monetisation": {
       "title": "Monetisation",
+      "idError": "ID needs to be unique",
       "adTable": {
         "headers": {
           "type": "Type",
@@ -125,8 +144,10 @@
         },
         "new": "New ad",
         "delete": "Delete",
+        "remove": "Remove",
         "edit": "Edit ad",
-        "save": "Save ad"
+        "save": "Save ad",
+        "saveChanges": "Save changes"
       },
       "iapTable": {
         "headers": {
@@ -141,16 +162,20 @@
         "delete": "Delete",
         "edit": "Edit IAP",
         "save": "Save IAP"
-      },
-      "analytics": {
+      }
+    },
+    "leaderboards": {
+      "title": "Leaderboards",
+      "leaderboardTable": {
         "headers": {
           "id": "ID",
+          "order": "Order",
           "actions": "Actions"
         },
-        "new": "New event",
+        "new": "New leaderboard",
         "delete": "Delete",
-        "edit": "Edit event",
-        "save": "Save event"
+        "edit": "Edit leaderboard",
+        "save": "Save leaderboard"
       }
     },
     "analytics": {
@@ -168,19 +193,65 @@
     },
     "info": {
       "title": "Game info",
+      "packageName": "Package Name",
+      "submit": "Submit",
       "screenshots": "Screenshots",
-      "age_rating": "Age rating",
+      "ageRating": "Age rating",
       "assets": {
         "label": "Assets",
         "icons": "Icons",
         "screenshots": "Screenshots",
-        "videos": "Videos"
+        "videos": "Videos",
+        "promoVideo": "Promotional Video"
       },
       "categories": {
         "label": "Categories",
         "game": "Game",
         "app": "App"
       }
+    }, 
+    "releases": {
+      "title": "Releases",
+      "new": "Add release",
+      "save": "Save",
+      "delete": "Delete",
+      "table": {
+        "headers": {
+          "platform": "Platform",
+          "status": "Status",
+          "actions": "Actions"
+        },
+        "status": {
+          "standby": "Queued",
+          "processing": "Processing",
+          "ready": "Ready",
+          "testing": "Testing",
+          "publishing": "Publishing",
+          "published": "Published",
+          "processingFailed": "Processing Failed",
+          "testingFailed": "Testing Failed",
+          "publishFailed": "Publish Failed"
+        },
+        "process": "Process",
+        "download": "Download",
+        "publish": "Publish",
+        "unpublish": "Unpublish",
+        "delete": "Delete"
+      },
+      "form": {
+        "name": "Name",
+        "regions": "Regions",
+        "changelog": "Changelog",
+        "package": "Package",
+        "deleteMessage": "Are you sure you want to erase this build ?",
+        "duplicateName": "Release version name must be unique",
+        "processAll": "Process for all Platforms",
+        "unpublishMessage": "The build will be erased as well. If you need to re-publish, you can re-process the build."
+      }
+    },
+    "services": {
+      "title": "Services",
+      "unsupportedService": "Is your provider not listed ? Get in touch !"
     }
   },
   "moreInfo": "More info",
@@ -200,7 +271,9 @@
     "getNewPassword": "Get new password",
     "passwordRequested": {
       "message": "A new password is on the way"
-    },
+    }
+  },
+  "resetPassword": {
     "resetPassword": "Reset Password",
     "confirmPassword": "Confirm Password",
     "validatingToken": "Validating Token",
@@ -211,9 +284,9 @@
   },
   "filters": {
     "filters": "Filters",
-    "app_id": "Game",
+    "application_id": "Game",
     "date": "Date",
-    "platforms": "Platforms",
+    "platforms_id": "Platforms",
     "dateOptions": {
       "yesterday": "Yesterday",
       "last7Days": "Last 7 days",
@@ -231,9 +304,24 @@
     "consumable": "Consumable",
     "nonconsumable": "Non-consumable"
   },
+  "leaderboardOrder": {
+    "ascending": "Ascending",
+    "descending": "Descending"
+  },
   "platformConnectionStatus": {
     "notConnected": "Not connected",
     "processing": "Processing",
     "connected": "Connected"
+  },
+  "resources": {
+    "title":"Resources",
+    "video":{
+      "text":"Tu navegador no admite el elemento <code>video</code>."
+    },
+    "types":{
+      "icon": "Icon",
+      "screenshot": "Screenshot",
+      "video": "Video"
+    }
   }
 }

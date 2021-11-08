@@ -27,13 +27,18 @@ export enum FieldType {
   MultipleDropdowns = "multiple dropdowns",
 }
 
+interface MoreInfoLink {
+  text?: string;
+  url: string;
+}
+
 export interface FormField extends Validation {
   placeholder?: string;
   key: string;
   type: FieldType;
   label?: string;
   delimiter?: string;
-  moreInfoLink?: string;
+  moreInfoLink?: MoreInfoLink;
   options?: { key: string; text: string; value: string | number }[];
   useRef?: React.RefObject<HTMLInputElement>
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -106,13 +111,16 @@ export const ValidatedForm = (props: ValidatedFormProps) => {
             <label>
               {t(field.label || "")}{" "}
               {field.moreInfoLink && (
-                <Link
-                  to={{ pathname: field.moreInfoLink }}
+                <Label
+                  basic
+                  pointing="left"
+                  as={Link}
+                  to={{ pathname: field.moreInfoLink.url }}
                   target="_blank"
                   style={{ color: "#2185d0" }}
                 >
-                  {t("moreInfo")}
-                </Link>
+                  {t(field.moreInfoLink.text || "moreInfo")}
+                </Label>
               )}
             </label>
             {field.type === FieldType.Text && (
