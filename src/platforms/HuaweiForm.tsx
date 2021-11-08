@@ -109,7 +109,7 @@ const formFields: FormField[] = [
     type: FieldType.Dropdown,
     label: "editGame.info.ageRating",
     required: true,
-    moreInfoLink: "https://developer.huawei.com/consumer/en/doc/50125",
+    moreInfoLink: { url: "https://developer.huawei.com/consumer/en/doc/50125" },
     options: ["3+", "7+", "12+", "16+", "18+"].map((rating) => ({
       key: rating,
       value: rating,

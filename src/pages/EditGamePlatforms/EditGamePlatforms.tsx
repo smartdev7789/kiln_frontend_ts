@@ -1,7 +1,7 @@
 import React, { Fragment, useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, RouteComponentProps } from "react-router-dom";
-import { Button, Grid, Header, Accordion, Icon } from "semantic-ui-react";
+import { Button, Grid, Header, Accordion, Icon, Label } from "semantic-ui-react";
 import { API } from "../../api/API";
 import { AppInfo, Platform, PlatformInfo, TeamPlatform } from "../../api/DataTypes";
 import { DispatchContext } from "../../App";
@@ -9,7 +9,7 @@ import {
   EditGamePlatformsSteps,
   GameCreationSteps,
 } from "../../components/GameCreationSteps";
-import { PathHelpers } from "../../routes";
+import { PathHelpers, Paths } from "../../routes";
 import { PagePlaceholder } from "../../components/Placeholders/PagePlaceholder";
 import { getToken } from "../../authentication/Authentication";
 
@@ -143,29 +143,39 @@ export const EditGamePlatforms = (props: RouteComponentProps) => {
 
           {/* Platforms accordion */}
           <Grid.Row>
-            <Accordion styled style={ styles.accordion.div } >
-              { connectedPlatforms.map( (platform) => {
-                
-                return (
-                  <Fragment key={platform.id}>
-                    <Accordion.Title
-                      style={ styles.accordion.title }
-                      active= { activeIndex === platform.id }
-                      index={ platform.id }
-                      onClick={ () => { handleClick(platform.id) } }
-                    >
-                      {platform.name}
-                      <Icon name='dropdown' style={ styles.accordion.title.icon }/>
-                    </Accordion.Title>
+            { connectedPlatforms.length > 0 ?
+              <Accordion styled style={ styles.accordion.div } >
+                { connectedPlatforms.map( (platform) => {
+                  
+                  return (
+                    <Fragment key={platform.id}>
+                      <Accordion.Title
+                        style={ styles.accordion.title }
+                        active= { activeIndex === platform.id }
+                        index={ platform.id }
+                        onClick={ () => { handleClick(platform.id) } }
+                      >
+                        {platform.name}
+                        <Icon name='dropdown' style={ styles.accordion.title.icon }/>
+                      </Accordion.Title>
 
-                    <Accordion.Content active={ activeIndex === platform.id }>
-                      { PlatformForm( gameData.id, platform.id, gameData.platforms_info ) }
-                    </Accordion.Content>
-                  </Fragment>
-                )  
-              })}
-
-            </Accordion>
+                      <Accordion.Content active={ activeIndex === platform.id }>
+                        { PlatformForm( gameData.id, platform.id, gameData.platforms_info ) }
+                      </Accordion.Content>
+                    </Fragment>
+                  )  
+                })}
+              </Accordion>
+              :
+              <Label
+                as={Link}
+                to={Paths.Platforms}
+                size="huge"
+                style={{ marginLeft: "auto", marginRight: "auto", marginBottom: "20px" }}
+              >
+                {t("editGame.platforms.noPlatforms")}
+              </Label>
+            }
 
           </Grid.Row>
 

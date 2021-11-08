@@ -55,7 +55,7 @@ export const Platforms = (props: RouteComponentProps) => {
           <Image avatar src={platformData.icon} />
           {platformData.name}
         </Header>,
-        platformData.market,
+        // platformData.market,
         <PlatformStatusIndicator status={connectionStatus} />,
         <Button.Group>
           <Button {...props} onClick={() => connectPlatform(platformData.id)}>{connectText}</Button>
@@ -99,7 +99,8 @@ export const Platforms = (props: RouteComponentProps) => {
       </Grid.Row>
       <Grid.Row>
         <TableCard
-          headers={["name", "market", "status", "actions"]
+          // headers={["name", "market", "status", "actions"]
+          headers={["name", "status", "actions"]
             .map((string) => t(`platforms.table.headers.${string}`))
             .concat("")}
           rowContents={platforms.map((platformData) =>
