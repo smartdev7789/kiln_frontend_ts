@@ -43,6 +43,17 @@ export const NewGame = ({ history }: RouteComponentProps) => {
       onChange: handleNameChange,
     },
     {
+      key: "service_type",
+      type: FieldType.SearchDropdown,
+      label: "newGame.service_type.title",
+      options: [
+        { key: "self_serve", text: t("newGame.service_type.self_serve"), value: 1},
+        { key: "tag_team", text: t("newGame.service_type.tag_team"), value: 2},
+        { key: "hands_off", text: t("newGame.service_type.hands_off"), value: 3},
+      ],
+      required: true,
+    },
+    {
       key: "default_language",
       type: FieldType.SearchDropdown,
       label: "newGame.default_language",
@@ -90,7 +101,6 @@ export const NewGame = ({ history }: RouteComponentProps) => {
   ];
   
   const handleSubmit = async (formData: object) => {
-    
     // Put spinner
     setWaitingForResponse(true);
     
@@ -99,7 +109,7 @@ export const NewGame = ({ history }: RouteComponentProps) => {
     
     // remove spinner
     setWaitingForResponse(false);
-
+    
     if (response._status === "OK") {
       history.push( PathHelpers.EditGamePlatforms( { id: response.id } ) );
     } else {
@@ -139,6 +149,7 @@ export const NewGame = ({ history }: RouteComponentProps) => {
             fields={formFields}
             initialFormData={{
               name: "",
+              service_type: 0,
               default_language: "",
               description: "",
               summary: "",

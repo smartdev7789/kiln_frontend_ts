@@ -36,6 +36,14 @@ const formFields: FormField[] = [
     maxLength: 50,
   },
   {
+    key: "pkg_name",
+    label: "editGame.info.packageName",
+    placeholder: "com.companyName.appName",
+    type: FieldType.Text,
+    required: false,
+    maxLength: 150,
+  },
+  {
     key: "default_language",
     type: FieldType.SearchDropdown,
     label: "newGame.default_language",
@@ -97,6 +105,7 @@ export const EditGameInfo = ({ history, match }: RouteComponentProps) => {
   const [gameID, setGameID] = useState<string | null>(null);
   const [token, setToken] = useState<string>('');
   const [gameData, setGameData] = useState<AppInfo | null>( null );
+  
   // Submit.
   const handleSubmit = async (formData: object) => {   
     // Start sniper
@@ -115,11 +124,11 @@ export const EditGameInfo = ({ history, match }: RouteComponentProps) => {
     }
   }, [ match.params ]);
 
-  // Obtiene y setea gameData.
+  // Get & set gameData.
   useEffect(() => {
     if ( token! && gameID! ){
-      API.app( token, gameID ).then( ( app ) => {
-        setGameData( (app as AppInfo ) );
+      API.app(token, gameID).then((app) => {
+        setGameData((app as AppInfo));
       })
     }
   },[token, gameID])
@@ -133,7 +142,7 @@ export const EditGameInfo = ({ history, match }: RouteComponentProps) => {
     
     formFields.map((field) => {
       const value = (gameData as any)[field.key];
-      data[field.key] = value || "";
+      data[field.key] = (value != null) ? value : "";
       return field
     });
     

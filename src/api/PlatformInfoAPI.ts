@@ -1,13 +1,6 @@
-// import { PlatformInfo, APIResponse, } from "./DataTypes";
 import { APIResponse, PlatformInfo } from "./DataTypes";
 import { FieldValue } from "../hooks/useForm";
-import { noTokenResponse } from "./API";
-
-
-// API.
-const API_ADDRESS = process.env.REACT_APP_API_ADDRESS
-const API_VERSION = process.env.REACT_APP_API_VERSION
-const API_ENDPOINT = `${API_ADDRESS}/${API_VERSION}`
+import { noTokenResponse, API_ENDPOINT } from "./API";
 
 // Platform.
 
@@ -87,9 +80,9 @@ export const getAllPlatformsInfo = async (token: string, appID: string) => {
  */
  export const createPlatformInfo = async (
     token: string, 
-    appID:string, 
-    platformID:number, 
-    platformInfo:{ [key: string]: FieldValue } //
+    appID: string, 
+    platformID: number, 
+    platformInfo: { [key: string]: FieldValue }
   ) => {
   if ( token !== '' ) {
     const url = `${API_ENDPOINT}/apps/${appID}/platforms_info`

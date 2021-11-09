@@ -1,10 +1,5 @@
-import { noTokenResponse } from "./API";
+import { noTokenResponse, API_ENDPOINT } from "./API";
 import { APIResponse } from "./DataTypes";
-
-// API.
-const API_ADDRESS = process.env.REACT_APP_API_ADDRESS
-const API_VERSION = process.env.REACT_APP_API_VERSION
-const API_ENDPOINT = `${API_ADDRESS}/${API_VERSION}`
 
 // Resources.
 
@@ -73,17 +68,10 @@ const API_ENDPOINT = `${API_ADDRESS}/${API_VERSION}`
  * @returns Platform info.
  */
 export const addResource = async ( token: string, platformInfoID: number, type: string, file: File ) => {
-    // console.log(type)
-    // console.log(file)
-    // console.log(platformInfoID)
-    // console.log(token)
-
   if ( token !== '' ) {
     const url = `${API_ENDPOINT}/platforms_info/${platformInfoID}/resources/`
     const bearer = 'Bearer ' + token
     const id =  `${Date.now()}`
-    
-
 
     const formData = new FormData();
     formData.append('id', id)

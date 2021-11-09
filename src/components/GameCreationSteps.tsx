@@ -23,13 +23,13 @@ export const GameCreationStepData = [
     text: "platforms",
   },
   {
-    text: "monetisation",
+    text: "iap",
   },
+  // {
+  //   text: "leaderboards",
+  // },
   {
-    text: "leaderboards",
-  },
-  {
-    text: "analytics",
+    text: "services",
   },
   {
     text: "releases",
@@ -51,9 +51,9 @@ GameCreationStepData.map((step, i) => {
 export const EditGameInfoSteps = createSteps(0);
 export const EditGamePlatformsSteps = createSteps(1);
 export const EditGameMonetisationSteps = createSteps(2);
-export const EditGameLeaderboardsSteps = createSteps(3);
-export const EditGameAnalyticsSteps = createSteps(4);
-export const EditGameReleasesSteps = createSteps(5);
+// export const EditGameLeaderboardsSteps = createSteps(3);
+export const EditGameServicesSteps = createSteps(3);
+export const EditGameReleasesSteps = createSteps(4);
 
 export const GameCreationSteps = (props: GameCreationStepsProps) => {
   const { t } = useTranslation();
@@ -62,14 +62,14 @@ export const GameCreationSteps = (props: GameCreationStepsProps) => {
   const pathHelpers: { [key: string]: (object: object) => string } = {
     gameInfo: PathHelpers.EditGameInfo,
     platforms: PathHelpers.EditGamePlatforms,
-    monetisation: PathHelpers.EditGameMonetisation,
-    leaderboards: PathHelpers.EditGameLeaderboards,
-    analytics: PathHelpers.EditGameAnalytics,
+    iap: PathHelpers.EditGameMonetisation,
+    // leaderboards: PathHelpers.EditGameLeaderboards,
+    services: PathHelpers.EditGameServices,
     releases: PathHelpers.EditGameReleases,
   };
 
   return (
-    <Step.Group fluid widths={6}>
+    <Step.Group fluid widths={5}>
       {props.steps.map((step, i) => {
         return (
           <Step

@@ -1,15 +1,15 @@
 import React, { Fragment, useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, RouteComponentProps } from "react-router-dom";
-import { Button, Grid, Header, Accordion, Icon } from "semantic-ui-react";
+import { Button, Grid, Header, Accordion, Icon, Label } from "semantic-ui-react";
 import { API } from "../../api/API";
-import { AppInfo, Platform, PlatformInfo } from "../../api/DataTypes";
+import { AppInfo, Platform, PlatformInfo, TeamPlatform } from "../../api/DataTypes";
 import { DispatchContext } from "../../App";
 import {
   EditGamePlatformsSteps,
   GameCreationSteps,
 } from "../../components/GameCreationSteps";
-import { PathHelpers } from "../../routes";
+import { PathHelpers, Paths } from "../../routes";
 import { PagePlaceholder } from "../../components/Placeholders/PagePlaceholder";
 import { getToken } from "../../authentication/Authentication";
 
@@ -35,12 +35,15 @@ const styles = {
   } 
 }
 
-// Dibuja el formulario.
-// Recibe:
-//  - ID de la plataforma
-//  - La funcion "t" para traducciones
-const PlatformForm = ( appID:string, platformID:number, platformsInfo:PlatformInfo[] | null  ) => { 
-  switch ( platformID ) {
+/**
+ * Renders the form
+ * @param appID 
+ * @param platformID 
+ * @param platformsInfo 
+ * @returns 
+ */
+const PlatformForm = (appID: string, platformID: number, platformsInfo: PlatformInfo[] | null) => {
+  switch (platformID) {
     case 1:
       // Huawei
 
@@ -63,14 +66,12 @@ const PlatformForm = ( appID:string, platformID:number, platformsInfo:PlatformIn
 
 
 export const EditGamePlatforms = (props: RouteComponentProps) => {
-
   const { t } = useTranslation();
   const { state } = useContext(DispatchContext);
-  const [ token ] = useState( getToken() )
-  // Todas las plataformas
-  const platforms:Platform[] = state.platforms || []
-  const [ activeIndex, setActiveIndex ] = useState(0)
-
+  const [token] = useState(getToken())
+  const [activeIndex, setActiveIndex] = useState(0)
+  const [connectedPlatforms, setConnectedPlatforms] = useState<Platform[]>([]);
+  
   // States
   // Datos de la app/game
   const [gameData, setGameData] = useState<AppInfo | null >( null)
@@ -96,7 +97,19 @@ export const EditGamePlatforms = (props: RouteComponentProps) => {
       // TODO - Obtener los datos de las plataformas del juego / Si es que no viene tedo junto.
       // setGamePlatforms(gameData.platforms_info)
     }
-  },[ gameData ]);
+  }, [gameData]);
+  
+  // We'll set which platforms are connected to the team
+  useEffect(() => {
+    if (!token || !state.account || !state.platforms) return;
+      
+    API.getTeamPlatforms(token, state.account!.team_id).then(response => {
+      if (response._items) {
+        const connectedIds = (response._items as TeamPlatform[]).map(x => x.platform);
+        setConnectedPlatforms(state.platforms!.filter(p => connectedIds.includes(p.id) ));
+      }
+    });
+  }, [token, state.account, state.platforms]);
 
   // Mientras no existan gameData mostrar el spinner
   if ( gameData === null ) { return <PagePlaceholder />;  }
@@ -130,29 +143,39 @@ export const EditGamePlatforms = (props: RouteComponentProps) => {
 
           {/* Platforms accordion */}
           <Grid.Row>
-            <Accordion styled style={ styles.accordion.div } >
-              { platforms.map( (platform) => {
-                
-                return (
-                  <Fragment key={platform.id}>
-                    <Accordion.Title
-                      style={ styles.accordion.title }
-                      active= { activeIndex === platform.id }
-                      index={ platform.id }
-                      onClick={ () => { handleClick(platform.id) } }
-                    >
-                      {platform.name}
-                      <Icon name='dropdown' style={ styles.accordion.title.icon }/>
-                    </Accordion.Title>
+            { connectedPlatforms.length > 0 ?
+              <Accordion styled style={ styles.accordion.div } >
+                { connectedPlatforms.map( (platform) => {
+                  
+                  return (
+                    <Fragment key={platform.id}>
+                      <Accordion.Title
+                        style={ styles.accordion.title }
+                        active= { activeIndex === platform.id }
+                        index={ platform.id }
+                        onClick={ () => { handleClick(platform.id) } }
+                      >
+                        {platform.name}
+                        <Icon name='dropdown' style={ styles.accordion.title.icon }/>
+                      </Accordion.Title>
 
-                    <Accordion.Content active={ activeIndex === platform.id }>
-                      { PlatformForm( gameData.id, platform.id, gameData.platforms_info ) }
-                    </Accordion.Content>
-                  </Fragment>
-                )  
-              })}
-
-            </Accordion>
+                      <Accordion.Content active={ activeIndex === platform.id }>
+                        { PlatformForm( gameData.id, platform.id, gameData.platforms_info ) }
+                      </Accordion.Content>
+                    </Fragment>
+                  )  
+                })}
+              </Accordion>
+              :
+              <Label
+                as={Link}
+                to={Paths.Platforms}
+                size="huge"
+                style={{ marginLeft: "auto", marginRight: "auto", marginBottom: "20px" }}
+              >
+                {t("editGame.platforms.noPlatforms")}
+              </Label>
+            }
 
           </Grid.Row>
 

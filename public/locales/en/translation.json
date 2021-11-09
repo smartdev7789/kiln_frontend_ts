@@ -33,7 +33,8 @@
     "company_name": "Company name",
     "company_number": "Company number",
     "contact_email": "Contact e-mail",
-    "business_license": "Business license",
+    "business_licence": "Business licence",
+    "uploaded_licence": "Uploaded Business Licence",
     "submit": "Submit"
   },
   "platforms": {
@@ -87,6 +88,12 @@
     "title": "New Game",
     "submit": "Create game",
     "name": "Game name",
+    "service_type": {
+      "title": "Service Type",
+      "self_serve": "Self Serve",
+      "tag_team": "Tag Team",
+      "hands_off": "Hands Off"
+    },
     "default_language": "Default language",
     "privacy_policy": "Privacy policy URL",
     "summary": "Summary",
@@ -100,8 +107,9 @@
   "gameCreationSteps": {
     "platforms": "Platforms",
     "gameInfo": "Info",
-    "monetisation": "Monetisation",
+    "iap": "In App Purchases",
     "leaderboards": "Leaderboards",
+    "services": "Services",
     "analytics": "Analytics",
     "releases": "Releases"
   },
@@ -121,7 +129,8 @@
       },
       "accordion":{
         "comming-soon": "Comming soon"
-      }
+      },
+      "noPlatforms": "You need to connect your team to at least one platform first."
     },
     "monetisation": {
       "title": "Monetisation",
@@ -135,8 +144,10 @@
         },
         "new": "New ad",
         "delete": "Delete",
+        "remove": "Remove",
         "edit": "Edit ad",
-        "save": "Save ad"
+        "save": "Save ad",
+        "saveChanges": "Save changes"
       },
       "iapTable": {
         "headers": {
@@ -182,9 +193,10 @@
     },
     "info": {
       "title": "Game info",
+      "packageName": "Package Name",
       "submit": "Submit",
       "screenshots": "Screenshots",
-      "age_rating": "Age rating",
+      "ageRating": "Age rating",
       "assets": {
         "label": "Assets",
         "icons": "Icons",
@@ -227,7 +239,7 @@
         "delete": "Delete"
       },
       "form": {
-        "name": "Package Name",
+        "name": "Name",
         "regions": "Regions",
         "changelog": "Changelog",
         "package": "Package",
@@ -236,6 +248,10 @@
         "processAll": "Process for all Platforms",
         "unpublishMessage": "The build will be erased as well. If you need to re-publish, you can re-process the build."
       }
+    },
+    "services": {
+      "title": "Services",
+      "unsupportedService": "Is your provider not listed ? Get in touch !"
     }
   },
   "moreInfo": "More info",
