@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { RouteComponentProps } from "react-router-dom";
-import { Card, Grid, Header, Segment } from "semantic-ui-react";
+import { Card, Grid, Header, /*Segment*/ } from "semantic-ui-react";
 import { API } from "../../api/API";
 import {
   TopStats as TopStatsData,
@@ -9,13 +9,13 @@ import {
   StatData
 } from "../../api/DataTypes";
 import { DispatchContext } from "../../App";
-import { GraphCard } from "../../components/Cards/GraphCard";
+// import { GraphCard } from "../../components/Cards/GraphCard";
 import { StatsCard } from "../../components/Cards/StatsCard";
 import { TopStatsCard } from "../../components/Cards/TopStatsCard";
 import { Filters } from "../../components/Filters/Filters";
 import { useQueryParams } from "../../hooks/useQueryParams";
 import { PagePlaceholder } from "../../components/Placeholders/PagePlaceholder";
-import { GraphCardPlaceholder } from "../../components/Placeholders/GraphCardPlaceholder";
+// import { GraphCardPlaceholder } from "../../components/Placeholders/GraphCardPlaceholder";
 import { getToken } from "../../authentication/Authentication";
 
 export const Analytics = (props: RouteComponentProps) => {
@@ -62,7 +62,7 @@ export const Analytics = (props: RouteComponentProps) => {
   // Get graphs and stats data.
   useEffect(() => {
     if ( filters.application_id! && filters.date! && filters.platform_id! ) {
-      API.graphs(token, filters).then((data) => { setGraphsData(data!._items as GraphData[]) })
+      // API.graphs(token, filters).then((data) => { setGraphsData(data!._items as GraphData[]) })
       API.stats( filters, token).then( (data) => { setStatsData(data!._items as StatData[]); });
     } else {
       setGraphsData([])
@@ -106,7 +106,7 @@ export const Analytics = (props: RouteComponentProps) => {
 
       {/* TODO */}
       {/* Graphp card  */}
-      { 
+      {/* { 
         graphsData.length !== 0
         ?
         <Grid.Row>
@@ -122,7 +122,7 @@ export const Analytics = (props: RouteComponentProps) => {
             <h3>{t("analytics.graphs.set-filter")}</h3>
           </Segment>
         </Grid.Row>
-      }
+      } */}
       
       {/* Tops */}
       <Grid.Row>
