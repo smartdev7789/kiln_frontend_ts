@@ -71,10 +71,8 @@ export const addResource = async ( token: string, platformInfoID: number, type: 
   if ( token !== '' ) {
     const url = `${API_ENDPOINT}/platforms_info/${platformInfoID}/resources/`
     const bearer = 'Bearer ' + token
-    const id =  `${Date.now()}`
 
     const formData = new FormData();
-    formData.append('id', id)
     formData.append('type', type)
     formData.append('file', file)
 
