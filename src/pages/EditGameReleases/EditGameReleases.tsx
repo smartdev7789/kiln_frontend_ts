@@ -73,17 +73,17 @@ export const EditGameReleases = (props: RouteComponentProps) => {
     setActiveIndex(0);
   };
 
-  const onSubmit = (release: Release, index: number, file?: File) => {
-    if (releases[index].id === 0) return createRelease(release, index, file)
-    else return updateRelease(release, index, file);
+  const onSubmit = (release: Release, index: number, file?: File, onProgress?: (e: any) => void) => {
+    if (releases[index].id === 0) return createRelease(release, index, file, onProgress)
+    else return updateRelease(release, index, file, onProgress);
   };
   
-  const createRelease = async (newRelease: Release, index: number, file?: File) => {
-    if (appData === null) return; 
+  const createRelease = async (newRelease: Release, index: number, file?: File, onProgress?: (e: any) => void) => {
+    if (appData === null) return;
+    
+    const response = await API.createAppRelease(token, appData.id, newRelease, file, onProgress);
 
-    const response = await API.createAppRelease(token, appData.id, newRelease, file);
-
-    if (response._status === "OK") {
+    if (response!._status === "OK") {
       newRelease.id = parseInt(response.id!);
       newRelease._etag = response._etag;
       
@@ -98,7 +98,7 @@ export const EditGameReleases = (props: RouteComponentProps) => {
     return response;
   }
   
-  const updateRelease = async (release: Release, index: number, file?: File) => {
+  const updateRelease = async (release: Release, index: number, file?: File, onProgress?: (e: any) => void) => {
     if (appData === null) return;
 
     release.id = releases[index].id;
@@ -112,7 +112,7 @@ export const EditGameReleases = (props: RouteComponentProps) => {
       }
     }
     
-    const response = await API.updateAppRelease(token, appData.id, release, releases[index]._etag, file);
+    const response = await API.updateAppRelease(token, appData.id, release, releases[index]._etag, file, onProgress);
 
     if (response._status === "OK") {
       apiRelease._etag = response._etag;
