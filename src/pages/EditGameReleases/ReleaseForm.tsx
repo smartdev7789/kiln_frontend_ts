@@ -3,7 +3,7 @@ import { APIResponse, Build, Platform, Release } from "../../api/DataTypes";
 import { FieldType, FormField, ValidatedForm } from "../../components/ValidatedForm/ValidatedForm";
 import { useTranslation } from "react-i18next";
 import { API, API_ADDRESS } from "../../api/API";
-import { Button, Table } from "semantic-ui-react";
+import { Button, Progress, Table } from "semantic-ui-react";
 import { TableCard } from "../../components/Cards/TableCard";
 import { getToken } from "../../authentication/Authentication";
 
@@ -12,7 +12,7 @@ interface Properties {
   platforms: Platform[];
   index: number;
   release: Release; 
-  onSubmit: (data: Release, index: number, file?: File) => Promise<APIResponse | undefined>;
+  onSubmit: (data: Release, index: number, file?: File, onProgress?: (e: any) => void) => Promise<APIResponse | undefined>;
   onDelete: (index: number) => void;
 }
 
@@ -20,10 +20,12 @@ export const ReleaseForm = ({ appId, platforms, index, release, onSubmit, onDele
   const { t } = useTranslation();
 
   const [token, setToken] = useState<string>(''); 
-  const [file, setFile] = useState<File | null>(null);
   const [builds, setBuilds] = useState<Build[]>([]);
   const [formFields, setFormFields] = useState<FormField[]>([]);
   const [error, setError] = useState(false);
+  const [file, setFile] = useState<File | null>(null);
+  const [showProgress, setShowProgress] = useState<boolean>(false);
+  const [progress, setProgress] = useState(0);
 
   let waitingForResponse = false;
   
@@ -88,7 +90,18 @@ export const ReleaseForm = ({ appId, platforms, index, release, onSubmit, onDele
   const handleSubmit = async (formData: object) => {
     waitingForResponse = true;
 
-    const response = file ? await onSubmit(formData as Release, index, file) : await onSubmit(formData as Release, index);
+    let uploadCallback: (progressEvent: any) => void = (progressEvent: any) => { };
+
+    if (file) {
+      uploadCallback = (progressEvent: any) => {
+        const percentCompleted = progressEvent.loaded / file.size * 100;
+        setProgress(percentCompleted);
+      };
+
+      setShowProgress(true);
+    }
+
+    const response = file ? await onSubmit(formData as Release, index, file, uploadCallback) : await onSubmit(formData as Release, index);
 
     if (response?._status === "ERR") {
       setError(true);
@@ -97,7 +110,6 @@ export const ReleaseForm = ({ appId, platforms, index, release, onSubmit, onDele
     waitingForResponse = false;
   };
 
-  
   /**
    * Instruct the backend to process builds for all connected platforms
    */
@@ -189,6 +201,8 @@ export const ReleaseForm = ({ appId, platforms, index, release, onSubmit, onDele
     if (t!) setToken(t);
   }, []);
 
+  // useEffect(() => {}, [progress]);
+
   return (
         initialFormData! && formFields
         ?
@@ -210,8 +224,8 @@ export const ReleaseForm = ({ appId, platforms, index, release, onSubmit, onDele
                 onClick: () => { onDelete(index); }
               },
             ]}
-          />
-
+        />
+        {showProgress && <Progress percent={progress} indicating success={progress === 100} />}
           {release.package && release.package.file &&
           
             <div>
