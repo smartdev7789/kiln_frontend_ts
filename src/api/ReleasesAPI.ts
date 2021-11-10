@@ -1,5 +1,6 @@
 import { APIResponse, Release } from "./DataTypes";
 import { API_ENDPOINT, noTokenResponse } from "./API";
+import axios from "axios";
 
 /**
  * 
@@ -38,7 +39,7 @@ export const getAppReleases = async (token: string, appId: string) => {
  * @param file 
  * @returns 
  */
-export const createAppRelease = async (token: string, appId: string, releaseData: Release, file?: File) => {
+export const createAppRelease = async (token: string, appId: string, releaseData: Release, file?: File, onProgress?: (e: any) => void) => {
   if (!token) return noTokenResponse;
 
   const url = `${API_ENDPOINT}/apps/${appId}/releases`;
@@ -59,14 +60,24 @@ export const createAppRelease = async (token: string, appId: string, releaseData
     //@ts-ignore
     headers['Content-Type'] = 'application/json';
   }
-  
-  const res = await fetch(url, {
-    method: "POST",
-    headers: headers,
-    body: file ? formData : JSON.stringify({ ...releaseData }),
-  });
 
-  return (await res.json()) as APIResponse;
+  if (file) {
+    const res = await axios.post(url, formData, {
+      onUploadProgress: onProgress,
+      headers
+    });
+
+    return res.data as APIResponse;
+  }
+  else {
+    const res = await fetch(url, {
+      method: "POST",
+      headers: headers,
+      body: file ? formData : JSON.stringify({ ...releaseData }),
+    })
+  
+    return (await res.json()) as APIResponse;
+  }
 };
 
 /**
@@ -78,7 +89,7 @@ export const createAppRelease = async (token: string, appId: string, releaseData
  * @param file 
  * @returns 
  */
-export const updateAppRelease = async (token: string, appId: string, releaseData: Release, etag: string, file?: File) => {
+export const updateAppRelease = async (token: string, appId: string, releaseData: Release, etag: string, file?: File, onProgress?: (e: any) => void) => {
   if (!token) return noTokenResponse;
 
   const url = `${API_ENDPOINT}/apps/${appId}/releases/${releaseData.id}`;
