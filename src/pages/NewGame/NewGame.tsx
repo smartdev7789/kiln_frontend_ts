@@ -43,6 +43,14 @@ export const NewGame = ({ history }: RouteComponentProps) => {
       onChange: handleNameChange,
     },
     {
+      key: "pkg_name",
+      label: "editGame.info.packageName",
+      placeholder: "com.companyName.appName",
+      type: FieldType.Text,
+      required: false,
+      maxLength: 150,
+    },
+    {
       key: "service_type",
       type: FieldType.SearchDropdown,
       label: "newGame.service_type.title",

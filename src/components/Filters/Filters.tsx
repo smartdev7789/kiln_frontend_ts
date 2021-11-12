@@ -103,7 +103,7 @@ export const Filters = ({
       </Form>
     );
   } else {
-    return <p>{t("analytics.no_data_yet")}</p>;
+    return <p>{t("analytics.no-data-yet")}</p>;
   }
 
 };

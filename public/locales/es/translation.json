@@ -10,6 +10,7 @@
   },
   "analytics": {
     "title": "Analytics",
+    "no-data-yet": "No Analytics data yet",
     "top_games": {
       "header": "Top games"
     },
