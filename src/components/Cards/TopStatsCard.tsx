@@ -35,7 +35,7 @@ export const TopStatsCard = ({ header, data }: TopStatsCardProps) => {
               );
             })
 
-            : <h3>{t("analytics.no_data_yet")}</h3>
+            : <h3>{t("analytics.no-data-yet")}</h3>
           }
         </List>
       </Card.Content>
