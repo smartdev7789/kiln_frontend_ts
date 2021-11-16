@@ -33,7 +33,7 @@ export const IAPRow = ({
   onSave,
 }: IAPRowProps) => {
   const { t } = useTranslation();
-  const currency = useCurrency({ currency: "GBP" });
+  const currency = useCurrency({ currency: "USD" });
 
   let kilnIdInput = useRef<Input>(null);
 

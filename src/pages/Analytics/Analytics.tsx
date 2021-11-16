@@ -25,7 +25,7 @@ export const Analytics = (props: RouteComponentProps) => {
   const token:string|null = getToken();
 
   // State stats and graphs
-  const [statsData, setStatsData] = useState<StatData[]>([]);
+  const [statsData, setStatsData] = useState<Stat[]>([]);
   const [graphsData, setGraphsData] = useState<GraphData[]>([]);
 
   // State Top stats
@@ -45,7 +45,7 @@ export const Analytics = (props: RouteComponentProps) => {
   const [filters, setFilters] = useState({
     platform_id: getQueryParamNumber("platform_id"),
     date: getQueryParam("date"),
-    application_id: getQueryParam("application_id"),
+    application_id: getQueryParam("app_id"),
   });
 
   // Filter onChange.
@@ -59,24 +59,59 @@ export const Analytics = (props: RouteComponentProps) => {
     });
   };
 
+  interface Stat {
+    label: string;
+    value: string | any;
+  }
+
+  /**
+   * 
+   * @param data 
+   * @returns 
+   */
+  const crunchData = (data: StatData[]): Stat[] => {
+    const stats = data.reduce((acc: any, curr) => {
+      if (acc[curr.label]) {
+        acc[curr.label] += parseInt(curr.value);
+      } else {
+        acc[curr.label] = parseInt(curr.value);
+      }
+      return acc;
+    }, {});
+
+    const s: Stat[] = [];
+    Object.entries(stats).forEach(([key, value]) => {
+      s.push({ label: key, value: value });
+    });
+    console.log(data);
+    console.log(s);
+    return s;
+  };
+
   // Get graphs and stats data.
   useEffect(() => {
     if ( filters.application_id! && filters.date! && filters.platform_id! ) {
       // API.graphs(token, filters).then((data) => { setGraphsData(data!._items as GraphData[]) })
-      API.stats( filters, token).then( (data) => { setStatsData(data!._items as StatData[]); });
+      API.stats(filters, token)
+        .then((data) => {
+          
+          const stats = crunchData(data!._items as StatData[]);
+          
+          setStatsData(stats);
+        });
     } else {
       setGraphsData([])
       setStatsData([])
     }
     // setQueryParams(filters);
-  }, [token,filters])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [token, filters])
 
   // Get top stats data when filters change.
   useEffect(() => {
     API.topStats(token).then((data) => { setTopStatsData(data) })
   }, [token]);
 
-  // Si no existe analyticsData mostrar el spiner
   if (!graphsData || !statsData) return <PagePlaceholder />;
 
   const { top_games, top_platforms } = topStatsData;
@@ -99,7 +134,7 @@ export const Analytics = (props: RouteComponentProps) => {
       
       {/* Stats */}
       <Grid.Row>
-        <Card.Group centered itemsPerRow={3}>
+        <Card.Group centered itemsPerRow={2}>
           { statsData.map((item, i) => { return <StatsCard key={i} {...item} />; })  }
         </Card.Group>
       </Grid.Row>

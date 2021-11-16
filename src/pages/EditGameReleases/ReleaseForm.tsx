@@ -71,16 +71,13 @@ export const ReleaseForm = ({ appId, platforms, index, release, onSubmit, onDele
   
   // If we don't have a package uploaded, we'll add that bit to the form.
   // Otherwise, we'll just let them know that they can't replace the APK
-  if (!release.package || !release.package.file) {
-    fields.push(
-      {
-        key: "package",
-        type: FieldType.FileUpload,
-        label: "editGame.releases.form.package",
-        onChange: handlePackageChange,
-      }
-    );
-  }
+  const uploadField: FormField = {
+    key: "package",
+    type: FieldType.FileUpload,
+    label: "editGame.releases.form.package",
+    onChange: handlePackageChange,
+  };
+  if (!release.package || !release.package.file) fields.push(uploadField);
   
   let initialFormData = {
     "name": release.name || "",
@@ -105,6 +102,15 @@ export const ReleaseForm = ({ appId, platforms, index, release, onSubmit, onDele
 
     if (response?._status === "ERR") {
       setError(true);
+    }
+    else {
+      // If this is an update, there won't be a full redraw of this releaseform,
+      // Thus we'll trigger the hiding of the progress bar and upload field manually
+      if (release.id !== 0 && fields.indexOf(uploadField) !== -1) {
+        fields.splice(fields.indexOf(uploadField), 1);
+        setFormFields(fields);
+        setShowProgress(false);
+      }
     }
   
     waitingForResponse = false;
@@ -201,8 +207,6 @@ export const ReleaseForm = ({ appId, platforms, index, release, onSubmit, onDele
     if (t!) setToken(t);
   }, []);
 
-  // useEffect(() => {}, [progress]);
-
   return (
         initialFormData! && formFields
         ?
@@ -225,7 +229,7 @@ export const ReleaseForm = ({ appId, platforms, index, release, onSubmit, onDele
               },
             ]}
         />
-        {showProgress && <Progress percent={progress} indicating success={progress === 100} />}
+        {showProgress && <Progress percent={progress} indicating={progress < 100} success={progress >= 100} />}
           {release.package && release.package.file &&
           
             <div>

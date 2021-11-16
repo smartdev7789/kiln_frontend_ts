@@ -86,7 +86,7 @@ export const NewGame = ({ history }: RouteComponentProps) => {
       label: "newGame.description",
       type: FieldType.Textarea,
       required: true,
-      maxLength: 1300,
+      maxLength: 4000,
     },
     {
       key: "type",

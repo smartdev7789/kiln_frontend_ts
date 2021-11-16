@@ -35,6 +35,32 @@ export const getAppReleases = async (token: string, appId: string) => {
  * 
  * @param token 
  * @param appId 
+ * @param releaseId 
+ * @returns 
+ */
+export const getAppRelease = async (token: string, appId: string, releaseId: string) => {
+  if (!token) return noTokenResponse;
+
+  const baseUrl = `${API_ENDPOINT}/apps/${appId}/releases/${releaseId}`;
+  const projection = '?projection={"regions":1,"builds":1}&embedded={"builds":1}';
+  const url = baseUrl + projection;
+  
+  const bearer = 'Bearer ' + token;
+  const response = await fetch(url, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json', 
+      'Authorization': bearer,
+    },
+  });
+  
+  return (await response.json()) as APIResponse;
+};
+
+/**
+ * 
+ * @param token 
+ * @param appId 
  * @param releaseData 
  * @param file 
  * @returns 
@@ -103,22 +129,39 @@ export const updateAppRelease = async (token: string, appId: string, releaseData
   
   const formData = new FormData();
   if (file) {
-    formData.append('name', releaseData.name);
-    formData.append('changelog', releaseData.changelog);
+    formData.append('name', `"${releaseData.name}"`);
+    formData.append('changelog', `"${releaseData.changelog}"`);
     formData.append('package', file)
   }
   else {
     //@ts-ignore
     headers['Content-Type'] = 'application/json';
   }
+  
+  if (file) {
+    try {
+      const res = await axios.patch(url, formData, {
+        onUploadProgress: onProgress,
+        headers
+      });
+  
+      return res.data as APIResponse;
+      
+    } catch (error: any) {
+      console.log(error.response);
 
-  const res = await fetch(url, {
-    method: "PATCH",
-    headers: headers,
-    body: file ? formData : JSON.stringify(releaseData),
-  });
-
-  return (await res.json()) as APIResponse;
+      return error.response as APIResponse;
+    }
+  }
+  else {
+    const res = await fetch(url, {
+      method: "PATCH",
+      headers: headers,
+      body: file ? formData : JSON.stringify({ ...releaseData }),
+    })
+  
+    return (await res.json()) as APIResponse;
+  }
 };
 
 /**

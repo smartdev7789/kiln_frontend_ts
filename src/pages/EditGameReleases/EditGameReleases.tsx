@@ -87,12 +87,17 @@ export const EditGameReleases = (props: RouteComponentProps) => {
       newRelease.id = parseInt(response.id!);
       newRelease._etag = response._etag;
       
-      // TODO: Do we need actual data on the upload ?
-      if (file) newRelease.package = { file: "true", content_type: "" };
+      if (file) {
+        // We need to reload it from the server to get the data on the uploaded apk
+        const r = await API.getAppRelease(token, appData.id, response!.id!);
+        newRelease.package = (r as any).package;
+      }
 
       setReleases(releases.map((r: Release, i: number) => (i === index ? newRelease : r)));
 
       setDrafting(false);
+
+      setActiveIndex(newRelease.id);
     }
 
     return response;
@@ -117,8 +122,11 @@ export const EditGameReleases = (props: RouteComponentProps) => {
     if (response._status === "OK") {
       apiRelease._etag = response._etag;
 
-      // TODO: Do we need actual data on the upload ?
-      if (file) apiRelease.package = { file: "true", content_type: "" };
+      if (file) {
+        // We need to reload it from the server to get the data on the uploaded apk
+        const r = await API.getAppRelease(token, appData.id, response!.id!);
+        apiRelease.package = (r as any).package;
+      }
       
       setReleases(releases.map((r: Release, i: number) => (i === index ? apiRelease : r)));
     }
