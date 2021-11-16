@@ -42,7 +42,7 @@ const RoundedRect = ({ fill, x, y, width, height }: RoundedRectProps) => {
 
 export const GraphCard = ({ data }: GraphCardProps) => {
   const [currentTab, setCurrentTab] = useState(data[0].title);
-  const { format } = useCurrency({ currency: "GBP", compactNotation: true });
+  const { format } = useCurrency({ currency: "USD", compactNotation: true });
 
   const currentGraphData = data.find(
     (graphData) => graphData.title === currentTab

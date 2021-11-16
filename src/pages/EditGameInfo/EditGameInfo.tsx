@@ -68,7 +68,7 @@ const formFields: FormField[] = [
     label: "newGame.description",
     type: FieldType.Textarea,
     required: true,
-    maxLength: 1300,
+    maxLength: 4000,
   },
   {
     key: "type",
@@ -110,10 +110,17 @@ export const EditGameInfo = ({ history, match }: RouteComponentProps) => {
   const handleSubmit = async (formData: object) => {   
     // Start sniper
     setWaitingForResponse(true);
-    const app = await API.updateApp(token, gameData!.id, formData as AppInfo, gameData!._etag);
+    const response = await API.updateApp(token, gameData!.id, formData as AppInfo, gameData!._etag);
+
     // Stop sniper
     setWaitingForResponse(false);
-    history.push(PathHelpers.EditGamePlatforms({ id: app!.id! }), { app });
+
+    if (response._status === "OK") {
+      history.push(PathHelpers.EditGamePlatforms({ id: response!.id! }), { response });
+    }
+    else {
+
+    }
   };
   
   // obtiene el ID de la app y setea el token

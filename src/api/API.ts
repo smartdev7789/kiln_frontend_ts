@@ -36,6 +36,7 @@ import {
 
 import {
   getAppReleases,
+  getAppRelease,
   createAppRelease,
   updateAppRelease,
   deleteAppRelease,
@@ -337,7 +338,13 @@ const updateApp = async (token: string, id: string, data: AppInfo, etag: string)
     },
   });
 
-  return (await res.json()) as APIResponse;
+  let tete = await res.json();
+
+  console.log(tete);
+
+  return tete as APIResponse;
+
+  // return (await res.json()) as APIResponse;
 };
 
 const resetPassword = async (email: string) => {
@@ -434,6 +441,7 @@ export const API = {
   deleteResource,
   // Releases
   getAppReleases,
+  getAppRelease,
   createAppRelease,
   updateAppRelease,
   deleteAppRelease,
