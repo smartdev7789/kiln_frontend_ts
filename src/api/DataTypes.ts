@@ -216,6 +216,15 @@ export interface GraphData {
   date: string,
 }
 
+export interface StackedGraphData {
+  title: string
+  x_axis: string[];
+  y_axis: string[];
+  values: number[];
+  application: string,
+  date: string,
+}
+
 export interface PlatformStat {
   icon: string;
   name: string;
@@ -223,11 +232,6 @@ export interface PlatformStat {
 }
 
 export interface TopStats {
-  top_games: PlatformStat[];
-  top_platforms: PlatformStat[];
-}
-
-export interface GraphData {
   top_games: PlatformStat[];
   top_platforms: PlatformStat[];
 }

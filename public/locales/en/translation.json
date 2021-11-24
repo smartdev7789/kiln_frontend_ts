@@ -18,8 +18,10 @@
       "header": "Top platforms"
     },
     "graphs": {
-      "set-filter": "Set filter to show graphs"
-    }
+      "set-filter": "Set filter to show graphs",
+      "noData": "No Data for the Selected Dates"
+    },
+    "customReports": "Custom Reports"
   },
   "editAccountInfo": {
     "title": "Edit account info",
