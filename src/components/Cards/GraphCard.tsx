@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, CSSProperties } from "react";
 import { Menu, Segment } from "semantic-ui-react";
 import {
   XAxis,
@@ -7,12 +7,13 @@ import {
   Bar,
   CartesianGrid,
   ResponsiveContainer,
+  Tooltip,
 } from "recharts";
-import { GraphData } from "../../api/DataTypes";
+import { GraphData, StatData } from "../../api/DataTypes";
 import { useCurrency } from "../../hooks/useCurrency";
 
 export type GraphCardProps = {
-  data: GraphData[];
+  data: StatData[];
 };
 
 type RoundedRectProps = {
@@ -21,6 +22,30 @@ type RoundedRectProps = {
   y: number;
   width: number;
   height: number;
+};
+
+const styles = {
+  customTooltip: {
+    margin: '0',
+    lineHeight: '4px',
+    border: '1px solid #f5f5f5',
+    backgroundColor: 'rgba(255, 255, 255, 255)',
+    padding: '3px',
+    fontWeight: 'bold'
+  }
+}
+
+const CustomTooltip = (o: any) => {
+  const { payload, label } = o;
+  if (payload && payload.length) {
+    return (
+      <div className="tooltipContent" style={styles.customTooltip as CSSProperties} >
+        <p className="label">{`${label} : ${payload[0].value}`}</p>
+      </div>
+    );
+  }
+
+  return null;
 };
 
 const RoundedRect = ({ fill, x, y, width, height }: RoundedRectProps) => {
@@ -41,10 +66,43 @@ const RoundedRect = ({ fill, x, y, width, height }: RoundedRectProps) => {
 };
 
 export const GraphCard = ({ data }: GraphCardProps) => {
-  const [currentTab, setCurrentTab] = useState(data[0].title);
+  const [currentTab, setCurrentTab] = useState(data[0].label);
   const { format } = useCurrency({ currency: "USD", compactNotation: true });
 
-  const currentGraphData = data.find(
+  const statsToGraphData = (stats: StatData[]): GraphData[] => {
+    const sortedData = stats.reduce((acc: any, curr) => {
+      if (!acc[curr.label]) {
+        acc[curr.label] = [curr];
+      } else {
+        acc[curr.label].push(curr);
+      }
+      
+      return acc;
+    }, {});
+
+    const graphData: GraphData[] = [];
+
+    Object.entries(sortedData).forEach(([key, value]) => {
+      const x_axis = (value as StatData[]).map((stat) => stat.date);
+      const y_axis = (value as StatData[]).map((stat) => stat.value);
+
+      graphData.push({
+        title: key,
+        x_axis: x_axis,
+        y_axis: y_axis,
+        values: (value as StatData[]).map((stat) => parseInt(stat.value)),
+        application: (value as StatData[])[0].application_id as string,
+        date: (value as StatData[])[0].date as string,
+      });
+    });
+  
+    return graphData;
+  };
+
+
+  const processedData = statsToGraphData(data);
+
+  const currentGraphData = processedData.find(
     (graphData) => graphData.title === currentTab
   )!;
 
@@ -65,7 +123,7 @@ export const GraphCard = ({ data }: GraphCardProps) => {
         className="transparent no-shadow square bottom-border"
         size="massive"
       >
-        {data.map((graphData, i) => (
+        {processedData.map((graphData, i) => (
           <Menu.Item
             key={graphData.title}
             onClick={() => setCurrentTab(graphData.title)}
@@ -81,14 +139,15 @@ export const GraphCard = ({ data }: GraphCardProps) => {
         <BarChart width={800} height={400} data={graphDataForLibrary}>
           <defs>
             <linearGradient id="barGradient" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="#B5B5B5" stopOpacity={1} />
+              <stop offset="5%" stopColor="#B2EDB9" stopOpacity={1} />
               <stop offset="95%" stopColor="#D6D6D6" stopOpacity={1} />
             </linearGradient>
           </defs>
-          <CartesianGrid vertical={false} />
-          <Bar dataKey="value" fill="url(#barGradient)" shape={RoundedRect} />
-          <XAxis dataKey="x_axis" />
-          <YAxis tickFormatter={formatYAxis ? yAxisFormatter : undefined} />
+          <CartesianGrid strokeDasharray="3 3" vertical={false} />
+          <Bar dataKey="value" barSize={50} fill="url(#barGradient)" shape={RoundedRect} />
+          <XAxis dataKey="x_axis" order={1} fontSize={10} angle={50}/>
+          <YAxis tickFormatter={formatYAxis ? yAxisFormatter : undefined} fontSize={10} />
+          <Tooltip cursor={{ stroke: '#D6D6D6', strokeWidth: 0.1, fillOpacity: 0.1 }} content={<CustomTooltip />}/>
         </BarChart>
       </ResponsiveContainer>
     </Segment>

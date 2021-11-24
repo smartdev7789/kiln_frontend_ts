@@ -27,10 +27,10 @@ const DateOptions = [
     text: "last30Days",
     value: "3",
   },
-  {
-    text: "allTime",
-    value: "4",
-  },
+  // {
+  //   text: "allTime",
+  //   value: "4",
+  // },
 ];
 
 export const Filters = ({

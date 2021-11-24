@@ -1,10 +1,8 @@
 import {
   Login,
-  TopStats,
   AppInfo,
   BasicAppInfo,
   APIResponse,
-  Filter,
 } from "./DataTypes";
 
 import { createIAP, deleteIAP, updateIAP } from "./IapAPI";
@@ -19,7 +17,6 @@ import {
   connectPlatform
 } from "./AccountAPI";
 
-import { yesterday } from "../libs/date"
 import {
   getAllPlatformsInfo,
   getPlatformInfo,
@@ -54,6 +51,8 @@ import {
   updateAppService,
   deleteAppService
 } from "./ServicesAPI"
+
+import { stats, topStats, graphs, accountEarningsStats, accountEarningsRangeStats } from "./StatsAPI";
 
 // API.
 const API_VERSION = process.env.REACT_APP_API_VERSION
@@ -106,120 +105,6 @@ const securityCheck = async (token: string) => {
     return (await res.json());
   } else {
     return ( { "response": "fail" } );
-  }
-};
-
-// TODO
-const stats = async ( filters:Filter, token:string | null ) => {
-  // http://localhost:5000/v0.01/stats?where={"application_id":"b0ca2dae-836a-422c-98e0-858526651edf","platform_id":1}
-  const url = `${API_ENDPOINT}/stats/`;
-
-  let where = ''
-  switch (filters.date) {
-    case '0':
-      let date = yesterday()
-      where = `?where={"application_id":"${filters.application_id}","platform_id":${filters.platform_id},"date":"${date}"}`;
-      break
-    case '4':
-      where = `?where={"application_id":"${filters.application_id}","platform_id":${filters.platform_id}}`;
-      break
-    default:
-      where = `?where={"application_id":"${filters.application_id}","platform_id":${filters.platform_id}}`;
-  }
-
-  if ( token ) {
-    const bearer = 'Bearer ' + token;
-    const res = await fetch( url.concat(where),
-      { 
-        method: 'GET',
-        mode: 'cors',
-        headers: { 
-          'Content-Type': 'application/json', 
-          'Authorization': bearer,
-        },
-      }
-    );
-    if (res.status === 200 ) {
-      return (await res.json()) as APIResponse;
-    } else {
-      return null
-    }
-  } else {
-    return null
-  }
-};
-
-// TopStats
-const topStats = async (token: string | null) => {
-  // const res = await fetch(`${API_ENDPOINT}/stats/top`);  
-  const url = `${API_ENDPOINT}/stats/top`;
-  
-  if ( token ) {
-    const bearer = 'Bearer ' + token;
-    const res = await fetch( url, 
-      { 
-        method: 'GET',
-        mode: 'cors',
-        headers: { 
-          'Content-Type': 'application/json', 
-          'Authorization': bearer,
-        },
-      }
-    );
-    if (res.status === 200 ) {
-      return ( await res.json() ) as TopStats;
-    } else {
-      return ( { top_games: [], top_platforms: [] } );
-    }
-  } else {
-    return ( { top_games: [], top_platforms: [] } );
-  }
-};
-
-// Graphs.
-const graphs = async (token: string | null, filters:Filter) => {
-  // ?where={"application_id":"b0ca2dae-836a-422c-98e0-858526651edf", "platform_id":1, "date":"2021-05-21"}
-  // const url = `${API_ENDPOINT}/graphs?where={"application_id":${filters.application_id},"platform_id":${filters.platform_id},"date":"${filters.date}"}`;
-  const url = `${API_ENDPOINT}/graphs`
-
-  // "yesterday":"0",
-  // "last7Days": "1",
-  // "last14Days": "2",
-  // "last30Days": "3",
-  // "allTime": "4",
-
-  let where = ''
-  switch (filters.date) {
-    case '0':
-      let date = yesterday()
-      where = `?where={"application_id":"${filters.application_id}","platform_id":${filters.platform_id},"date":"${date}"}`;
-      break
-    case '4':
-      where = `?where={"application_id":"${filters.application_id}","platform_id":${filters.platform_id}}`;
-      break
-    default:
-      where = `?where={"application_id":"${filters.application_id}","platform_id":${filters.platform_id}}`;
-  }
-  
-  if ( token ) {
-    const bearer = 'Bearer ' + token;
-    const res = await fetch( url.concat(where),
-      { 
-        method: 'GET',
-        mode: 'cors',
-        headers: { 
-          'Content-Type': 'application/json', 
-          'Authorization': bearer,
-        },
-      }
-    );
-    if (res.status === 200 ) {
-      return ( await res.json() ) as APIResponse;
-    } else {
-      return null
-    }
-  } else {
-    return null
   }
 };
 
@@ -326,6 +211,8 @@ const createApp = async (token: string | null, appData: BasicAppInfo) => {
 const updateApp = async (token: string, id: string, data: AppInfo, etag: string) => {
   if (!token) return noTokenResponse;
 
+  console.log(data);
+
   const url = `${API_ENDPOINT}/apps/${id}`;
   const bearer = 'Bearer ' + token;
   const res = await fetch(url, {
@@ -338,13 +225,7 @@ const updateApp = async (token: string, id: string, data: AppInfo, etag: string)
     },
   });
 
-  let tete = await res.json();
-
-  console.log(tete);
-
-  return tete as APIResponse;
-
-  // return (await res.json()) as APIResponse;
+  return (await res.json()) as APIResponse;
 };
 
 const resetPassword = async (email: string) => {
@@ -415,6 +296,9 @@ export const API = {
   stats,
   graphs,
   topStats,
+  accountEarningsStats,
+  accountEarningsRangeStats,
+  // App
   platforms,
   apps,
   app,
