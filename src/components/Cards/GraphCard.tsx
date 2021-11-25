@@ -68,7 +68,7 @@ const RoundedRect = ({ fill, x, y, width, height }: RoundedRectProps) => {
 export const GraphCard = ({ data }: GraphCardProps) => {
   const [currentTab, setCurrentTab] = useState(data[0].label);
   const { format } = useCurrency({ currency: "USD", compactNotation: true });
-
+console.log(data);
   const statsToGraphData = (stats: StatData[]): GraphData[] => {
     const sortedData = stats.reduce((acc: any, curr) => {
       if (!acc[curr.label]) {
@@ -82,14 +82,16 @@ export const GraphCard = ({ data }: GraphCardProps) => {
 
     const graphData: GraphData[] = [];
 
+    console.log(sortedData);
     Object.entries(sortedData).forEach(([key, value]) => {
       // Date ascending order
       (value as StatData[]).reverse();
+      console.log(value);
       
       const x_axis = (value as StatData[]).map((stat) =>
         new Date(stat.date).toLocaleDateString("en-US", { month: 'short', day: 'numeric' })
-        // stat.date
       );
+      
       const y_axis = (value as StatData[]).map((stat) => stat.value);
 
       graphData.push({
