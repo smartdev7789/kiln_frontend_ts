@@ -107,6 +107,10 @@ export const Analytics = (props: RouteComponentProps) => {
 
       s.push({ label: key, value: value });
     });
+
+    // We'll sort the result according to
+    const sortOrder = ["DAU", "New Users", "Purchases", "Ads", "Earnings"];
+    s.sort((a, b) => sortOrder.indexOf(a.label) - sortOrder.indexOf(b.label));
     
     return s;
   };
