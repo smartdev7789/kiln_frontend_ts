@@ -133,8 +133,7 @@ export const Analytics = (props: RouteComponentProps) => {
 
   // Get graphs and stats data.
   useEffect(() => {
-    if ( filters.application_id! && filters.date! && filters.platform_id! ) {
-      // API.graphs(token, filters).then((data) => { setGraphsData(data!._items as GraphData[]) })
+    if (filters.application_id! && filters.date! && filters.platform_id!) {
       API.stats(filters, token)
         .then((data) => {
           setStatsData(crunchData(data!._items as StatData[]));

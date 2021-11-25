@@ -116,7 +116,7 @@ export const AccountEarningsGraphCard = () => {
     }
     setColors(colorsAux);
 
-    // Date ascending order
+    // Date ascending order - Custom endpoint that's returning the data in descending order
     graphData.values.reverse();
 
     return graphData;

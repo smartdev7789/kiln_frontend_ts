@@ -1,6 +1,6 @@
 import { APIResponse, Filter, TopStats } from "./DataTypes";
 import { API_ENDPOINT, noTokenResponse } from "./API";
-import { yesterday } from "../libs/date"
+import { amountOfDaysSince, yesterday } from "../libs/date"
 
 /**
  * 
@@ -14,17 +14,38 @@ export const stats = async (filters: Filter, token: string | null) => {
   // http://localhost:5000/v0.01/stats?where={"application_id":"b0ca2dae-836a-422c-98e0-858526651edf","platform_id":1}
   const url = `${API_ENDPOINT}/stats/`;
 
-  let where = ''
-  switch (filters.date) {
-    case '0':
-      let date = yesterday()
-      where = `?where={"application_id":"${filters.application_id}","platform_id":${filters.platform_id},"date":"${date}"}`;
+  let where = `?where={"application_id":"${filters.application_id}","platform_id":${filters.platform_id}`;
+  let endDate = yesterday();
+  let startDate: string;
+  switch (filters.date) { 
+    case '0': // Yesterday
+      where += `,"date":"${endDate}"}&sort=date`;
+      break;
+    
+    case '1': // 7 days
+      startDate = amountOfDaysSince(7, new Date(endDate));
+      
+      where += `,"and_":[{"date":"__ge__(\\"${startDate}\\")"}, {"date":"__le__(\\"${endDate}\\")"}]}&sort=date`;
+      break;
+    
+    case '2': // 14 days
+      startDate = amountOfDaysSince(14, new Date(endDate));
+      
+      where += `,"and_":[{"date":"__ge__(\\"${startDate}\\")"}, {"date":"__le__(\\"${endDate}\\")"}]}&sort=date`;
+      break;
+    
+    case '3': // 30 days
+      startDate = amountOfDaysSince(30, new Date(endDate));
+      
+      where += `,"and_":[{"date":"__ge__(\\"${startDate}\\")"}, {"date":"__le__(\\"${endDate}\\")"}]}&sort=date`;
+      break;
+    
+    case '4': // All Time
+      where += `}&sort=date`;
       break
-    case '4':
-      where = `?where={"application_id":"${filters.application_id}","platform_id":${filters.platform_id}}`;
-      break
+    
     default:
-      where = `?where={"application_id":"${filters.application_id}","platform_id":${filters.platform_id}}`;
+      where += `}&sort=date`;
   }
 
   const bearer = 'Bearer ' + token;
