@@ -50,6 +50,16 @@ function increaseBrightness(hex: string, percent: number) {
 
 const COLOR_START = "#2596be";
 
+const getMonthToDateRange = (): string[] => {
+  const today = new Date();
+  const firstDayofMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+
+  return [
+    firstDayofMonth.toISOString().split('T')[0],
+    today.toISOString().split('T')[0],
+  ];
+}
+
 export const AccountEarningsGraphCard = () => {
   const { t } = useTranslation();
   const { format } = useCurrency({ currency: "USD", compactNotation: true });
@@ -59,13 +69,13 @@ export const AccountEarningsGraphCard = () => {
   const [apps, setApps] = useState<string[]>([]);
   const [colors, setColors] = useState<string[]>([]);
   const [noGraphMessage, setNoGraphMessage] = useState<string>("analytics.graphs.set-filter");
-  const [currentRange, setNewRange] = useState([]);
+  const [currentRange, setNewRange] = useState(getMonthToDateRange());
   
   const onChangeDate = (event: any, data: any) => {
     setGraphData(null);
     setApps([]);
     setColors([]);
-    setNewRange(data.value);
+    setNewRange(data.value ? data.value : []);
   }
 
   const dateEarningsToGraphData = (dateEarnings: DayEarnings[]) => {
@@ -106,11 +116,14 @@ export const AccountEarningsGraphCard = () => {
     }
     setColors(colorsAux);
 
+    // Date ascending order
+    graphData.values.reverse();
+
     return graphData;
   };
 
   useEffect(() => {
-    if (currentRange && currentRange.length > 1) {
+    if (currentRange.length > 1) {
       let startDate = new Date(currentRange[0]).toISOString().slice(0, 10);
       let endDate = new Date(currentRange[1]).toISOString().slice(0, 10);
       API.accountEarningsRangeStats(token, startDate, endDate).then((data: any) => {
@@ -131,7 +144,13 @@ export const AccountEarningsGraphCard = () => {
         size="small"
       >
         <Menu.Item>Earnings Date Range</Menu.Item>
-        <Menu.Item><SemanticDatepicker datePickerOnly={true} onChange={onChangeDate} type="range" /></Menu.Item>
+        <Menu.Item>
+          <SemanticDatepicker
+            datePickerOnly={true}
+            onChange={onChangeDate}
+            type="range"
+            value={currentRange.length > 1 ? [new Date(currentRange[0]), new Date(currentRange[1])] : null} />
+        </Menu.Item>
       </Menu>
       
       <ResponsiveContainer width="100%" height="87%">
@@ -141,7 +160,7 @@ export const AccountEarningsGraphCard = () => {
             :
             <BarChart width={800} height={400} data={graphData.values}>
               <CartesianGrid strokeDasharray="3 3" vertical={false} />
-              <XAxis dataKey="date" order={1} fontSize={10} />
+              <XAxis dataKey="date" fontSize={10} />
               <YAxis tickFormatter={formatYAxis ? yAxisFormatter : undefined} fontSize={10} />
               <Tooltip cursor={{ stroke: '#D6D6D6', strokeWidth: 0.1, fillOpacity: 0.1 }} />
               {apps.map((app, i) => {
