@@ -151,7 +151,7 @@ export const GraphCard = ({ data }: GraphCardProps) => {
           </defs>
           <CartesianGrid strokeDasharray="3 3" vertical={false} />
           <Bar dataKey="value" barSize={50} fill="url(#barGradient)" shape={RoundedRect} />
-          <XAxis dataKey="x_axis" order={1} fontSize={10} />
+          <XAxis dataKey="x_axis" fontSize={10} />
           <YAxis tickFormatter={formatYAxis ? yAxisFormatter : undefined} fontSize={10} />
           <Tooltip cursor={{ stroke: '#D6D6D6', strokeWidth: 0.1, fillOpacity: 0.1 }} content={<CustomTooltip />}/>
         </BarChart>
