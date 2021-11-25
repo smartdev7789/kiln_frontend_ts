@@ -18,3 +18,10 @@ export const yesterday = () => {
     yesterday.setDate(today.getDate() - 1)
     return formatDate(yesterday)
 }
+
+
+export const amountOfDaysSince = (amount: number, date: Date) => {
+    const daysSince = new Date(date)
+    daysSince.setDate(date.getDate() - amount)
+    return formatDate(daysSince)
+}
