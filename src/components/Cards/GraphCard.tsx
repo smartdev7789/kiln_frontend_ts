@@ -83,7 +83,13 @@ export const GraphCard = ({ data }: GraphCardProps) => {
     const graphData: GraphData[] = [];
 
     Object.entries(sortedData).forEach(([key, value]) => {
-      const x_axis = (value as StatData[]).map((stat) => stat.date);
+      // Date ascending order
+      (value as StatData[]).reverse();
+      
+      const x_axis = (value as StatData[]).map((stat) =>
+        new Date(stat.date).toLocaleDateString("en-US", { month: 'short', day: 'numeric' })
+        // stat.date
+      );
       const y_axis = (value as StatData[]).map((stat) => stat.value);
 
       graphData.push({
@@ -145,7 +151,7 @@ export const GraphCard = ({ data }: GraphCardProps) => {
           </defs>
           <CartesianGrid strokeDasharray="3 3" vertical={false} />
           <Bar dataKey="value" barSize={50} fill="url(#barGradient)" shape={RoundedRect} />
-          <XAxis dataKey="x_axis" order={1} fontSize={10} angle={50}/>
+          <XAxis dataKey="x_axis" order={1} fontSize={10} />
           <YAxis tickFormatter={formatYAxis ? yAxisFormatter : undefined} fontSize={10} />
           <Tooltip cursor={{ stroke: '#D6D6D6', strokeWidth: 0.1, fillOpacity: 0.1 }} content={<CustomTooltip />}/>
         </BarChart>
