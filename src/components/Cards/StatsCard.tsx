@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { Card } from "semantic-ui-react";
 
 export type StatsCardProps = {
@@ -8,13 +9,17 @@ export type StatsCardProps = {
 };
 
 export const StatsCard = ({ label, value, isEarning }: StatsCardProps) => {
+  // Translations.
+  const { t } = useTranslation();
+
   let printValue = typeof value === "number" ? value.toLocaleString() : value;
-  if (label === "Purchases" || label === "Ads" || label === "Earnings" || isEarning) printValue = "$" + printValue;
+  if (!printValue) printValue = t("analytics.statCardLabels.pending")
+  else if (label === "Purchases" || label === "Ads" || label === "Earnings" || isEarning) printValue = "$" + printValue;
   
   return (
     <Card className="stats">
       <Card.Content>
-        <Card.Header className="label">{label}</Card.Header>
+        <Card.Header className="label">{t(`analytics.statCardLabels.${label.toLowerCase().replaceAll(' ', '-')}`)}</Card.Header>
 
         <Card.Header className="value">
           {printValue}

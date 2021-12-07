@@ -1,4 +1,5 @@
 import React, { useState, CSSProperties } from "react";
+import { useTranslation } from "react-i18next";
 import { Menu, Segment } from "semantic-ui-react";
 import {
   XAxis,
@@ -66,6 +67,8 @@ const RoundedRect = ({ fill, x, y, width, height }: RoundedRectProps) => {
 };
 
 export const GraphCard = ({ data }: GraphCardProps) => {
+  const { t } = useTranslation(); // Translations.
+
   const [currentTab, setCurrentTab] = useState(data[0].label);
   const { format } = useCurrency({ currency: "USD", compactNotation: true });
   
@@ -133,7 +136,7 @@ export const GraphCard = ({ data }: GraphCardProps) => {
             className="label"
             active={currentTab === graphData.title}
           >
-            {graphData.title}
+            {t(`analytics.statCardLabels.${graphData.title.toLowerCase().replaceAll(' ', '-')}`)}
           </Menu.Item>
         ))}
       </Menu>

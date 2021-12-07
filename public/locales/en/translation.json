@@ -21,7 +21,22 @@
       "set-filter": "Set filter to show graphs",
       "noData": "No Data for the Selected Dates"
     },
-    "customReports": "Custom Reports"
+    "customReports": "Custom Reports",
+    "earningsDateRange": "Earnings Date Range",
+    "statCardLabels": {
+      "dau": "DAU", 
+      "average-dau": "Average DAU", 
+      "new-users": "New Users", 
+      "purchases": "Purchases", 
+      "ads": "Ads", 
+      "earnings": "Est. Earnings",
+      "yesterday": "Yesterday",
+      "last-7-days": "Last 7 Days",
+      "last-14-days": "Last 14 Days",
+      "last-30-days": "Last 30 Days",
+      "all-time": "All Time",
+      "pending": "Pending ..."
+    }
   },
   "editAccountInfo": {
     "title": "Edit account info",

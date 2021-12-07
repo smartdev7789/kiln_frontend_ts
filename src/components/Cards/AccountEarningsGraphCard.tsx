@@ -143,7 +143,7 @@ export const AccountEarningsGraphCard = () => {
         className="transparent no-shadow square bottom-border"
         size="small"
       >
-        <Menu.Item>Earnings Date Range</Menu.Item>
+        <Menu.Item>{t("analytics.earningsDateRange")}</Menu.Item>
         <Menu.Item>
           <SemanticDatepicker
             datePickerOnly={true}
