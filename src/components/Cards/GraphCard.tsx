@@ -129,16 +129,24 @@ export const GraphCard = ({ data }: GraphCardProps) => {
         className="transparent no-shadow square bottom-border"
         size="massive"
       >
-        {processedData.map((graphData, i) => (
-          <Menu.Item
-            key={graphData.title}
-            onClick={() => setCurrentTab(graphData.title)}
-            className="label"
-            active={currentTab === graphData.title}
-          >
-            {t(`analytics.statCardLabels.${graphData.title.toLowerCase().replaceAll(' ', '-')}`)}
-          </Menu.Item>
-        ))}
+        {processedData.map((graphData, i) => {
+          // Disgusting stuff up until we can get the data sheet from the equation
+          let label = graphData.title;
+          if (label === "Purchases (USD$) (Est.)") label = "Purchases";
+          else if (label === "Ads (USD$) (Est.)") label = "Ads";
+          else if (label === "CP Net Earnings (USD$) (Est.)") label = "Earnings";
+
+          return (
+            <Menu.Item
+              key={graphData.title}
+              onClick={() => setCurrentTab(graphData.title)}
+              className="label"
+              active={currentTab === graphData.title}
+            >
+              {t(`analytics.statCardLabels.${label.toLowerCase().replaceAll(' ', '-')}`)}
+            </Menu.Item>
+          )
+        })}
       </Menu>
 
       <ResponsiveContainer width="100%" height="87%">

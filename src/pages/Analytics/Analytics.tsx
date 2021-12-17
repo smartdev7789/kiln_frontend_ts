@@ -84,7 +84,7 @@ export const Analytics = (props: RouteComponentProps) => {
     Object.entries(stats["data"]).forEach(([key, value]) => {
       // In case we're filtering by more than a single day, then the DAU card
       // in reality is going to be an average of the DAU for each day.
-      if (key === "DAU" && filters.date !== "0" /*stats["counter"]["DAU"] > 1*/) {
+      if ((key === "DAU" || key === "MAU") && filters.date !== "0" /*stats["counter"]["DAU"] > 1*/) {
         let divider = 1.0;
         switch (filters.date) {
           case "1":
@@ -100,16 +100,16 @@ export const Analytics = (props: RouteComponentProps) => {
             break;
         }
 
-        key = "Average DAU";
+        key = "Average " + key;
         // value = value as number / stats["counter"]["DAU"];
         value = value as number / divider;
       }
-
+      
       s.push({ label: key, value: value });
     });
-
+    
     // We'll sort the result according to
-    const sortOrder = ["DAU", "New Users", "Purchases", "Ads", "Earnings"];
+    const sortOrder = ["New Users", "Average DAU", "DAU", "Average MAU", "MAU", "Purchases (USD$) (Est.)", "Ads (USD$) (Est.)", "CP Net Earnings (USD$) (Est.)"];
     s.sort((a, b) => sortOrder.indexOf(a.label) - sortOrder.indexOf(b.label));
     
     return s;
@@ -215,7 +215,7 @@ export const Analytics = (props: RouteComponentProps) => {
       
       {/* Stats */}
       <Grid.Row>
-        <Card.Group centered itemsPerRow={5}>
+        <Card.Group centered itemsPerRow={6}>
           { statsData.map((item, i) => { return <StatsCard key={i} {...item} />; })  }
         </Card.Group>
       </Grid.Row>
