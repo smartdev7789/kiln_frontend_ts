@@ -127,6 +127,7 @@ export const AccountEarningsGraphCard = () => {
       let startDate = new Date(currentRange[0]).toISOString().slice(0, 10);
       let endDate = new Date(currentRange[1]).toISOString().slice(0, 10);
       API.accountEarningsRangeStats(token, startDate, endDate).then((data: any) => {
+        console.log(data);
         if (data.length > 0) setGraphData(dateEarningsToGraphData(data));
         else setNoGraphMessage("analytics.graphs.noData");
       });
