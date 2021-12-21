@@ -96,7 +96,8 @@ export const AccountEarningsGraphCard = () => {
       };
 
       dayEarnings.apps.forEach((app) => {
-        dayValue[app.name] = app.earnings;
+        if(dayValue[app.name]) dayValue[app.name] += app.earnings;
+        else dayValue[app.name] = app.earnings;
         
         // Build up the list of apps
         if (!apps.includes(app.name)) {
@@ -127,7 +128,6 @@ export const AccountEarningsGraphCard = () => {
       let startDate = new Date(currentRange[0]).toISOString().slice(0, 10);
       let endDate = new Date(currentRange[1]).toISOString().slice(0, 10);
       API.accountEarningsRangeStats(token, startDate, endDate).then((data: any) => {
-        console.log(data);
         if (data.length > 0) setGraphData(dateEarningsToGraphData(data));
         else setNoGraphMessage("analytics.graphs.noData");
       });
