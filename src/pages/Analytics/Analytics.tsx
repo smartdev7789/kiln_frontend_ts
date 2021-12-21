@@ -68,7 +68,8 @@ export const Analytics = (props: RouteComponentProps) => {
    * @returns 
    */
   const crunchData = (data: StatData[]): Stat[] => {
-    const stats = data.reduce((acc: any, curr) => {
+    // We'll skip MAU for the data cards. We'll just show MAU in the graph.
+    const stats = data.filter(v => v.label !== "MAU").reduce((acc: any, curr) => {
       if (acc["data"][curr.label]) {
         acc["data"][curr.label] += parseInt(curr.value);
         acc["counter"][curr.label] += 1;
@@ -84,7 +85,7 @@ export const Analytics = (props: RouteComponentProps) => {
     Object.entries(stats["data"]).forEach(([key, value]) => {
       // In case we're filtering by more than a single day, then the DAU card
       // in reality is going to be an average of the DAU for each day.
-      if ((key === "DAU" || key === "MAU") && filters.date !== "0" /*stats["counter"]["DAU"] > 1*/) {
+      if ((key === "DAU") && filters.date !== "0" /*stats["counter"]["DAU"] > 1*/) {
         let divider = 1.0;
         switch (filters.date) {
           case "1":
@@ -109,7 +110,7 @@ export const Analytics = (props: RouteComponentProps) => {
     });
     
     // We'll sort the result according to
-    const sortOrder = ["New Users", "Average DAU", "DAU", "Average MAU", "MAU", "Purchases (USD$) (Est.)", "Ads (USD$) (Est.)", "CP Net Earnings (USD$) (Est.)"];
+    const sortOrder = ["New Users", "Average DAU", "DAU", "MAU", "Purchases (USD$) (Est.)", "Ads (USD$) (Est.)", "CP Net Earnings (USD$) (Est.)"];
     s.sort((a, b) => sortOrder.indexOf(a.label) - sortOrder.indexOf(b.label));
     
     return s;
@@ -215,7 +216,7 @@ export const Analytics = (props: RouteComponentProps) => {
       
       {/* Stats */}
       <Grid.Row>
-        <Card.Group centered itemsPerRow={6}>
+        <Card.Group centered itemsPerRow={5}>
           { statsData.map((item, i) => { return <StatsCard key={i} {...item} />; })  }
         </Card.Group>
       </Grid.Row>
