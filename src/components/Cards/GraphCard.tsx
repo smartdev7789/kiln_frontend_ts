@@ -134,7 +134,7 @@ export const GraphCard = ({ data }: GraphCardProps) => {
           let label = graphData.title;
           if (label === "Purchases (USD$) (Est.)") label = "Purchases";
           else if (label === "Ads (USD$) (Est.)") label = "Ads";
-          else if (label === "CP Net Earnings (USD$) (Est.)") label = "Earnings";
+          else if (label === "Earnings (USD$) (Est.)") label = "Earnings";
 
           return (
             <Menu.Item

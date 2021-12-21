@@ -110,7 +110,7 @@ export const Analytics = (props: RouteComponentProps) => {
     });
     
     // We'll sort the result according to
-    const sortOrder = ["New Users", "Average DAU", "DAU", "MAU", "Purchases (USD$) (Est.)", "Ads (USD$) (Est.)", "CP Net Earnings (USD$) (Est.)"];
+    const sortOrder = ["New Users", "Average DAU", "DAU", "MAU", "Purchases (USD$) (Est.)", "Ads (USD$) (Est.)", "Earnings (USD$) (Est.)"];
     s.sort((a, b) => sortOrder.indexOf(a.label) - sortOrder.indexOf(b.label));
     
     return s;
