@@ -1,7 +1,0 @@
-/*******************************
-    User Variable Overrides
-*******************************/
-
-@boxShadow: 0 0.2em 0.6em 0em #79797924;
-@borderRadius: 1em;
-@padding: 1em 2em;

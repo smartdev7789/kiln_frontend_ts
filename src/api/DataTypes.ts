@@ -1,17 +1,17 @@
 // API Response
 
-import { FieldValue } from "../hooks/useForm";
+// import { FieldValue } from "../hooks/useForm";
 
 // import { StringMappingType } from "typescript";
 // import { Platforms } from "../pages/Platforms/Platforms";
 
 interface APIError {
-  code: number; 
+  code: number;
   message: string;
 }
 
 interface APIErrorIssues {
-  name:string;
+  name: string;
 }
 
 interface Meta {
@@ -21,26 +21,26 @@ interface Meta {
 }
 
 export interface APIResponse {
-  _status: 'OK' | 'ERR';
+  _status: "OK" | "ERR";
   _etag: string;
   // ERROR
-  _issues:  APIErrorIssues | null;
+  _issues: APIErrorIssues | null;
   _error: APIError | null;
   // OK
   id: string | null;
-  _items: 
-    Platform[] | 
-    Release[] | 
-    Account[] | 
-    AppInfo[] | 
-    GraphData[] | 
-    StatData[] | 
-    ResourcesData[] | 
-    Build[] |
-    TeamPlatform[] | 
-    Service[] |
-    AppService[] |
-    null;
+  _items:
+    | Platform[]
+    | Release[]
+    | Account[]
+    | AppInfo[]
+    | GraphData[]
+    | StatData[]
+    | ResourcesData[]
+    | Build[]
+    | TeamPlatform[]
+    | Service[]
+    | AppService[]
+    | null;
   _meta: Meta | null;
 }
 
@@ -57,10 +57,10 @@ export interface ResourcesData {
 
 // ResourceTypes.
 export const ResourceTypes = [
-  { 'name': 'icon', 'title': 'resources.types.icon' },
-  { 'name': 'screenshot', 'title': 'resources.types.screenshot' },
-  { 'name': 'video', 'title': 'resources.types.video' },
-]
+  { name: "icon", title: "resources.types.icon" },
+  { name: "screenshot", title: "resources.types.screenshot" },
+  { name: "video", title: "resources.types.video" },
+];
 
 // APP
 export interface AppSummary {
@@ -68,9 +68,9 @@ export interface AppSummary {
   icon: string;
   name: string;
   status: 0 | 1 | 2 | 3 | 4;
-  type:  0 | 1;
+  type: 0 | 1;
   default_language: string;
-  releases: [],
+  releases: [];
   platforms: string[];
 }
 
@@ -94,7 +94,7 @@ export interface Asset {
 }
 
 export interface BasicAppInfo {
-  id: string ;
+  id: string;
   type: 0 | 1;
   name: string;
   pkg_name: string | null;
@@ -137,12 +137,12 @@ export enum PlatformConnectionStatus {
 }
 
 export interface PlatformInfo {
-  id: number,
+  id: number;
   application: string;
-  platform: number | Platform,
-  categories: string | null,
-  age_rating: string | null,
-  _etag: string | null,
+  platform: number | Platform;
+  categories: string | null;
+  age_rating: string | null;
+  _etag: string | null;
 }
 
 export interface Platform {
@@ -155,8 +155,8 @@ export interface Platform {
   connection_status: PlatformConnectionStatus;
   build: [] | null;
   platforms_info: [] | null;
-  stats: []  | null;
-  graphs: []  | null;
+  stats: [] | null;
+  graphs: [] | null;
 }
 export interface Team {
   id: string;
@@ -166,7 +166,7 @@ export interface Team {
   contact_email: string;
   company_number: string;
   business_licence: AssetFile | null;
-  _etag: string,
+  _etag: string;
 }
 
 export interface TeamPlatform {
@@ -176,18 +176,18 @@ export interface TeamPlatform {
   platform: number;
   extras: string;
   connection_status: number;
-  _etag: string,
+  _etag: string;
 }
 
 export interface Account {
-  id: string,
+  id: string;
   team_id: string;
-  _created: Date,
-  _updated: Date,
-  _etag: string,
-  name: string,
-  email: string,
-  _password: string,
+  _created: Date;
+  _updated: Date;
+  _etag: string;
+  name: string;
+  email: string;
+  _password: string;
 }
 
 // Login response.
@@ -202,27 +202,27 @@ export interface StatData {
   platform_id: number;
   date: string;
   label: string;
-  value: string,
-  id: number,
+  value: string;
+  id: number;
 }
 
 // Analytics
 export interface GraphData {
-  title: string
+  title: string;
   x_axis: string[];
   y_axis: string[];
   values: number[];
-  application: string,
-  date: string,
+  application: string;
+  date: string;
 }
 
 export interface StackedGraphData {
-  title: string
+  title: string;
   x_axis: string[];
   y_axis: string[];
   values: number[];
-  application: string,
-  date: string,
+  application: string;
+  date: string;
 }
 
 export interface PlatformStat {
@@ -273,7 +273,7 @@ export interface IAP {
 
 export enum LeaderboardOrder {
   Ascending = 0,
-  Descending = 1
+  Descending = 1,
 }
 
 export interface Leaderboard {
@@ -359,14 +359,14 @@ export const LeaderboardTypeOptions = [
 ];
 
 export interface Filter {
-  application_id: string | null,
-  platform_id: number | null,
-  date: string | null
+  application_id: string | null;
+  platform_id: number | null;
+  date: string | null;
 }
 
-export interface FormDataInterface {
-  [key: string]: FieldValue
-}
+// export interface FormDataInterface {
+//   [key: string]: FieldValue
+// }
 
 export enum ServiceCategory {
   CORE = 0,

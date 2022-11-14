@@ -1,94 +1,18 @@
-import { Button, Form, Grid, Image } from "semantic-ui-react";
-import { useTranslation } from "react-i18next";
-import React, { useContext, useState } from "react";
-import Logo from "../../images/logos/full-grey.png";
-import { API } from "../../api/API";
-import { DispatchContext } from "../../App";
-import { ActionType } from "../../state/types";
-import { Link, RouteComponentProps } from "react-router-dom";
-import { Paths } from "../../routes";
-import { Authentication } from "../../authentication/Authentication";
+import React, { useState } from "react";
+import LoginComponent from "../../components/LoginComponent";
+import LogoComponent from "../../components/LoginComponent/LogoComponent";
 
-export const LogIn = ({ history }: RouteComponentProps) => {
-  const { t } = useTranslation();
-  const [waitingForResponse, setWaitingForResponse] = useState(false);
-  const [formData, setFormData] = useState({ email: "", password: "" });
-  const { dispatch } = useContext(DispatchContext);
-
-  const handleSubmit = async () => {
-    // Put spinner loading
-    setWaitingForResponse(true);
-
-    // Get login data { token, account }
-    const { token, account } = await API.login(formData.email, formData.password);   
-  
-    // Set context account.
-    if ( account ) {
-      dispatch({
-        type: ActionType.SetAccount,
-        payload: {
-          account,
-        },
-      });
-    }
-
-    // Save token in localstorare
-    if ( token ) {
-      Authentication.handleSuccessfulLogin(token, account);
-    } else {
-      Authentication.clearToken();
-    }
-
-    // Remove spinner loading
-    setWaitingForResponse(false);
-    
-    // Go to Analytics.
-    // if ( Authentication.validateToken() ) {
-    //   history.push(Paths.Analytics);
-    // }
-    history.push(Paths.Analytics);
-  };
-
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({
-      ...formData,
-      [event.target.name]: event.target.value,
-    });
-  };
-
+const Login = () => {
   return (
-    <Grid textAlign="center" style={{ height: "100vh" }} verticalAlign="middle">
-      <Grid.Column style={{ maxWidth: 450 }}>
-        <Form loading={waitingForResponse} onSubmit={handleSubmit}>
-          <Image src={Logo} />
-          <Form.Field>
-            <input
-              name="email"
-              value={formData.email}
-              type="text"
-              autoComplete="email"
-              placeholder={t("login.email")}
-              onChange={handleInputChange}
-            />
-          </Form.Field>
-          <Form.Field>
-            <input
-              name="password"
-              value={formData.password}
-              type="password"
-              autoComplete="current-password"
-              placeholder={t("login.password")}
-              onChange={handleInputChange}
-            />
-          </Form.Field>
-          <Button.Group widths="2">
-            <Button type="submit">{t("login.login")}</Button>
-            <Button as={Link} to={Paths.ForgotPassword}>
-              {t("login.forgotPassword")}
-            </Button>
-          </Button.Group>
-        </Form>
-      </Grid.Column>
-    </Grid>
+    <div className="container">
+      <div className="flex w-screen h-screen bg-[url('/public/imgs/BG_Purple.svg')]">
+        <LogoComponent />
+        <div className="w-1/2">
+          <LoginComponent />
+        </div>
+      </div>
+    </div>
   );
 };
+
+export default Login;

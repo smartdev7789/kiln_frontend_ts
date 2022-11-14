@@ -1,12 +1,11 @@
-import {
-  Login,
-  AppInfo,
-  BasicAppInfo,
-  APIResponse,
-} from "./DataTypes";
+import { Login, AppInfo, BasicAppInfo, APIResponse } from "./DataTypes";
 
 import { createIAP, deleteIAP, updateIAP } from "./IapAPI";
-import { createLeaderboard, deleteLeaderboard, updateLeaderboard } from "./LeaderboardAPI";
+import {
+  createLeaderboard,
+  deleteLeaderboard,
+  updateLeaderboard,
+} from "./LeaderboardAPI";
 import {
   getAccount,
   updateAccount,
@@ -14,22 +13,22 @@ import {
   updateTeam,
   getTeamPlatforms,
   getTeamPlatform,
-  connectPlatform
+  connectPlatform,
 } from "./AccountAPI";
 
 import {
   getAllPlatformsInfo,
   getPlatformInfo,
   updatePlatformInfo,
-  createPlatformInfo
-} from "./PlatformInfoAPI"
+  createPlatformInfo,
+} from "./PlatformInfoAPI";
 
-import { 
+import {
   getAllResources,
   getResource,
   addResource,
-  deleteResource
-} from "./ResourcesAPI"
+  deleteResource,
+} from "./ResourcesAPI";
 
 import {
   getAppReleases,
@@ -40,7 +39,7 @@ import {
   processReleases,
   downloadReleaseBuild,
   publishRelease,
-  deleteReleaseBuild
+  deleteReleaseBuild,
 } from "./ReleasesAPI";
 
 import {
@@ -49,135 +48,133 @@ import {
   getAppServices,
   createAppService,
   updateAppService,
-  deleteAppService
-} from "./ServicesAPI"
+  deleteAppService,
+} from "./ServicesAPI";
 
-import { stats, topStats, graphs, accountEarningsStats, accountEarningsRangeStats } from "./StatsAPI";
+import {
+  stats,
+  topStats,
+  graphs,
+  accountEarningsStats,
+  accountEarningsRangeStats,
+  topChannelGames,
+} from "./StatsAPI";
 
 // API.
-const API_VERSION = process.env.REACT_APP_API_VERSION
-export const API_ADDRESS = process.env.REACT_APP_API_ADDRESS
-export const API_ENDPOINT = `${API_ADDRESS}/${API_VERSION}`
+const API_VERSION = process.env.REACT_APP_API_VERSION;
+export const API_ADDRESS = process.env.REACT_APP_API_ADDRESS;
+export const API_ENDPOINT = `${API_ADDRESS}/${API_VERSION}`;
 export const noTokenResponse = {
-  "_status": "ERR",
-  "_error": {
-    "message": "No token"
-  }
+  _status: "ERR",
+  _error: {
+    message: "No token",
+  },
 } as APIResponse;
 
 // Login.
 const login = async (email: string, password: string) => {
   const postData = { email, password };
-  const url = `${API_ENDPOINT}/login`;
-  const res = await fetch( 
-    url, 
-    { 
-      method: 'POST', 
-      mode: 'cors',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(postData)  
-    }
-  );
-  
-  if (res.status === 200 ) {
-     return (await res.json()) as Login;
+  const url = `/v0.01/login`;
+  const res = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(postData),
+  });
+
+  if (res.status === 200) {
+    return (await res.json()) as Login;
   } else {
-    return ( { "token": null, "account": null } ) as Login;
+    return { token: null, account: null } as Login;
   }
 };
 
 // Security Check.
 const securityCheck = async (token: string) => {
-  const url = `${API_ENDPOINT}/security_check`;
-  const bearer = 'Bearer ' + token;
-  const res = await fetch( url, 
-    { 
-      method: 'GET',
-      headers: { 
-        'Content-Type': 'application/json', 
-        'Authorization': bearer,
-      },
-    }
-  );
-  
-  if (res.status === 200 ) {
+  const url = `/v0.01/security_check`;
+  const bearer = "Bearer " + token;
+  const res = await fetch(url, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: bearer,
+    },
+  });
+
+  if (res.status === 200) {
     // { "response": "success" }
-    return (await res.json());
+    return await res.json();
   } else {
-    return ( { "response": "fail" } );
+    return { response: "fail" };
   }
 };
 
 // Get all Platforms.
-const platforms = async ( token: string | null ) => {
-  if ( token ) {
-    const url = `${API_ENDPOINT}/platforms/`
-    const bearer = 'Bearer ' + token;
-    const res = await fetch( url, 
-        { 
-          method: 'GET',
-          headers: { 
-            'Content-Type': 'application/json', 
-            'Authorization': bearer,
-          },
-        }
-      );
-      
-    if (res.status === 200 ) {
-      return ( await res.json() );
+const platforms = async (token: string | null) => {
+  if (token) {
+    console.log(token);
+    const url = `/v0.01/platforms`;
+    const bearer = "Bearer " + token;
+    const res = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: bearer,
+      },
+    });
+
+    if (res.status === 200) {
+      return await res.json();
     } else {
-      return {'_items':[]};
+      return { _items: [] };
     }
   } else {
-    return {'_items':[]};
+    return { _items: [] };
   }
 };
 
 // Get all Apps (of user login?).
 const apps = async (token: string | null) => {
- 
-  if ( token !== '' ) {
-    const url = `${API_ENDPOINT}/apps`;
-    const bearer = 'Bearer ' + token;
-    const res = await fetch( url, 
-      { 
-        method: 'GET',
-        headers: { 
-          'Content-Type': 'application/json', 
-          'Authorization': bearer,
-        },
-      }
-    );
-    if (res.status === 200 ) {
-      return (await res.json());
+  if (token !== "") {
+    const url = `/v0.01/apps`;
+    const bearer = "Bearer " + token;
+    const res = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: bearer,
+      },
+    });
+    if (res.status === 200) {
+      return await res.json();
     } else {
-      return {'_items':[]};
+      return { _items: [] };
     }
   } else {
-    return {'_items':[]};
+    return { _items: [] };
   }
-  
 };
 
 // Get App.
 const app = async (token: string, id: string) => {
   if (!token) return noTokenResponse;
 
-  const baseUrl = `${API_ENDPOINT}/apps/${id}`
-  const projection = '?projection={"platforms_info":1,"ads":1,"iaps":1,"events":1,"leaderboards":1}&embedded={"platforms_info":1,"ads":1,"iaps":1,"events":1,"leaderboards":1}'
-  const url = `${baseUrl}/${projection}`
-  const bearer = 'Bearer ' + token;
+  const baseUrl = `/v0.01/apps/${id}`;
+  const projection =
+    '?projection={"platforms_info":1,"ads":1,"iaps":1,"events":1,"leaderboards":1}&embedded={"platforms_info":1,"ads":1,"iaps":1,"events":1,"leaderboards":1}';
+  const url = `${baseUrl}/${projection}`;
+  const bearer = "Bearer " + token;
   const response = await fetch(url, {
-    method: 'GET',
+    method: "GET",
     headers: {
-      'Content-Type': 'application/json', 
-      'Authorization': bearer,
+      "Content-Type": "application/json",
+      Authorization: bearer,
     },
   });
 
   return (await response.json()) as AppInfo;
 };
-
 
 // Aditon App info (Ver api/DataTypes.ts/AppInfo)
 const additionalAppInfo = {
@@ -192,13 +189,13 @@ const additionalAppInfo = {
 const createApp = async (token: string | null, appData: BasicAppInfo) => {
   if (!token) return noTokenResponse;
 
-  const url = `${API_ENDPOINT}/apps`;
-  const bearer = 'Bearer ' + token;
+  const url = `/v0.01/apps`;
+  const bearer = "Bearer " + token;
   const res = await fetch(url, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      'Authorization': bearer,
+      Authorization: bearer,
       Accept: "application/json",
     },
     body: JSON.stringify({ ...appData, ...additionalAppInfo }),
@@ -208,20 +205,23 @@ const createApp = async (token: string | null, appData: BasicAppInfo) => {
 };
 
 // Update App
-const updateApp = async (token: string, id: string, data: AppInfo, etag: string) => {
+const updateApp = async (
+  token: string,
+  id: string,
+  data: AppInfo,
+  etag: string
+) => {
   if (!token) return noTokenResponse;
 
-  console.log(data);
-
-  const url = `${API_ENDPOINT}/apps/${id}`;
-  const bearer = 'Bearer ' + token;
+  const url = `/v0.01/apps/${id}`;
+  const bearer = "Bearer " + token;
   const res = await fetch(url, {
     method: "PATCH",
     body: JSON.stringify(data),
     headers: {
-      'Content-Type': 'application/json',
-      'If-Match': etag,
-      'Authorization': bearer,
+      "Content-Type": "application/json",
+      "If-Match": etag,
+      Authorization: bearer,
     },
   });
 
@@ -229,7 +229,7 @@ const updateApp = async (token: string, id: string, data: AppInfo, etag: string)
 };
 
 const resetPassword = async (email: string) => {
-  const res = await fetch(`${API_ENDPOINT}/users/forgot_password`, {
+  const res = await fetch(`/v0.01/users/forgot_password`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -242,7 +242,7 @@ const resetPassword = async (email: string) => {
 
 // Reset password validate tokern
 const resetPasswordValidateToken = async (token: string) => {
-  const res = await fetch(`${API_ENDPOINT}/users/reset_password?token=${token}`);
+  const res = await fetch(`/v0.01/users/reset_password?token=${token}`);
 
   if (!res.ok) {
     throw new Error(res.statusText);
@@ -252,27 +252,35 @@ const resetPasswordValidateToken = async (token: string) => {
 };
 
 // Change password
-const changePassword = async (password: string, passwordConfirmation: string, token: string) => {
-  const res = await fetch(`${API_ENDPOINT}/users/change_password`, {
+const changePassword = async (
+  password: string,
+  passwordConfirmation: string,
+  token: string
+) => {
+  const res = await fetch(`/v0.01/users/change_password`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       Accept: "application/json",
     },
-    body: JSON.stringify({password: password, confirm_password: passwordConfirmation, token: token}),
+    body: JSON.stringify({
+      password: password,
+      confirm_password: passwordConfirmation,
+      token: token,
+    }),
   });
   return await res.json();
 };
 
 // Get terms of service
 const getTermsOfService = async (lang = "en") => {
-  const res = await fetch(`${API_ENDPOINT}/tos/${lang}`);
+  const res = await fetch(`/v0.01/tos/${lang}`);
   return (await res.json()) as { tos: string };
 };
 
 // Accept terms of service.
 const acceptTermsOfService = async (lang = "en") => {
-  const res = await fetch(`${API_ENDPOINT}/tos/${lang}`, { method: "POST" });
+  const res = await fetch(`/v0.01/tos/${lang}`, { method: "POST" });
   return await res.json();
 };
 
@@ -298,6 +306,7 @@ export const API = {
   topStats,
   accountEarningsStats,
   accountEarningsRangeStats,
+  topChannelGames,
   // App
   platforms,
   apps,

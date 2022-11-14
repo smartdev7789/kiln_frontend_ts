@@ -1,8 +1,0 @@
-/*******************************
-    User Variable Overrides
-*******************************/
-@titleFontWeight: normal;
-@iconSize: 1.5em;
-@orderedFontWeight: normal;
-@activeBackground: #ffffff;
-@activeColor: #18a1ba;

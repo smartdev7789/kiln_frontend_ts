@@ -1,7 +1,0 @@
-/*******************************
-         Site Overrides
-*******************************/
-
-.ui.label.borderless {
-  border-color: transparent;
-}
