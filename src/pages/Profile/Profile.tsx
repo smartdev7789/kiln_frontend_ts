@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import AccountDetailComponent from "../../components/AccountDetailComponent";
 import BillingDetailComponent from "../../components/BillingDetailComponent";
 import BusinessDetailComponent from "../../components/BusinessDetailComponent";
-import ProfileSidebarComponent from "../../components/ProfileSidebarComponent";
+import ProfileSidebarComponent from "../../components/SidebarComponent/ProfileSidebarComponent";
 import MainLayout from "../../layouts/MainLayout";
 
 const Profile = () => {

@@ -17,3 +17,24 @@ code {
 .rs-btn-primary {
   background-color: #3498ff !important;
 }
+
+::-webkit-scrollbar {
+  /* width */
+  scroll-padding-right: 10px;
+  width: 3px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  /* background: #f1f1f1; */
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #f0f0f0;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}

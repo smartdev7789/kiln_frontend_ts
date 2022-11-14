@@ -9,7 +9,9 @@ const MainLayout: React.FC<Props> = ({ children }) => {
   return (
     <>
       <Header />
-      <main className="bg-[#f7f7f7] contents">{children}</main>
+      <main className="contents">
+        <div className="bg-[#f7f7f7]">{children}</div>
+      </main>
     </>
   );
 };

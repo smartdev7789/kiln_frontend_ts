@@ -4,7 +4,10 @@ import { Menu, Transition } from "@headlessui/react";
 
 const Header = () => {
   const location = useLocation();
-  console.log(location.pathname);
+  const channels = [];
+  for (let i = 0; i < 30; i++) {
+    channels.push("channel" + ((i % 9) + 1) + ".svg");
+  }
 
   return (
     <header className="bg-[url('/public/imgs/BG_Purple_Head.svg')] shadow">
@@ -31,6 +34,66 @@ const Header = () => {
               >
                 &nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Documentation
               </Link>
+              {location.pathname === "/documentation" && (
+                <Menu as="div" className="mr-6">
+                  <div>
+                    <Menu.Button className="text-white py-2 rounded-md text-sm font-medium">
+                      <span className="flex items-center">
+                        &nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Select a
+                        channel&nbsp;&nbsp;&nbsp;&nbsp;
+                        <svg
+                          className="h-4 w-4 text-[#e4bff8]"
+                          fill="currentColor"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        >
+                          {" "}
+                          <path fill="none" d="M0 0h24v24H0z" />{" "}
+                          <path
+                            d="M18 15l-6-6l-6 6h12"
+                            transform="rotate(180 12 12)"
+                          />
+                        </svg>
+                      </span>
+                    </Menu.Button>
+                  </div>
+                  <Transition
+                    as={Fragment}
+                    enter="transition ease-out duration-100"
+                    enterFrom="transform opacity-0 scale-95"
+                    enterTo="transform opacity-100 scale-100"
+                    leave="transition ease-in duration-75"
+                    leaveFrom="transform opacity-100 scale-100"
+                    leaveTo="transform opacity-0 scale-95"
+                  >
+                    <Menu.Items className="absolute left-50 z-10 h-3/4 origin-top-right rounded-lg bg-white py-4 px-2 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                      <div className="overflow-y-auto h-full px-5">
+                        {channels.map((channel) => (
+                          <>
+                            <Menu.Item key={channel}>
+                              <Link
+                                to="/documentation"
+                                className="block px-4 py-1 text-sm text-gray-700 hover:no-underline hover:text-gray-700 focus:no-underline focus:text-gray-700"
+                              >
+                                <img
+                                  className="h-12"
+                                  src={"imgs/" + channel}
+                                  alt="GameBake"
+                                />
+                              </Link>
+                            </Menu.Item>
+                            <hr />
+                          </>
+                        ))}
+                      </div>
+                    </Menu.Items>
+                  </Transition>
+                </Menu>
+              )}
             </div>
           </div>
         </div>
