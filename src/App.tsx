@@ -61,25 +61,24 @@ export const App = () => {
 
   // Try to redirect user login to Analytics
   useEffect(() => {
-    // console.log(location.pathname);
-
     if (!PublicPaths.includes(location.pathname)) {
-      // console.log("Private page")
-
       Authentication.validateToken()
         .then((response) => {
           setToken(getToken());
-
           if (
             location.pathname === Paths.LogIn ||
             location.pathname === Paths.Root
           ) {
-            console.log(111);
             navigate(Paths.Dashboard);
           }
         })
         .catch(() => {
-          if (location.pathname !== Paths.LogIn) navigate(Paths.LogIn);
+          // if (
+          //   location.pathname !== Paths.LogIn &&
+          //   location.pathname !== Paths.Root
+          // ) {
+          //   navigate(Paths.LogIn);
+          // }
         });
     }
   }, [navigate, location]);

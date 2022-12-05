@@ -1,6 +1,8 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-import Login from "./pages/Login";
+import Landing from "./pages/Landing";
+import LogIn from "./pages/LogIn";
+import LogInAgain from "./pages/LoginAgain";
 import ForgotEmail from "./pages/ForgotEmail";
 import ForgotPassword from "./pages/ForgotPassword";
 import PaymentCard from "./pages/PaymentCard";
@@ -46,6 +48,7 @@ export const RenderRoutes = ({ routes }: { routes: RouteConfig[] }) => (
 export enum Paths {
   Root = "/",
   LogIn = "/login",
+  LogInAgain = "/loginagain",
   Dashboard = "/dashboard",
   Paymentcard = "/paymentcard",
   Profile = "/profile",
@@ -60,14 +63,21 @@ export const ROUTES: RouteConfig[] = [
     path: Paths.Root,
     hideInMenu: true,
     exact: true,
-    component: () => <h1>Log in</h1>,
+    component: Landing,
   },
   {
     path: Paths.LogIn,
     hideInMenu: true,
     public: true,
     exact: true,
-    component: Login,
+    component: LogIn,
+  },
+  {
+    path: Paths.LogInAgain,
+    hideInMenu: true,
+    public: true,
+    exact: true,
+    component: LogInAgain,
   },
   {
     path: Paths.LogOut,

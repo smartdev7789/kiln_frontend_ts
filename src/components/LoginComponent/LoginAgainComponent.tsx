@@ -7,7 +7,7 @@ import { DispatchContext } from "../../App";
 import { Authentication } from "../../authentication/Authentication";
 import { Paths } from "../../routes";
 
-const LoginComponent = () => {
+const LoginAgainComponent = () => {
   const { t } = useTranslation();
   const [waitingForResponse, setWaitingForResponse] = useState(false);
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -120,4 +120,4 @@ const LoginComponent = () => {
   );
 };
 
-export default LoginComponent;
+export default LoginAgainComponent;

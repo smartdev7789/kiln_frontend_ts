@@ -13,11 +13,11 @@ export const TokenValidated = (props: Properties) => {
   return (
     <>
       {props.message}
-      <div className="mt-6">
+      <div className="mt-6 w-full text-right">
         <button
           type="button"
           onClick={() => navigate(Paths.LogIn)}
-          className="text-[#707070] text-opacity-[0.6499999761581421] bg-white hover:bg-gray-100 shadow-lg rounded-lg w-96 text-xl px-5 py-1 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+          className="text-lg text-white bg-[#ff9100] hover:bg-[#ee8000] shadow-lg rounded-md px-20 py-3 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
         >
           {t("forgotpassword.backtologin")}
         </button>

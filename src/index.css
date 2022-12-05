@@ -18,23 +18,133 @@ code {
   background-color: #3498ff !important;
 }
 
-::-webkit-scrollbar {
-  /* width */
+/* ::-webkit-scrollbar {
   scroll-padding-right: 10px;
   width: 3px;
 }
 
-/* Track */
-::-webkit-scrollbar-track {
-  /* background: #f1f1f1; */
-}
-
-/* Handle */
 ::-webkit-scrollbar-thumb {
   background: #f0f0f0;
 }
 
-/* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
+} */
+
+.landing-width {
+  width: calc(100vw - 17px);
+} 
+
+.section-height {
+  min-height: calc(100vh - 30px);
+}
+ 
+.section7-height {
+  min-height: calc(100vh - 110px);
+}
+
+.carousel {
+  display: inline-flex;
+  overflow-x: hidden;
+/*  scroll snap is a great feature which will center the image on snap on touch screen devices  */
+  scroll-snap-type: x mandatory;
+/* all below will hide the scrollbar on all browsers.    */
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; /* For Firefox */
+  -ms-overflow-style: none; /* For Internet Explorer and Edge */
+}
+
+
+.swiper {
+  width: 100%;
+  height: 100%;
+  padding-left: 8rem !important;
+  padding-right: 8rem !important;
+}
+
+.signupselect{
+  background: url('/public/imgs/dropdown_arrow.svg') no-repeat right;
+  background-size: 25% 25%;
+  background-color: #7700df;
+  color:white;
+  width: 100%;
+  /* display: block; */
+}
+
+.signupselect select {
+  visibility: hidden;
+  background: transparent;
+}
+
+.checkbox_container {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 5px;
+  cursor: pointer;
+  font-size: 20px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.checkbox_container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Create a custom checkbox */
+.check_mark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #f7f7f7;
+  border-color: #B0B0B0;
+  border-width: 2px;
+  border-radius:7px;
+}
+
+/* On mouse-over, add a grey background color */
+.checkbox_container:hover input ~ .check_mark {
+  background-color: #ccc;
+}
+
+/* When the checkbox is checked, add a blue background */
+.checkbox_container input:checked ~ .check_mark {
+  background-color: #2196F3;
+  border-width: 0px;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.check_mark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.checkbox_container input:checked ~ .check_mark:after {
+  display: block;
+  width: 7px;
+  height: 14px;
+}
+
+/* Style the checkmark/indicator */
+.checkbox_container .check_mark:after {
+  left: 9px;
+  top: 5px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
 }

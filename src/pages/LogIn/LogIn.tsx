@@ -1,12 +1,11 @@
-import React, { useState } from "react";
 import LoginComponent from "../../components/LoginComponent";
-import LogoComponent from "../../components/LoginComponent/LogoComponent";
+import LoginLogoComponent from "../../components/LoginComponent/LoginLogoComponent";
 
-const Login = () => {
+const LogIn = () => {
   return (
     <div className="container">
-      <div className="flex w-screen h-screen bg-[url('/public/imgs/BG_Purple.svg')]">
-        <LogoComponent />
+      <div className="flex w-screen h-screen bg-[#7700DF]">
+        <LoginLogoComponent />
         <div className="w-1/2">
           <LoginComponent />
         </div>
@@ -15,4 +14,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default LogIn;

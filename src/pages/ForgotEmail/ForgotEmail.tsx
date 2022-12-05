@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import ForgotEmailComponent from "../../components/LoginComponent/ForgotEmailComponent";
-import LogoComponent from "../../components/LoginComponent/LogoComponent";
+import ForgotEmailLogoComponent from "../../components/LoginComponent/ForgotEmailLogoComponent";
 
 const ForgotEmail = () => {
   return (
     <div className="container">
-      <div className="flex w-screen h-screen bg-[url('/public/imgs/BG_Purple.svg')]">
-        <LogoComponent />
+      <div className="flex w-screen h-screen bg-[#7700DF]">
+        <ForgotEmailLogoComponent />
         <div className="w-1/2">
           <ForgotEmailComponent />
         </div>

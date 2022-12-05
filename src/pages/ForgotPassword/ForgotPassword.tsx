@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import ForgotPasswordComponent from "../../components/LoginComponent/ForgotPasswordComponent";
-import LogoComponent from "../../components/LoginComponent/LogoComponent";
+import ForgotPasswordLogoComponent from "../../components/LoginComponent/ForgotPasswordLogoComponent";
 
-const ForgotEmail = () => {
+const ForgotPassword = () => {
   return (
     <div className="container">
-      <div className="flex w-screen h-screen bg-[url('/public/imgs/BG_Purple.svg')]">
-        <LogoComponent />
+      <div className="flex w-screen h-screen bg-[#7700DF]">
+        <ForgotPasswordLogoComponent />
         <div className="w-1/2">
           <ForgotPasswordComponent />
         </div>
@@ -15,4 +15,4 @@ const ForgotEmail = () => {
   );
 };
 
-export default ForgotEmail;
+export default ForgotPassword;
