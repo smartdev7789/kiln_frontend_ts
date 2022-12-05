@@ -1,4 +1,5 @@
 import React from "react";
+import { scrollToTop } from "../../utils";
 
 const images = [
   <div className="flex px-16 items-center section-height">
@@ -150,9 +151,17 @@ const Carousel = () => {
 
 const Section2Component = () => {
   return (
-    <div className="bg-[url('/public/imgs/Background_Orange.png')] bg-cover landing-width min-h-screen">
+    <div
+      id="section2"
+      className="bg-[url('/public/imgs/Background_Orange.png')] bg-cover landing-width min-h-screen"
+    >
       <Carousel />
-      <div className="text-center py-3">
+      <div
+        className="text-center py-3"
+        onClick={() =>
+          scrollToTop(document.getElementById("section3")?.offsetTop)
+        }
+      >
         <button type="button">
           <img className="w-7" src="imgs/Arrow.svg" alt="GameBake" />
         </button>

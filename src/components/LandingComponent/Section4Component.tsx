@@ -1,4 +1,5 @@
 import React from "react";
+import { scrollToTop } from "../../utils";
 
 const icons = [
   "imgs/service_icon1.svg",
@@ -27,7 +28,10 @@ const contents = [
 
 const Section4Component = () => {
   return (
-    <div className="bg-[url('/public/imgs/BG_Purple.svg')] bg-cover landing-width min-h-screen">
+    <div
+      id="scroll3"
+      className="bg-[url('/public/imgs/BG_Purple.svg')] bg-cover landing-width min-h-screen"
+    >
       <div className="section-height flex items-center px-36 py-28">
         <div>
           <div className="text-5xl mb-6 text-white font-extrabold">
@@ -49,7 +53,12 @@ const Section4Component = () => {
         </div>
       </div>
       <div className="text-center py-3">
-        <button type="button">
+        <button
+          type="button"
+          onClick={() =>
+            scrollToTop(document.getElementById("scroll4")?.offsetTop)
+          }
+        >
           <img className="w-7" src="imgs/Arrow.svg" alt="GameBake" />
         </button>
       </div>

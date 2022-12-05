@@ -3,7 +3,7 @@ import React from "react";
 const titles = ["Title", "Title", "Title", "Title"];
 const Section7Component = () => {
   return (
-    <div className="bg-[#4d1aa0] bg-cover landing-width">
+    <div id="scroll6" className="bg-[#4d1aa0] bg-cover landing-width">
       <div className="section7-height flex items-center justify-center px-36 py-6">
         <div>
           <div className="text-5xl mb-8 text-white font-extrabold">

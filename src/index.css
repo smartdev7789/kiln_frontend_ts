@@ -18,7 +18,7 @@ code {
   background-color: #3498ff !important;
 }
 
-/* ::-webkit-scrollbar {
+::-webkit-scrollbar {
   scroll-padding-right: 10px;
   width: 3px;
 }
@@ -29,10 +29,10 @@ code {
 
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
-} */
+}
 
 .landing-width {
-  width: calc(100vw - 17px);
+  width: calc(100vw - 3px);
 } 
 
 .section-height {
@@ -147,4 +147,8 @@ code {
   -webkit-transform: rotate(45deg);
   -ms-transform: rotate(45deg);
   transform: rotate(45deg);
+}
+
+.active_navitem {
+  text-decoration-color: #ff9100;
 }

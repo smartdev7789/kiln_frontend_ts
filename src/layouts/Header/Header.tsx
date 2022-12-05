@@ -13,8 +13,8 @@ const Header = () => {
     <header className="bg-[url('/public/imgs/BG_Purple_Head.svg')] shadow">
       <div className="flex h-12 items-center justify-between">
         <div className="flex items-center">
-          <div className="flex-shrink-0 ml-2">
-            <img className="h-12" src="imgs/GameBake_Logo.svg" alt="GameBake" />
+          <div className="flex-shrink-0 mx-3">
+            <img className="h-6" src="imgs/GameBake_Logo.svg" alt="GameBake" />
           </div>
           <div className="hidden md:block">
             <div className="ml-1 flex items-baseline space-x-4">

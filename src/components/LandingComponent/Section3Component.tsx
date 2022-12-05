@@ -1,8 +1,12 @@
 import React from "react";
+import { scrollToTop } from "../../utils";
 
 const Section3Component = () => {
   return (
-    <div className="bg-[#44178A] bg-cover landing-width min-h-screen">
+    <div
+      id="section3"
+      className="bg-[#44178A] bg-cover landing-width min-h-screen"
+    >
       <div className="section-height flex items-center justify-center px-16 pt-32">
         <div>
           <div className="absolute w-1/3">
@@ -23,7 +27,12 @@ const Section3Component = () => {
         </div>
       </div>
       <div className="text-center py-3">
-        <button type="button">
+        <button
+          type="button"
+          onClick={() =>
+            scrollToTop(document.getElementById("scroll3")?.offsetTop)
+          }
+        >
           <img className="w-7" src="imgs/Arrow.svg" alt="GameBake" />
         </button>
       </div>

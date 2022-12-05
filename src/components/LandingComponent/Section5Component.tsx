@@ -8,6 +8,7 @@ import "swiper/css/pagination";
 
 import { FreeMode, Pagination } from "swiper";
 import "../../index.css";
+import { scrollToTop } from "../../utils";
 
 const images = [
   "imgs/new_game_image1.svg",
@@ -35,7 +36,10 @@ const content =
 
 const Section5Component = () => {
   return (
-    <div className="bg-[url('/public/imgs/Background_Orange.png')] bg-cover landing-width min-h-screen">
+    <div
+      id="scroll4"
+      className="bg-[url('/public/imgs/Background_Orange.png')] bg-cover landing-width min-h-screen"
+    >
       <div className="section-height flex items-center pb-6">
         <div className="w-full">
           <div className="text-5xl px-36 pt-32 mb-6 lg:mb-20 text-white font-extrabold">
@@ -82,7 +86,12 @@ const Section5Component = () => {
         </div>
       </div>
       <div className="text-center py-3">
-        <button type="button">
+        <button
+          type="button"
+          onClick={() =>
+            scrollToTop(document.getElementById("scroll5")?.offsetTop)
+          }
+        >
           <img className="w-7" src="imgs/Arrow.svg" alt="GameBake" />
         </button>
       </div>
