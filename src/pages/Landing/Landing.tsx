@@ -11,15 +11,17 @@ import Navbar from "../../layouts/Navbar";
 const Landing = () => {
   return (
     <>
-      <Navbar/>
-      <Section1Component/>
-      <Section2Component/>
-      <Section3Component/>
-      <Section4Component/>
-      <Section5Component/>
-      <Section6Component/>
-      <Section7Component/>
-      <Footer/>
+      <div className="scroller_container">
+        <Navbar />
+        <Section1Component />
+        <Section2Component />
+        <Section3Component />
+        <Section4Component />
+        <Section5Component />
+        <Section6Component />
+        <Section7Component />
+        <Footer />
+      </div>
     </>
   );
 };

@@ -28,41 +28,43 @@ const contents = [
 
 const Section4Component = () => {
   return (
-    <div
-      id="scroll3"
-      className="bg-[url('/public/imgs/BG_Purple.svg')] bg-cover landing-width min-h-screen"
-    >
-      <div className="section-height flex items-center px-36 py-28">
-        <div>
-          <div className="text-5xl mb-6 text-white font-extrabold">
-            Services
-          </div>
-          <div className="grid grid-cols-12 gap-5 pl-10">
-            {icons.map((icon, i) => (
-              <div className="col-span-4" key={"service" + i}>
-                <div className="h-20 w-1/3">
-                  <img className="h-full" src={icon} alt="GameBake" />
+    <section>
+      <div
+        id="scroll3"
+        className="bg-[url('/public/imgs/BG_Purple.svg')] bg-cover landing-width min-h-screen section"
+      >
+        <div className="section-height flex items-center px-36 py-28">
+          <div>
+            <div className="text-5xl mb-6 text-white font-extrabold">
+              Services
+            </div>
+            <div className="grid grid-cols-12 gap-5 pl-10">
+              {icons.map((icon, i) => (
+                <div className="col-span-4" key={"service" + i}>
+                  <div className="h-20 w-1/3">
+                    <img className="h-full" src={icon} alt="GameBake" />
+                  </div>
+                  <p className="text-2xl font-bold text-white my-6">
+                    {titles[i]}
+                  </p>
+                  <p className="text-white my-6">{contents[i]}</p>
                 </div>
-                <p className="text-2xl font-bold text-white my-6">
-                  {titles[i]}
-                </p>
-                <p className="text-white my-6">{contents[i]}</p>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
+        <div className="text-center py-3">
+          <button
+            type="button"
+            onClick={() =>
+              scrollToTop(document.getElementById("scroll4")?.offsetTop)
+            }
+          >
+            <img className="w-7" src="imgs/Arrow.svg" alt="GameBake" />
+          </button>
+        </div>
       </div>
-      <div className="text-center py-3">
-        <button
-          type="button"
-          onClick={() =>
-            scrollToTop(document.getElementById("scroll4")?.offsetTop)
-          }
-        >
-          <img className="w-7" src="imgs/Arrow.svg" alt="GameBake" />
-        </button>
-      </div>
-    </div>
+    </section>
   );
 };
 

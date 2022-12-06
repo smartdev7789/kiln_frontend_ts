@@ -7,6 +7,7 @@ body {
   font-family: "Poppins" !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* overflow: hidden; */
 }
 
 code {
@@ -151,4 +152,36 @@ code {
 
 .active_navitem {
   text-decoration-color: #ff9100;
+}
+
+.scroller_container {
+  /* height: 3000px;*/
+  /* scroll-snap-type: y mandatory; */
+  /* overflow-y: scroll; */
+  /* overflow-x: hidden;  */
+}
+
+.scroller_container section {
+  /* scroll-snap-align: center; */
+}
+
+.swiper-button-prev {
+  color: #ffffff00 !important;
+  background-image: url('/public/imgs/arrow_left.svg');
+  background-size: cover;
+  width: 40px !important;
+  height: 70px !important;
+  opacity: 1 !important;
+  margin-left: 50px !important;
+}
+
+.swiper-button-next {
+  color: #ffffff00 !important;
+  background-image: url('/public/imgs/arrow_left.svg');
+  background-size: cover;
+  rotate: 180deg;
+  width: 40px !important;
+  height: 70px !important;
+  opacity: 1 !important;
+  margin-right: 50px !important;
 }

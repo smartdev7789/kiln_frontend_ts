@@ -151,22 +151,24 @@ const Carousel = () => {
 
 const Section2Component = () => {
   return (
-    <div
-      id="section2"
-      className="bg-[url('/public/imgs/Background_Orange.png')] bg-cover landing-width min-h-screen"
-    >
-      <Carousel />
+    <section>
       <div
-        className="text-center py-3"
-        onClick={() =>
-          scrollToTop(document.getElementById("section3")?.offsetTop)
-        }
+        id="section2"
+        className="bg-[url('/public/imgs/Background_Orange.png')] bg-cover landing-width min-h-screen"
       >
-        <button type="button">
-          <img className="w-7" src="imgs/Arrow.svg" alt="GameBake" />
-        </button>
+        <Carousel />
+        <div
+          className="text-center py-3"
+          onClick={() =>
+            scrollToTop(document.getElementById("section3")?.offsetTop)
+          }
+        >
+          <button type="button">
+            <img className="w-7" src="imgs/Arrow.svg" alt="GameBake" />
+          </button>
+        </div>
       </div>
-    </div>
+    </section>
   );
 };
 
