@@ -44,12 +44,13 @@ const Section7Component = () => {
                 <div className="signupselect absolute bottom-0 left-0 right-0">
                   <select
                     id="countries"
+                    name="countries"
                     className="bg-[#7700df] text-white focus:ring-blue-500 focus:border-blue-500 block px-5 py-4 w-full"
                   >
-                    <option value="UK">United Kingdom</option>
-                    <option value="CA">Canada</option>
-                    <option value="FR">France</option>
-                    <option value="DE">Germany</option>
+                    <option value="UK" className="bg-[#7700df]">United Kingdom</option>
+                    <option value="CA" className="bg-[#7700df]">Canada</option>
+                    <option value="FR" className="bg-[#7700df]">France</option>
+                    <option value="DE" className="bg-[#7700df]">Germany</option>
                   </select>
                 </div>
               </div>

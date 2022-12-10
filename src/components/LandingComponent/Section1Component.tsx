@@ -22,12 +22,22 @@ const Section1Component = () => {
               <button
                 type="button"
                 className="text-white bg-[#ff9100] hover:bg-[#ee8000] mr-7 shadow-lg rounded-md px-16 py-4"
+                onClick={() =>
+                  scrollToTop(
+                    document.getElementById("scroll2")?.offsetTop
+                  )
+                }
               >
                 Learn More
               </button>
               <button
                 type="button"
-                className="text-white bg-[#44178A99] border-white border hover:opacity-[0.3] shadow-lg rounded-md px-12 py-4"
+                className="text-white bg-[#44178A99] outline outline-1 hover:bg-[#ee8000] hover:outline-none shadow-lg rounded-md px-12 py-4"
+                onClick={() =>
+                  scrollToTop(
+                    document.getElementById("scroll6")?.offsetTop
+                  )
+                }
               >
                 Let’s Talk
               </button>

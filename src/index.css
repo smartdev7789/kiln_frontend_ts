@@ -7,7 +7,7 @@ body {
   font-family: "Poppins" !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /* overflow: hidden; */
+  /* overflow: auto; */
 }
 
 code {
@@ -19,7 +19,7 @@ code {
   background-color: #3498ff !important;
 }
 
-::-webkit-scrollbar {
+/* ::-webkit-scrollbar {
   scroll-padding-right: 10px;
   width: 3px;
 }
@@ -30,10 +30,10 @@ code {
 
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
-}
+} */
 
 .landing-width {
-  width: calc(100vw - 3px);
+  width: inherit;
 } 
 
 .section-height {
@@ -61,20 +61,25 @@ code {
   height: 100%;
   padding-left: 8rem !important;
   padding-right: 8rem !important;
+  padding-bottom: 20px !important;
+  padding-top: 20px !important;
 }
 
 .signupselect{
   background: url('/public/imgs/dropdown_arrow.svg') no-repeat right;
   background-size: 25% 25%;
   background-color: #7700df;
-  color:white;
+  color: white;
   width: 100%;
   /* display: block; */
 }
 
 .signupselect select {
-  visibility: hidden;
   background: transparent;
+	appearance:none;
+	-webkit-appearance:none;
+	-moz-appearance:none;
+	-ms-appearance:none;
 }
 
 .checkbox_container {
@@ -168,20 +173,29 @@ code {
 .swiper-button-prev {
   color: #ffffff00 !important;
   background-image: url('/public/imgs/arrow_left.svg');
-  background-size: cover;
-  width: 40px !important;
-  height: 70px !important;
+  background-size: auto !important;
+  background-repeat: no-repeat !important;
   opacity: 1 !important;
-  margin-left: 50px !important;
+  backdrop-filter: blur(10px) !important;
+  left: 0px !important;
+  padding-left: 102px !important;
+  background-position-x: center !important;
+  background-position-y: center !important;
+  top: -6.6% !important;
+  height: 120% !important;
 }
 
 .swiper-button-next {
   color: #ffffff00 !important;
   background-image: url('/public/imgs/arrow_left.svg');
-  background-size: cover;
-  rotate: 180deg;
-  width: 40px !important;
-  height: 70px !important;
+  background-size: auto !important;
+  background-repeat: no-repeat !important;
+  rotate: 180deg !important;
   opacity: 1 !important;
-  margin-right: 50px !important;
+  backdrop-filter: blur(5px) !important;
+  right: 0px !important;
+  padding-right: 102px !important;
+  background-position: center !important;
+  top:-6.6% !important;
+  height: 120% !important;
 }

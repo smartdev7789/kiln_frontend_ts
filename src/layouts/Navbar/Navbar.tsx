@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useEffect, useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { scrollToTop } from "../../utils";
@@ -9,7 +9,7 @@ const navbarItems = [
   "Services",
   "Live Games",
   "News",
-  "Contract",
+  "Contact",
 ];
 
 // const scrolling = (i: number) => {
@@ -19,10 +19,30 @@ const navbarItems = [
 
 const Navbar = () => {
   const navigate = useNavigate();
+  const [curSec, setCurSec] = useState(0);
+
+  const handleScroll = useCallback(() => {
+    for (var i = 0; i < 6; i++) {
+      if (
+        Number(window.scrollY) >=
+          Number(document.getElementById("scroll" + (i + 1))?.offsetTop) &&
+        Number(window.scrollY) <
+          Number(document.getElementById("scroll" + (i + 1))?.offsetTop) +
+            Number(document.getElementById("scroll" + (i + 1))?.clientHeight)
+      ) {
+        break;
+      }
+    }
+    setCurSec(i);
+  }, []);
+
+  useEffect(() => {
+    document.addEventListener("scroll", handleScroll);
+  }, [handleScroll]);
 
   return (
     <section>
-      <nav className="rounded fixed landing-width backdrop-blur-sm z-50">
+      <nav className="rounded fixed w-full backdrop-blur-sm z-50">
         <div className="flex flex-wrap items-center justify-between py-6 px-8">
           <Link key="landing" to="/" className="flex items-center">
             <img className="h-8" src="imgs/GameBake_Logo.svg" alt="GameBake" />
@@ -30,9 +50,12 @@ const Navbar = () => {
           <div className="hidden w-full md:block md:w-auto">
             <ul className="text-white flex flex-col mt-4 border rounded-lg md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0">
               {navbarItems.map((item, i) => (
-                <li>
+                <li key={"nav" + i}>
                   <a
-                    className="cursor-pointer block py-2 px-1 rounded hover:decoration-[#ff9100] hover:text-[#ff9100] hover:underline-offset-4 hover:decoration-2 focus:decoration-[#ff9100] focus:text-white focus:underline-offset-4 focus:decoration-2"
+                    className={
+                      "cursor-pointer block py-2 px-1 rounded hover:decoration-[#ff9100] hover:text-white hover:underline-offset-4 hover:decoration-2 focus:decoration-[#ff9100] focus:text-white focus:underline-offset-4 focus:decoration-2 " +
+                      (curSec === i ? "underline underline-offset-4 decoration-[#ff9100] decoration-2" : "")
+                    }
                     onClick={() =>
                       scrollToTop(
                         document.getElementById("scroll" + (i + 1))?.offsetTop
