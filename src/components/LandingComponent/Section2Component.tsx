@@ -10,7 +10,7 @@ const images = [
       <div className="w-2/3">
         <div className="text-5xl mb-4 text-white font-extrabold">Worldwide</div>
         <div className="text-lg text-white mb-8">
-          <p>
+          <p className="animation animation-fadeInUp">
             There is so much more out there than just the Apple App Store and
             Google Play Store, we are talking about billions of new users! That
             is why GameBake focuses on building the best partnerships with the
@@ -18,7 +18,7 @@ const images = [
             channels.
           </p>
           <br />
-          <p>
+          <p className="animation animation-fadeInUp" style={{transitionDelay: "0.6s"}}>
             If you’re interested in wider distribution, then you should be
             utilising GameBake!
           </p>
@@ -30,11 +30,11 @@ const images = [
     <div className="w-1/2 pt-24 pr-28">
       <img className="h-96 float-right" src="imgs/earth1.svg" alt="GameBake" />
     </div>
-    <div className="flex justify-between pt-32 items-center w-1/2">
+    <div className="flex justify-between pt-32 items-center w-1/2 fadeInUp animation">
       <div className="w-2/3">
         <div className="text-5xl mb-4 text-white font-extrabold">Agnostic</div>
         <div className="text-lg text-white mb-8">
-          <p>
+          <p className="animation animation-fadeInUp">
             GameBake takes pride in position as a truly agnostic player in the
             industry. We do not force you to choose one platform over another at
             the expense of your game or your growth. We are here to help you
@@ -42,7 +42,7 @@ const images = [
             the vast opportunities that await.
           </p>
           <br />
-          <p>Your game. Your business. Your choice.</p>
+          <p className="animation animation-fadeInUp" style={{transitionDelay: "0.6s"}}>Your game. Your business. Your choice.</p>
         </div>
       </div>
     </div>
@@ -135,7 +135,7 @@ const Carousel = () => {
     // absolute positioning on each side of the image.
     <div className="flex justify-center w-full items-center">
       <div className="relative w-full">
-        <div className="carousel">
+        <div className="carousel overflow-hidden">
           {currentImage !== 0 && sliderControl(true)}
           {images.map((img, i) => (
             <div className="w-full flex-shrink-0" key={i} ref={refs[i]}>
@@ -151,7 +151,7 @@ const Carousel = () => {
 
 const Section2Component = () => {
   return (
-    <section>
+    <section className="snap-center">
       <div
         id="scroll2"
         className="bg-[url('/public/imgs/Background_Orange.png')] bg-cover landing-width min-h-screen"

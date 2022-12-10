@@ -3,18 +3,18 @@ import { scrollToTop } from "../../utils";
 
 const Section3Component = () => {
   return (
-    <section>
+    <section className="snap-center">
       <div
         id="section3"
         className="bg-[#44178A] bg-cover landing-width min-h-screen section"
       >
         <div className="section-height flex items-center justify-center px-16 pt-32">
           <div>
-            <div className="absolute w-1/3">
-              <div className="text-5xl mb-4 text-white font-extrabold">
+            <div className="w-1/2 pl-20">
+              <div className="text-5xl mb-4 text-white font-extrabold animation animation-fadeInUp">
                 Game Growth
               </div>
-              <p className="text-white mb-8 pl-3">
+              <p className="text-white mb-8 pl-3 animation animation-fadeInUp" style={{transitionDelay: "0.6s"}}>
                 You understand your core business and GameBake isn’t here to
                 tell you what you should be doing. GameBake exists to help you
                 grow a brand-new, incremental revenue stream. No BS. No

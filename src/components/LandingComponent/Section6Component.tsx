@@ -13,7 +13,7 @@ import { scrollToTop } from "../../utils";
 const titles = ["Title", "Title", "Title", "Title", "Title"];
 const Section6Component = () => {
   return (
-    <section>
+    <section className="snap-center">
       <div
         id="scroll5"
         className="bg-[url('/public/imgs/BG_Purple.svg')] bg-cover landing-width min-h-screen section"

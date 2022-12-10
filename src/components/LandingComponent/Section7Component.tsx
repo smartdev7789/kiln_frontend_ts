@@ -3,7 +3,7 @@ import React from "react";
 const titles = ["Title", "Title", "Title", "Title"];
 const Section7Component = () => {
   return (
-    <section>
+    <section className="snap-center">
       <div id="scroll6" className="bg-[#4d1aa0] bg-cover landing-width section">
         <div className="section7-height flex items-center justify-center px-36 py-6">
           <div>

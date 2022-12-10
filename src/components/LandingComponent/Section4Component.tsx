@@ -28,7 +28,7 @@ const contents = [
 
 const Section4Component = () => {
   return (
-    <section>
+    <section className="snap-center">
       <div
         id="scroll3"
         className="bg-[url('/public/imgs/BG_Purple.svg')] bg-cover landing-width min-h-screen section"
@@ -40,7 +40,7 @@ const Section4Component = () => {
             </div>
             <div className="grid grid-cols-12 gap-5 pl-10">
               {icons.map((icon, i) => (
-                <div className="col-span-4" key={"service" + i}>
+                <div className="col-span-4 animation animation-fadeInUp"  style={{transitionDelay: i * 0.6 + "s"}} key={"service" + i}>
                   <div className="h-20 w-1/3">
                     <img className="h-full" src={icon} alt="GameBake" />
                   </div>

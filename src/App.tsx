@@ -86,7 +86,7 @@ export const App = () => {
   return (
     <Suspense fallback={<h1>Loading...</h1>}>
       <DispatchContext.Provider value={{ state, dispatch }}>
-        <RenderRoutes routes={ROUTES} />
+        <RenderRoutes routes={ROUTES}/>
       </DispatchContext.Provider>
     </Suspense>
   );

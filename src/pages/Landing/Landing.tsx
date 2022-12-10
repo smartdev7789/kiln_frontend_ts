@@ -11,7 +11,7 @@ import Navbar from "../../layouts/Navbar";
 const Landing = () => {
   return (
     <>
-      <div className="scroller_container">
+      <div id="landing" className="snap-y overflow-y-scroll max-h-screen snap-mandatory">
         <Navbar />
         <Section1Component />
         <Section2Component />

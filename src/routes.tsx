@@ -37,7 +37,7 @@ export const RenderRoutes = ({ routes }: { routes: RouteConfig[] }) => (
         <Route
           key={route.path}
           path={route.path}
-          element={<route.component routes={route.routes} />}
+          element={<route.component routes={route.routes}  className='text-base md:text-lg lg:text-lg xl:text-xl'/>}
         />
       );
     })}

@@ -12,6 +12,8 @@ const navbarItems = [
   "Contact",
 ];
 
+const animationElements = document.getElementsByClassName("animation");
+
 // const scrolling = (i: number) => {
 //   scrollToTop(
 //     document.getElementById("section" + i)?.offsetTop? - 20)
@@ -20,6 +22,17 @@ const navbarItems = [
 const Navbar = () => {
   const navigate = useNavigate();
   const [curSec, setCurSec] = useState(0);
+
+  const animationPlay = () => {
+    for (var i = 0; i < animationElements.length; i++) {
+      let ele = animationElements[i];
+      let offset = ele.getBoundingClientRect().top;
+      let screenHeight = window.innerHeight;
+      if (offset < screenHeight - 100 && !ele.classList.contains("active")) {
+        ele.classList.add("active");
+      }
+    }
+  };
 
   const handleScroll = useCallback(() => {
     for (var i = 0; i < 6; i++) {
@@ -34,15 +47,18 @@ const Navbar = () => {
       }
     }
     setCurSec(i);
+    
+    animationPlay();
   }, []);
 
   useEffect(() => {
-    document.addEventListener("scroll", handleScroll);
+    animationPlay();
+    document.getElementById("landing")?.addEventListener("scroll", handleScroll);
   }, [handleScroll]);
 
   return (
-    <section>
-      <nav className="rounded fixed w-full backdrop-blur-sm z-50">
+    <section className="snap-center">
+      <nav className="rounded fixed landing-width backdrop-blur-sm z-50">
         <div className="flex flex-wrap items-center justify-between py-6 px-8">
           <Link key="landing" to="/" className="flex items-center">
             <img className="h-8" src="imgs/GameBake_Logo.svg" alt="GameBake" />

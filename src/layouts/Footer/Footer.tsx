@@ -5,7 +5,7 @@ const footerItems = ["About", "Services", "Live Games", "News"];
 
 const Footer = () => {
   return (
-    <section>
+    <section className="snap-center">
       <div className="bg-[#44178a] landing-width">
         <div className="flex justify-between items-center px-20 py-4 text-white">
           <div>

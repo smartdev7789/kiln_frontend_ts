@@ -36,7 +36,7 @@ const content =
 
 const Section5Component = () => {
   return (
-    <section>
+    <section className="snap-center">
       <div
         id="scroll4"
         className="bg-[url('/public/imgs/Background_Orange.png')] bg-cover landing-width min-h-screen section"

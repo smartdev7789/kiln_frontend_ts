@@ -7,6 +7,7 @@ body {
   font-family: "Poppins" !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow: hidden;
   /* overflow: auto; */
 }
 
@@ -33,13 +34,17 @@ code {
 } */
 
 .landing-width {
-  width: inherit;
-} 
+  width: calc(100vw - 17px);
+}
+
+.landing-width-mob {
+  width: calc(100vw - 7px);
+}
 
 .section-height {
   min-height: calc(100vh - 30px);
 }
- 
+
 .section7-height {
   min-height: calc(100vh - 110px);
 }
@@ -47,14 +52,13 @@ code {
 .carousel {
   display: inline-flex;
   overflow-x: hidden;
-/*  scroll snap is a great feature which will center the image on snap on touch screen devices  */
+  /*  scroll snap is a great feature which will center the image on snap on touch screen devices  */
   scroll-snap-type: x mandatory;
-/* all below will hide the scrollbar on all browsers.    */
+  /* all below will hide the scrollbar on all browsers.    */
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none; /* For Firefox */
   -ms-overflow-style: none; /* For Internet Explorer and Edge */
 }
-
 
 .swiper {
   width: 100%;
@@ -65,8 +69,8 @@ code {
   padding-top: 20px !important;
 }
 
-.signupselect{
-  background: url('/public/imgs/dropdown_arrow.svg') no-repeat right;
+.signupselect {
+  background: url("/public/imgs/dropdown_arrow.svg") no-repeat right;
   background-size: 25% 25%;
   background-color: #7700df;
   color: white;
@@ -76,10 +80,10 @@ code {
 
 .signupselect select {
   background: transparent;
-	appearance:none;
-	-webkit-appearance:none;
-	-moz-appearance:none;
-	-ms-appearance:none;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
 }
 
 .checkbox_container {
@@ -112,9 +116,9 @@ code {
   height: 25px;
   width: 25px;
   background-color: #f7f7f7;
-  border-color: #B0B0B0;
+  border-color: #b0b0b0;
   border-width: 2px;
-  border-radius:7px;
+  border-radius: 7px;
 }
 
 /* On mouse-over, add a grey background color */
@@ -124,7 +128,7 @@ code {
 
 /* When the checkbox is checked, add a blue background */
 .checkbox_container input:checked ~ .check_mark {
-  background-color: #2196F3;
+  background-color: #2196f3;
   border-width: 0px;
 }
 
@@ -159,20 +163,9 @@ code {
   text-decoration-color: #ff9100;
 }
 
-.scroller_container {
-  /* height: 3000px;*/
-  /* scroll-snap-type: y mandatory; */
-  /* overflow-y: scroll; */
-  /* overflow-x: hidden;  */
-}
-
-.scroller_container section {
-  /* scroll-snap-align: center; */
-}
-
 .swiper-button-prev {
   color: #ffffff00 !important;
-  background-image: url('/public/imgs/arrow_left.svg');
+  background-image: url("/public/imgs/arrow_left.svg");
   background-size: auto !important;
   background-repeat: no-repeat !important;
   opacity: 1 !important;
@@ -187,7 +180,7 @@ code {
 
 .swiper-button-next {
   color: #ffffff00 !important;
-  background-image: url('/public/imgs/arrow_left.svg');
+  background-image: url("/public/imgs/arrow_left.svg");
   background-size: auto !important;
   background-repeat: no-repeat !important;
   rotate: 180deg !important;
@@ -196,6 +189,60 @@ code {
   right: 0px !important;
   padding-right: 102px !important;
   background-position: center !important;
-  top:-6.6% !important;
+  top: -6.6% !important;
   height: 120% !important;
+}
+
+.animation-fadeInLeft {
+  opacity: 0;
+  transform: translate3d(-100%, 0, 0);
+  transition: all 1.25s ease;
+}
+
+.animation-fadeInLeft.active {
+  opacity: 1;
+  transform: none;
+}
+
+.animation-fadeInRight {
+  opacity: 0;
+  transform: translate3d(100%, 0, 0);
+  transition: all 1.25s ease;
+}
+
+.animation-fadeInRight.active {
+  opacity: 1;
+  transform: none;
+}
+
+.animation-fadeIn {
+  opacity: 0;
+  transition: all 1.25s ease;
+}
+
+.animation-fadeIn.active {
+  opacity: 1;
+  transform: none;
+}
+
+.animation-fadeInUp {
+  opacity: 0;
+  transform: translate3d(0, 100%, 0);
+  transition: all 1.25s ease;
+}
+
+.animation-fadeInUp.active {
+  opacity: 1;
+  transform: none;
+}
+
+.animation-fadeInDown {
+  opacity: 0;
+  transform: translate3d(0, -100%, 0);
+  transition: all 1.25s ease;
+}
+
+.animation-fadeInDown.active {
+  opacity: 1;
+  transform: none;
 }
