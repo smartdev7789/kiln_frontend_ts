@@ -37,9 +37,9 @@ const Navbar = () => {
   const handleScroll = useCallback(() => {
     for (var i = 0; i < 6; i++) {
       if (
-        Number(window.scrollY) >=
+        Number(document.getElementById("landing")?.scrollTop) >=
           Number(document.getElementById("scroll" + (i + 1))?.offsetTop) &&
-        Number(window.scrollY) <
+        Number(document.getElementById("landing")?.scrollTop) <
           Number(document.getElementById("scroll" + (i + 1))?.offsetTop) +
             Number(document.getElementById("scroll" + (i + 1))?.clientHeight)
       ) {
