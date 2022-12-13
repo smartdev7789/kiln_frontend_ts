@@ -129,7 +129,7 @@ const ForgotPasswordComponent = () => {
               value={formData.password}
               onChange={handleInputChange}
               ref={passwordInput}
-              className="w-full bg-gray150 text-gray-900 placeholder-gray-300 text-sm rounded-lg text-center block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+              className="w-full bg-gray150 text-gray-900 placeholder-gray-300 text-sm rounded-lg text-center block p-2.5"
               placeholder={t("forgotpassword.newpassword_pholder")}
               required
             />
@@ -142,7 +142,7 @@ const ForgotPasswordComponent = () => {
               name="confirm_password"
               value={formData.confirm_password}
               onChange={handleInputChange}
-              className="w-full bg-gray150 text-gray-900 placeholder-gray-300 text-sm rounded-lg text-center block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+              className="w-full bg-gray150 text-gray-900 placeholder-gray-300 text-sm rounded-lg text-center block p-2.5"
               placeholder={t("forgotpassword.repassword_pholder")}
               required
             />
@@ -153,7 +153,7 @@ const ForgotPasswordComponent = () => {
           <button
             type="button"
             onClick={handleSubmit}
-            className="text-lg text-white bg-[#ff9100] hover:bg-[#ee8000] shadow-lg rounded-md px-20 py-3 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+            className="text-lg text-white bg-[#ff9100] hover:bg-[#ee8000] shadow-lg rounded-md px-20 py-3 mb-2"
           >
             {t("forgotpassword.submit")}
           </button>

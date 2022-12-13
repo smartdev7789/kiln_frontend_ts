@@ -5,8 +5,8 @@ const InvoiceComponent = () => {
     <>
       <p className="text-2xl text-[#707070] mt-10">Invoices</p>
       <div className="my-6 overflow-x-auto relative border border-gray-100 bg-white rounded-xl shadow-2xl">
-        <table className="w-full text-left text-[#707070] dark:text-gray-400">
-          <thead className="text-xs bg-white dark:bg-gray-700 dark:text-gray-400">
+        <table className="w-full text-left text-[#707070]">
+          <thead className="text-xs bg-white">
             <tr className="border-b">
               <th scope="col" className="font-medium py-6 px-10 w-1/3">
                 Invoice
@@ -24,7 +24,7 @@ const InvoiceComponent = () => {
             </tr>
           </thead>
           <tbody className="text-xs">
-            <tr className="bg-white border-b border-gray-100 dark:bg-gray-800 dark:border-gray-700">
+            <tr className="bg-white border-b border-gray-100">
               <td className="py-3 px-10">Invoice-0011012_Nov22</td>
               <td className="py-3 px-6">$5,451.23</td>
               <td className="py-3 px-6">01/10/22 - 31/10/22</td>
@@ -40,20 +40,20 @@ const InvoiceComponent = () => {
                 <div className="flex justify-between">
                   <button
                     type="button"
-                    className="text-[#707070] bg-white hover:bg-gray-100 border border-gray-300 rounded-md px-5 py-1 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+                    className="text-[#707070] bg-white hover:bg-gray-100 border border-gray-300 rounded-md px-5 py-1"
                   >
                     View
                   </button>
                   <button
                     type="button"
-                    className="text-[#707070] bg-white hover:bg-gray-100 border border-gray-300 rounded-md px-5 py-1 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+                    className="text-[#707070] bg-white hover:bg-gray-100 border border-gray-300 rounded-md px-5 py-1"
                   >
                     Approve
                   </button>
                 </div>
               </td>
             </tr>
-            <tr className="bg-white border-b border-gray-100 dark:bg-gray-800 dark:border-gray-700">
+            <tr className="bg-white border-b border-gray-100">
               <td className="py-3 px-10">Invoice-0011011_Oct22</td>
               <td className="py-3 px-6">$3,673.67</td>
               <td className="py-3 px-6">01/10/22 - 31/10/22</td>
@@ -69,14 +69,14 @@ const InvoiceComponent = () => {
                 <div className="flex justify-between">
                   <button
                     type="button"
-                    className="text-[#707070] bg-white hover:bg-gray-100 border border-gray-300 rounded-md px-5 py-1 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+                    className="text-[#707070] bg-white hover:bg-gray-100 border border-gray-300 rounded-md px-5 py-1"
                   >
                     View
                   </button>
                 </div>
               </td>
             </tr>
-            <tr className="bg-white border-b border-gray-100 dark:bg-gray-800 dark:border-gray-700">
+            <tr className="bg-white border-b border-gray-100">
               <td className="py-3 px-10">Invoice-0011010_Sep22</td>
               <td className="py-3 px-6">$2,964.23</td>
               <td className="py-3 px-6">01/10/22 - 31/10/22</td>
@@ -92,20 +92,20 @@ const InvoiceComponent = () => {
                 <div className="flex justify-between">
                   <button
                     type="button"
-                    className="text-[#707070] bg-white hover:bg-gray-100 border border-gray-300 rounded-md px-5 py-1 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+                    className="text-[#707070] bg-white hover:bg-gray-100 border border-gray-300 rounded-md px-5 py-1"
                   >
                     View
                   </button>
                   <button
                     type="button"
-                    className="text-[#707070] bg-white hover:bg-gray-100 border border-gray-300 rounded-md px-6 py-1 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+                    className="text-[#707070] bg-white hover:bg-gray-100 border border-gray-300 rounded-md px-6 py-1"
                   >
                     Re-try
                   </button>
                 </div>
               </td>
             </tr>
-            <tr className="bg-white border-b border-gray-100 dark:bg-gray-800 dark:border-gray-700">
+            <tr className="bg-white border-b border-gray-100">
               <td className="py-3 px-10">Invoice-0011009_Aug22</td>
               <td className="py-3 px-6">$2,563.33</td>
               <td className="py-3 px-6">01/10/22 - 31/10/22</td>
@@ -121,13 +121,13 @@ const InvoiceComponent = () => {
                 <div className="flex justify-between">
                   <button
                     type="button"
-                    className="text-[#707070] bg-white hover:bg-gray-100 border border-gray-300 rounded-md px-5 py-1 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+                    className="text-[#707070] bg-white hover:bg-gray-100 border border-gray-300 rounded-md px-5 py-1"
                   >
                     View
                   </button>
                   <button
                     type="button"
-                    className="text-[#707070] bg-white hover:bg-gray-100 rounded-md py-1 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+                    className="text-[#707070] bg-white hover:bg-gray-100 rounded-md py-1"
                   >
                     <div className="flex">
                       <img

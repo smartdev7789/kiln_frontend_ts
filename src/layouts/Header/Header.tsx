@@ -10,7 +10,7 @@ const Header = () => {
   }
 
   return (
-    <header className="bg-[url('/public/imgs/BG_Purple_Head.svg')] shadow">
+    <header className="bg-[url('/public/imgs/BG_Purple_Head.svg')] bg-cover shadow">
       <div className="flex h-12 items-center justify-between">
         <div className="flex items-center">
           <div className="flex-shrink-0 mx-3">

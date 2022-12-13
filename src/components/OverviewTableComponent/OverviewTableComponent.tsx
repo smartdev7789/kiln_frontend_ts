@@ -9,8 +9,8 @@ const API_ADDRESS = process.env.REACT_APP_API_ADDRESS;
 const OverviewTableComponent = ({ games, channels }: Props) => {
   return (
     <div className="overflow-x-auto relative border border-gray-100 bg-white rounded-xl shadow-2xl">
-      <table className="w-full text-left text-[#707070] dark:text-gray-400">
-        <thead className="text-xs bg-white dark:bg-gray-700 dark:text-gray-400">
+      <table className="w-full text-left text-[#707070]">
+        <thead className="text-xs bg-white">
           <tr className="border-b">
             <th className="font-medium text-base py-4 px-5">
               {games.length > 0 ? "Games" : "Channels"}
@@ -42,7 +42,7 @@ const OverviewTableComponent = ({ games, channels }: Props) => {
           {games.map((game, idx) => (
             <tr
               key={idx}
-              className="bg-white border-b border-gray-100 dark:bg-gray-800 dark:border-gray-700"
+              className="bg-white border-b border-gray-100"
             >
               <td className="py-3 px-8">{game.channels}</td>
               <td className="py-3 px-6 flex items-center">
@@ -60,7 +60,7 @@ const OverviewTableComponent = ({ games, channels }: Props) => {
               <td className="py-3 px-6">
                 <button
                   type="button"
-                  className="text-[#707070] text-opacity-[0.6499999761581421] bg-white hover:bg-gray-100 border border-gray-300 rounded-lg px-5 py-1 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+                  className="text-[#707070] text-opacity-[0.6499999761581421] bg-white hover:bg-gray-100 border border-gray-300 rounded-lg px-5 py-1"
                 >
                   View
                 </button>
@@ -70,7 +70,7 @@ const OverviewTableComponent = ({ games, channels }: Props) => {
           {channels.map((channel, idx) => (
             <tr
               key={idx}
-              className="bg-white border-b border-gray-100 dark:bg-gray-800 dark:border-gray-700"
+              className="bg-white border-b border-gray-100"
             >
               <td className="py-3 px-8">{channel.games}</td>
               <td className="py-3 px-6 flex items-center">
@@ -88,7 +88,7 @@ const OverviewTableComponent = ({ games, channels }: Props) => {
               <td className="py-3 px-6">
                 <button
                   type="button"
-                  className="text-[#707070] text-opacity-[0.6499999761581421] bg-white hover:bg-gray-100 border border-gray-300 rounded-lg px-5 py-1 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+                  className="text-[#707070] text-opacity-[0.6499999761581421] bg-white hover:bg-gray-100 border border-gray-300 rounded-lg px-5 py-1"
                 >
                   View
                 </button>

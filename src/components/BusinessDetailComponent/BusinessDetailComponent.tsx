@@ -4,7 +4,7 @@ const BusinessDetailComponent = () => {
   return (
     <>
       <p className="text-2xl text-[#707070]">Company Details</p>
-      <div className="block my-6 px-6 pt-3 pb-12 w-full bg-white rounded-lg text-[#707070] dark:text-white shadow-2xl dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+      <div className="block my-6 px-6 pt-3 pb-12 w-full bg-white rounded-lg text-[#707070]">
         <form className="text-sm">
           <div className="grid md:grid-cols-5 my-3">
             <div className="col-span-3 pr-6">
@@ -20,7 +20,7 @@ const BusinessDetailComponent = () => {
                 <input
                   name="registeredname"
                   id="registeredname"
-                  className="w-3/5 pt-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                  className="w-3/5 pt-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
                   required
                 />
@@ -34,21 +34,21 @@ const BusinessDetailComponent = () => {
                     <input
                       name="registeredaddress"
                       id="registeredaddress"
-                      className="w-full pt-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                      className="w-full pt-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                       placeholder=" "
                       required
                     />
                     <input
                       name="registeredaddress"
                       id="registeredaddress"
-                      className="w-full pt-1 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                      className="w-full pt-1 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                       placeholder=" "
                       required
                     />
                     <input
                       name="registeredaddress"
                       id="registeredaddress"
-                      className="w-full pt-1 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                      className="w-full pt-1 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                       placeholder=" "
                       required
                     />
@@ -60,7 +60,7 @@ const BusinessDetailComponent = () => {
                 <input
                   name="province"
                   id="province"
-                  className="w-3/5 pt-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                  className="w-3/5 pt-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
                   required
                 />
@@ -70,7 +70,7 @@ const BusinessDetailComponent = () => {
                 <input
                   name="companynumber"
                   id="companynumber"
-                  className="w-3/5 pt-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                  className="w-3/5 pt-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
                   required
                 />
@@ -80,7 +80,7 @@ const BusinessDetailComponent = () => {
                 <input
                   name="taxnumber"
                   id="taxnumber"
-                  className="w-3/5 pt-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                  className="w-3/5 pt-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
                   required
                 />
@@ -98,7 +98,7 @@ const BusinessDetailComponent = () => {
                 <input
                   name="developername"
                   id="developername"
-                  className="w-3/5 pt-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                  className="w-3/5 pt-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
                   required
                 />
@@ -109,7 +109,7 @@ const BusinessDetailComponent = () => {
                   type="email"
                   name="supportemail"
                   id="supportemail"
-                  className="w-3/5 pt-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                  className="w-3/5 pt-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
                   required
                 />
@@ -119,7 +119,7 @@ const BusinessDetailComponent = () => {
                 <input
                   name="policylink"
                   id="policylink"
-                  className="w-3/5 pt-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                  className="w-3/5 pt-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
                   required
                 />
@@ -129,7 +129,7 @@ const BusinessDetailComponent = () => {
                 <input
                   name="servicelink"
                   id="servicelink"
-                  className="w-3/5 pt-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                  className="w-3/5 pt-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
                   required
                 />
@@ -147,7 +147,7 @@ const BusinessDetailComponent = () => {
                 <input
                   name="bankname"
                   id="bankname"
-                  className="w-3/5 pt-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                  className="w-3/5 pt-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
                   required
                 />
@@ -157,7 +157,7 @@ const BusinessDetailComponent = () => {
                 <input
                   name="bankaddress"
                   id="bankaddress"
-                  className="w-3/5 pt-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                  className="w-3/5 pt-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
                   required
                 />
@@ -167,7 +167,7 @@ const BusinessDetailComponent = () => {
                 <input
                   name="branchname"
                   id="branchname"
-                  className="w-3/5 pt-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                  className="w-3/5 pt-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
                   required
                 />
@@ -177,7 +177,7 @@ const BusinessDetailComponent = () => {
                 <input
                   name="accountname"
                   id="accountname"
-                  className="w-3/5 pt-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                  className="w-3/5 pt-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
                   required
                 />
@@ -187,7 +187,7 @@ const BusinessDetailComponent = () => {
                 <input
                   name="accounttype"
                   id="accounttype"
-                  className="w-3/5 pt-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                  className="w-3/5 pt-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
                   required
                 />
@@ -197,7 +197,7 @@ const BusinessDetailComponent = () => {
                 <input
                   name="currency"
                   id="currency"
-                  className="w-3/5 pt-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                  className="w-3/5 pt-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
                   required
                 />
@@ -207,7 +207,7 @@ const BusinessDetailComponent = () => {
                 <input
                   name="banknumber"
                   id="banknumber"
-                  className="w-3/5 pt-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                  className="w-3/5 pt-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
                   required
                 />
@@ -217,7 +217,7 @@ const BusinessDetailComponent = () => {
                 <input
                   name="accountnumber"
                   id="accountnumber"
-                  className="w-3/5 pt-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                  className="w-3/5 pt-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
                   required
                 />
@@ -227,7 +227,7 @@ const BusinessDetailComponent = () => {
                 <input
                   name="sortcode"
                   id="sortcode"
-                  className="w-3/5 pt-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                  className="w-3/5 pt-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
                   required
                 />
@@ -237,7 +237,7 @@ const BusinessDetailComponent = () => {
                 <input
                   name="iban"
                   id="iban"
-                  className="w-3/5 pt-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                  className="w-3/5 pt-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
                   required
                 />
@@ -247,7 +247,7 @@ const BusinessDetailComponent = () => {
                 <input
                   name="swiftbic"
                   id="swiftbic"
-                  className="w-3/5 pt-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                  className="w-3/5 pt-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
                   required
                 />
@@ -257,7 +257,7 @@ const BusinessDetailComponent = () => {
                 <input
                   name="achroutingnumber"
                   id="achroutingnumber"
-                  className="w-3/5 pt-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                  className="w-3/5 pt-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
                   required
                 />
@@ -267,7 +267,7 @@ const BusinessDetailComponent = () => {
                 <input
                   name="fedroutingnumber"
                   id="fedroutingnumber"
-                  className="w-3/5 pt-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                  className="w-3/5 pt-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
                   required
                 />
@@ -282,7 +282,7 @@ const BusinessDetailComponent = () => {
               <div className="w-full mt-6 px-3">
                 <label
                   // for="dropzone-file"
-                  className="flex flex-col justify-center items-center w-full h-56 bg-[#f4f4f4] rounded-xl border-0 cursor-pointer dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+                  className="flex flex-col justify-center items-center w-full h-56 bg-[#f4f4f4] rounded-xl border-0 cursor-pointer hover:bg-gray-100"
                 >
                   <div className="flex flex-col justify-center items-center pt-5 pb-6">
                     <img
@@ -293,7 +293,7 @@ const BusinessDetailComponent = () => {
                   </div>
                   <input id="dropzone-file" type="file" className="hidden" />
                 </label>
-                <button className="text-[#707070] text-opacity-[0.6499999761581421] float-right bg-white hover:bg-gray-100 border border-gray-300 rounded-lg mt-3 px-5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
+                <button className="text-[#707070] text-opacity-[0.6499999761581421] float-right bg-white hover:bg-gray-100 border border-gray-300 rounded-lg mt-3 px-5">
                   Upload
                 </button>
               </div>
@@ -306,7 +306,7 @@ const BusinessDetailComponent = () => {
               <div className="w-full mt-6 px-3">
                 <label
                   // for="dropzone-file"
-                  className="flex flex-col justify-center items-center w-full h-56 bg-[#f4f4f4] rounded-xl border-0 cursor-pointer dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+                  className="flex flex-col justify-center items-center w-full h-56 bg-[#f4f4f4] rounded-xl border-0 cursor-pointer hover:bg-gray-100"
                 >
                   <div className="flex flex-col justify-center items-center pt-5 pb-6">
                     <img
@@ -317,7 +317,7 @@ const BusinessDetailComponent = () => {
                   </div>
                   <input id="dropzone-file" type="file" className="hidden" />
                 </label>
-                <button className="text-[#707070] text-opacity-[0.6499999761581421] float-right bg-white hover:bg-gray-100 border border-gray-300 rounded-lg mt-3 px-5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
+                <button className="text-[#707070] text-opacity-[0.6499999761581421] float-right bg-white hover:bg-gray-100 border border-gray-300 rounded-lg mt-3 px-5">
                   Upload
                 </button>
               </div>

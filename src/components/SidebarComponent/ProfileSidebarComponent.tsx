@@ -12,7 +12,7 @@ const ProfileSidebarComponent: React.FC<Props> = ({ selected, onClick }) => {
       <button
         type="button"
         className={
-          "inline-flex relative items-center py-1 pl-6 w-full text-sm hover:bg-gray-100 dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white " +
+          "inline-flex relative items-center py-1 pl-6 w-full text-sm hover:bg-gray-100 " +
           (selected === "account" ? "bg-[#f7f7f7]" : "bg-white")
         }
         onClick={() => onClick("account")}
@@ -22,7 +22,7 @@ const ProfileSidebarComponent: React.FC<Props> = ({ selected, onClick }) => {
       <button
         type="button"
         className={
-          "inline-flex relative items-center py-1 pl-6 w-full text-sm hover:bg-gray-100 dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white " +
+          "inline-flex relative items-center py-1 pl-6 w-full text-sm hover:bg-gray-100 " +
           (selected === "business" ? "bg-[#f7f7f7]" : "bg-white")
         }
         onClick={() => onClick("business")}
@@ -32,7 +32,7 @@ const ProfileSidebarComponent: React.FC<Props> = ({ selected, onClick }) => {
       <button
         type="button"
         className={
-          "inline-flex relative items-center py-1 pl-6 w-full text-sm hover:bg-gray-100 dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white " +
+          "inline-flex relative items-center py-1 pl-6 w-full text-sm hover:bg-gray-100 " +
           (selected === "billing" ? "bg-[#f7f7f7]" : "bg-white")
         }
         onClick={() => onClick("billing")}

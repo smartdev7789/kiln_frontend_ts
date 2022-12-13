@@ -23,17 +23,17 @@ const OverviewInfoComponent: React.FC<Props> = ({
   const profitCol: [string, string] = ["text-[#02bc77]", "text-[#ff2366]"];
 
   return (
-    <div className="block p-6 w-full bg-white rounded-lg shadow-2xl hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
-      <span className="text-xl tracking-tight text-[#707070] dark:text-white">
+    <div className="block p-6 w-full bg-white rounded-lg shadow-2xl hover:bg-gray-100">
+      <span className="text-xl tracking-tight text-[#707070]">
         {title}
       </span>
-      <span className="text-[9px] tracking-tight text-[#707070] dark:text-white">
+      <span className="text-[9px] tracking-tight text-[#707070]">
         &nbsp;{output[dateType].str1}
       </span>
-      <p className="mt-6 text-2xl text-black dark:text-gray-400">{value}</p>
+      <p className="mt-6 text-2xl text-black">{value}</p>
       <p
         className={
-          "mt-1 text-xs dark:text-gray-400 " +
+          "mt-1 text-xs " +
           profitCol[Number(profit) > 0 ? 0 : 1]
         }
       >

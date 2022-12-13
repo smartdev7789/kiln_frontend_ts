@@ -62,7 +62,7 @@ const LoginAgainComponent = () => {
         <div className="flex justify-center">
           <input
             name="email"
-            className="w-full bg-gray150 text-gray-900 placeholder-gray-300 text-sm rounded-lg text-center block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+            className="w-full bg-gray150 text-gray-900 placeholder-gray-300 text-sm rounded-lg text-center block p-2.5"
             placeholder={t("login.email_pholder")}
             value={formData.email}
             onChange={handleInputChange}
@@ -75,14 +75,14 @@ const LoginAgainComponent = () => {
           <input
             type="password"
             name="password"
-            className="w-full bg-gray150 text-gray-900 placeholder-gray-300 text-sm rounded-lg text-center block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+            className="w-full bg-gray150 text-gray-900 placeholder-gray-300 text-sm rounded-lg text-center block p-2.5"
             placeholder={t("login.password_pholder")}
             value={formData.password}
             onChange={handleInputChange}
             required
           />
           {error && (
-            <p className="mt-2 text-sm text-[#fd0000] opacity-[0.6499999761581421] dark:text-green-500">
+            <p className="mt-2 text-sm text-[#fd0000] opacity-[0.6499999761581421]">
               {t("login.incorrect")}
             </p>
           )}
@@ -101,7 +101,7 @@ const LoginAgainComponent = () => {
           </div>
           <button
             type="button"
-            className="text-lg text-white bg-[#ff9100] hover:bg-[#ee8000] shadow-lg rounded-md px-20 py-3 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+            className="text-lg text-white bg-[#ff9100] hover:bg-[#ee8000] shadow-lg rounded-md px-20 py-3 mb-2"
             onClick={handleSubmit}
           >
             Login
@@ -111,7 +111,7 @@ const LoginAgainComponent = () => {
       <p className="text-right mb-6 w-full">
         <button
           onClick={() => navigate("/forgotemail")}
-          className="text-xs text-[#707070] opacity-[0.6499999761581421] border-0 dark:text-green-500"
+          className="text-xs text-[#707070] opacity-[0.6499999761581421] border-0"
         >
           {t("login.forgot")}
         </button>

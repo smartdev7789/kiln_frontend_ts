@@ -16,14 +16,14 @@ const DocSidebarComponent: React.FC<Props> = ({
       <div className="text-center">
         <input
           name="search"
-          className="bg-gray150 text-gray-900 placeholder-gray-600 inline-flex relative items-center my-3 py-1 rounded-lg text-center dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+          className="bg-gray150 text-gray-900 placeholder-gray-600 inline-flex relative items-center my-3 py-1 rounded-lg text-center"
           placeholder="Search"
         />
       </div>
       <button
         type="button"
         className={
-          "relative items-center py-3 px-3 w-full text-sm bg-[#f7f7f7] hover:bg-gray-100 dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white "
+          "relative items-center py-3 px-3 w-full text-sm bg-[#f7f7f7] hover:bg-gray-100"
         }
       >
         <div className="flex justify-between items-center">
@@ -50,7 +50,7 @@ const DocSidebarComponent: React.FC<Props> = ({
         <button
           type="button"
           className={
-            "inline-flex relative items-center py-1 pl-6 w-full text-sm hover:bg-gray-100 dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white " +
+            "inline-flex relative items-center py-1 pl-6 w-full text-sm hover:bg-gray-100 " +
             (selected === order.name ? "bg-[#f7f7f7]" : "bg-white")
           }
           onClick={() => onClick(order.name)}
