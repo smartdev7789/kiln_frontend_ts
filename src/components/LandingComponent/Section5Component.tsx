@@ -1,6 +1,7 @@
 import React from "react";
 
 import { Swiper, SwiperSlide } from "swiper/react";
+import SwiperCore, { Keyboard, Mousewheel } from "swiper";
 
 import "swiper/css";
 import "swiper/css/free-mode";
@@ -9,6 +10,8 @@ import "swiper/css/pagination";
 import { FreeMode, Navigation } from "swiper";
 import "../../index.css";
 import { scrollToTop } from "../../utils";
+
+SwiperCore.use([Keyboard, Mousewheel]);
 
 const images = [
   "imgs/new_game_image1.svg",
@@ -60,6 +63,9 @@ const Section5Component = () => {
               modules={[FreeMode, Navigation]}
               navigation={true}
               className="mySwiper"
+              keyboard={true}
+              direction="horizontal"
+              mousewheel={true}
             >
               {images.map((image, i) => (
                 <SwiperSlide key={"swiper" + i}>

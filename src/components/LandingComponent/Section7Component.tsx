@@ -1,7 +1,31 @@
 import React from "react";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { schemaCreateContact } from "../../schemas/contact.schema";
+interface IFormInputs {
+  name: string;
+  companyName: string;
+  email: string;
+  account: string;
+  country: string;
+  website: string;
+  message: string;
+}
 
-const titles = ["Title", "Title", "Title", "Title"];
 const Section7Component = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<IFormInputs>({
+    mode: "onBlur",
+    resolver: yupResolver(schemaCreateContact()),
+  });
+
+  const onSubmit = async (data: IFormInputs) => {
+    console.log(data);
+  };
+
   return (
     <section className="snap-start">
       <div id="scroll6" className="bg-[#4d1aa0] bg-cover section">
@@ -10,86 +34,109 @@ const Section7Component = () => {
             <div className="text-5xl mb-8 text-white font-extrabold">
               Get in touch!
             </div>
-            <div className="grid grid-cols-3 gap-4 gap-x-4 gap-y-8 px-16">
-              <div>
-                <input
-                  name="name"
-                  className="bg-[#7700df] text-white placeholder-white block px-5 py-4 w-full"
-                  placeholder="Name"
-                />
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <div className="grid grid-cols-3 gap-4 gap-x-4 gap-y-8 px-16">
+                <div>
+                  <input
+                    className="bg-[#7700df] text-white placeholder-white block px-5 py-4 w-full"
+                    placeholder="Name"
+                    {...register("name")}
+                  />
+                  <span className="text-red-700">
+                    {errors.name && errors.name?.message}
+                  </span>
+                </div>
+                <div>
+                  <input
+                    className="bg-[#7700df] text-white placeholder-white block px-5 py-4 w-full"
+                    placeholder="Company Name"
+                    {...register("companyName")}
+                  />
+                  <span className="text-red-700">
+                    {errors.companyName && errors.companyName?.message}
+                  </span>
+                </div>
+                <div>
+                  <input
+                    type="email"
+                    className="bg-[#7700df] text-white placeholder-white block px-5 py-4 w-full"
+                    placeholder="Email"
+                    {...register("email")}
+                  />
+                  <span className="text-red-700">
+                    {errors.email && errors.email?.message}
+                  </span>
+                </div>
+                <div>
+                  <input
+                    className="bg-[#7700df] text-white placeholder-white block px-5 py-4 w-full"
+                    placeholder="App Store Account - Game Url"
+                    {...register("account")}
+                  />
+                  <span className="text-red-700">
+                    {errors.account && errors.account?.message}
+                  </span>
+                </div>
+                <div className="signupselect h-fit">
+                  <select
+                    id="countries"
+                    className="bg-[#7700df] text-white focus:ring-blue-500 focus:border-blue-500 px-5 py-4 w-full"
+                    {...register("country")}
+                  >
+                    <option value="UK" className="bg-[#7700df]">
+                      United Kingdom
+                    </option>
+                    <option value="CA" className="bg-[#7700df]">
+                      Canada
+                    </option>
+                    <option value="FR" className="bg-[#7700df]">
+                      France
+                    </option>
+                    <option value="DE" className="bg-[#7700df]">
+                      Germany
+                    </option>
+                  </select>
+                  <span className="text-red-700">
+                    {errors.country && errors.country?.message}
+                  </span>
+                </div>
+                <div>
+                  <input
+                    className="bg-[#7700df] text-white placeholder-white block px-5 py-4 w-full"
+                    placeholder="Website"
+                    {...register("website")}
+                  />
+                  <span className="text-red-700">
+                    {errors.website && errors.website?.message}
+                  </span>
+                </div>
+                <div className="col-span-2">
+                  <input
+                    className="bg-[#7700df] text-white placeholder-white block px-5 py-5 w-full"
+                    placeholder="Your Message"
+                    {...register("message")}
+                  />
+                  <span className="text-red-700">
+                    {errors.message && errors.message?.message}
+                  </span>
+                </div>
+                <div>
+                  <button
+                    type="submit"
+                    className="text-white bg-[#ff9100] hover:bg-[#ee8000] mr-7 shadow-lg rounded-sm px-16 py-4 w-full"
+                  >
+                    <div className="flex justify-center px-10 items-center text-lg">
+                      Send{" "}
+                      <img
+                        className="rotate-[270deg] w-5 h-5 ml-6"
+                        src="imgs/dropdown_arrow.svg"
+                        alt="GameBake"
+                      />
+                    </div>
+                  </button>
+                </div>
               </div>
-              <div>
-                <input
-                  name="company_name"
-                  className="bg-[#7700df] text-white placeholder-white block px-5 py-4 w-full"
-                  placeholder="Company Name"
-                />
-              </div>
-              <div>
-                <input
-                  name="email"
-                  type="email"
-                  className="bg-[#7700df] text-white placeholder-white block px-5 py-4 w-full"
-                  placeholder="Email"
-                />
-              </div>
-              <div>
-                <input
-                  name="game_url"
-                  className="bg-[#7700df] text-white placeholder-white block px-5 py-4 w-full"
-                  placeholder="App Store Account - Game Url"
-                />
-              </div>
-              <div className="signupselect">
-                <select
-                  id="countries"
-                  name="countries"
-                  className="bg-[#7700df] text-white focus:ring-blue-500 focus:border-blue-500 px-5 py-4 w-full"
-                >
-                  <option value="UK" className="bg-[#7700df]">
-                    United Kingdom
-                  </option>
-                  <option value="CA" className="bg-[#7700df]">
-                    Canada
-                  </option>
-                  <option value="FR" className="bg-[#7700df]">
-                    France
-                  </option>
-                  <option value="DE" className="bg-[#7700df]">
-                    Germany
-                  </option>
-                </select>
-              </div>
-              <div>
-                <input
-                  name="website"
-                  className="bg-[#7700df] text-white placeholder-white block px-5 py-4 w-full"
-                  placeholder="Website"
-                />
-              </div>
-              <div className="col-span-2">
-                <input
-                  name="message"
-                  className="bg-[#7700df] text-white placeholder-white block px-5 py-5 w-full"
-                  placeholder="Your Message"
-                />
-              </div>
-              <div>
-                <button
-                  type="button"
-                  className="text-white bg-[#ff9100] hover:bg-[#ee8000] mr-7 shadow-lg rounded-sm px-16 py-4 w-full"
-                >
-                  <div className="flex justify-center px-10 items-center text-lg">
-                    Send{" "}
-                    <img
-                      className="rotate-[270deg] w-5 h-5 ml-6"
-                      src="imgs/dropdown_arrow.svg"
-                      alt="GameBake"
-                    />
-                  </div>
-                </button>
-              </div>
-            </div>
+            </form>
           </div>
         </div>
       </div>

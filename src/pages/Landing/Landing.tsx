@@ -11,7 +11,11 @@ import Navbar from "../../layouts/Navbar";
 const Landing = () => {
   return (
     <>
-      <div id="landing" className="snap-y overflow-y-scroll max-h-screen snap-mandatory text-base">
+      <div
+        id="landing"
+        className="snap-y overflow-y-scroll max-h-screen snap-mandatory text-base"
+        style={{ overflowX: "hidden" }}
+      >
         <Navbar />
         <Section1Component />
         <Section2Component />

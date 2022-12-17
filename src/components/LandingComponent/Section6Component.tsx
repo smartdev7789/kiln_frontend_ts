@@ -1,6 +1,7 @@
 import React from "react";
 
 import { Swiper, SwiperSlide } from "swiper/react";
+import SwiperCore, { Keyboard, Mousewheel } from "swiper";
 
 import "swiper/css";
 import "swiper/css/free-mode";
@@ -9,6 +10,8 @@ import "swiper/css/pagination";
 import { FreeMode, Navigation } from "swiper";
 import "../../index.css";
 import { scrollToTop } from "../../utils";
+
+SwiperCore.use([Keyboard, Mousewheel]);
 
 const titles = ["Title", "Title", "Title", "Title", "Title"];
 const Section6Component = () => {
@@ -37,6 +40,9 @@ const Section6Component = () => {
               navigation={true}
               modules={[FreeMode, Navigation]}
               className="mySwiper"
+              keyboard={true}
+              direction="horizontal"
+              mousewheel={true}
             >
               {titles.map((title, i) => (
                 <SwiperSlide key={"news" + i}>

@@ -41,7 +41,7 @@ const Navbar = () => {
           Number(document.getElementById("scroll" + (i + 1))?.offsetTop) &&
         Number(document.getElementById("landing")?.scrollTop) <
           Number(document.getElementById("scroll" + (i + 1))?.offsetTop) +
-            Number(document.getElementById("scroll" + (i + 1))?.clientHeight)
+            Number(document.getElementById("scroll" + (i + 1))?.scrollHeight)
       ) {
         break;
       }

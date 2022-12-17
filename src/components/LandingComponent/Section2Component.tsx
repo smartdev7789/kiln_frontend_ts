@@ -3,8 +3,31 @@ import { scrollToTop } from "../../utils";
 
 const images = [
   <div className="flex px-16 items-center section-height">
-    <div className="w-1/2 pt-24 pr-28">
-      <img className="h-96 float-right" src="imgs/earth.svg" alt="GameBake" />
+    <div className="w-1/2 relative section-height">
+      <div className="absolute top-[40%] left-[25%]">
+        <img className="h-96" src="imgs/earth.gif" alt="GameBake" />
+      </div>
+      <div className="absolute top-[36%] left-[28%] animation animation-fadeIn">
+        <img className="h-32" src="imgs/globe_icon1.svg" alt="GameBake" />
+      </div>
+      <div
+        className="absolute top-[33%] left-[60%] animation animation-fadeIn"
+        style={{ transitionDelay: "0.6s" }}
+      >
+        <img className="h-32" src="imgs/globe_icon2.svg" alt="GameBake" />
+      </div>
+      <div
+        className="absolute top-[62%] left-[67%] animation animation-fadeIn"
+        style={{ transitionDelay: "1.2s" }}
+      >
+        <img className="h-32" src="imgs/globe_icon3.svg" alt="GameBake" />
+      </div>
+      <div
+        className="absolute top-[70%] left-[31%] animation animation-fadeIn"
+        style={{ transitionDelay: "1.8s" }}
+      >
+        <img className="h-32" src="imgs/globe_icon4.svg" alt="GameBake" />
+      </div>
     </div>
     <div className="flex justify-between pt-32 items-center w-1/2">
       <div className="w-2/3">
@@ -18,7 +41,10 @@ const images = [
             channels.
           </p>
           <br />
-          <p className="animation animation-fadeInUp" style={{transitionDelay: "0.6s"}}>
+          <p
+            className="animation animation-fadeInUp"
+            style={{ transitionDelay: "0.6s" }}
+          >
             If you’re interested in wider distribution, then you should be
             utilising GameBake!
           </p>
@@ -27,8 +53,31 @@ const images = [
     </div>
   </div>,
   <div className="flex px-16 items-center section-height">
-    <div className="w-1/2 pt-24 pr-28">
-      <img className="h-96 float-right" src="imgs/earth1.svg" alt="GameBake" />
+    <div className="w-1/2 relative section-height">
+      <div className="absolute top-[40%] left-[25%]">
+        <img className="h-96" src="imgs/earth.gif" alt="GameBake" />
+      </div>
+      <div className="absolute top-[46%] left-[25%] animation animation-fadeIn">
+        <img className="h-32" src="imgs/globe_icon5.svg" alt="GameBake" />
+      </div>
+      <div
+        className="absolute top-[28%] left-[51%] animation animation-fadeIn"
+        style={{ transitionDelay: "0.6s" }}
+      >
+        <img className="h-32" src="imgs/globe_icon6.svg" alt="GameBake" />
+      </div>
+      <div
+        className="absolute top-[57%] left-[62%] animation animation-fadeIn"
+        style={{ transitionDelay: "1.2s" }}
+      >
+        <img className="h-32" src="imgs/globe_icon7.svg" alt="GameBake" />
+      </div>
+      <div
+        className="absolute top-[72%] left-[36%] animation animation-fadeIn"
+        style={{ transitionDelay: "1.8s" }}
+      >
+        <img className="h-32" src="imgs/globe_icon8.svg" alt="GameBake" />
+      </div>
     </div>
     <div className="flex justify-between pt-32 items-center w-1/2 fadeInUp animation">
       <div className="w-2/3">
@@ -42,7 +91,12 @@ const images = [
             the vast opportunities that await.
           </p>
           <br />
-          <p className="animation animation-fadeInUp" style={{transitionDelay: "0.6s"}}>Your game. Your business. Your choice.</p>
+          <p
+            className="animation animation-fadeInUp"
+            style={{ transitionDelay: "0.6s" }}
+          >
+            Your game. Your business. Your choice.
+          </p>
         </div>
       </div>
     </div>
@@ -100,8 +154,7 @@ const Carousel = () => {
   };
 
   // Tailwind styles. Most importantly notice position absolute, this will sit relative to the carousel's outer div.
-  const arrowStyle =
-    "absolute z-10 w-28 flex items-center justify-center";
+  const arrowStyle = "absolute z-10 w-28 flex items-center justify-center";
 
   // Let's create dynamic buttons. It can be either left or right. Using
   // isLeft boolean we can determine which side we'll be rendering our button
@@ -113,10 +166,17 @@ const Carousel = () => {
       className={`${arrowStyle} ${isLeft ? "left-2" : "right-2"}`}
       style={{ top: "50%" }}
     >
-      <span role="img" aria-label={`Arrow ${isLeft ? "left" : "right"}`} className="mx-5">
+      <span
+        role="img"
+        aria-label={`Arrow ${isLeft ? "left" : "right"}`}
+        className="mx-5"
+      >
         {isLeft ? (
-          <img 
-          className="h-auto w-full" src="imgs/arrow_left.svg" alt="Gamebake" />
+          <img
+            className="h-auto w-full"
+            src="imgs/arrow_left.svg"
+            alt="Gamebake"
+          />
         ) : (
           <img
             className="rotate-180 h-auto w-full"
