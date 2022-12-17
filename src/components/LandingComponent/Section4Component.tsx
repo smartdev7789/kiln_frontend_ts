@@ -28,10 +28,10 @@ const contents = [
 
 const Section4Component = () => {
   return (
-    <section className="snap-center">
+    <section className="snap-start">
       <div
         id="scroll3"
-        className="bg-[url('/public/imgs/BG_Purple.svg')] bg-cover landing-width min-h-screen section"
+        className="bg-[url('/public/imgs/BG_Purple.svg')] bg-cover min-h-screen section"
       >
         <div className="section-height flex items-center px-36 py-28">
           <div>

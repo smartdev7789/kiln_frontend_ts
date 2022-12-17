@@ -7,6 +7,6 @@ module.exports = {
         gray150: "#ebebeb",
         red150: "#fd0000",
       },
-    },
+    }
   },
 };

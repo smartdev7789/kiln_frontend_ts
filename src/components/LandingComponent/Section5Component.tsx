@@ -36,10 +36,10 @@ const content =
 
 const Section5Component = () => {
   return (
-    <section className="snap-center">
+    <section className="snap-start">
       <div
         id="scroll4"
-        className="bg-[url('/public/imgs/Background_Orange.png')] bg-cover landing-width min-h-screen section"
+        className="bg-[url('/public/imgs/Background_Orange.png')] bg-cover min-h-screen section"
       >
         <div className="section-height flex items-center pb-6">
           <div className="w-full">
@@ -48,9 +48,9 @@ const Section5Component = () => {
             </div>
             <Swiper
               slidesPerView={
-                window.outerWidth >= 1500
+                window.innerWidth > 2560
                   ? 4
-                  : window.outerWidth >= 1304
+                  : window.innerWidth >= 1304
                   ? 3
                   : 2
               }

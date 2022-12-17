@@ -101,7 +101,7 @@ const Carousel = () => {
 
   // Tailwind styles. Most importantly notice position absolute, this will sit relative to the carousel's outer div.
   const arrowStyle =
-    "absolute pt-32 text-2xl z-10 h-10 w-20 flex items-center justify-center";
+    "absolute z-10 w-28 flex items-center justify-center";
 
   // Let's create dynamic buttons. It can be either left or right. Using
   // isLeft boolean we can determine which side we'll be rendering our button
@@ -111,14 +111,15 @@ const Carousel = () => {
       type="button"
       onClick={isLeft ? previousImage : nextImage}
       className={`${arrowStyle} ${isLeft ? "left-2" : "right-2"}`}
-      style={{ top: "40%" }}
+      style={{ top: "50%" }}
     >
       <span role="img" aria-label={`Arrow ${isLeft ? "left" : "right"}`} className="mx-5">
         {isLeft ? (
-          <img src="imgs/arrow_left.svg" alt="Gamebake" />
+          <img 
+          className="h-auto w-full" src="imgs/arrow_left.svg" alt="Gamebake" />
         ) : (
           <img
-            className="rotate-180"
+            className="rotate-180 h-auto w-full"
             src="imgs/arrow_left.svg"
             alt="Gamebake"
           />
@@ -151,10 +152,10 @@ const Carousel = () => {
 
 const Section2Component = () => {
   return (
-    <section className="snap-center">
+    <section className="snap-start">
       <div
         id="scroll2"
-        className="bg-[url('/public/imgs/Background_Orange.png')] bg-cover landing-width min-h-screen"
+        className="bg-[url('/public/imgs/Background_Orange.png')] bg-cover min-h-screen"
       >
         <Carousel />
         <div

@@ -3,10 +3,10 @@ import { scrollToTop } from "../../utils";
 
 const Section1Component = () => {
   return (
-    <section className="snap-center">
+    <section className="snap-start">
       <div
         id="scroll1"
-        className="bg-[#7700DF] bg-cover landing-width h-screen"
+        className="bg-[#7700DF] bg-cover h-screen"
       >
         <div className="flex section-height px-16 items-center">
           <div className="w-1/2 px-20">
@@ -45,7 +45,7 @@ const Section1Component = () => {
           </div>
           <div className="w-1/2 pr-10 pt-20">
             <img
-              className="w-auto"
+              className="h-auto w-full"
               src="imgs/GameBake_Hero_Motion2.gif"
               alt="GameBake"
             />

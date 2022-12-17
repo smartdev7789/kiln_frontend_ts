@@ -3,10 +3,10 @@ import { scrollToTop } from "../../utils";
 
 const Section3Component = () => {
   return (
-    <section className="snap-center">
+    <section className="snap-start">
       <div
         id="section3"
-        className="bg-[#44178A] bg-cover landing-width min-h-screen section"
+        className="bg-[#44178A] bg-cover min-h-screen section"
       >
         <div className="section-height flex items-center justify-center px-16 pt-32">
           <div>

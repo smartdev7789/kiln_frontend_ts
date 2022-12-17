@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+html { 
+  font-size: 1vw;
+}
+
 body {
   margin: 0;
   font-family: "Poppins" !important;
@@ -171,7 +175,7 @@ code {
   opacity: 1 !important;
   backdrop-filter: blur(10px) !important;
   left: 0px !important;
-  padding-left: 102px !important;
+  padding-left: 8rem !important;
   background-position-x: center !important;
   background-position-y: center !important;
   top: -6.6% !important;
@@ -187,7 +191,7 @@ code {
   opacity: 1 !important;
   backdrop-filter: blur(5px) !important;
   right: 0px !important;
-  padding-right: 102px !important;
+  padding-right: 8rem !important;
   background-position: center !important;
   top: -6.6% !important;
   height: 120% !important;
@@ -245,4 +249,54 @@ code {
 .animation-fadeInDown.active {
   opacity: 1;
   transform: none;
+}
+
+.social_link_btn1 {
+  transition: .3s ease;
+  background: url("/public/imgs/social_link1.svg") no-repeat;
+  background-size: cover;
+}
+.social_link_btn1:hover {
+  background: url("/public/imgs/social_link1_hover.png") no-repeat;
+  background-size: cover;
+}
+
+.social_link_btn2 {
+  transition: .3s ease;
+  background: url("/public/imgs/social_link2.svg") no-repeat;
+  background-size: cover;
+}
+.social_link_btn2:hover {
+  background: url("/public/imgs/social_link2_hover.png") no-repeat;
+  background-size: cover;
+}
+
+.social_link_btn3 {
+  transition: .3s ease;
+  background: url("/public/imgs/social_link3.svg") no-repeat;
+  background-size: cover;
+}
+.social_link_btn3:hover {
+  background: url("/public/imgs/social_link3_hover.png") no-repeat;
+  background-size: cover;
+}
+
+.social_link_btn4 {
+  transition: .3s ease;
+  background: url("/public/imgs/social_link4.svg") no-repeat;
+  background-size: cover;
+}
+.social_link_btn4:hover {
+  background: url("/public/imgs/social_link4_hover.png") no-repeat;
+  background-size: cover;
+}
+
+.social_link_btn5 {
+  transition: .3s ease;
+  background: url("/public/imgs/social_link5.svg") no-repeat;
+  background-size: cover;
+}
+.social_link_btn5:hover {
+  background: url("/public/imgs/social_link5_hover.png") no-repeat;
+  background-size: cover;
 }

@@ -57,7 +57,7 @@ const Navbar = () => {
   }, [handleScroll]);
 
   return (
-    <section className="snap-center">
+    <section className="snap-start">
       <nav className="rounded fixed landing-width backdrop-blur-sm z-50">
         <div className="flex flex-wrap items-center justify-between py-6 px-8">
           <Link key="landing" to="/" className="flex items-center">

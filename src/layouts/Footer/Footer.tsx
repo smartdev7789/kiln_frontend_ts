@@ -5,43 +5,23 @@ const footerItems = ["About", "Services", "Live Games", "News"];
 
 const Footer = () => {
   return (
-    <section className="snap-center">
-      <div className="bg-[#44178a] landing-width">
+    <section className="snap-start">
+      <div className="bg-[#44178a]">
         <div className="flex justify-between items-center px-20 py-4 text-white">
           <div>
             <img className="h-8" src="imgs/GameBake_Logo.svg" alt="GameBake" />
           </div>
           <div>
-            <p className="text-xs">© {new Date().getFullYear()} GameBake. All Rights Reserved</p>
+            <p className="text-xs">
+              © {new Date().getFullYear()} GameBake. All Rights Reserved
+            </p>
           </div>
           <div className="w-64 pb-6">
             Socials
             <div className="flex justify-between my-6">
-              <img
-                className="w-8 h-8"
-                src="imgs/social_link1.svg"
-                alt="GameBake"
-              />
-              <img
-                className="w-8 h-8"
-                src="imgs/social_link2.svg"
-                alt="GameBake"
-              />
-              <img
-                className="w-8 h-8"
-                src="imgs/social_link3.svg"
-                alt="GameBake"
-              />
-              <img
-                className="w-8 h-8"
-                src="imgs/social_link4.svg"
-                alt="GameBake"
-              />
-              <img
-                className="w-8 h-8"
-                src="imgs/social_link5.svg"
-                alt="GameBake"
-              />
+              {[...Array(5)].map((item, idx) => (
+                <div className={"w-8 h-8 cursor-pointer social_link_btn" + (idx + 1)}/>
+              ))}
             </div>
           </div>
           <div className="w-64">

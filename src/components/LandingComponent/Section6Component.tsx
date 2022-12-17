@@ -13,10 +13,10 @@ import { scrollToTop } from "../../utils";
 const titles = ["Title", "Title", "Title", "Title", "Title"];
 const Section6Component = () => {
   return (
-    <section className="snap-center">
+    <section className="snap-start">
       <div
         id="scroll5"
-        className="bg-[url('/public/imgs/BG_Purple.svg')] bg-cover landing-width min-h-screen section"
+        className="bg-[url('/public/imgs/BG_Purple.svg')] bg-cover min-h-screen section"
       >
         <div className="section-height flex items-center pb-6">
           <div className="w-full">
@@ -24,7 +24,13 @@ const Section6Component = () => {
               Latest News
             </div>
             <Swiper
-              slidesPerView={window.outerWidth >= 1500 ? 4 : 3}
+              slidesPerView={
+                window.innerWidth > 2560
+                  ? 4
+                  : window.innerWidth >= 1304
+                  ? 3
+                  : 2
+              }
               spaceBetween={50}
               centeredSlides={false}
               freeMode={true}
