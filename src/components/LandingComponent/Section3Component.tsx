@@ -8,9 +8,9 @@ const Section3Component = () => {
         id="section3"
         className="bg-[#44178A] bg-cover min-h-screen section"
       >
-        <div className="section-height flex items-center justify-center px-16 pt-32">
-          <div>
-            <div className="w-1/2 pl-20">
+        {/* <div className="section-height flex items-center justify-center px-16 pt-32"> */}
+          <div className="section-height px-16 pt-32 relative">
+            <div className="w-1/2 pl-20 absolute">
               <div className="text-5xl mb-4 text-white font-extrabold animation animation-fadeInUp">
                 Game Growth
               </div>
@@ -22,11 +22,11 @@ const Section3Component = () => {
                 opportunities globally.
               </p>
             </div>
-            <div className="float-right z-10 w-2/3 h-full">
-              <img src="imgs/DataGraphic.gif" alt="GameBake"></img>
+            <div className="z-10 absolute right-0 bottom-0 pr-16 pb-4 w-2/3">
+              <img className="w-full h-auto" src="imgs/DataGraphic.gif" alt="GameBake"></img>
             </div>
           </div>
-        </div>
+        {/* </div> */}
         <div className="text-center py-3">
           <button
             type="button"
