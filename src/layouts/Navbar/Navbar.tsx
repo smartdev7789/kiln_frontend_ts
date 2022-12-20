@@ -28,7 +28,7 @@ const Navbar = () => {
       let ele = animationElements[i];
       let offset = ele.getBoundingClientRect().top;
       let screenHeight = window.innerHeight;
-      if (offset < screenHeight - 100 && !ele.classList.contains("active")) {
+      if (offset < screenHeight && !ele.classList.contains("active")) {
         ele.classList.add("active");
       }
     }

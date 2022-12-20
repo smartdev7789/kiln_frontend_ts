@@ -108,18 +108,21 @@ export const ROUTES: RouteConfig[] = [
   {
     path: Paths.Paymentcard,
     hideInMenu: true,
+    public: true,
     exact: true,
     component: PaymentCard,
   },
   {
     path: Paths.Profile,
     hideInMenu: true,
+    public: true,
     exact: true,
     component: Profile,
   },
   {
     path: Paths.Documentation,
     hideInMenu: true,
+    public: true,
     exact: true,
     component: Documentation,
   },

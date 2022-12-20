@@ -6,7 +6,7 @@ const Section1Component = () => {
     <section className="snap-start">
       <div
         id="scroll1"
-        className="bg-[#7700DF] bg-cover h-screen"
+        className="bg-[url('/public/imgs/Background_Purple.png')] bg-cover h-screen"
       >
         <div className="flex section-height px-16 items-center">
           <div className="w-1/2 px-20">

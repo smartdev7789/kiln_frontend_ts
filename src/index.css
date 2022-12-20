@@ -50,7 +50,7 @@ code {
 }
 
 .section7-height {
-  min-height: calc(100vh - 110px);
+  min-height: calc(100vh - 10.3rem);
 }
 
 .carousel {
@@ -69,8 +69,10 @@ code {
   height: 100%;
   padding-left: 8rem !important;
   padding-right: 8rem !important;
-  padding-bottom: 20px !important;
-  padding-top: 20px !important;
+  padding-bottom: 40px !important;
+  padding-top: 40px !important;
+  margin-bottom: -40px !important;
+  margin-top: -40px !important;
 }
 
 .signupselect {
@@ -183,28 +185,28 @@ code {
   background-size: auto !important;
   background-repeat: no-repeat !important;
   opacity: 1 !important;
-  backdrop-filter: blur(10px) !important;
+  backdrop-filter: blur(20px) !important;
   left: 0px !important;
   padding-left: 8rem !important;
   background-position-x: center !important;
   background-position-y: center !important;
-  top: -6.6% !important;
-  height: 120% !important;
+  top: -28.6% !important;
+  height: 170% !important;
 }
 
 .swiper-button-next {
   color: #ffffff00 !important;
-  background-image: url("/public/imgs/arrow_left.svg");
+  background-image: url("/public/imgs/arrow_right.svg");
   background-size: auto !important;
   background-repeat: no-repeat !important;
-  rotate: 180deg !important;
   opacity: 1 !important;
-  backdrop-filter: blur(5px) !important;
+  backdrop-filter: blur(20px) !important;
   right: 0px !important;
   padding-right: 8rem !important;
-  background-position: center !important;
-  top: -6.6% !important;
-  height: 120% !important;
+  background-position-x: center !important;
+  background-position-y: center !important;
+  top: -28.6% !important;
+  height: 170% !important;
 }
 
 .animation-fadeInLeft {
@@ -308,5 +310,15 @@ code {
 }
 .social_link_btn5:hover {
   background: url("/public/imgs/social_link5_hover.png") no-repeat;
+  background-size: cover;
+}
+
+.galaxy_store_btn {
+  transition: .3s ease;
+  background: url("/public/imgs/GalaxyStore.png") no-repeat;
+  background-size: cover;
+}
+.galaxy_store_btn:hover {
+  background: url("/public/imgs/GalaxyStore_hover.png") no-repeat;
   background-size: cover;
 }

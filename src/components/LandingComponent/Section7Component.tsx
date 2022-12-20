@@ -28,7 +28,7 @@ const Section7Component = () => {
 
   return (
     <section className="snap-start">
-      <div id="scroll6" className="bg-[#4d1aa0] bg-cover section">
+      <div id="scroll6" className="bg-[#44178A] bg-cover section">
         <div className="section7-height flex items-center justify-center px-36 py-6">
           <div>
             <div className="text-5xl mb-8 text-white font-extrabold">

@@ -46,16 +46,12 @@ const Section5Component = () => {
       >
         <div className="section-height flex items-center pb-6">
           <div className="w-full">
-            <div className="text-5xl px-36 pt-32 mb-6 lg:mb-20 text-white font-extrabold">
+            <div className="text-5xl px-36 pt-32 pb-12 text-white font-extrabold">
               Newly Distributed Games
             </div>
             <Swiper
               slidesPerView={
-                window.innerWidth > 2560
-                  ? 4
-                  : window.innerWidth >= 1304
-                  ? 3
-                  : 2
+                window.innerWidth > 2560 ? 4 : window.innerWidth >= 1304 ? 3 : 2
               }
               spaceBetween={50}
               centeredSlides={false}
@@ -90,13 +86,7 @@ const Section5Component = () => {
                           : content}
                       </p>
                       <div className="flex justify-center h-12 mt-3">
-                        <button type="button">
-                          <img
-                            className="h-full"
-                            src="imgs/new_game_button.svg"
-                            alt="GameBake"
-                          />
-                        </button>
+                        <div className="w-[11.2rem] h-12 cursor-pointer galaxy_store_btn" />
                       </div>
                     </div>
                   </div>
@@ -105,7 +95,7 @@ const Section5Component = () => {
             </Swiper>
           </div>
         </div>
-        <div className="text-center py-3">
+        <div className="text-center pb-3 z-40 relative">
           <button
             type="button"
             onClick={() =>

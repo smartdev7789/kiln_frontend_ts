@@ -31,9 +31,9 @@ const Section4Component = () => {
     <section className="snap-start">
       <div
         id="scroll3"
-        className="bg-[url('/public/imgs/BG_Purple.svg')] bg-cover min-h-screen section"
+        className="bg-[url('/public/imgs/Background_Purple.png')] bg-cover min-h-screen section"
       >
-        <div className="section-height flex items-center px-36 py-28">
+        <div className="section-height flex items-center px-36 pt-28">
           <div>
             <div className="text-5xl mb-6 text-white font-extrabold">
               Services
@@ -47,13 +47,13 @@ const Section4Component = () => {
                   <p className="text-2xl font-bold text-white my-6">
                     {titles[i]}
                   </p>
-                  <p className="text-white my-6">{contents[i]}</p>
+                  <p className="text-white my-6 text-sm">{contents[i]}</p>
                 </div>
               ))}
             </div>
           </div>
         </div>
-        <div className="text-center py-3">
+        <div className="text-center pb-3">
           <button
             type="button"
             onClick={() =>
