@@ -1,7 +1,7 @@
 import React from "react";
 import { scrollToTop } from "../../utils";
 
-const footerItems = ["About", "Services", "Live Games", "News"];
+const footerItems = ["About", "Services", "Live Games", "News", "Privacy", "Terms of Service"];
 
 const Footer = () => {
   return (

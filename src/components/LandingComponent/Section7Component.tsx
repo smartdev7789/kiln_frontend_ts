@@ -2,12 +2,13 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { schemaCreateContact } from "../../schemas/contact.schema";
+import { allCountries } from "../../allConstants/countries/all";
 interface IFormInputs {
   name: string;
   companyName: string;
   email: string;
   account: string;
-  country: string;
+  countries: string;
   website: string;
   message: string;
 }
@@ -31,7 +32,7 @@ const Section7Component = () => {
       <div id="scroll6" className="bg-[#44178A] bg-cover section">
         <div className="section7-height flex items-center justify-center px-36 py-6">
           <div>
-            <div className="text-5xl mb-8 text-white font-extrabold">
+            <div className="text-5xl mb-20 text-white font-extrabold">
               Get in touch!
             </div>
             <form onSubmit={handleSubmit(onSubmit)}>
@@ -81,23 +82,16 @@ const Section7Component = () => {
                   <select
                     id="countries"
                     className="bg-[#7700df] text-white focus:ring-blue-500 focus:border-blue-500 px-5 py-4 w-full"
-                    {...register("country")}
+                    {...register("countries")}
                   >
-                    <option value="UK" className="bg-[#7700df]">
-                      United Kingdom
-                    </option>
-                    <option value="CA" className="bg-[#7700df]">
-                      Canada
-                    </option>
-                    <option value="FR" className="bg-[#7700df]">
-                      France
-                    </option>
-                    <option value="DE" className="bg-[#7700df]">
-                      Germany
-                    </option>
+                    {allCountries.map((country, i) => (
+                      <option value={country.code} className="bg-[#7700df]" key={"country" + i}>
+                        {country.name}
+                      </option>
+                    ))}
                   </select>
                   <span className="text-red-700">
-                    {errors.country && errors.country?.message}
+                    {errors.countries && errors.countries?.message}
                   </span>
                 </div>
                 <div>
@@ -111,8 +105,9 @@ const Section7Component = () => {
                   </span>
                 </div>
                 <div className="col-span-2">
-                  <input
-                    className="bg-[#7700df] text-white placeholder-white block px-5 py-5 w-full"
+                  <textarea
+                    rows={1}
+                    className="bg-[#7700df] text-white placeholder-white block px-5 py-6 w-full"
                     placeholder="Your Message"
                     {...register("message")}
                   />
@@ -123,7 +118,7 @@ const Section7Component = () => {
                 <div>
                   <button
                     type="submit"
-                    className="text-white bg-[#ff9100] hover:bg-[#ee8000] mr-7 shadow-lg rounded-sm px-16 py-4 w-full"
+                    className="text-white bg-[#ff9100] hover:bg-[#ee8000] mr-7 shadow-lg rounded-sm px-16 py-[1.35rem] w-full"
                   >
                     <div className="flex justify-center px-10 items-center text-lg">
                       Send{" "}

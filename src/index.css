@@ -241,6 +241,16 @@ code {
   transform: none;
 }
 
+.animation-fadeOut.inactive {
+  opacity: 1;
+  transition: all 1.25s ease;
+}
+
+.animation-fadeOut.inactive {
+  opacity: 0;
+  transform: none;
+}
+
 .animation-fadeInUp {
   opacity: 0;
   transform: translate3d(0, 100%, 0);

@@ -51,7 +51,7 @@ const Section5Component = () => {
             </div>
             <Swiper
               slidesPerView={
-                window.innerWidth > 2560 ? 4 : window.innerWidth >= 1304 ? 3 : 2
+                window.innerWidth > 3064 ? 4 : window.innerWidth >= 1304 ? 3 : 2
               }
               spaceBetween={50}
               centeredSlides={false}

@@ -38,7 +38,7 @@ export const schemaFieldContactAccount = () => {
 
 export const schemaFieldContactCountry = () => {
   return {
-    country: yup.string().required('Country required'),
+    countries: yup.string().required('Country required'),
   };
 };
 

@@ -1,107 +1,7 @@
 import React, {useEffect} from "react";
 import { scrollToTop } from "../../utils";
 
-const images = [
-  <div className="flex px-16 items-center section-height">
-    <div className="w-1/2 relative section-height">
-      <div className="absolute top-[40%] left-[25%]">
-        <img className="h-96" src="imgs/earth.gif" alt="GameBake" />
-      </div>
-      <div className="absolute top-[36%] left-[28%] animation animation-fadeIn">
-        <img className="h-32" src="imgs/globe_icon1.svg" alt="GameBake" />
-      </div>
-      <div
-        className="absolute top-[33%] left-[60%] animation animation-fadeIn"
-        style={{ transitionDelay: "0.6s" }}
-      >
-        <img className="h-32" src="imgs/globe_icon2.svg" alt="GameBake" />
-      </div>
-      <div
-        className="absolute top-[62%] left-[67%] animation animation-fadeIn"
-        style={{ transitionDelay: "1.2s" }}
-      >
-        <img className="h-32" src="imgs/globe_icon3.svg" alt="GameBake" />
-      </div>
-      <div
-        className="absolute top-[70%] left-[31%] animation animation-fadeIn"
-        style={{ transitionDelay: "1.8s" }}
-      >
-        <img className="h-32" src="imgs/globe_icon4.svg" alt="GameBake" />
-      </div>
-    </div>
-    <div className="flex justify-between pt-32 items-center w-1/2">
-      <div className="w-2/3">
-        <div className="text-5xl mb-4 text-white font-extrabold">Worldwide</div>
-        <div className="text-lg text-white mb-8">
-          <p className="animation animation-fadeInUp">
-            There is so much more out there than just the Apple App Store and
-            Google Play Store, we are talking about billions of new users! That
-            is why GameBake focuses on building the best partnerships with the
-            biggest channels globally, ranging from App Stores to HTML5 web
-            channels.
-          </p>
-          <br />
-          <p
-            className="animation animation-fadeInUp"
-            style={{ transitionDelay: "0.6s" }}
-          >
-            If you’re interested in wider distribution, then you should be
-            utilising GameBake!
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>,
-  <div className="flex px-16 items-center section-height">
-    <div className="w-1/2 relative section-height">
-      <div className="absolute top-[40%] left-[25%]">
-        <img className="h-96" src="imgs/earth.gif" alt="GameBake" />
-      </div>
-      <div className="absolute top-[46%] left-[25%] animation animation-fadeIn">
-        <img className="h-32" src="imgs/globe_icon5.svg" alt="GameBake" />
-      </div>
-      <div
-        className="absolute top-[28%] left-[51%] animation animation-fadeIn"
-        style={{ transitionDelay: "0.6s" }}
-      >
-        <img className="h-32" src="imgs/globe_icon6.svg" alt="GameBake" />
-      </div>
-      <div
-        className="absolute top-[57%] left-[62%] animation animation-fadeIn"
-        style={{ transitionDelay: "1.2s" }}
-      >
-        <img className="h-32" src="imgs/globe_icon7.svg" alt="GameBake" />
-      </div>
-      <div
-        className="absolute top-[72%] left-[36%] animation animation-fadeIn"
-        style={{ transitionDelay: "1.8s" }}
-      >
-        <img className="h-32" src="imgs/globe_icon8.svg" alt="GameBake" />
-      </div>
-    </div>
-    <div className="flex justify-between pt-32 items-center w-1/2 fadeInUp animation">
-      <div className="w-2/3">
-        <div className="text-5xl mb-4 text-white font-extrabold">Agnostic</div>
-        <div className="text-lg text-white mb-8">
-          <p className="animation animation-fadeInUp">
-            GameBake takes pride in position as a truly agnostic player in the
-            industry. We do not force you to choose one platform over another at
-            the expense of your game or your growth. We are here to help you
-            find the right channels and the right partners to take advantage of
-            the vast opportunities that await.
-          </p>
-          <br />
-          <p
-            className="animation animation-fadeInUp"
-            style={{ transitionDelay: "0.6s" }}
-          >
-            Your game. Your business. Your choice.
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>,
-];
+const images = [0,1];
 
 const titles = ["Worldwide", "Agnostic"];
 const desc1 = [
@@ -136,6 +36,17 @@ const Carousel = () => {
     }
   };
 
+  const animationPlayInactive = () => {
+    for (var i = 0; i < animationElements.length; i++) {
+      let ele = animationElements[i];
+      let offset = ele.getBoundingClientRect().top;
+      let screenHeight = window.innerHeight;
+      if (offset < screenHeight && !ele.classList.contains("inactive")) {
+        ele.classList.add("inactive");
+      }
+    }
+  };
+
   useEffect(() => {
     animationElements = document.getElementsByClassName("carousel_animation");
     animationPlay();
@@ -149,16 +60,19 @@ const Carousel = () => {
 
   const scrollToImage = (i: any) => {
     // First let's set the index of the image we want to see next
-    setCurrentImage(i);
     // Now, this is where the magic happens. We 'tagged' each one of the images with a ref,
     // we can then use built-in scrollIntoView API to do eaxactly what it says on the box - scroll it into
     // your current view! To do so we pass an index of the image, which is then use to identify our current
     // image's ref in 'refs' array above.
-    refs[i].current.scrollIntoView();
+    animationPlayInactive();
+    setTimeout(() => {
+      setCurrentImage(i);
+      refs[i].current.scrollIntoView();
+    }, 1200);
     setTimeout(() => {
       animationElements = document.getElementsByClassName("carousel_animation");
       animationPlay();
-    }, 100);
+    }, 1250);
   };
 
   // Some validation for checking the array length could be added if needed
@@ -238,7 +152,7 @@ const Carousel = () => {
                     <>
                       <div
                         className={
-                          "absolute top-[" + posTop[i * 4] + "%] left-[" + posLeft[i * 4] + "%] carousel_animation animation-fadeIn"
+                          "absolute top-[" + posTop[i * 4] + "%] left-[" + posLeft[i * 4] + "%] carousel_animation animation-fadeIn animation-fadeOut"
                         }
                       >
                         <img
@@ -249,9 +163,9 @@ const Carousel = () => {
                       </div>
                       <div
                         className={
-                          "absolute top-[" + posTop[i * 4 + 1] + "%] left-[" + posLeft[i * 4 + 1] + "%] carousel_animation animation-fadeIn"
+                          "absolute top-[" + posTop[i * 4 + 1] + "%] left-[" + posLeft[i * 4 + 1] + "%] carousel_animation animation-fadeIn animation-fadeOut"
                         }
-                        style={{ transitionDelay: "0.6s" }}
+                        style={{ transitionDelay: "0.3s" }}
                       >
                         <img
                           className="h-32"
@@ -261,9 +175,9 @@ const Carousel = () => {
                       </div>
                       <div
                         className={
-                          "absolute top-[" + posTop[i * 4 + 2] + "%] left-[" + posLeft[i * 4 + 2] + "%] carousel_animation animation-fadeIn"
+                          "absolute top-[" + posTop[i * 4 + 2] + "%] left-[" + posLeft[i * 4 + 2] + "%] carousel_animation animation-fadeIn animation-fadeOut"
                         }
-                        style={{ transitionDelay: "1.2s" }}
+                        style={{ transitionDelay: "0.6s" }}
                       >
                         <img
                           className="h-32"
@@ -273,9 +187,9 @@ const Carousel = () => {
                       </div>
                       <div
                         className={
-                          "absolute top-[" + posTop[i * 4 + 3] + "%] left-[" + posLeft[i * 4 + 3] + "%] carousel_animation animation-fadeIn"
+                          "absolute top-[" + posTop[i * 4 + 3] + "%] left-[" + posLeft[i * 4 + 3] + "%] carousel_animation animation-fadeIn animation-fadeOut"
                         }
-                        style={{ transitionDelay: "1.8s" }}
+                        style={{ transitionDelay: "0.9s" }}
                       >
                         <img
                           className="h-32"

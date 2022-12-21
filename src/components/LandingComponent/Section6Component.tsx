@@ -61,7 +61,7 @@ const Section6Component = () => {
                         frwad dasd sdadf as…
                       </p>
                       <p>
-                        <a className="cursor-pointer text-xl text-white hover:decoration-[#ff9100] hover:text-white hover:underline-offset-4 hover:decoration-2 focus:decoration-[#ff9100] focus:text-white focus:underline-offset-4 focus:decoration-2">
+                        <a className="cursor-pointer font-semibold text-xl text-white hover:decoration-[#ff9100] hover:text-white hover:underline-offset-4 hover:decoration-2 focus:decoration-[#ff9100] focus:text-white focus:underline-offset-4 focus:decoration-2">
                           Read More
                         </a>
 
