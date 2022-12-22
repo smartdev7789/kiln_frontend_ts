@@ -190,6 +190,17 @@ export interface Account {
   _password: string;
 }
 
+export interface AccountPatch {
+  id: string;
+  email: string;
+  name: string;
+  position: string;
+  mobile?: string;
+  whatsapp?: string;
+  skype?: string;
+  wechat?: string;
+}
+
 // Login response.
 export interface Login {
   token: string | null;

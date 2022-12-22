@@ -1,4 +1,4 @@
-import { Account, APIResponse, Team } from "./DataTypes";
+import { Account, AccountPatch, APIResponse, Team } from "./DataTypes";
 import { API_ENDPOINT, noTokenResponse } from "./API";
 
 /**
@@ -32,7 +32,7 @@ export const getAccount = async (token: string, accountId: string) => {
  * @param etag 
  * @returns 
  */
-export const updateAccount = async (token: string, accountData: Account, etag: string) => {
+export const updateAccount = async (token: string, accountData: AccountPatch, etag: string) => {
   if (!token) return noTokenResponse;
 
   const url = `${API_ENDPOINT}/accounts/${accountData.id}`;
@@ -45,7 +45,7 @@ export const updateAccount = async (token: string, accountData: Account, etag: s
       'Content-Type': 'application/json',
       'If-Match': etag,
     },
-    body: JSON.stringify({name: accountData.name, email: accountData.email}),
+    body: JSON.stringify(accountData),
   });
 
   return (await res.json()) as APIResponse;

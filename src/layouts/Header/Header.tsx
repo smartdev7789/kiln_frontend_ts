@@ -47,9 +47,9 @@ const Header = () => {
                           width="24"
                           height="24"
                           viewBox="0 0 24 24"
-                          stroke-width="2"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
                         >
                           {" "}
                           <path fill="none" d="M0 0h24v24H0z" />{" "}
@@ -72,9 +72,9 @@ const Header = () => {
                   >
                     <Menu.Items className="absolute left-50 z-10 h-3/4 origin-top-right rounded-lg bg-white py-4 px-2 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                       <div className="overflow-y-auto h-full px-5">
-                        {channels.map((channel) => (
+                        {channels.map((channel, i) => (
                           <>
-                            <Menu.Item key={channel}>
+                            <Menu.Item key={"channel" + i}>
                               <Link
                                 to="/documentation"
                                 className="block px-4 py-1 text-sm text-gray-700 hover:no-underline hover:text-gray-700 focus:no-underline focus:text-gray-700"
@@ -114,7 +114,7 @@ const Header = () => {
                 leaveFrom="transform opacity-100 scale-100"
                 leaveTo="transform opacity-0 scale-95"
               >
-                <Menu.Items className="absolute right-5 z-10 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                <Menu.Items className="absolute right-9 z-10 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                   <Menu.Item key="profile">
                     <Link
                       to="/profile"

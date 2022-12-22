@@ -1,90 +1,134 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { schemaPatchAccountItem } from "../../schemas";
+import { DispatchContext } from "../../App";
+import { API } from "../../api/API";
+import { getToken } from "../../authentication/Authentication";
+import { accountEarningsRangeStats } from "../../api/StatsAPI";
+interface IFormInputs {
+  name: string;
+  whatsapp: string;
+  position: string;
+  skype: string;
+  email: string;
+  wechat: string;
+  mobile: string;
+}
 
 const AccountDetailComponent = () => {
+  const { state } = useContext(DispatchContext);
+  const token: string | null = getToken();
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<IFormInputs>({
+    mode: "onBlur",
+    resolver: yupResolver(schemaPatchAccountItem()),
+  });
+
+  const getAccountDocument = async () => {
+    const data: any = await API.getAccount(token, state.account!.id);
+    data && reset(data);
+  };
+
+  useEffect(() => {
+    getAccountDocument();
+  }, [state.account, token]);
+
+  const onSubmit = (data: IFormInputs) => {
+    API.updateAccount(
+      token,
+      { ...data, id: state.account!.id },
+      state.account!._etag
+    );
+  };
+
   return (
     <>
       <p className="text-2xl text-[#707070]">Account Details</p>
       <div className="block my-6 px-6 pt-6 pb-12 w-full bg-white rounded-lg text-[#707070]">
         <span className="text-xl tracking-tight px-3">User Details</span>
-        <form className="px-6">
+        <form onSubmit={handleSubmit(onSubmit)} className="px-6">
           <div className="grid md:grid-cols-2 md:gap-6 text-sm my-3 text-right">
             <div className="relative z-0 w-full group">
-              <span>First Name:&nbsp;&nbsp;</span>
+              <span>Name:&nbsp;&nbsp;</span>
               <input
-                name="first_name"
-                id="first_name"
                 className="w-3/4 pt-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b border-[#e3e3e3] appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                placeholder=" "
-                required
+                {...register("name")}
               />
+              <p className="text-red150 text-left left-1/4 relative">
+                {errors.name && errors.name.message}
+              </p>
             </div>
             <div className="relative z-0 w-full group">
               <span>WhatsApp:&nbsp;&nbsp;</span>
               <input
-                name="whatsapp"
-                id="whatsapp"
                 className="w-3/4 pt-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b border-[#e3e3e3] appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                placeholder=" "
-                required
+                {...register("whatsapp")}
               />
+              <p className="text-red150 text-left left-1/4 relative">
+                {errors.whatsapp && errors.whatsapp.message}
+              </p>
             </div>
           </div>
           <div className="grid md:grid-cols-2 md:gap-6 text-sm my-3 text-right">
             <div className="relative z-0 w-full group">
               <span>Position:&nbsp;&nbsp;</span>
               <input
-                name="position"
-                id="position"
                 className="w-3/4 pt-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b border-[#e3e3e3] appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                placeholder=" "
-                required
+                {...register("position")}
               />
+              <p className="text-red150 text-left left-1/4 relative">
+                {errors.position && errors.position.message}
+              </p>
             </div>
             <div className="relative z-0 w-full group">
               <span>Skype:&nbsp;&nbsp;</span>
               <input
-                name="skype"
-                id="skype"
                 className="w-3/4 pt-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b border-[#e3e3e3] appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                placeholder=" "
-                required
+                {...register("skype")}
               />
+              <p className="text-red150 text-left left-1/4 relative">
+                {errors.skype && errors.skype.message}
+              </p>
             </div>
           </div>
           <div className="grid md:grid-cols-2 md:gap-6 text-sm my-3 text-right">
             <div className="relative z-0 w-full group">
               <span>E-mail:&nbsp;&nbsp;</span>
               <input
-                type="email"
-                name="email"
-                id="email"
                 className="w-3/4 pt-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b border-[#e3e3e3] appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                placeholder=" "
-                required
+                {...register("email")}
               />
+              <p className="text-red150 text-left left-1/4 relative">
+                {errors.email && errors.email.message}
+              </p>
             </div>
             <div className="relative z-0 w-full group">
               <span>WeChat:&nbsp;&nbsp;</span>
               <input
-                name="wechat"
-                id="wechat"
                 className="w-3/4 pt-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b border-[#e3e3e3] appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                placeholder=" "
-                required
+                {...register("wechat")}
               />
+              <p className="text-red150 text-left left-1/4 relative">
+                {errors.wechat && errors.wechat.message}
+              </p>
             </div>
           </div>
           <div className="grid md:grid-cols-2 md:gap-6 text-sm my-3 text-right">
             <div className="relative z-0 w-full group">
               <span>Mobile:&nbsp;&nbsp;</span>
               <input
-                type="mobile"
-                name="mobile"
-                id="mobile"
                 className="w-3/4 pt-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b border-[#e3e3e3] appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                placeholder=" "
-                required
+                {...register("mobile")}
               />
+              <p className="text-red150 text-left left-1/4 relative">
+                {errors.mobile && errors.mobile.message}
+              </p>
             </div>
             <div className="relative z-0 w-full group">
               <button

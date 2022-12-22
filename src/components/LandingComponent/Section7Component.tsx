@@ -1,19 +1,25 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { schemaCreateContact } from "../../schemas/contact.schema";
 import { allCountries } from "../../allConstants/countries/all";
+import emailjs, { init } from "@emailjs/browser";
+import ReCAPTCHA from "react-google-recaptcha";
 interface IFormInputs {
   name: string;
   companyName: string;
   email: string;
   account: string;
-  countries: string;
+  country: string;
   website: string;
   message: string;
 }
 
 const Section7Component = () => {
+  init("user_xxxxxxxxxxxxxxxxxxx");
+  const [emailSent, setEmailSent] = useState(false);
+  const recaptchaRef = React.useRef<ReCAPTCHA>(null);
+
   const {
     register,
     handleSubmit,
@@ -24,7 +30,22 @@ const Section7Component = () => {
   });
 
   const onSubmit = async (data: IFormInputs) => {
-    console.log(data);
+    emailjs
+      .send(
+        "service_4yeybag",
+        "template_n2rxxv7",
+        data as any,
+        "iRHPtssxLav_FkphK"
+      )
+      .then(
+        (result) => {
+          console.log(result.text);
+          setEmailSent(true);
+        },
+        (error) => {
+          console.log(error.text);
+        }
+      );
   };
 
   return (
@@ -32,10 +53,21 @@ const Section7Component = () => {
       <div id="scroll6" className="bg-[#44178A] bg-cover section">
         <div className="section7-height flex items-center justify-center px-36 py-6">
           <div>
-            <div className="text-5xl mb-20 text-white font-extrabold">
-              Get in touch!
-            </div>
+            {emailSent ? (
+              <div className="text-5xl mb-10 text-white font-extrabold animation animation-fadeInUp">
+                Thanks for getting in touch!
+                <p className="text-lg font-normal mt-4 text-[#44fd00] opacity-[0.6499999761581421]">
+                  Will shall try our best to respond within 48 hours. If it
+                  takes a little longer, sorry, but we will get back to you!
+                </p>
+              </div>
+            ) : (
+              <div className="text-5xl mb-20 text-white font-extrabold">
+                Get in touch!
+              </div>
+            )}
             <form onSubmit={handleSubmit(onSubmit)}>
+              {/* <ReCAPTCHA ref={recaptchaRef} sitekey="AAA" /> */}
               <div className="grid grid-cols-3 gap-4 gap-x-4 gap-y-8 px-16">
                 <div>
                   <input
@@ -82,16 +114,20 @@ const Section7Component = () => {
                   <select
                     id="countries"
                     className="bg-[#7700df] text-white focus:ring-blue-500 focus:border-blue-500 px-5 py-4 w-full"
-                    {...register("countries")}
+                    {...register("country")}
                   >
                     {allCountries.map((country, i) => (
-                      <option value={country.code} className="bg-[#7700df]" key={"country" + i}>
+                      <option
+                        value={country.code}
+                        className="bg-[#7700df]"
+                        key={"country" + i}
+                      >
                         {country.name}
                       </option>
                     ))}
                   </select>
                   <span className="text-red-700">
-                    {errors.countries && errors.countries?.message}
+                    {errors.country && errors.country?.message}
                   </span>
                 </div>
                 <div>
