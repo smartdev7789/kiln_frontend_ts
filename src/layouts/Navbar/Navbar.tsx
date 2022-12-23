@@ -46,7 +46,7 @@ const Navbar = () => {
         break;
       }
     }
-    setCurSec(i);
+    setCurSec(i == 6 ? 1 : i);
     
     animationPlay();
   }, []);

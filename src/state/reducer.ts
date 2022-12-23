@@ -14,6 +14,14 @@ export const reducer: (state: State, action: Action) => State = (
     };
   }
 
+  // Set Loading.
+  if (type === ActionType.SetLoading) {
+    return {
+      ...state,
+      isLoading: payload.isLoading,
+    };
+  }
+
   // LoginSuccessful context.
   if (type === ActionType.LoginSuccessful) {
     return {

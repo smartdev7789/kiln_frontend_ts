@@ -10,7 +10,7 @@ import { API_ENDPOINT, noTokenResponse } from "./API";
 export const getAccount = async (token: string, accountId: string) => {
   if (!token) return noTokenResponse;
 
-  const url = `${API_ENDPOINT}/accounts/${accountId}`;
+  const url = `/v0.01/accounts/${accountId}`;
   const bearer = 'Bearer ' + token;
   
   const res = await fetch(url, {
@@ -35,7 +35,7 @@ export const getAccount = async (token: string, accountId: string) => {
 export const updateAccount = async (token: string, accountData: AccountPatch, etag: string) => {
   if (!token) return noTokenResponse;
 
-  const url = `${API_ENDPOINT}/accounts/${accountData.id}`;
+  const url = `/v0.01/accounts/${accountData.id}`;
   
   const res = await fetch(url, {
     method: "PATCH",

@@ -7,9 +7,11 @@ import { Authentication, getToken } from "./authentication/Authentication";
 import { useLocation, useNavigate } from "react-router-dom";
 import "rsuite/dist/rsuite.min.css";
 import "tailwindcss/tailwind.css";
-import { API } from "./api/API";
+import LoadingComponent from "./components/LoadingComponent";
+import { ToastContainer } from "react-toastify";
 
 // @ts-ignore
+
 export const DispatchContext: React.Context<{
   state: State;
   dispatch: React.Dispatch<Action>;
@@ -88,6 +90,8 @@ export const App = () => {
     <Suspense fallback={<h1>Loading...</h1>}>
       <DispatchContext.Provider value={{ state, dispatch }}>
         <RenderRoutes routes={ROUTES} />
+        <LoadingComponent />
+        <ToastContainer />
       </DispatchContext.Provider>
     </Suspense>
   );

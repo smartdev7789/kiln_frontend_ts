@@ -6,10 +6,12 @@ export type State = {
   platforms?: Platform[];
   apps?: AppSummary[];
   releases?: ReleasesSummary[];
+  isLoading?: boolean;
 };
 
 export enum ActionType {
   SetAccount = "SET_ACCOUNT",
+  SetLoading = "SET_LOADING",
   SetPlatforms = "SET_PLATFORMS",
   SetApps = "SET_APPS",
   SetReleases = "SET_RELEASES",
@@ -26,6 +28,7 @@ export type Action = {
     platforms?: Platform[]; 
     apps?: AppSummary[];
     releases?: ReleasesSummary[];
+    isLoading?: boolean;
   };
 };
 

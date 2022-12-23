@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { schemaPatchAccountItem } from "../../schemas";
@@ -6,6 +6,8 @@ import { DispatchContext } from "../../App";
 import { API } from "../../api/API";
 import { getToken } from "../../authentication/Authentication";
 import { accountEarningsRangeStats } from "../../api/StatsAPI";
+import { useLoaderOverlay } from "../../hooks/useLoaderOverlay";
+import { useNotify } from "../../hooks/useNotify";
 interface IFormInputs {
   name: string;
   whatsapp: string;
@@ -19,6 +21,8 @@ interface IFormInputs {
 const AccountDetailComponent = () => {
   const { state } = useContext(DispatchContext);
   const token: string | null = getToken();
+  const [waitingForResponse, setWaitingForResponse] = useState(false);
+  const {notifySuccess, notifyError} = useNotify();
 
   const {
     register,
@@ -31,21 +35,42 @@ const AccountDetailComponent = () => {
   });
 
   const getAccountDocument = async () => {
-    const data: any = await API.getAccount(token, state.account!.id);
-    data && reset(data);
+    setWaitingForResponse(true);
+    const data: any = await API.getAccount(token, state.account?.id!);
+    data &&
+      reset({
+        name: data.name,
+        whatsapp: data.whatsapp,
+        position: data.position,
+        skype: data.skype,
+        email: data.email,
+        wechat: data.wechat,
+        mobile: data.mobile,
+      });
+    setWaitingForResponse(false);
   };
 
   useEffect(() => {
-    getAccountDocument();
+    state.account?.id && getAccountDocument();
   }, [state.account, token]);
 
-  const onSubmit = (data: IFormInputs) => {
-    API.updateAccount(
+  const onSubmit = async (data: IFormInputs) => {
+    setWaitingForResponse(true);
+    const response = await API.updateAccount(
       token,
       { ...data, id: state.account!.id },
       state.account!._etag
     );
+    if (response._status === "OK") {
+      notifySuccess("Updated account successfully")
+    } else {
+      console.log(response._error?.message);
+      notifyError(response._error?.message);
+    }
+    setWaitingForResponse(false);
   };
+
+  useLoaderOverlay(waitingForResponse);
 
   return (
     <>

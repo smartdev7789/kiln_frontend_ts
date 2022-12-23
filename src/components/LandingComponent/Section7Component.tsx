@@ -16,9 +16,9 @@ interface IFormInputs {
 }
 
 const Section7Component = () => {
-  init("user_xxxxxxxxxxxxxxxxxxx");
+  // init("user_xxxxxxxxxxxxxxxxxxx");
   const [emailSent, setEmailSent] = useState(false);
-  const recaptchaRef = React.useRef<ReCAPTCHA>(null);
+  // const recaptchaRef = React.useRef<ReCAPTCHA>(null);
 
   const {
     register,
@@ -30,22 +30,24 @@ const Section7Component = () => {
   });
 
   const onSubmit = async (data: IFormInputs) => {
-    emailjs
-      .send(
-        "service_4yeybag",
-        "template_n2rxxv7",
-        data as any,
-        "iRHPtssxLav_FkphK"
-      )
-      .then(
-        (result) => {
-          console.log(result.text);
-          setEmailSent(true);
-        },
-        (error) => {
-          console.log(error.text);
-        }
-      );
+    // emailjs
+    //   .send(
+    //     "service_4yeybag",
+    //     "template_n2rxxv7",
+    //     data as any,
+    //     "iRHPtssxLav_FkphK"
+    //   )
+    //   .then(
+    //     (result) => {
+    //       console.log(result.text);
+    //       setEmailSent(true);
+    //     },
+    //     (error) => {
+    //       console.log(error.text);
+    //     }
+    //   );
+
+    console.log(data);
   };
 
   return (
@@ -110,22 +112,28 @@ const Section7Component = () => {
                     {errors.account && errors.account?.message}
                   </span>
                 </div>
-                <div className="signupselect h-fit">
-                  <select
-                    id="countries"
-                    className="bg-[#7700df] text-white focus:ring-blue-500 focus:border-blue-500 px-5 py-4 w-full"
-                    {...register("country")}
-                  >
-                    {allCountries.map((country, i) => (
-                      <option
-                        value={country.code}
-                        className="bg-[#7700df]"
-                        key={"country" + i}
-                      >
-                        {country.name}
+                <div>
+                  <div className="signupselect h-fit">
+                    <select
+                      id="countries"
+                      className="bg-[#7700df] text-white focus:ring-blue-500 focus:border-blue-500 px-5 py-4 w-full"
+                      {...register("country")}
+                      defaultValue=""
+                    >
+                      <option value="" disabled hidden>
+                        Country
                       </option>
-                    ))}
-                  </select>
+                      {allCountries.map((country, i) => (
+                        <option
+                          value={country.code}
+                          className="bg-[#7700df]"
+                          key={"country" + i}
+                        >
+                          {country.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
                   <span className="text-red-700">
                     {errors.country && errors.country?.message}
                   </span>
@@ -143,7 +151,7 @@ const Section7Component = () => {
                 <div className="col-span-2">
                   <textarea
                     rows={1}
-                    className="bg-[#7700df] text-white placeholder-white block px-5 py-6 w-full"
+                    className="bg-[#7700df] text-white placeholder-white max-h-28 block px-5 py-6 w-full"
                     placeholder="Your Message"
                     {...register("message")}
                   />
