@@ -12,6 +12,14 @@ export const schemaPatchAccountItem = () => {
   });
 };
 
+export const schemaPatchAccountPassword = () => {
+  return yup.object().shape({
+    ...schemaFieldAccountPassword(),
+    ...schemaFieldAccountNewPassword(),
+    ...schemaFieldAccountConfirmNewPassword(),
+  });
+};
+
 export const schemaFieldAccountName = () => {
   return {
     name: yup.string().max(64).required('Name required'),
@@ -53,3 +61,21 @@ export const schemaFieldAccountWechat = () => {
     wechat: yup.string().max(64),
   };
 };
+
+export const schemaFieldAccountPassword = () => {
+  return {
+    password: yup.string().required('Password required'),
+  }
+}
+
+export const schemaFieldAccountNewPassword = () => {
+  return {
+    new_password: yup.string().required('New password required'),
+  }
+}
+
+export const schemaFieldAccountConfirmNewPassword = () => {
+  return {
+    confirm_password: yup.string().required('Confirm password required').oneOf([yup.ref('new_password')], 'Passwords does not match'),
+  }
+}

@@ -161,12 +161,33 @@ export interface Platform {
 export interface Team {
   id: string;
   team_name: string;
-  contact_number: string;
-  company_name: string;
-  contact_email: string;
-  company_number: string;
-  business_licence: AssetFile | null;
+  company_incorporation_certificate: AssetFile | null;
+  vat_tax_certificate: AssetFile | null;
   _etag: string;
+  legal_name: string | null;
+  legal_name_native: string | null;
+  legal_address: string | null;
+  legal_state_province: string | null;
+  legal_country_code: string | null;
+  legal_company_number: string | null;
+  legal_vat_tax_number: string | null;
+  support_dev_name: string | null;
+  support_email: string | null;
+  support_privacy_policy: string | null;
+  support_terms_of_service: string | null;
+  bank_name: string | null;
+  bank_address: string | null;
+  bank_account_name: string | null;
+  bank_account_type: string | null;
+  bank_account_currency: string | null;
+  bank_account_number: string | null;
+  bank_branch_name: string | null;
+  bank_number: string | null;
+  bank_sort_code: string | null;
+  bank_iban: string | null;
+  bank_swiftbic: string | null;
+  bank_ach_routing_number: string | null;
+  bank_fedwire_routing_number: string | null;
 }
 
 export interface TeamPlatform {
@@ -199,6 +220,13 @@ export interface AccountPatch {
   whatsapp?: string;
   skype?: string;
   wechat?: string;
+}
+
+export interface PasswordPatch {
+  password: string;
+  new_password: string;
+  confirm_password: string;
+  id: string;
 }
 
 // Login response.
@@ -399,4 +427,20 @@ export interface AppService {
   category: number;
   extras: string;
   _etag: string;
+}
+
+export interface Country {
+  code: string;
+  name: string;
+  short_name: string;
+}
+
+export interface Currency {
+  code: string;
+  name: string;
+}
+
+export interface BankAccountType {
+  code: string;
+  name: string;
 }

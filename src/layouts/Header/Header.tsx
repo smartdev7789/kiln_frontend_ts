@@ -98,11 +98,12 @@ const Header = () => {
           </div>
         </div>
         <div className="hidden md:block">
-          <div className="flex items-center">
-            <Menu as="div" className="mr-6">
+          <div className="flex items-center text-white">
+            |
+            <Menu as="div" className="px-16">
               <div>
-                <Menu.Button className="text-white py-2 rounded-md text-sm font-medium">
-                  <span>My Account</span>
+                <Menu.Button className="py-2 rounded-md text-sm font-medium">
+                  <span>Account</span>
                 </Menu.Button>
               </div>
               <Transition
@@ -114,13 +115,21 @@ const Header = () => {
                 leaveFrom="transform opacity-100 scale-100"
                 leaveTo="transform opacity-0 scale-95"
               >
-                <Menu.Items className="absolute right-9 z-10 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                <Menu.Items className="text-center absolute right-16 z-10 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                   <Menu.Item key="profile">
                     <Link
                       to="/profile"
                       className="block px-4 py-2 text-sm text-gray-700 hover:no-underline hover:text-gray-700 focus:no-underline focus:text-gray-700"
                     >
                       My Profile
+                    </Link>
+                  </Menu.Item>
+                  <Menu.Item key="documentation">
+                    <Link
+                      to="/documentation"
+                      className="block px-4 py-2 text-sm text-gray-700 hover:no-underline hover:text-gray-700 focus:no-underline focus:text-gray-700"
+                    >
+                      Docs
                     </Link>
                   </Menu.Item>
                   <hr />

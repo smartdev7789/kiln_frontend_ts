@@ -9,6 +9,7 @@ import {
 import {
   getAccount,
   updateAccount,
+  changeAccountPassword,
   getTeam,
   updateTeam,
   getTeamPlatforms,
@@ -284,6 +285,42 @@ const acceptTermsOfService = async (lang = "en") => {
   return await res.json();
 };
 
+// Get Countries
+const getCountries = async (token: string) => {
+  if (!token) return noTokenResponse;
+
+  const res = await fetch(`/v0.01/countries`, {
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  });
+  return await res.json();
+};
+
+// Get Currencies
+const getCurrencies = async (token: string) => {
+  if (!token) return noTokenResponse;
+
+  const res = await fetch(`/v0.01/currencies`, {
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  });
+  return await res.json();
+};
+
+// Get Back Account Types
+const getBackAccountTypes = async (token: string) => {
+  if (!token) return noTokenResponse;
+
+  const res = await fetch(`/v0.01/bank_account_types`, {
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  });
+  return await res.json();
+};
+
 export const API = {
   // Accounts and more
   login,
@@ -293,8 +330,12 @@ export const API = {
   changePassword,
   getTermsOfService,
   acceptTermsOfService,
+  getCountries,
+  getCurrencies,
+  getBackAccountTypes,
   getAccount,
   updateAccount,
+  changeAccountPassword,
   getTeam,
   updateTeam,
   getTeamPlatforms,
