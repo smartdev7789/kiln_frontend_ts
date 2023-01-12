@@ -632,7 +632,7 @@ const BusinessDetailComponent = () => {
             }}
             mainSrc={currentImage}
             onCloseRequest={() => setIsOpen(false)}
-            clickOutsideToClose={false}
+            clickOutsideToClose={true}
             onImageLoad={() => {
               window.dispatchEvent(new Event("resize"));
             }}
