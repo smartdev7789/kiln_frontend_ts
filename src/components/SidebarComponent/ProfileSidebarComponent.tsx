@@ -7,7 +7,7 @@ interface Props {
 
 const ProfileSidebarComponent: React.FC<Props> = ({ selected, onClick }) => {
   return (
-    <div className="shadow-sm h-full bg-white">
+    <div className="shadow-sm sidebar-height bg-white h-full">
       <p className="text-center bg-[#f7f7f7] py-3">My Profile</p>
       <button
         type="button"
@@ -38,6 +38,16 @@ const ProfileSidebarComponent: React.FC<Props> = ({ selected, onClick }) => {
         onClick={() => onClick("billing")}
       >
         Billing
+      </button>
+      <button
+        type="button"
+        className={
+          "inline-flex relative items-center py-1 pl-6 w-full text-sm hover:bg-gray-100 " +
+          (selected === "agreements" ? "bg-[#f7f7f7]" : "bg-white")
+        }
+        onClick={() => onClick("agreements")}
+      >
+        Agreements
       </button>
     </div>
   );

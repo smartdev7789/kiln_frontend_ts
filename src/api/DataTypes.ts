@@ -444,3 +444,15 @@ export interface BankAccountType {
   code: string;
   name: string;
 }
+
+export interface Billing {
+  client_secret: string;
+  stripe_public_key: string;
+}
+
+export interface Card {
+  last4: string | null;
+  exp_month: string | null;
+  exp_year: string | null;
+  brand: string | null;
+}

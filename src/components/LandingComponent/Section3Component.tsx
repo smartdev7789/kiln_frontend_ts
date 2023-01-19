@@ -10,7 +10,7 @@ const Section3Component = () => {
       >
           <div className="section-height px-16 pt-32 relative">
             <div className="absolute z-0 top-[57%] left-[20%] animation animation-fadeInRight">
-              <span className="text-[#330679] text-[28rem] leading-[0.1rem] text-opacity-50">MORE</span>
+              <span className="text-[#330679] text-[24em] leading-[0.1em] text-opacity-50">MORE</span>
             </div>
             <div className="w-1/2 pl-20 absolute z-10">
               <div className="text-5xl mb-4 text-white font-extrabold animation animation-fadeInUp">

@@ -1,4 +1,4 @@
-import { ReleasesSummary, AppSummary, Platform, Account } from "../api/DataTypes";
+import { ReleasesSummary, AppSummary, Platform, Account, Billing, Card } from "../api/DataTypes";
 
 export type State = {
   login?: boolean;
@@ -7,6 +7,8 @@ export type State = {
   apps?: AppSummary[];
   releases?: ReleasesSummary[];
   isLoading?: boolean;
+  billing?: Billing;
+  card?: Card;
 };
 
 export enum ActionType {
@@ -15,6 +17,8 @@ export enum ActionType {
   SetPlatforms = "SET_PLATFORMS",
   SetApps = "SET_APPS",
   SetReleases = "SET_RELEASES",
+  SetBilling = "SET_BILLING",
+  SetCard = "SET_CARD",
   // Auth
   LoginSuccessful = 'LOGIN_SUCCESSFUL',
   // LoginFailed = 'LOGIN_FAILED',
@@ -29,6 +33,8 @@ export type Action = {
     apps?: AppSummary[];
     releases?: ReleasesSummary[];
     isLoading?: boolean;
+    billing?: Billing;
+    card?: Card;
   };
 };
 

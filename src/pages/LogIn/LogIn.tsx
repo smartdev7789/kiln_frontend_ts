@@ -3,7 +3,7 @@ import LoginLogoComponent from "../../components/LoginComponent/LoginLogoCompone
 
 const LogIn = () => {
   return (
-    <div className="container">
+    <div className="container" style={{fontSize: "1vw"}}>
       <div className="flex w-screen h-screen bg-[#7700DF]">
         <LoginLogoComponent />
         <div className="w-1/2">

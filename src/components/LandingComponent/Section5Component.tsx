@@ -46,7 +46,7 @@ const Section5Component = () => {
       >
         <div className="section-height flex items-center pb-6">
           <div className="w-full">
-            <div className="text-5xl px-36 pt-32 pb-12 text-white font-extrabold">
+            <div className="text-5xl px-12 pt-8 pb-3 text-white font-extrabold">
               Newly Distributed Games
             </div>
             <Swiper
@@ -86,7 +86,7 @@ const Section5Component = () => {
                           : content}
                       </p>
                       <div className="flex justify-center h-12 mt-3">
-                        <div className="w-[11.2rem] h-12 cursor-pointer galaxy_store_btn" />
+                        <div className="w-[11.2em] h-12 cursor-pointer galaxy_store_btn" />
                       </div>
                     </div>
                   </div>

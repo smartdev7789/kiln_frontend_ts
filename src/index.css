@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 html { 
-  font-size: 1vw;
+  /* font-size: 1vw; */
 }
 
 body {
@@ -37,6 +37,10 @@ code {
   background: #555;
 } */
 
+.sidebar-height {
+  min-height: calc(100vh - 3.2em);
+}
+
 .landing-width {
   width: calc(100vw - 17px);
 }
@@ -50,7 +54,7 @@ code {
 }
 
 .section7-height {
-  min-height: calc(100vh - 10.3rem);
+  min-height: calc(100vh - 11.3em);
 }
 
 .carousel {
@@ -67,12 +71,12 @@ code {
 .swiper {
   width: 100%;
   height: 100%;
-  padding-left: 8rem !important;
-  padding-right: 8rem !important;
-  padding-bottom: 40px !important;
-  padding-top: 40px !important;
-  margin-bottom: -40px !important;
-  margin-top: -40px !important;
+  padding-left: 8em !important;
+  padding-right: 8em !important;
+  padding-bottom: 2.5em !important;
+  padding-top: 2.5em !important;
+  margin-bottom: -2.5em !important;
+  margin-top: -2.5em !important;
 }
 
 .signupselect {
@@ -105,10 +109,10 @@ code {
 .checkbox_container {
   display: block;
   position: relative;
-  padding-left: 35px;
-  margin-bottom: 5px;
+  padding-left: 2.25em;
+  margin-bottom: 0.3125em;
   cursor: pointer;
-  font-size: 20px;
+  font-size: 1.25em;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -129,12 +133,12 @@ code {
   position: absolute;
   top: 0;
   left: 0;
-  height: 25px;
-  width: 25px;
+  height: 1.5625em;
+  width: 1.5625em;
   background-color: #f7f7f7;
   border-color: #b0b0b0;
-  border-width: 2px;
-  border-radius: 7px;
+  border-width: 0.125em;
+  border-radius: 0.4375em;
 }
 
 /* On mouse-over, add a grey background color */
@@ -158,18 +162,18 @@ code {
 /* Show the checkmark when checked */
 .checkbox_container input:checked ~ .check_mark:after {
   display: block;
-  width: 7px;
-  height: 14px;
+  width: 0.4375em;
+  height: 0.875em;
 }
 
 /* Style the checkmark/indicator */
 .checkbox_container .check_mark:after {
-  left: 9px;
-  top: 5px;
-  width: 5px;
-  height: 10px;
+  left: 0.5625em;
+  top: 0.3125em;
+  width: 0.3125em;
+  height: 0.625em;
   border: solid white;
-  border-width: 0 3px 3px 0;
+  border-width: 0 0.1875em 0.1875em 0;
   -webkit-transform: rotate(45deg);
   -ms-transform: rotate(45deg);
   transform: rotate(45deg);
@@ -185,9 +189,9 @@ code {
   background-size: auto !important;
   background-repeat: no-repeat !important;
   opacity: 1 !important;
-  backdrop-filter: blur(20px) !important;
+  backdrop-filter: blur(1.25em) !important;
   left: 0px !important;
-  padding-left: 8rem !important;
+  padding-left: 8em !important;
   background-position-x: center !important;
   background-position-y: center !important;
   top: -28.6% !important;
@@ -200,9 +204,9 @@ code {
   background-size: auto !important;
   background-repeat: no-repeat !important;
   opacity: 1 !important;
-  backdrop-filter: blur(20px) !important;
+  backdrop-filter: blur(1.25em) !important;
   right: 0px !important;
-  padding-right: 8rem !important;
+  padding-right: 8em !important;
   background-position-x: center !important;
   background-position-y: center !important;
   top: -28.6% !important;

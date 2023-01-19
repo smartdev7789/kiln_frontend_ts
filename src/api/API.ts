@@ -17,6 +17,8 @@ import {
   connectPlatform,
 } from "./AccountAPI";
 
+import { getCardDetails, createCardDetails } from "./BillingAPI";
+
 import {
   getAllPlatformsInfo,
   getPlatformInfo,
@@ -341,6 +343,9 @@ export const API = {
   getTeamPlatforms,
   getTeamPlatform,
   connectPlatform,
+  // Billing
+  getCardDetails,
+  createCardDetails,
   // Stats and graphs
   stats,
   graphs,

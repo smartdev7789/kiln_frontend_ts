@@ -13,8 +13,8 @@ const Landing = () => {
     <>
       <div
         id="landing"
-        className="snap-y overflow-y-scroll max-h-screen snap-mandatory text-base"
-        style={{ overflowX: "hidden" }}
+        className="snap-y overflow-y-scroll max-h-screen snap-mandatory"
+        style={{ overflowX: "hidden", fontSize: "1vw" }}
       >
         <Navbar />
         <Section1Component />

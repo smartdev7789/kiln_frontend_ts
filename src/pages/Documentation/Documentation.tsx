@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import DocSidebarComponent from "../../components/SidebarComponent/DocSidebarComponent";
+import WIPComponent from "../../components/WIPComponent";
 import MainLayout from "../../layouts/MainLayout";
 
 const Documentation = () => {
@@ -14,7 +15,8 @@ const Documentation = () => {
 
   return (
     <MainLayout>
-      <div className="flex">
+      <WIPComponent />
+      {/* <div className="flex">
         <div className="w-1/6">
           <DocSidebarComponent
             orders={orders}
@@ -23,7 +25,7 @@ const Documentation = () => {
           />
         </div>
         <div className="w-5/6 px-10 py-12 h-screen"></div>
-      </div>
+      </div> */}
     </MainLayout>
   );
 };

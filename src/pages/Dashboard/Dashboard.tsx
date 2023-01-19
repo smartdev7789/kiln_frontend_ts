@@ -143,7 +143,7 @@ const Dashboard = () => {
 
   return (
     <MainLayout>
-      <div className="px-32 py-14">
+      <div className="py-14 mx-auto w-[68em]" style={{ fontSize: "1rem" }}>
         <div className="flex justify-between items-center">
           <div>
             <p className="text-2xl text-[#707070]">Overview</p>
@@ -151,8 +151,8 @@ const Dashboard = () => {
               Figures up to date as of previous 24hrs
             </p>
           </div>
-          <div>
-            <span className="text-md">Date:&nbsp;</span>
+          <div className="text-base">
+            <span>Date:&nbsp;</span>
             <DateRangePicker
               ranges={predefinedRanges}
               placement="bottomEnd"

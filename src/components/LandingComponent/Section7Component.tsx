@@ -64,7 +64,7 @@ const Section7Component = () => {
                 </p>
               </div>
             ) : (
-              <div className="text-5xl mb-20 text-white font-extrabold">
+              <div className="text-5xl mb-5 text-white font-extrabold">
                 Get in touch!
               </div>
             )}
@@ -162,7 +162,7 @@ const Section7Component = () => {
                 <div>
                   <button
                     type="submit"
-                    className="text-white bg-[#ff9100] hover:bg-[#ee8000] mr-7 shadow-lg rounded-sm px-16 py-[1.35rem] w-full"
+                    className="text-white bg-[#ff9100] hover:bg-[#ee8000] mr-7 shadow-lg rounded-sm px-16 py-[1.35em] w-full"
                   >
                     <div className="flex justify-center px-10 items-center text-lg">
                       Send{" "}

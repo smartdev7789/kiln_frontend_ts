@@ -8,8 +8,12 @@ import ForgotPassword from "./pages/ForgotPassword";
 import PaymentCard from "./pages/PaymentCard";
 import Dashboard from "./pages/Dashboard";
 import Profile from "./pages/Profile";
-import Documentation from "./pages/Documentation";
 import { LogOut } from "./components/LogOut";
+import Games from "./pages/Games";
+import Mediation from "./pages/Mediation";
+import UserAcquistion from "./pages/UserAcquistion";
+import Channels from "./pages/Channels";
+import Documentation from "./pages/Documentation";
 
 export interface RouteConfig {
   path: string;
@@ -49,7 +53,11 @@ export enum Paths {
   Root = "/",
   LogIn = "/login",
   LogInAgain = "/loginagain",
-  Dashboard = "/dashboard",
+  Dashboard = "/analytics",
+  Games = "/games",
+  Mediation = "/mediation",
+  UserAcquistion = "/user_acquistion",
+  Channels = "/channels",
   Paymentcard = "/paymentcard",
   Profile = "/profile",
   Documentation = "/documentation",
@@ -105,6 +113,30 @@ export const ROUTES: RouteConfig[] = [
     hideInMenu: true,
     exact: true,
     component: Dashboard,
+  },
+  {
+    path: Paths.Games,
+    hideInMenu: true,
+    exact: true,
+    component: Games,
+  },
+  {
+    path: Paths.Mediation,
+    hideInMenu: true,
+    exact: true,
+    component: Mediation,
+  },
+  {
+    path: Paths.UserAcquistion,
+    hideInMenu: true,
+    exact: true,
+    component: UserAcquistion,
+  },
+  {
+    path: Paths.Channels,
+    hideInMenu: true,
+    exact: true,
+    component: Channels,
   },
   {
     path: Paths.Paymentcard,

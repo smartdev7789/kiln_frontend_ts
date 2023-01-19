@@ -17,16 +17,53 @@ const Header = () => {
             <img className="h-6" src="imgs/GameBake_Logo.svg" alt="GameBake" />
           </div>
           <div className="hidden md:block">
-            <div className="ml-1 flex items-baseline space-x-4">
+            <div className="ml-1 flex items-baseline space-x-4 text-white text-sm font-medium">
+            <span className="px-2">|</span>
               <Link
+                to="/analytics"
                 key="dashboard"
-                to="/dashboard"
-                className="text-white py-2 rounded-md text-sm font-medium hover:no-underline hover:text-white focus:no-underline focus:text-white"
+                className="hover:decoration-[#ff9100] hover:text-white hover:underline-offset-4 hover:decoration-2 focus:no-underline focus:text-white"
                 aria-current={true ? "page" : undefined}
               >
-                |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dashboard
+                Analytics
               </Link>
+              <span className="px-2">|</span>
               <Link
+                key="games"
+                to="/games"
+                className="hover:decoration-[#ff9100] hover:text-white hover:underline-offset-4 hover:decoration-2 focus:no-underline focus:text-white"
+                aria-current={true ? "page" : undefined}
+              >
+                Games
+              </Link>
+              <span className="px-2">|</span>
+              <Link
+                key="mediation"
+                to="/mediation"
+                className="hover:decoration-[#ff9100] hover:text-white hover:underline-offset-4 hover:decoration-2 focus:no-underline focus:text-white"
+                aria-current={true ? "page" : undefined}
+              >
+                Mediation
+              </Link>
+              <span className="px-2">|</span>
+              <Link
+                key="user_acquistion"
+                to="/user_acquistion"
+                className="hover:decoration-[#ff9100] hover:text-white hover:underline-offset-4 hover:decoration-2 focus:no-underline focus:text-white"
+                aria-current={true ? "page" : undefined}
+              >
+                User Acquistion
+              </Link>
+              <span className="px-2">|</span>
+              <Link
+                key="channels"
+                to="/channels"
+                className="hover:decoration-[#ff9100] hover:text-white hover:underline-offset-4 hover:decoration-2 focus:no-underline focus:text-white"
+                aria-current={true ? "page" : undefined}
+              >
+                Channels
+              </Link>
+              {/* <Link
                 key="documentation"
                 to="/documentation"
                 className="text-white py-2 rounded-md text-sm font-medium hover:no-underline hover:text-white focus:no-underline focus:text-white"
@@ -93,7 +130,7 @@ const Header = () => {
                     </Menu.Items>
                   </Transition>
                 </Menu>
-              )}
+              )} */}
             </div>
           </div>
         </div>
@@ -119,7 +156,7 @@ const Header = () => {
                   <Menu.Item key="profile">
                     <Link
                       to="/profile"
-                      className="block px-4 py-2 text-sm text-gray-700 hover:no-underline hover:text-gray-700 focus:no-underline focus:text-gray-700"
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:no-underline hover:text-gray-700 focus:no-underline focus:text-gray-700"
                     >
                       My Profile
                     </Link>
@@ -127,7 +164,7 @@ const Header = () => {
                   <Menu.Item key="documentation">
                     <Link
                       to="/documentation"
-                      className="block px-4 py-2 text-sm text-gray-700 hover:no-underline hover:text-gray-700 focus:no-underline focus:text-gray-700"
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:no-underline hover:text-gray-700 focus:no-underline focus:text-gray-700"
                     >
                       Docs
                     </Link>
@@ -136,7 +173,7 @@ const Header = () => {
                   <Menu.Item key="logout">
                     <Link
                       to="/logout"
-                      className="block px-4 py-2 text-sm text-gray-700 hover:no-underline hover:text-gray-700 focus:no-underline focus:text-gray-700"
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:no-underline hover:text-gray-700 focus:no-underline focus:text-gray-700"
                     >
                       Log Out
                     </Link>

@@ -35,7 +35,7 @@ const Section4Component = () => {
       >
         <div className="section-height flex items-center px-36 pt-28">
           <div>
-            <div className="text-5xl mb-6 text-white font-extrabold">
+            <div className="text-5xl mb-2 text-white font-extrabold">
               Services
             </div>
             <div className="grid grid-cols-12 gap-5 pl-10">
@@ -44,10 +44,10 @@ const Section4Component = () => {
                   <div className="h-20 w-1/3">
                     <img className="h-full" src={icon} alt="GameBake" />
                   </div>
-                  <p className="text-2xl font-bold text-white my-6">
+                  <p className="text-2xl font-bold text-white my-3">
                     {titles[i]}
                   </p>
-                  <p className="text-white my-6 text-sm">{contents[i]}</p>
+                  <p className="text-white my-3 text-sm">{contents[i]}</p>
                 </div>
               ))}
             </div>

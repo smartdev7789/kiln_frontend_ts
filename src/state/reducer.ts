@@ -14,6 +14,22 @@ export const reducer: (state: State, action: Action) => State = (
     };
   }
 
+  // Billing context.
+  if (type === ActionType.SetBilling) {
+    return {
+      ...state,
+      billing: payload.billing,
+    };
+  }
+
+  // Card context.
+  if (type === ActionType.SetCard) {
+    return {
+      ...state,
+      card: payload.card,
+    };
+  }
+
   // Set Loading.
   if (type === ActionType.SetLoading) {
     return {

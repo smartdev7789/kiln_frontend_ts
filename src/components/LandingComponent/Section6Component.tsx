@@ -23,7 +23,7 @@ const Section6Component = () => {
       >
         <div className="section-height flex items-center pb-6">
           <div className="w-full">
-            <div className="text-5xl text-white font-extrabold px-36 pt-32 pb-12">
+            <div className="text-5xl text-white font-extrabold px-12 pt-8 pb-3">
               Latest News
             </div>
             <Swiper

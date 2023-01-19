@@ -27,7 +27,7 @@ const Footer = () => {
           <div className="w-64">
             <p className="mb-3">Quick Links</p>
             {footerItems.map((item, i) => (
-              <p className="my-2 text-xs" key={"footerItem" + i}>
+              <p className="my-1 text-xs" key={"footerItem" + i}>
                 <a
                   className="cursor-pointer hover:decoration-[#ff9100] hover:text-white hover:underline-offset-4 hover:decoration-2 focus:decoration-[#ff9100] focus:text-white focus:underline-offset-4 focus:decoration-2"
                   onClick={() =>

@@ -27,7 +27,7 @@ const OverviewInfoComponent: React.FC<Props> = ({
       <span className="text-xl tracking-tight text-[#707070]">
         {title}
       </span>
-      <span className="text-[9px] tracking-tight text-[#707070]">
+      <span className="text-xs tracking-tight text-[#707070]">
         &nbsp;{output[dateType].str1}
       </span>
       <p className="mt-6 text-2xl text-black">{value}</p>

@@ -64,26 +64,30 @@ export const App = () => {
 
   // Try to redirect user login to Analytics
   useEffect(() => {
-    if (!PublicPaths.includes(location.pathname)) {
-      Authentication.validateToken()
-        .then((response) => {
-          setToken(getToken());
-          if (
-            location.pathname === Paths.LogIn ||
-            location.pathname === Paths.LogInAgain ||
-            location.pathname === Paths.Forgotemail ||
-            location.pathname === Paths.Forgotpassword ||
-            location.pathname === Paths.Root
-          ) {
-            navigate(Paths.Dashboard);
-          }
-        })
-        .catch(() => {
-          if (location.pathname !== Paths.LogIn) {
-            navigate(Paths.LogIn);
-          }
-        });
-    }
+    Authentication.validateToken()
+      .then((response) => {
+        setToken(getToken());
+        if (
+          location.pathname === Paths.LogIn ||
+          location.pathname === Paths.LogInAgain ||
+          location.pathname === Paths.Forgotemail ||
+          location.pathname === Paths.Forgotpassword ||
+          location.pathname === Paths.Root
+        ) {
+          navigate(Paths.Dashboard);
+        }
+      })
+      .catch(() => {
+        if (
+          location.pathname !== Paths.LogIn &&
+          location.pathname !== Paths.LogInAgain &&
+          location.pathname !== Paths.Forgotemail &&
+          location.pathname !== Paths.Forgotpassword &&
+          location.pathname !== Paths.Root
+        ) {
+          navigate(Paths.LogIn);
+        }
+      });
   }, [navigate, location]);
 
   return (

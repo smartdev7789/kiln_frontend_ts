@@ -188,7 +188,7 @@ const BusinessDetailComponent = () => {
   return (
     <>
       <p className="text-2xl text-[#707070]">Company Details</p>
-      <div className="block my-6 px-6 pt-3 pb-12 w-full bg-white rounded-lg text-[#707070]">
+      <div className="block my-6 px-6 pt-3 pb-12 w-full bg-white rounded-lg text-[#707070] shadow-2xl">
         <form
           className="text-sm"
           onSubmit={handleSubmitTeamForm(onSubmitTeamForm)}

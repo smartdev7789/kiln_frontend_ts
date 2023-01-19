@@ -111,7 +111,7 @@ const AccountDetailComponent = () => {
   return (
     <>
       <p className="text-2xl text-[#707070]">Account Details</p>
-      <div className="block my-6 px-6 pt-6 pb-12 w-full bg-white rounded-lg text-[#707070]">
+      <div className="block my-6 px-6 pt-6 pb-12 w-full bg-white rounded-lg text-[#707070] shadow-2xl">
         <span className="text-xl tracking-tight px-3">User Details</span>
         <form onSubmit={handleSubmitAccountForm(onSubmitAccountForm)} className="px-6">
           <div className="grid md:grid-cols-2 md:gap-6 text-sm my-3 text-right">
@@ -202,7 +202,7 @@ const AccountDetailComponent = () => {
           </div>
         </form>
       </div>
-      <div className="block my-14 px-6 pt-6 pb-12 w-3/5 bg-white rounded-lg text-[#707070]">
+      <div className="block my-14 px-6 pt-6 pb-12 w-3/5 bg-white rounded-lg text-[#707070] shadow-2xl">
         <span className="text-xl tracking-tight px-3">Password Reset</span>
         <form onSubmit={handleSubmitPwdForm(onSubmitPwdForm)} className="px-6 text-sm">
           <div className="relative z-0 my-3 w-full group text-right">

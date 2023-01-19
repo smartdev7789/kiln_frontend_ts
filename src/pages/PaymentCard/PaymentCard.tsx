@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import MainLayout from "../../layouts/MainLayout";
 
 const PaymentCard = () => {
@@ -6,15 +7,15 @@ const PaymentCard = () => {
     <MainLayout>
       <div className="container flex justify-center">
         <div className="mt-24 w-3/5 text-center">
-          <p className="text-2xl text-[#707070] opacity-[0.6499999761581421]">
+          <p className="text-2xl text-[#707070]">
             PLEASE ADD A PAYMENT CARD
           </p>
-          <p className="mt-2 text-lg text-[#707070] opacity-[0.6499999761581421]">
+          <p className="mt-2 text-lg text-[#707070]">
             A payment card is required before getting started. Please add a
             payment method by{" "}
-            <a href="#" className="underline">
+            <Link to="/profile" className="underline">
               clicking here.
-            </a>
+            </Link>
           </p>
         </div>
       </div>

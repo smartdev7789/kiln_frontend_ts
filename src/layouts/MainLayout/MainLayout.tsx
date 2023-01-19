@@ -7,10 +7,10 @@ type Props = {
 
 const MainLayout: React.FC<Props> = ({ children }) => {
   return (
-    <div className="overflow-y-scroll max-h-screen">
+    <div className="overflow-y-scroll max-h-screen min-h-screen bg-[#f7f7f7]">
       <Header />
       <main className="contents">
-        <div className="bg-[#f7f7f7]">{children}</div>
+        <div className="min-h-full">{children}</div>
       </main>
     </div>
   );
