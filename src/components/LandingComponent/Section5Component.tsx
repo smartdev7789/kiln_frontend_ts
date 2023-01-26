@@ -44,14 +44,14 @@ const Section5Component = () => {
         id="scroll4"
         className="bg-[url('/public/imgs/Background_Orange.png')] bg-cover min-h-screen section"
       >
-        <div className="section-height flex items-center pb-6">
+        <div className="section-height flex items-center pb-6 mx-auto w-[100em]">
           <div className="w-full">
             <div className="text-5xl px-12 pt-8 pb-3 text-white font-extrabold">
               Newly Distributed Games
             </div>
             <Swiper
               slidesPerView={
-                window.innerWidth > 3064 ? 4 : window.innerWidth >= 1304 ? 3 : 2
+                window.innerWidth >= 1304 ? 3 : 2
               }
               spaceBetween={50}
               centeredSlides={false}

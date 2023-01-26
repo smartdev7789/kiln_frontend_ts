@@ -3,7 +3,7 @@ import LoginAgainLogoComponent from "../../components/LoginComponent/LoginAgainL
 
 const LogInAgain = () => {
   return (
-    <div className="container" style={{ fontSize: "1vw" }}>
+    <div className="container" style={{fontSize: "0.8rem"}}>
       <div className="flex w-screen h-screen bg-[#7700DF]">
         <LoginAgainLogoComponent />
         <div className="w-1/2">

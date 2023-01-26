@@ -111,55 +111,57 @@ const ForgotPasswordComponent = () => {
 
   return (
     <div className="bg-[#f7f7f7] flex flex-col items-center justify-center h-full w-full px-16">
-      {!tokenValidated.validated || !tokenValidated.valid ? (
-        <TokenValidated
-          message={
-            !tokenValidated.validated
-              ? t("resetPassword.validatingToken")
-              : t("resetPassword.invalidToken")
-          }
-        />
-      ) : (
-      <>
-        <div className="mb-6 w-full">
-          <div className="flex justify-center">
-            <input
-              name="password"
-              type="password"
-              value={formData.password}
-              onChange={handleInputChange}
-              ref={passwordInput}
-              className="w-full bg-gray150 text-gray-900 placeholder-gray-300 text-sm rounded-lg text-center block p-2.5"
-              placeholder={t("forgotpassword.newpassword_pholder")}
-              required
-            />
-          </div>
-        </div>
-        <div className="mb-6 w-full">
-          <div className="flex justify-center">
-            <input
-              type="password"
-              name="confirm_password"
-              value={formData.confirm_password}
-              onChange={handleInputChange}
-              className="w-full bg-gray150 text-gray-900 placeholder-gray-300 text-sm rounded-lg text-center block p-2.5"
-              placeholder={t("forgotpassword.repassword_pholder")}
-              required
-            />
-          </div>
-        </div>
+      <div className="mx-auto w-[35em]">
+        {!tokenValidated.validated || !tokenValidated.valid ? (
+          <TokenValidated
+            message={
+              !tokenValidated.validated
+                ? t("resetPassword.validatingToken")
+                : t("resetPassword.invalidToken")
+            }
+          />
+        ) : (
+          <>
+            <div className="mb-6 w-full">
+              <div className="flex justify-center">
+                <input
+                  name="password"
+                  type="password"
+                  value={formData.password}
+                  onChange={handleInputChange}
+                  ref={passwordInput}
+                  className="w-full bg-gray150 text-gray-900 placeholder-gray-300 text-sm rounded-lg text-center block p-2.5"
+                  placeholder={t("forgotpassword.newpassword_pholder")}
+                  required
+                />
+              </div>
+            </div>
+            <div className="mb-6 w-full">
+              <div className="flex justify-center">
+                <input
+                  type="password"
+                  name="confirm_password"
+                  value={formData.confirm_password}
+                  onChange={handleInputChange}
+                  className="w-full bg-gray150 text-gray-900 placeholder-gray-300 text-sm rounded-lg text-center block p-2.5"
+                  placeholder={t("forgotpassword.repassword_pholder")}
+                  required
+                />
+              </div>
+            </div>
 
-        <div className="mb-6 w-full text-right">
-          <button
-            type="button"
-            onClick={handleSubmit}
-            className="text-lg text-white bg-[#ff9100] hover:bg-[#ee8000] shadow-lg rounded-md px-20 py-3 mb-2"
-          >
-            {t("forgotpassword.submit")}
-          </button>
-        </div>
-      </>
-      )}
+            <div className="mb-6 w-full text-right">
+              <button
+                type="button"
+                onClick={handleSubmit}
+                className="text-lg text-white bg-[#ff9100] hover:bg-[#ee8000] shadow-lg rounded-md px-20 py-3 mb-2"
+              >
+                {t("forgotpassword.submit")}
+              </button>
+            </div>
+          </>
+        )}
+      </div>
     </div>
   );
 };

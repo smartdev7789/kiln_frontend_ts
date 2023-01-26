@@ -8,7 +8,7 @@ const Section1Component = () => {
         id="scroll1"
         className="bg-[url('/public/imgs/Background_Purple.png')] bg-cover h-screen"
       >
-        <div className="flex section-height px-16 items-center">
+        <div className="flex section-height px-16 items-center mx-auto w-[100em]">
           <div className="w-1/2 px-20">
             <div className="text-5xl mb-4 text-white font-extrabold animation animation-fadeInUp">
               Reach more users with less effort

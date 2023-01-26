@@ -58,7 +58,7 @@ const LoginAgainComponent = () => {
 
   return (
     <div className="bg-[#f7f7f7] flex flex-col items-center justify-center h-full w-full px-16">
-      <div className="mb-6 w-full">
+      <div className="mb-6 mx-auto w-[35em]">
         <div className="flex justify-center">
           <input
             name="email"

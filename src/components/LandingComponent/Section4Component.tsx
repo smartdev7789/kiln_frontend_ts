@@ -33,7 +33,7 @@ const Section4Component = () => {
         id="scroll3"
         className="bg-[url('/public/imgs/Background_Purple.png')] bg-cover min-h-screen section"
       >
-        <div className="section-height flex items-center px-36 pt-28">
+        <div className="section-height flex items-center justify-center px-36 pt-28 mx-auto w-[100em]">
           <div>
             <div className="text-5xl mb-2 text-white font-extrabold">
               Services
@@ -41,8 +41,8 @@ const Section4Component = () => {
             <div className="grid grid-cols-12 gap-5 pl-10">
               {icons.map((icon, i) => (
                 <div className="col-span-4 animation animation-fadeInUp"  style={{transitionDelay: i * 0.6 + "s"}} key={"service" + i}>
-                  <div className="h-20 w-1/3">
-                    <img className="h-full" src={icon} alt="GameBake" />
+                  <div className="h-20">
+                    <img className="h-full w-1/3" src={icon} alt="GameBake" />
                   </div>
                   <p className="text-2xl font-bold text-white my-3">
                     {titles[i]}

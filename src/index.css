@@ -50,11 +50,11 @@ code {
 }
 
 .section-height {
-  min-height: calc(95vh);
+  min-height: calc(100vh - 2em);
 }
 
 .section7-height {
-  min-height: calc(100vh - 11.3em);
+  min-height: calc(100vh - 12.1em);
 }
 
 .carousel {
@@ -190,7 +190,7 @@ code {
   background-repeat: no-repeat !important;
   opacity: 1 !important;
   backdrop-filter: blur(1.25em) !important;
-  left: 0px !important;
+  left: -3px !important;
   padding-left: 8em !important;
   background-position-x: center !important;
   background-position-y: center !important;
@@ -205,7 +205,7 @@ code {
   background-repeat: no-repeat !important;
   opacity: 1 !important;
   backdrop-filter: blur(1.25em) !important;
-  right: 0px !important;
+  right: -3px !important;
   padding-right: 8em !important;
   background-position-x: center !important;
   background-position-y: center !important;

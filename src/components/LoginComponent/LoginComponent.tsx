@@ -45,7 +45,7 @@ const LoginComponent = () => {
         type: ActionType.SetCard,
         payload: { card },
       });
-      if(card.brand === null) {
+      if (card.brand === null) {
         navigate(Paths.Paymentcard);
       } else {
         navigate(Paths.Dashboard);
@@ -69,65 +69,67 @@ const LoginComponent = () => {
 
   return (
     <div className="bg-[#f7f7f7] flex flex-col items-center justify-center h-full w-full px-16">
-      <form onSubmit={handleSubmit} className="w-full">
-        <div className="mb-6 w-full">
-          <div className="flex justify-center">
-            <input
-              name="email"
-              className="w-full bg-gray150 text-gray-900 placeholder-gray-300 text-sm rounded-lg text-center block p-2.5"
-              placeholder={t("login.email_pholder")}
-              value={formData.email}
-              onChange={handleInputChange}
-              required
-            />
-          </div>
-        </div>
-        <div className="mb-6 w-full">
-          <div className="flex flex-col justify-center">
-            <input
-              type="password"
-              name="password"
-              className="w-full bg-gray150 text-gray-900 placeholder-gray-300 text-sm rounded-lg text-center block p-2.5"
-              placeholder={t("login.password_pholder")}
-              value={formData.password}
-              onChange={handleInputChange}
-              required
-            />
-            {error && (
-              <p className="mt-2 text-sm text-[#fd0000] opacity-[0.6499999761581421]">
-                {t("login.incorrect")}
-              </p>
-            )}
-          </div>
-        </div>
-        <div className="w-full">
-          <div className="flex justify-between items-end">
-            <div>
-              <label className="checkbox_container">
-                <span className="text-xs text-[#707070] opacity-[0.6499999761581421]">
-                  Remember me?
-                </span>
-                <input type="checkbox" />
-                <span className="check_mark"></span>
-              </label>
+      <div className="mx-auto w-[35em]">
+        <form onSubmit={handleSubmit} className="w-full">
+          <div className="mb-6 w-full">
+            <div className="flex justify-center">
+              <input
+                name="email"
+                className="w-full bg-gray150 text-gray-900 placeholder-gray-300 text-sm rounded-lg text-center block p-2.5"
+                placeholder={t("login.email_pholder")}
+                value={formData.email}
+                onChange={handleInputChange}
+                required
+              />
             </div>
-            <button
-              type="submit"
-              className="text-lg text-white bg-[#ff9100] hover:bg-[#ee8000] shadow-lg rounded-md px-20 py-3 mb-2"
-            >
-              Login
-            </button>
           </div>
-        </div>
-      </form>
-      <p className="text-right mb-6 w-full">
-        <button
-          onClick={() => navigate("/forgotemail")}
-          className="text-xs text-[#707070] opacity-[0.6499999761581421] border-0"
-        >
-          {t("login.forgot")}
-        </button>
-      </p>
+          <div className="mb-6 w-full">
+            <div className="flex flex-col justify-center">
+              <input
+                type="password"
+                name="password"
+                className="w-full bg-gray150 text-gray-900 placeholder-gray-300 text-sm rounded-lg text-center block p-2.5"
+                placeholder={t("login.password_pholder")}
+                value={formData.password}
+                onChange={handleInputChange}
+                required
+              />
+              {error && (
+                <p className="mt-2 text-sm text-[#fd0000] opacity-[0.6499999761581421]">
+                  {t("login.incorrect")}
+                </p>
+              )}
+            </div>
+          </div>
+          <div className="w-full">
+            <div className="flex justify-between items-end">
+              <div>
+                <label className="checkbox_container">
+                  <span className="text-xs text-[#707070] opacity-[0.6499999761581421]">
+                    Remember me?
+                  </span>
+                  <input type="checkbox" />
+                  <span className="check_mark"></span>
+                </label>
+              </div>
+              <button
+                type="submit"
+                className="text-lg text-white bg-[#ff9100] hover:bg-[#ee8000] shadow-lg rounded-md px-20 py-3 mb-2"
+              >
+                Login
+              </button>
+            </div>
+          </div>
+        </form>
+        <p className="text-right mb-6 w-full">
+          <button
+            onClick={() => navigate("/forgotemail")}
+            className="text-xs text-[#707070] opacity-[0.6499999761581421] border-0"
+          >
+            {t("login.forgot")}
+          </button>
+        </p>
+      </div>
     </div>
   );
 };
