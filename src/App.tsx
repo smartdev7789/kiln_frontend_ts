@@ -1,6 +1,6 @@
 import React, { Suspense, useEffect, useReducer, useState } from "react";
 import "./App.css";
-import { Paths, PublicPaths, RenderRoutes, ROUTES } from "./routes";
+import { Paths, RenderRoutes, ROUTES } from "./routes";
 import { Action, ActionType, initialState, State } from "./state/types";
 import { reducer } from "./state/reducer";
 import { Authentication, getToken } from "./authentication/Authentication";
@@ -71,8 +71,7 @@ export const App = () => {
           location.pathname === Paths.LogIn ||
           location.pathname === Paths.LogInAgain ||
           location.pathname === Paths.Forgotemail ||
-          location.pathname === Paths.Forgotpassword ||
-          location.pathname === Paths.Root
+          location.pathname === Paths.Forgotpassword
         ) {
           navigate(Paths.Dashboard);
         }
@@ -82,8 +81,7 @@ export const App = () => {
           location.pathname !== Paths.LogIn &&
           location.pathname !== Paths.LogInAgain &&
           location.pathname !== Paths.Forgotemail &&
-          location.pathname !== Paths.Forgotpassword &&
-          location.pathname !== Paths.Root
+          location.pathname !== Paths.Forgotpassword
         ) {
           navigate(Paths.LogIn);
         }

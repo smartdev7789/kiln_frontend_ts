@@ -1,6 +1,5 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-import Landing from "./pages/Landing";
 import LogIn from "./pages/LogIn";
 import LogInAgain from "./pages/LoginAgain";
 import ForgotEmail from "./pages/ForgotEmail";
@@ -50,7 +49,6 @@ export const RenderRoutes = ({ routes }: { routes: RouteConfig[] }) => (
 );
 
 export enum Paths {
-  Root = "/",
   LogIn = "/login",
   LogInAgain = "/loginagain",
   Dashboard = "/analytics",
@@ -67,13 +65,6 @@ export enum Paths {
 }
 
 export const ROUTES: RouteConfig[] = [
-  {
-    path: Paths.Root,
-    hideInMenu: true,
-    public: true,
-    exact: true,
-    component: Landing,
-  },
   {
     path: Paths.LogIn,
     hideInMenu: true,
