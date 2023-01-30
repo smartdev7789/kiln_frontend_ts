@@ -40,6 +40,7 @@ export interface APIResponse {
     | TeamPlatform[]
     | Service[]
     | AppService[]
+    | Statement[]
     | null;
   _meta: Meta | null;
 }
@@ -455,4 +456,49 @@ export interface Card {
   exp_month: string | null;
   exp_year: string | null;
   brand: string | null;
+}
+
+export interface Invoice {
+  statement: string;
+  id: string;
+  stripe_id: string;
+  name: string;
+  period_start: string;
+  period_end: string;
+  amount: number;
+  status: string;
+  invoice_file: AssetFile;
+  _updated: string;
+  _created: string;
+}
+
+export interface SBInvoice {
+  statement: string;
+  id: string;
+  name: string;
+  period_start: string;
+  period_end: string;
+  amount: number;
+  status: string;
+  invoice_file: AssetFile;
+  _updated: string;
+  _created: string;
+  _etag: string;
+}
+export interface Statement {
+  team: string;
+  invoice: Invoice | null;
+  self_billing_invoice: SBInvoice | null;
+  id: string;
+  period_start: string;
+  period_end: string;
+  amount_invoice: number;
+  amount_self_billing: number;
+  name: string;
+  status: string;
+  statement_file: AssetFile;
+  _updated: string;
+  _created: string;
+  _etag: string;
+  _deleted: boolean;
 }

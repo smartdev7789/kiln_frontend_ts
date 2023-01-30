@@ -17,7 +17,13 @@ import {
   connectPlatform,
 } from "./AccountAPI";
 
-import { getCardDetails, createCardDetails } from "./BillingAPI";
+import {
+  getCardDetails,
+  createCardDetails,
+  getStatements,
+  acceptInvoice,
+  rejectInvoice,
+} from "./BillingAPI";
 
 import {
   getAllPlatformsInfo,
@@ -346,6 +352,9 @@ export const API = {
   // Billing
   getCardDetails,
   createCardDetails,
+  getStatements,
+  acceptInvoice,
+  rejectInvoice,
   // Stats and graphs
   stats,
   graphs,
