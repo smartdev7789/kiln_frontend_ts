@@ -14,9 +14,9 @@ const OverviewInfoComponent: React.FC<Props> = ({
   profit,
 }) => {
   const output: any = {
-    day: { str1: "(Yesterday)", str2: "(vs. Previous Day)" },
-    month: {
-      str1: "(Selected Month)",
+    yesterday: { str1: "(Yesterday)", str2: "(vs. Previous Day)" },
+    days: {
+      str1: "(Selected Days)",
       str2: "(vs. Previous Month)",
     },
   };
@@ -24,14 +24,20 @@ const OverviewInfoComponent: React.FC<Props> = ({
 
   return (
     <div className="block p-6 w-full bg-white rounded-lg shadow-2xl hover:bg-gray-100">
-      <span className="text-xl tracking-tight text-[#707070]">
-        {title}
-      </span>
-      <span className="text-xs tracking-tight text-[#707070]">
-        &nbsp;{output[dateType].str1}
-      </span>
+      {title === "DAU" && dateType === "days" ? (
+        <span className="text-xl tracking-tight text-[#707070]">
+          Total Active Users
+        </span>
+      ) : (
+        <>
+          <span className="text-xl tracking-tight text-[#707070]">{title}</span>
+          <span className="text-xs tracking-tight text-[#707070]">
+            &nbsp;{output[dateType].str1}
+          </span>
+        </>
+      )}
       <p className="mt-6 text-2xl text-black">{value}</p>
-      <p
+      {/* <p
         className={
           "mt-1 text-xs " +
           profitCol[Number(profit) > 0 ? 0 : 1]
@@ -39,7 +45,7 @@ const OverviewInfoComponent: React.FC<Props> = ({
       >
         {Number(profit) > 0 ? "+ " : "- "}
         {Math.abs(Number(profit))}% {output[dateType].str2}
-      </p>
+      </p> */}
     </div>
   );
 };

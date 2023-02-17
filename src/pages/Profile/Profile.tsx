@@ -3,6 +3,7 @@ import AccountDetailComponent from "../../components/AccountDetailComponent";
 import BillingDetailComponent from "../../components/BillingDetailComponent";
 import BusinessDetailComponent from "../../components/BusinessDetailComponent";
 import ProfileSidebarComponent from "../../components/SidebarComponent";
+import WIPComponent from "../../components/WIPComponent";
 import MainLayout from "../../layouts/MainLayout";
 
 const Profile = () => {
@@ -18,6 +19,7 @@ const Profile = () => {
           {selected === "account" && <AccountDetailComponent />}
           {selected === "business" && <BusinessDetailComponent />}
           {selected === "billing" && <BillingDetailComponent />}
+          {selected === "agreements" && <WIPComponent />}
         </div>
       </div>
     </MainLayout>

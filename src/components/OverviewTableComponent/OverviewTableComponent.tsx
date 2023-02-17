@@ -53,12 +53,28 @@ const OverviewTableComponent = ({ games, channels }: Props) => {
                                     className="block py-1 text-sm text-gray-700 hover:bg-gray-100 hover:no-underline hover:text-gray-700 focus:no-underline focus:text-gray-700"
                                   >
                                     <div className="flex items-center">
-                                      <img
-                                        className="h-12 mr-2"
-                                        src={`${API_ADDRESS}/assets/${game.name}.png`}
-                                        alt="GameBake"
-                                      />
-                                      {game.name}
+                                      {game.icon === null ? (
+                                        <img
+                                          className="h-10 mr-4"
+                                          src="imgs/placeholder_image.png"
+                                          alt="GameBake"
+                                        />
+                                      ) : (
+                                        <img
+                                          className="h-10 mr-4"
+                                          src={`https://staging.gamebake.io${game.icon}`}
+                                          alt="GameBake"
+                                        />
+                                      )}
+                                      {game.name === null ? (
+                                        <img
+                                          className="h-10 mr-4"
+                                          src="imgs/placeholder_title.png"
+                                          alt="GameBake"
+                                        />
+                                      ) : (
+                                        game.name
+                                      )}
                                     </div>
                                   </Link>
                                 </Menu.Item>
@@ -73,12 +89,28 @@ const OverviewTableComponent = ({ games, channels }: Props) => {
                                     className="block py-1 text-sm text-gray-700 hover:bg-gray-100 hover:no-underline hover:text-gray-700 focus:no-underline focus:text-gray-700"
                                   >
                                     <div className="flex items-center">
-                                      <img
-                                        className="h-12 mr-2"
-                                        src={`${API_ADDRESS}/assets/${channel.icon}`}
-                                        alt="GameBake"
-                                      />
-                                      {channel.name}
+                                      {channel.icon === null ? (
+                                        <img
+                                          className="h-10 mr-4"
+                                          src="imgs/placeholder_image.png"
+                                          alt="GameBake"
+                                        />
+                                      ) : (
+                                        <img
+                                          className="h-10 mr-4"
+                                          src={`https://staging.gamebake.io${channel.icon}`}
+                                          alt="GameBake"
+                                        />
+                                      )}
+                                      {channel.name === null ? (
+                                        <img
+                                          className="h-10 mr-4"
+                                          src="imgs/placeholder_title.png"
+                                          alt="GameBake"
+                                        />
+                                      ) : (
+                                        channel.name
+                                      )}
                                     </div>
                                   </Link>
                                 </Menu.Item>
@@ -111,58 +143,96 @@ const OverviewTableComponent = ({ games, channels }: Props) => {
             <th scope="col" className="font-medium py-5 px-6">
               MAU
             </th>
-            <th scope="col" className="font-medium py-5 px-6"></th>
+            {/* <th scope="col" className="font-medium py-5 px-6"></th> */}
           </tr>
         </thead>
         <tbody className="text-xs">
           {games.map((game, idx) => (
-            <tr key={idx} className="bg-white border-b border-gray-100">
+            <tr
+              key={"gameinfo" + idx}
+              className="bg-white border-b border-gray-100"
+            >
               <td className="py-3 px-8">{game.channels}</td>
               <td className="py-3 px-6 flex items-center">
-                <img
-                  className="h-10 mr-4"
-                  src={`${API_ADDRESS}/assets/${game.name}.png`}
-                  alt="GameBake"
-                />
-                {game.name}
+                {game.icon === null ? (
+                  <img
+                    className="h-10 mr-4"
+                    src="imgs/placeholder_image.png"
+                    alt="GameBake"
+                  />
+                ) : (
+                  <img
+                    className="h-10 mr-4"
+                    src={`https://staging.gamebake.io${game.icon}`}
+                    alt="GameBake"
+                  />
+                )}
+                {game.name === null ? (
+                  <img
+                    className="h-10 mr-4"
+                    src="imgs/placeholder_title.png"
+                    alt="GameBake"
+                  />
+                ) : (
+                  game.name
+                )}
               </td>
               <td className="py-3 px-6">{game.revenue}</td>
               <td className="py-3 px-6">{game.dau}</td>
               <td className="py-3 px-6">{game.new_users}</td>
               <td className="py-3 px-6">{game.mau}</td>
-              <td className="py-3 px-6">
+              {/* <td className="py-3 px-6">
                 <button
                   type="button"
                   className="text-[#707070] text-opacity-[0.6499999761581421] bg-white hover:bg-gray-100 border border-gray-300 rounded-lg px-5 py-1"
                 >
                   View
                 </button>
-              </td>
+              </td> */}
             </tr>
           ))}
           {channels.map((channel, idx) => (
-            <tr key={idx} className="bg-white border-b border-gray-100">
+            <tr
+              key={"channelinfo" + idx}
+              className="bg-white border-b border-gray-100"
+            >
               <td className="py-3 px-8">{channel.games}</td>
               <td className="py-3 px-6 flex items-center">
-                <img
-                  className="h-10 mr-4"
-                  src={`${API_ADDRESS}/assets/${channel.icon}`}
-                  alt="GameBake"
-                />
-                {channel.name}
+                {channel.icon === null ? (
+                  <img
+                    className="h-10 mr-4"
+                    src="imgs/placeholder_image.png"
+                    alt="GameBake"
+                  />
+                ) : (
+                  <img
+                    className="h-10 mr-4"
+                    src={`https://staging.gamebake.io${channel.icon}`}
+                    alt="GameBake"
+                  />
+                )}
+                {channel.name === null ? (
+                  <img
+                    className="h-10 mr-4"
+                    src="imgs/placeholder_title.png"
+                    alt="GameBake"
+                  />
+                ) : (
+                  channel.name
+                )}
               </td>
               <td className="py-3 px-6">{channel.revenue}</td>
               <td className="py-3 px-6">{channel.dau}</td>
               <td className="py-3 px-6">{channel.new_users}</td>
               <td className="py-3 px-6">{channel.mau}</td>
-              <td className="py-3 px-6">
+              {/* <td className="py-3 px-6">
                 <button
                   type="button"
                   className="text-[#707070] text-opacity-[0.6499999761581421] bg-white hover:bg-gray-100 border border-gray-300 rounded-lg px-5 py-1"
                 >
                   View
                 </button>
-              </td>
+              </td> */}
             </tr>
           ))}
         </tbody>

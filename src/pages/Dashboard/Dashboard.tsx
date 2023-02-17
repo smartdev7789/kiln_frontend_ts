@@ -13,12 +13,9 @@ import startOfMonth from "date-fns/startOfMonth";
 import endOfMonth from "date-fns/endOfMonth";
 import addMonths from "date-fns/addMonths";
 
+const { after } = DateRangePicker;
+
 const predefinedRanges: any = [
-  {
-    label: "Today",
-    value: [new Date(), new Date()],
-    placement: "left",
-  },
   {
     label: "Yesterday",
     value: [addDays(new Date(), -1), addDays(new Date(), -1)],
@@ -26,22 +23,22 @@ const predefinedRanges: any = [
   },
   {
     label: "This week",
-    value: [startOfWeek(new Date()), endOfWeek(new Date())],
+    value: [startOfWeek(new Date()), addDays(new Date(), -1)],
     placement: "left",
   },
   {
     label: "Last 7 days",
-    value: [subDays(new Date(), 6), new Date()],
+    value: [subDays(new Date(), 7), subDays(new Date(), 1)],
     placement: "left",
   },
   {
     label: "Last 30 days",
-    value: [subDays(new Date(), 29), new Date()],
+    value: [subDays(new Date(), 30), subDays(new Date(), 1)],
     placement: "left",
   },
   {
     label: "This month",
-    value: [startOfMonth(new Date()), new Date()],
+    value: [startOfMonth(new Date()), subDays(new Date(), 1)],
     placement: "left",
   },
   {
@@ -54,7 +51,7 @@ const predefinedRanges: any = [
   },
   {
     label: "This year",
-    value: [new Date(new Date().getFullYear(), 0, 1), new Date()],
+    value: [new Date(new Date().getFullYear(), 0, 1), subDays(new Date(), 1)],
     placement: "left",
   },
   {
@@ -67,7 +64,7 @@ const predefinedRanges: any = [
   },
   {
     label: "All time",
-    value: [new Date(new Date().getFullYear() - 1, 0, 1), new Date()],
+    value: [new Date(new Date().getFullYear() - 1, 0, 1), subDays(new Date(), 1)],
     placement: "left",
   },
   {
@@ -82,18 +79,18 @@ const predefinedRanges: any = [
     },
     appearance: "default",
   },
-  {
-    label: "Next week",
-    closeOverlay: false,
-    value: (value: any) => {
-      const [start = new Date()] = value || [];
-      return [
-        addDays(startOfWeek(start, { weekStartsOn: 0 }), 7),
-        addDays(endOfWeek(start, { weekStartsOn: 0 }), 7),
-      ];
-    },
-    appearance: "default",
-  },
+  // {
+  //   label: "Next week",
+  //   closeOverlay: false,
+  //   value: (value: any) => {
+  //     const [start = new Date()] = value || [];
+  //     return [
+  //       addDays(startOfWeek(start, { weekStartsOn: 0 }), 7),
+  //       addDays(endOfWeek(start, { weekStartsOn: 0 }), 7),
+  //     ];
+  //   },
+  //   appearance: "default",
+  // },
 ];
 
 const Dashboard = () => {
@@ -106,7 +103,8 @@ const Dashboard = () => {
   });
   const [channel, setChannel] = useState([]);
   const [game, setGame] = useState([]);
-  const [value, setValue] = useState<any>([new Date(), new Date()]);
+  const [value, setValue] = useState<any>([subDays(new Date(), 7), subDays(new Date(), 1)]);
+  const [dateType, setDateType] = useState("days");
 
   const onChangeDate = (data: any) => {
     setValue(data);
@@ -121,6 +119,7 @@ const Dashboard = () => {
         startDate,
         endDate
       );
+      startDate === endDate ? setDateType("yesterday") : setDateType("days");
       setStats(data);
     }
   };
@@ -158,31 +157,32 @@ const Dashboard = () => {
               placement="bottomEnd"
               onChange={onChangeDate}
               value={value}
+              disabledDate={after && after(addDays(new Date(), -1))}
             />
           </div>
         </div>
         <div className="flex justify-between mt-5 gap-7">
           <OverviewInfoComponent
             title="Revenue"
-            dateType="day"
+            dateType={dateType}
             value={stats.revenue_ending}
             profit="25"
           />
           <OverviewInfoComponent
             title="DAU"
-            dateType="day"
+            dateType={dateType}
             value={stats.dau_ending}
             profit="25"
           />
           <OverviewInfoComponent
             title="MAU"
-            dateType="month"
+            dateType={dateType}
             value={stats.mau_ending}
             profit="-10"
           />
           <OverviewInfoComponent
             title="New Users"
-            dateType="day"
+            dateType={dateType}
             value={stats.nu_ending}
             profit="25"
           />
